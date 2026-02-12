@@ -116,6 +116,9 @@ async function loadProducts() {
             }
         } catch (e) {
             console.error("Cloud Load Error:", e);
+            if (e.code === 'permission-denied') {
+                console.warn("CRITICAL: Firestore Rules are blocking the public site. Please set Rules to: allow read: if true;");
+            }
         }
     }
 
@@ -130,7 +133,8 @@ async function loadProducts() {
         const generated = generateProducts();
         products.length = 0;
         products.push(...generated);
-        saveProducts(); // Save defaults
+        // DO NOT call saveProducts() here anymore. 
+        // We don't want the public site to overwrite the cloud with empty data.
     }
     renderProducts();
     if (window.renderAdminList) window.renderAdminList();
@@ -277,6 +281,9 @@ function initFilters() {
 // Render Products
 function renderProducts(mainCat = 'all', subCat = 'all') {
     if (!productGrid) return;
+
+    // Show loading state if products array exists but is empty and we haven't checked cloud yet?
+    // Actually, just clear and render.
     productGrid.innerHTML = '';
 
     const filteredProducts = products.filter(p => {
@@ -467,12 +474,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     initFilters();
 
     // Modal Close Events
-    modalCloseBtn.addEventListener('click', closeProductModal);
-    modalOverlay.addEventListener('click', closeProductModal);
+    if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeProductModal);
+    if (modalOverlay) modalOverlay.addEventListener('click', closeProductModal);
 
     // Close on Escape key
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeProductModal();
+        if (e.key === 'Escape' && productModalRoot && !productModalRoot.classList.contains('hidden')) {
+            closeProductModal();
+        }
     });
 
     // Add Event Listeners for Home/Reset

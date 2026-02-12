@@ -407,6 +407,44 @@
                     <!-- Products list here -->
                 </div>
             </div>
+
+            <hr style="margin: 3rem 0; border: none; border-top: 1px solid var(--border);">
+
+            <div class="admin-header">
+                <h2>Category Management</h2>
+            </div>
+
+            <div class="card">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                    <!-- Main Category Control -->
+                    <div>
+                        <h3 style="margin-bottom: 1rem;">Add Main Category</h3>
+                        <div class="form-group" style="display: flex; gap: 0.5rem;">
+                            <input type="text" id="new-main-cat" placeholder="e.g. Cables">
+                            <button onclick="addMainCategory()" class="btn-primary"
+                                style="white-space: nowrap;">Add</button>
+                        </div>
+                        <ul id="main-cat-list"
+                            style="list-style: none; margin-top: 1rem; border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem;">
+                            <!-- Main categories -->
+                        </ul>
+                    </div>
+
+                    <!-- Sub Category Control -->
+                    <div>
+                        <h3 style="margin-bottom: 1rem;">Add Sub Category</h3>
+                        <div class="form-group">
+                            <label>To Main Category:</label>
+                            <select id="cat-target-main"></select>
+                        </div>
+                        <div class="form-group" style="display: flex; gap: 0.5rem;">
+                            <input type="text" id="new-sub-cat" placeholder="e.g. USB-C">
+                            <button onclick="addSubCategory()" class="btn-primary"
+                                style="white-space: nowrap;">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -637,14 +675,75 @@
         const subCatSelect = document.getElementById('prod-sub-cat');
 
         function initAdmin() {
+            populateCategoryUI();
+            renderAdminCategories();
+            renderAdminList();
+        }
+
+        function populateCategoryUI() {
+            const targetMain = document.getElementById('cat-target-main');
             mainCatSelect.innerHTML = '<option value="">Select Main Category</option>';
+            targetMain.innerHTML = '<option value="">Select Target...</option>';
+
             Object.keys(categoryData).forEach(cat => {
                 const opt = document.createElement('option');
                 opt.value = cat;
                 opt.textContent = cat;
                 mainCatSelect.appendChild(opt);
+                targetMain.appendChild(opt.cloneNode(true));
             });
-            renderAdminList();
+        }
+
+        function renderAdminCategories() {
+            const list = document.getElementById('main-cat-list');
+            list.innerHTML = '';
+            Object.keys(categoryData).forEach(cat => {
+                const li = document.createElement('li');
+                li.style.display = 'flex';
+                li.style.justifyContent = 'space-between';
+                li.style.padding = '0.5rem';
+                li.style.borderBottom = '1px solid #eee';
+                li.innerHTML = `
+                    <span>${cat} <small style="color: #666">(${categoryData[cat].length} subs)</small></span>
+                    <button onclick="deleteMainCategory('${cat}')" class="btn-danger" style="padding: 2px 8px; font-size: 0.7rem;">Delete</button>
+                `;
+                list.appendChild(li);
+            });
+        }
+
+        async function addMainCategory() {
+            const input = document.getElementById('new-main-cat');
+            const val = input.value.trim();
+            if (val && !categoryData[val]) {
+                categoryData[val] = [];
+                await saveCategories();
+                populateCategoryUI();
+                renderAdminCategories();
+                input.value = '';
+                alert('Main Category Added!');
+            }
+        }
+
+        async function addSubCategory() {
+            const target = document.getElementById('cat-target-main').value;
+            const input = document.getElementById('new-sub-cat');
+            const val = input.value.trim();
+            if (target && val && !categoryData[target].includes(val)) {
+                categoryData[target].push(val);
+                await saveCategories();
+                renderAdminCategories();
+                input.value = '';
+                alert(`Sub Category '${val}' added to '${target}'!`);
+            }
+        }
+
+        async function deleteMainCategory(cat) {
+            if (confirm(`Delete '${cat}' and ALL its sub-categories?`)) {
+                delete categoryData[cat];
+                await saveCategories();
+                populateCategoryUI();
+                renderAdminCategories();
+            }
         }
 
         function updateSubCats() {

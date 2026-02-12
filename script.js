@@ -1,141 +1,55 @@
-// Category Structure
-const categoryData = {
+// Category Structure (Initial defaults)
+let categoryData = {
     "Power Adapters": ["12V Adapters", "24V Adapters", "5V Adapters", "Adjustable Power Supply", "Industrial Switching"],
     "Microcontrollers": ["Arduino Compatible", "ESP8266 Series", "ESP32 Series", "Raspberry Pi", "STM32 Boards"],
     "Sensors": ["Temperature & Humidity", "Motion Sensors", "Distance Sensors", "Gas Sensors", "Light & Sound"],
     "Modules": ["Relay Modules", "Bluetooth Modules", "WiFi Modules", "GPS Modules", "Motor Drivers", "Thermal Modules"],
-    "Displays": ["OLED Displays", "LCD Screens", "E-Ink / E-Paper", "TFT Touch Screens", "7-Segment Displays"],
-    "Components": ["Resistors & Potentiometers", "Capacitors", "Transistors & MOSFETs", "Diodes & Rectifiers", "LEDs & Lighting"],
-    "Connectors": ["USB Connectors", "JST & Molex", "Terminal Blocks", "Pin Headers", "Audio/Video"],
-    "Cables & Wire": ["Jumper Wires", "USB Cables", "Ribbon Cables", "Power Cables", "Network Cables"],
-    "Soldering Gear": ["Soldering Irons", "Solder Wire", "Flux & Paste", "Stations", "Accessories"],
-    "Batteries": ["Li-Ion Cells", "Li-Po Packs", "Battery Holders", "BMS Boards", "Chargers"]
 };
 
-// Start with a base of real products, then generate fillers to populate the categories
-const baseProducts = [
-    {
-        id: 7,
-        title: "XH-W3001 Digital Temperature Controller",
-        mainCategory: "Modules",
-        subCategory: "Thermal Modules",
-        price: 750,
-        stock: 100,
-        image: "https://res.cloudinary.com/dqwdov5ab/image/upload/v1770872153/3001_3_cyvyxl.png",
-        images: [
-            "https://res.cloudinary.com/dqwdov5ab/image/upload/v1770872153/3001_3_cyvyxl.png",
-            "https://res.cloudinary.com/dqwdov5ab/image/upload/v1770872153/3001_5_nql6w5.png",
-            "https://res.cloudinary.com/dqwdov5ab/image/upload/v1770872153/3001_2_vcnff6.png",
-            "https://res.cloudinary.com/dqwdov5ab/image/upload/v1770872153/3001_1_nqvsrd.png",
-            "https://res.cloudinary.com/dqwdov5ab/image/upload/v1770872152/3001_6_uexgjl.png"
-        ],
-        description: "High quality automatic thermostat controller used to control temperature in incubators, freezers, and aquariums.",
-        longDescription: "The XH-W3001 Digital Temperature Controller Module is a high quality automatic thermostat controller. It automatically turns ON/OFF your load according to temperature using its built-in sensor probe. Ideal for chicken egg incubators, aquarium heater control, water heater thermostats, and many DIY projects.",
-        features: [
-            "Model: XH-W3001",
-            "Supply Voltage: 12V / 24V / 220V Options",
-            "Temperature Range: -50°C to +110°C",
-            "Control Accuracy: ±0.1°C",
-            "Sensor: NTC 10K Waterproof Probe",
-            "Output: Max 10A Load",
-            "Automatic Heating & Cooling Mode",
-            "Digital LED Display"
-        ],
-        specs: {
-            "Model": "XH-W3001",
-            "Voltage": "12V/24V/220V",
-            "Output Type": "Direct Output",
-            "Max Capacity": "10A",
-            "Temp Range": "-50°C ~ 110°C",
-            "Size": "60 x 45 x 31 mm"
-        },
-        videoUrl: "#"
-    },
-    {
-        id: 1,
-        title: "Power Adapter 12V 3A",
-        mainCategory: "Power Adapters",
-        subCategory: "12V Adapters",
-        price: 1000,
-        stock: 50,
-        image: "https://placehold.co/400x300?text=12V+Power+Adapter",
-        description: "High-quality 12V 3A power adapter suitable for CCTV cameras.",
-        longDescription: "This reliable 12V 3A power adapter is designed to provide stable power for your electronic devices. Features over-voltage protection.",
-        features: ["Input: 100-240V AC", "Output: 12V DC 3A", "5.5mm x 2.5mm connector", "Short-circuit protection"],
-        specs: { "Input Voltage": "100-240V AC", "Output Voltage": "12V DC", "Output Current": "3A" },
-        videoUrl: "https://www.youtube.com/watch?v=nL34zDTPk3w"
-    },
-    {
-        id: 2,
-        title: "ESP8266 WiFi Module",
-        mainCategory: "Microcontrollers",
-        subCategory: "ESP8266 Series",
-        price: 1250,
-        stock: 120,
-        image: "https://placehold.co/400x300?text=ESP8266+WiFi",
-        description: "Low-cost Wi-Fi microchip with full TCP/IP stack.",
-        longDescription: "The ESP8266 offers a complete and self-contained Wi-Fi networking solution.",
-        features: ["802.11 b/g/n", "Integrated 32-bit CPU", "Integrated TCP/IP stack"],
-        specs: { "Voltage": "3.3V", "WiFi": "802.11 b/g/n", "Flash": "4MB" },
-        videoUrl: "#"
-    },
-    {
-        id: 3,
-        title: "Ultrasonic Sensor HC-SR04",
-        mainCategory: "Sensors",
-        subCategory: "Distance Sensors",
-        price: 450,
-        stock: 75,
-        image: "https://placehold.co/400x300?text=Ultrasonic+Sensor",
-        description: "2cm - 400cm non-contact measurement functionality.",
-        features: ["Power Supply: +5V DC", "Ranging: 2cm – 400cm"],
-        specs: { "Voltage": "5V", "Range": "2cm-400cm" },
-        videoUrl: "#"
-    },
-    {
-        id: 4,
-        title: "OLED Display 0.96\"",
-        mainCategory: "Displays",
-        subCategory: "OLED Displays",
-        price: 1800,
-        stock: 30,
-        image: "https://placehold.co/400x300?text=OLED+Display",
-        description: "128x64 pixel resolution, I2C interface.",
-        features: ["SSD1306 Driver", "128x64 Pixels", "I2C Interface"],
-        specs: { "Size": "0.96 inch", "Resolution": "128x64", "Interface": "I2C" },
-        videoUrl: "#"
-    }
-];
+// Start with an empty list
+const baseProducts = [];
 
-// Helper to generate full product list
+// Helper to generate full product list (returns empty now as user wants clean slate)
 function generateProducts() {
-    let allProducts = [...baseProducts];
-    let idCounter = 100;
+    return [];
+}
 
-    for (const [main, subs] of Object.entries(categoryData)) {
-        subs.forEach(sub => {
-            // Check if we already have a product for this subcategory
-            const exists = allProducts.some(p => p.mainCategory === main && p.subCategory === sub);
-            if (!exists) {
-                // Create a placeholder product
-                allProducts.push({
-                    id: idCounter++,
-                    title: `${sub} Generic Item`,
-                    mainCategory: main,
-                    subCategory: sub,
-                    price: Math.floor(Math.random() * 5000) + 500,
-                    stock: Math.floor(Math.random() * 100),
-                    image: `https://placehold.co/400x300?text=${encodeURIComponent(sub)}`,
-                    description: `Standard ${sub} component for your projects.`,
-                    longDescription: `This is a high-quality product under the ${sub} category. Perfect for hobbyists and professionals.`,
-                    features: ["High Reliability", "Durable Build", "Standard Specs"],
-                    specs: { "Category": sub, "Main Type": main },
-                    videoUrl: "#"
-                });
-            }
-        });
+// Global Category Management
+async function saveCategories() {
+    if (db) {
+        try {
+            await db.collection("shop").doc("categories").set({
+                data: categoryData,
+                lastUpdated: new Date()
+            });
+            console.log("Categories saved to Cloud");
+        } catch (e) {
+            console.error("Category Save Error:", e);
+        }
     }
-    return allProducts;
+    localStorage.setItem('eshop_categories', JSON.stringify(categoryData));
+}
+
+async function loadCategories() {
+    // Try Cloud First
+    if (db) {
+        try {
+            const doc = await db.collection("shop").doc("categories").get();
+            if (doc.exists) {
+                categoryData = doc.data().data || categoryData;
+                console.log("Categories loaded from Cloud");
+                return;
+            }
+        } catch (e) {
+            console.error("Cloud Category Load Error:", e);
+        }
+    }
+
+    // Fallback to Local
+    const stored = localStorage.getItem('eshop_categories');
+    if (stored) {
+        categoryData = JSON.parse(stored);
+    }
 }
 
 // Product Data Management
@@ -177,6 +91,7 @@ function initFirebase() {
 // Load products from Cloud or Local
 async function loadProducts() {
     const isCloud = initFirebase();
+    await loadCategories(); // Load categories first
 
     // Try Cloud First
     if (isCloud && db) {
@@ -232,6 +147,9 @@ async function saveProducts() {
 window.products = products;
 window.saveProducts = saveProducts;
 window.loadProducts = loadProducts;
+window.categoryData = categoryData;
+window.saveCategories = saveCategories;
+window.loadCategories = loadCategories;
 
 // Initialize - loadProducts is called in the DOMContentLoaded listener at the bottom of file
 

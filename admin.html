@@ -113,6 +113,54 @@
             transform: none;
         }
 
+        .btn-google {
+            width: 100%;
+            padding: 1rem;
+            background: white;
+            color: #334155;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.3s;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .btn-google:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+
+        .divider {
+            margin: 1.5rem 0;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .divider:not(:empty)::before {
+            margin-right: .75em;
+        }
+
+        .divider:not(:empty)::after {
+            margin-left: .75em;
+        }
+
         .login-error {
             background: #fef2f2;
             color: #dc2626;
@@ -324,6 +372,14 @@
                     <i class="fas fa-sign-in-alt"></i> Sign In
                 </button>
             </form>
+
+            <div class="divider">OR</div>
+
+            <button onclick="loginWithGoogle()" class="btn-google" id="google-btn">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18">
+                Continue with Google
+            </button>
+
             <div id="login-error" class="login-error"></div>
         </div>
     </div>
@@ -425,7 +481,15 @@
         const loginForm = document.getElementById('login-form');
         const loginError = document.getElementById('login-error');
         const loginBtn = document.getElementById('login-btn');
+        const googleBtn = document.getElementById('google-btn');
         const userEmailBadge = document.getElementById('user-email');
+
+        // SECURITY: ONLY THESE EMAILS CAN ACCESS THE ADMIN DASHBOARD
+        // Add your Gmail address here!
+        const ALLOWED_ADMINS = [
+            "pubudueshop@gmail.com", // Add your real email here
+            "pubudu@example.com"
+        ];
 
         let auth = null;
 
@@ -437,10 +501,14 @@
                 // Listen for auth state changes
                 auth.onAuthStateChanged((user) => {
                     if (user) {
-                        // User is signed in
-                        showAdmin(user);
+                        // Check if user is allowed
+                        if (ALLOWED_ADMINS.includes(user.email.toLowerCase())) {
+                            showAdmin(user);
+                        } else {
+                            auth.signOut();
+                            showError("Access Denied. Your email is not on the admin list.");
+                        }
                     } else {
-                        // User is signed out
                         showLogin();
                     }
                 });
@@ -452,7 +520,12 @@
                         auth = firebase.auth();
                         auth.onAuthStateChanged((user) => {
                             if (user) {
-                                showAdmin(user);
+                                if (ALLOWED_ADMINS.includes(user.email.toLowerCase())) {
+                                    showAdmin(user);
+                                } else {
+                                    auth.signOut();
+                                    showError("Access Denied. Your email is not on the admin list.");
+                                }
                             } else {
                                 showLogin();
                             }
@@ -470,6 +543,30 @@
         function showLogin() {
             loginPage.style.display = 'flex';
             adminPage.classList.remove('active');
+            document.body.style.background = 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)';
+        }
+
+        function showError(msg) {
+            loginError.textContent = msg;
+            loginError.classList.add('show');
+        }
+
+        async function loginWithGoogle() {
+            if (!auth) {
+                showError('Firebase Auth not initialized. Check your Firebase config.');
+                return;
+            }
+            googleBtn.disabled = true;
+            loginError.classList.remove('show');
+            try {
+                const provider = new firebase.auth.GoogleAuthProvider();
+                await auth.signInWithPopup(provider);
+                // onAuthStateChanged will handle the redirect and admin check
+            } catch (error) {
+                showError("Google Sign-In failed: " + error.message);
+            } finally {
+                googleBtn.disabled = false;
+            }
         }
 
         function showAdmin(user) {

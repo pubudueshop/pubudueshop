@@ -156,8 +156,10 @@ window.loadCategories = loadCategories;
 // DOM Elements
 const productGrid = document.getElementById('product-grid');
 const filterContainer = document.querySelector('.filter-controls');
+const productModalRoot = document.getElementById('product-modal-root');
+const modalCloseBtn = document.getElementById('modal-close');
+const modalOverlay = document.getElementById('modal-overlay');
 const productDetailsView = document.getElementById('product-details-view');
-const backToProductsBtn = document.getElementById('back-to-products');
 
 // Detail Elements
 const detailImage = document.getElementById('detail-image');
@@ -317,10 +319,18 @@ function renderProducts(mainCat = 'all', subCat = 'all') {
     });
 }
 
-// Open Product Details
+// Open Product Details (Modal)
 function openProductDetails(id) {
     const product = products.find(p => p.id === id);
     if (!product) return;
+
+    // Clear Previous Data
+    detailImage.src = '';
+    detailThumbnails.innerHTML = '';
+    detailFeatures.innerHTML = '';
+    detailSpecsBody.innerHTML = '';
+    detailLongDesc.textContent = '';
+    if (detailTags) detailTags.innerHTML = '';
 
     // Populate Data
     detailCategory.textContent = `${product.mainCategory} > ${product.subCategory}`;
@@ -329,17 +339,14 @@ function openProductDetails(id) {
     detailDescription.textContent = product.description;
 
     // Image & Thumbnails
-    detailThumbnails.innerHTML = ''; // Clear previous thumbnails
     if (product.images && product.images.length > 0) {
         detailImage.src = product.images[0];
-
         product.images.forEach((imgUrl, index) => {
             const thumb = document.createElement('img');
             thumb.src = imgUrl;
             thumb.className = `thumbnail ${index === 0 ? 'active' : ''}`;
             thumb.onclick = () => {
                 detailImage.src = imgUrl;
-                // Update active state
                 document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
                 thumb.classList.add('active');
             };
@@ -352,18 +359,13 @@ function openProductDetails(id) {
     // Long Description
     detailLongDesc.textContent = product.longDescription || product.description;
 
-    // Keywords/Tags Display
-    if (detailTags) {
-        if (product.keywords && product.keywords.length > 0) {
-            detailTags.innerHTML = product.keywords.map(k => `<span class="tag">${k}</span>`).join('');
-            detailTags.classList.remove('hidden');
-        } else {
-            detailTags.classList.add('hidden');
-        }
+    // Keywords/Tags
+    if (detailTags && product.keywords) {
+        detailTags.innerHTML = product.keywords.map(k => `<span class="tag">${k}</span>`).join('');
+        detailTags.classList.remove('hidden');
     }
 
     // Features
-    detailFeatures.innerHTML = '';
     if (product.features && product.features.length > 0) {
         product.features.forEach(feature => {
             const li = document.createElement('li');
@@ -371,31 +373,32 @@ function openProductDetails(id) {
             detailFeatures.appendChild(li);
         });
     } else {
-        detailFeatures.innerHTML = '<li>No specific features listed.</li>';
+        detailFeatures.innerHTML = '<li>Quality Tested</li><li>Available in Stock</li>';
     }
 
     // Specs
-    detailSpecsBody.innerHTML = '';
     if (product.specs) {
         for (const [key, value] of Object.entries(product.specs)) {
             const tr = document.createElement('tr');
             tr.innerHTML = `<td>${key}</td><td>${value}</td>`;
             detailSpecsBody.appendChild(tr);
         }
-    } else {
-        detailSpecsBody.innerHTML = '<tr><td colspan="2">No specifications available.</td></tr>';
     }
 
     // Buttons
     detailVideoBtn.href = product.videoUrl;
+    detailVideoBtn.style.display = product.videoUrl === '#' ? 'none' : 'flex';
     detailBuyBtn.onclick = () => contactSeller(product.title, product.price);
 
-    // Show View
-    productGrid.classList.add('hidden');
-    document.querySelector('.section-header').classList.add('hidden'); // Hide filters too
-    productDetailsView.classList.remove('hidden');
+    // Show Modal
+    productModalRoot.classList.remove('hidden');
+    document.body.classList.add('modal-open');
+}
 
-    document.getElementById('product-details-view').scrollIntoView({ behavior: 'smooth' });
+// Close Modal
+function closeProductModal() {
+    productModalRoot.classList.add('hidden');
+    document.body.classList.remove('modal-open');
 }
 
 // Close Product Details (Back to List)
@@ -430,10 +433,7 @@ function resetApp(e) {
     window.history.pushState({}, '', url);
 
     // Reset View
-    productDetailsView.classList.add('hidden');
-    productGrid.classList.remove('hidden');
-    document.querySelector('.section-header').classList.remove('hidden');
-
+    closeProductModal();
     renderProducts();
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -450,6 +450,15 @@ function contactSeller(title, price) {
 document.addEventListener('DOMContentLoaded', async () => {
     await loadProducts(); // Load from Cloud or Local first
     initFilters();
+
+    // Modal Close Events
+    modalCloseBtn.addEventListener('click', closeProductModal);
+    modalOverlay.addEventListener('click', closeProductModal);
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeProductModal();
+    });
 
     // Add Event Listeners for Home/Reset
     const navLogo = document.getElementById('nav-logo');

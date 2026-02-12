@@ -47,46 +47,51 @@
             <!-- Products will be injected here by JS -->
         </div>
 
-        <div id="product-details-view" class="product-details-view hidden">
-            <button id="back-to-products" class="btn-back">
-                <i class="fas fa-arrow-left"></i> Back to Products
-            </button>
-            <div class="details-content">
-                <div class="details-image-col">
-                    <div class="main-image-container">
-                        <img id="detail-image" src="" alt="" class="detail-main-image">
-                    </div>
-                    <div id="detail-thumbnails" class="detail-thumbnails">
-                        <!-- Thumbnails injected by JS -->
-                    </div>
-                </div>
-                <div class="details-info-col">
-                    <span id="detail-category" class="detail-category">Category</span>
-                    <h1 id="detail-title">Product Title</h1>
-                    <div id="detail-price" class="detail-price">LKR 0</div>
-                    <p id="detail-description" class="detail-short-desc"></p>
-                    <div id="detail-tags" class="detail-tags hidden"></div>
+        <div id="product-modal-root" class="product-modal hidden">
+            <div class="modal-overlay" id="modal-overlay"></div>
+            <div class="modal-container">
+                <button id="modal-close" class="modal-close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div id="product-details-view" class="product-details-content">
+                    <div class="details-content">
+                        <div class="details-image-col">
+                            <div class="main-image-container">
+                                <img id="detail-image" src="" alt="" class="detail-main-image">
+                            </div>
+                            <div id="detail-thumbnails" class="detail-thumbnails">
+                                <!-- Thumbnails injected by JS -->
+                            </div>
+                        </div>
+                        <div class="details-info-col">
+                            <span id="detail-category" class="detail-category">Category</span>
+                            <h1 id="detail-title">Product Title</h1>
+                            <div id="detail-price" class="detail-price">LKR 0</div>
+                            <p id="detail-description" class="detail-short-desc"></p>
+                            <div id="detail-tags" class="detail-tags hidden"></div>
 
-                    <div class="detail-actions">
-                        <a id="detail-video-btn" href="#" target="_blank" class="btn-video">
-                            <i class="fas fa-play"></i> Watch Video
-                        </a>
-                        <button id="detail-buy-btn" class="btn-buy">
-                            <i class="fas fa-shopping-cart"></i> Buy Now
-                        </button>
-                    </div>
+                            <div class="detail-actions">
+                                <a id="detail-video-btn" href="#" target="_blank" class="btn-video">
+                                    <i class="fas fa-play"></i> Watch Video
+                                </a>
+                                <button id="detail-buy-btn" class="btn-buy">
+                                    <i class="fas fa-shopping-cart"></i> Buy Now
+                                </button>
+                            </div>
 
-                    <div class="detail-specs-container">
-                        <h3>Product Details</h3>
-                        <div id="detail-long-desc" class="detail-long-desc"></div>
+                            <div class="detail-specs-container">
+                                <h3>Product Details</h3>
+                                <div id="detail-long-desc" class="detail-long-desc"></div>
 
-                        <h3>Features</h3>
-                        <ul id="detail-features" class="detail-features-list"></ul>
+                                <h3>Features</h3>
+                                <ul id="detail-features" class="detail-features-list"></ul>
 
-                        <h3>Specifications</h3>
-                        <table class="detail-specs-table">
-                            <tbody id="detail-specs-body"></tbody>
-                        </table>
+                                <h3>Specifications</h3>
+                                <table class="detail-specs-table">
+                                    <tbody id="detail-specs-body"></tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

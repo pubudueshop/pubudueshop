@@ -158,9 +158,11 @@ const firebaseConfig = {
 
 // Initialize Firebase if configure
 function initFirebase() {
-    if (firebaseConfig.apiKey !== "AIzaSyDl9N6YmDJI9bhhdkeUQPUxWKxIhZhryus" && typeof firebase !== 'undefined') {
+    if (firebaseConfig.apiKey !== "YOUR_API_KEY" && typeof firebase !== 'undefined') {
         try {
-            firebase.initializeApp(firebaseConfig);
+            if (firebase.apps.length === 0) {
+                firebase.initializeApp(firebaseConfig);
+            }
             db = firebase.firestore();
             console.log("Firebase Initialized");
             return true;

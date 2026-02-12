@@ -36,7 +36,10 @@ async function loadCategories() {
         try {
             const doc = await db.collection("shop").doc("categories").get();
             if (doc.exists) {
-                categoryData = doc.data().data || categoryData;
+                const newData = doc.data().data || {};
+                // Clear and update categoryData without re-assigning
+                Object.keys(categoryData).forEach(key => delete categoryData[key]);
+                Object.assign(categoryData, newData);
                 console.log("Categories loaded from Cloud");
                 return;
             }
@@ -98,9 +101,14 @@ async function loadProducts() {
         try {
             const doc = await db.collection("shop").doc("inventory").get();
             if (doc.exists) {
-                products = doc.data().products || [];
-                console.log("Loaded from Cloud");
+                const cloudProducts = doc.data().products || [];
+                // Mutate existing array to keep references alive
+                products.length = 0;
+                products.push(...cloudProducts);
+
+                console.log("Loaded from Cloud", products.length);
                 renderProducts(); // Re-render after async load
+                if (window.renderAdminList) window.renderAdminList();
 
                 // Update Local Backup
                 localStorage.setItem('eshop_products', JSON.stringify(products));
@@ -114,13 +122,18 @@ async function loadProducts() {
     // Fallback to LocalStorage
     const storedProducts = localStorage.getItem('eshop_products');
     if (storedProducts) {
-        products = JSON.parse(storedProducts);
+        const localProducts = JSON.parse(storedProducts);
+        products.length = 0;
+        products.push(...localProducts);
         console.log("Loaded from LocalStorage");
     } else {
-        products = generateProducts();
+        const generated = generateProducts();
+        products.length = 0;
+        products.push(...generated);
         saveProducts(); // Save defaults
     }
     renderProducts();
+    if (window.renderAdminList) window.renderAdminList();
 }
 
 // Save products to Cloud and Local
@@ -136,6 +149,7 @@ async function saveProducts() {
                 lastUpdated: new Date()
             });
             console.log("Saved to Cloud");
+            if (window.renderAdminList) window.renderAdminList();
         } catch (e) {
             console.error("Cloud Save Error:", e);
             alert("Error saving to cloud. Check console.");
@@ -262,6 +276,7 @@ function initFilters() {
 
 // Render Products
 function renderProducts(mainCat = 'all', subCat = 'all') {
+    if (!productGrid) return;
     productGrid.innerHTML = '';
 
     const filteredProducts = products.filter(p => {

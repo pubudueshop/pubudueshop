@@ -388,7 +388,7 @@ function openProductDetails(id) {
 
     // Buttons
     detailVideoBtn.href = product.videoUrl;
-    detailBuyBtn.onclick = () => contactSeller(product.title);
+    detailBuyBtn.onclick = () => contactSeller(product.title, product.price);
 
     // Show View
     productGrid.classList.add('hidden');
@@ -438,7 +438,13 @@ function resetApp(e) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ...
+// WhatsApp Business Integration
+function contactSeller(title, price) {
+    const phone = "94789155130";
+    const message = `Hi! I'm interested in buying: ${title} (LKR ${price}). Is it available?`;
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+}
 
 // Initial Render
 document.addEventListener('DOMContentLoaded', async () => {

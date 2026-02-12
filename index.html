@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pubudu Electronics - Premium Components</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="#" class="logo" id="nav-logo">Pubudu<span class="accent">Electronics</span></a>
+            <ul class="nav-links">
+                <li><a href="#products">Components</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact" class="btn-primary">Contact Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container hero-content">
+            <h1>High-Quality <span class="gradient-text">Electronic Components</span></h1>
+            <p>Find the best parts for your projects. Reliable, affordable, and ready to ship.</p>
+            <a href="#products" class="btn-lg">Browse Catalog</a>
+        </div>
+        <div class="hero-bg"></div>
+    </header>
+
+    <main class="container" id="products">
+        <div class="section-header">
+            <h2>Browse Components</h2>
+            <div class="filter-controls">
+                <!-- Selects injected by JS -->
+            </div>
+        </div>
+
+        <div id="product-grid" class="product-grid">
+            <!-- Products will be injected here by JS -->
+        </div>
+
+        <div id="product-details-view" class="product-details-view hidden">
+            <button id="back-to-products" class="btn-back">
+                <i class="fas fa-arrow-left"></i> Back to Products
+            </button>
+            <div class="details-content">
+                <div class="details-image-col">
+                    <div class="main-image-container">
+                        <img id="detail-image" src="" alt="" class="detail-main-image">
+                    </div>
+                    <div id="detail-thumbnails" class="detail-thumbnails">
+                        <!-- Thumbnails injected by JS -->
+                    </div>
+                </div>
+                <div class="details-info-col">
+                    <span id="detail-category" class="detail-category">Category</span>
+                    <h1 id="detail-title">Product Title</h1>
+                    <div id="detail-price" class="detail-price">LKR 0</div>
+                    <p id="detail-description" class="detail-short-desc"></p>
+                    <div id="detail-tags" class="detail-tags hidden"></div>
+
+                    <div class="detail-actions">
+                        <a id="detail-video-btn" href="#" target="_blank" class="btn-video">
+                            <i class="fas fa-play"></i> Watch Video
+                        </a>
+                        <button id="detail-buy-btn" class="btn-buy">
+                            <i class="fas fa-shopping-cart"></i> Buy Now
+                        </button>
+                    </div>
+
+                    <div class="detail-specs-container">
+                        <h3>Product Details</h3>
+                        <div id="detail-long-desc" class="detail-long-desc"></div>
+
+                        <h3>Features</h3>
+                        <ul id="detail-features" class="detail-features-list"></ul>
+
+                        <h3>Specifications</h3>
+                        <table class="detail-specs-table">
+                            <tbody id="detail-specs-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="about-content">
+                <h2>About Pubudu Electronics</h2>
+                <div class="about-grid">
+                    <div class="about-text">
+                        <p>Welcome to Pubudu Electronics, your premier destination for high-quality electronic
+                            components in Sri Lanka. We are passionate about empowering makers, engineers, and hobbyists
+                            with the tools they need to bring their innovative ideas to life.</p>
+                        <p>Founded with a mission to make electronics accessible, we specialize in a wide range of
+                            products from microcontrollers like Arduino and ESP developement boards to essential
+                            sensors, modules, and power solutions. We pride ourselves on offering reliable products at
+                            competitive prices.</p>
+                        <ul class="about-features">
+                            <li><i class="fas fa-check-circle"></i> Quality Tested Components</li>
+                            <li><i class="fas fa-check-circle"></i> Affordable Pricing</li>
+                            <li><i class="fas fa-check-circle"></i> Expert Technical Support</li>
+                            <li><i class="fas fa-check-circle"></i> Fast & Reliable Delivery</li>
+                        </ul>
+                    </div>
+                    <div class="about-image">
+                        <img src="https://placehold.co/600x400?text=Electronics+Lab" alt="Pubudu Electronics Workshop">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>PubuduElectronics</h3>
+                    <p>Your trusted partner for electronic components.</p>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
+                        <i class="fas fa-map-marker-alt"></i> Colombo, Sri Lanka<br>
+                        <i class="fas fa-phone"></i> +94 78 915 5130<br>
+                        <i class="fas fa-envelope"></i> contact@pubuduelectronics.com
+                    </p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <a href="#">Home</a>
+                    <a href="#products">Products</a>
+                    <a href="#about">About Us</a>
+                </div>
+                <div class="footer-social">
+                    <h4>Connect With Us</h4>
+                    <p style="margin-bottom: 1rem; font-size: 0.9rem; color: #94a3b8;">Follow us for updates and new
+                        arrivals.</p>
+                    <a href="#" target="_blank"><i class="fab fa-facebook"></i> Facebook Marketplace</a>
+                    <a href="https://wa.me/94789155130" target="_blank"><i class="fab fa-whatsapp"></i> Chat on
+                        WhatsApp</a>
+                    <a href="#" target="_blank"><i class="fab fa-youtube"></i> YouTube Channel</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Pubudu Electronics. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

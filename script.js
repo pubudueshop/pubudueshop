@@ -117,7 +117,9 @@ async function loadProducts() {
         } catch (e) {
             console.error("Cloud Load Error:", e);
             if (e.code === 'permission-denied') {
-                console.warn("CRITICAL: Firestore Rules are blocking the public site. Please set Rules to: allow read: if true;");
+                showStatus("Access Denied: Please check your Firebase Rules.", true);
+            } else {
+                showStatus("Database Error: " + e.message, true);
             }
         }
     }
@@ -278,13 +280,26 @@ function initFilters() {
     renderProducts(initialMain, initialSub);
 }
 
+// Show Error to User
+function showStatus(msg, isError = false) {
+    if (!productGrid) return;
+    productGrid.innerHTML = `
+        <div style="grid-column: 1/-1; text-align: center; padding: 2rem; background: ${isError ? '#fee2e2' : '#f1f5f9'}; border-radius: 12px; border: 1px solid ${isError ? '#ef4444' : '#cbd5e1'};">
+            <p style="color: ${isError ? '#b91c1c' : '#475569'}; font-weight: 600;">${msg}</p>
+            ${isError ? '<button onclick="location.reload()" style="margin-top: 1rem; padding: 0.5rem 1rem; background: #b91c1c; color: white; border: none; border-radius: 6px; cursor: pointer;">Retry Connection</button>' : ''}
+        </div>
+    `;
+}
+
 // Render Products
 function renderProducts(mainCat = 'all', subCat = 'all') {
     if (!productGrid) return;
-
-    // Show loading state if products array exists but is empty and we haven't checked cloud yet?
-    // Actually, just clear and render.
     productGrid.innerHTML = '';
+
+    if (products.length === 0) {
+        productGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; font-size: 1.2rem; color: var(--text-light); padding: 2rem;">No products found in database.</p>';
+        return;
+    }
 
     const filteredProducts = products.filter(p => {
         const matchMain = mainCat === 'all' || p.mainCategory === mainCat;
@@ -470,29 +485,36 @@ function contactSeller(title, price) {
 
 // Initial Render
 document.addEventListener('DOMContentLoaded', async () => {
-    await loadProducts(); // Load from Cloud or Local first
-    initFilters();
-
-    // Modal Close Events
-    if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeProductModal);
-    if (modalOverlay) modalOverlay.addEventListener('click', closeProductModal);
-
-    // Close on Escape key
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && productModalRoot && !productModalRoot.classList.contains('hidden')) {
-            closeProductModal();
+    try {
+        await loadProducts(); // Load from Cloud or Local first
+        if (filterContainer) {
+            initFilters();
         }
-    });
 
-    // Add Event Listeners for Home/Reset
-    const navLogo = document.getElementById('nav-logo');
-    if (navLogo) {
-        navLogo.addEventListener('click', resetApp);
-    }
+        // Modal Close Events
+        if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeProductModal);
+        if (modalOverlay) modalOverlay.addEventListener('click', closeProductModal);
 
-    // Also bind to footer home link if present
-    const footerHome = document.querySelector('.footer-links a[href="#"]');
-    if (footerHome) {
-        footerHome.addEventListener('click', resetApp);
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && productModalRoot && !productModalRoot.classList.contains('hidden')) {
+                closeProductModal();
+            }
+        });
+
+        // Add Event Listeners for Home/Reset
+        const navLogo = document.getElementById('nav-logo');
+        if (navLogo) {
+            navLogo.addEventListener('click', resetApp);
+        }
+
+        // Also bind to footer home link if present
+        const footerHome = document.querySelector('.footer-links a[href="#"]');
+        if (footerHome) {
+            footerHome.addEventListener('click', resetApp);
+        }
+    } catch (err) {
+        console.error("App Crash:", err);
+        showStatus("Website error. Please contact admin.", true);
     }
 });

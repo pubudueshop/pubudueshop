@@ -359,7 +359,7 @@ function renderProducts(mainCat = 'all', subCat = 'all') {
         card.innerHTML = `
             <div class="product-image-container">
                 <span class="badge">${product.mainCategory}</span>
-                <img src="${product.image}" alt="${product.title}" class="product-image">
+                <img src="${product.image}" alt="${product.title}" class="product-image" loading="lazy" onerror="this.src='https://via.placeholder.com/300x300?text=Image+Not+Found'">
             </div>
             <div class="product-info">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem;">
@@ -412,6 +412,7 @@ function openProductDetails(id) {
         product.images.forEach((imgUrl, index) => {
             const thumb = document.createElement('img');
             thumb.src = imgUrl;
+            thumb.loading = "lazy";
             thumb.className = `thumbnail ${index === 0 ? 'active' : ''}`;
             thumb.onclick = () => {
                 detailImage.src = imgUrl;
@@ -422,6 +423,7 @@ function openProductDetails(id) {
         });
     } else {
         detailImage.src = product.image;
+        detailImage.loading = "lazy";
     }
 
     // Long Description

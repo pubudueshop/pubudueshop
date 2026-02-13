@@ -230,19 +230,25 @@ body {
     width: 100%;
     height: 220px;
     overflow: hidden;
-    background: #f1f5f9;
+    background: #ffffff;
+    /* Clean white background for tech products */
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid var(--border);
 }
 
 .product-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    /* Prevents cropping */
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .product-card:hover .product-image {
-    transform: scale(1.05);
+    transform: scale(1.1);
 }
 
 .badge {

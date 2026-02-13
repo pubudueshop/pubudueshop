@@ -40,7 +40,7 @@ function generateProducts() {
             keywords: ["arduino", "uno", "microcontroller"],
             features: ["Easy to program", "Wide compatibility"],
             specs: { "MCU": "ATmega328P", "Voltage": "5V" },
-            videoUrl: "#"
+            videoUrl: "https://www.youtube.com/watch?v=d8nK7F67Y60"
         }
     ];
 }

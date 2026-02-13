@@ -502,6 +502,10 @@
                     <label>SEO Keywords (comma separated)</label>
                     <input type="text" id="prod-keywords" placeholder="e.g. arduino, sensor, wifi, module">
                 </div>
+                <div class="form-group">
+                    <label>Video Link (YouTube/Facebook - Optional)</label>
+                    <input type="url" id="prod-video" placeholder="https://youtube.com/watch?v=...">
+                </div>
 
                 <div style="display: flex; gap: 1rem; margin-top: 2rem;">
                     <button type="submit" class="btn-primary" style="flex: 1;">Save Product</button>
@@ -822,6 +826,7 @@
 
             document.getElementById('prod-desc').value = p.description;
             document.getElementById('prod-keywords').value = p.keywords ? p.keywords.join(', ') : '';
+            document.getElementById('prod-video').value = p.videoUrl && p.videoUrl !== '#' ? p.videoUrl : '';
 
             mainCatSelect.value = p.mainCategory;
             updateSubCats();
@@ -860,7 +865,7 @@
                 longDescription: document.getElementById('prod-desc').value,
                 features: ["High Quality Component"],
                 specs: { "Category": subCatSelect.value },
-                videoUrl: "#"
+                videoUrl: document.getElementById('prod-video').value.trim() || "#"
             };
 
             if (isEdit) {

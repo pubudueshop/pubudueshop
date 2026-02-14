@@ -114,7 +114,7 @@ function initFirebase() {
                 firebase.initializeApp(firebaseConfig);
             }
             db = firebase.firestore();
-            auth = firebase.auth();
+            customerAuth = firebase.auth();
             console.log("Firebase & Auth Initialized");
             return true;
         } catch (e) {
@@ -230,18 +230,18 @@ const detailAddCartBtn = document.getElementById('detail-add-cart-btn');
 const detailBuyBtn = document.getElementById('detail-buy-btn');
 
 // Auth & Cart State
-let auth = null;
+let customerAuth = null;
 let currentUser = null;
 let cart = JSON.parse(localStorage.getItem('eshop_cart')) || [];
 let modalQty = 1;
 
 // --- Authentication Logic ---
-function initAuth() {
-    if (!auth) {
+function initCustomerAuth() {
+    if (!customerAuth) {
         console.warn("Auth not initialized yet");
         return;
     }
-    auth.onAuthStateChanged(user => {
+    customerAuth.onAuthStateChanged(user => {
         currentUser = user;
         const loginBtn = document.getElementById('customer-login-btn');
         const userProfile = document.getElementById('user-profile');
@@ -261,13 +261,13 @@ function initAuth() {
 }
 
 async function handleLogin() {
-    if (!auth) {
+    if (!customerAuth) {
         alert("Authentication system is still loading. Please wait a second.");
         return;
     }
     const provider = new firebase.auth.GoogleAuthProvider();
     try {
-        await auth.signInWithPopup(provider);
+        await customerAuth.signInWithPopup(provider);
     } catch (error) {
         console.error("Login Error:", error);
         alert("Failed to login. Please try again.");
@@ -275,7 +275,7 @@ async function handleLogin() {
 }
 
 function handleLogout() {
-    if (auth) auth.signOut();
+    if (customerAuth) customerAuth.signOut();
 }
 
 // --- Cart Logic ---
@@ -935,7 +935,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         // Initialize Auth after products/firebase ready
-        initAuth();
+        initCustomerAuth();
 
     } catch (err) {
         console.error("App Crash:", err);

@@ -4,14 +4,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pubudu Electronics - Premium Components</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Pubudu Electronics | Premium Electronic Components in Sri Lanka</title>
+    <meta name="description"
+        content="Buy high-quality electronic components in Sri Lanka. Wide range of Arduino, ESP32, sensors, power adapters, and modules at affordable prices. Fast delivery island-wide.">
+    <meta name="keywords"
+        content="electronics Sri Lanka, electronic components, Arduino Sri Lanka, ESP32, sensors, modules, power adapters, Pubudu Electronics, Weliweriya">
+    <meta name="author" content="Pubudu Electronics">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pubudueshop.web.app/">
+    <meta property="og:title" content="Pubudu Electronics | Premium Electronic Components in Sri Lanka">
+    <meta property="og:description"
+        content="Find the best parts for your electronics projects. Reliable, affordable, and ready to ship modules, sensors, and microcontrollers.">
+    <meta property="og:image" content="https://pubudueshop.web.app/assets/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Pubudu Electronics | Premium Electronic Components">
+    <meta property="twitter:description"
+        content="High-quality electronic components at your fingertips. Shop Arduino, sensors, and more.">
+
+    <link rel="canonical" href="https://pubudueshop.web.app/">
+    <link rel="icon" type="image/png"
+        href="https://images.unsplash.com/photo-1550009158-9ebf69173e03?q=80&w=32&h=32&auto=format&fit=crop">
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Structured Data (JSON-LD) for Local Business -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ElectronicsStore",
+      "name": "Pubudu Electronics",
+      "image": "https://images.unsplash.com/photo-1550009158-9ebf69173e03?q=80&w=1200&auto=format&fit=crop",
+      "@id": "https://pubudueshop.web.app/",
+      "url": "https://pubudueshop.web.app/",
+      "telephone": "+94789155130",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Weliweriya",
+        "addressLocality": "Gampaha",
+        "addressCountry": "LK"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "08:00",
+        "closes": "20:00"
+      }
+    }
+    </script>
 
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 </head>
 
 <body>
@@ -21,7 +79,23 @@
             <ul class="nav-links">
                 <li><a href="#products">Components</a></li>
                 <li><a href="#about">About</a></li>
-                <li><a href="#contact" class="btn-primary">Contact Us</a></li>
+                <li class="cart-nav-item">
+                    <button id="cart-btn" class="nav-icon-btn">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span id="cart-badge" class="cart-badge">0</span>
+                    </button>
+                </li>
+                <li id="user-auth-section">
+                    <button id="login-btn" class="btn-outline">
+                        <i class="fab fa-google"></i> Login
+                    </button>
+                    <div id="user-profile" class="user-profile hidden">
+                        <img id="user-avatar" src="" alt="User">
+                        <button id="logout-btn" class="logout-sm">Logout</button>
+                    </div>
+                </li>
+                <li><a id="nav-contact-btn" href="https://wa.me/94789155130" target="_blank" class="btn-primary">Contact
+                        Us</a></li>
             </ul>
         </div>
     </nav>
@@ -31,6 +105,10 @@
             <h1>High-Quality <span class="gradient-text">Electronic Components</span></h1>
             <p>Find the best parts for your projects. Reliable, affordable, and ready to ship.</p>
             <a href="#products" class="btn-lg">Browse Catalog</a>
+            <a href="https://wa.me/94789155130" target="_blank" class="btn-lg"
+                style="background: var(--secondary); margin-left: 1rem;">
+                <i class="fab fa-whatsapp"></i> Contact Us
+            </a>
         </div>
         <div class="hero-bg"></div>
     </header>
@@ -67,22 +145,25 @@
                             <span id="detail-category" class="detail-category">Category</span>
                             <h1 id="detail-title">Product Title</h1>
                             <div id="detail-price" class="detail-price">LKR 0</div>
-                            <p id="detail-description" class="detail-short-desc"></p>
+                            <div id="detail-model-display" class="detail-model-tag"
+                                style="margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-light); font-weight: 500;">
+                            </div>
                             <div id="detail-tags" class="detail-tags hidden"></div>
+                            <div id="detail-description" class="detail-short-desc"></div>
 
                             <div class="detail-actions">
                                 <a id="detail-video-btn" href="#" target="_blank" class="btn-video">
                                     <i class="fas fa-play"></i> Watch Video
                                 </a>
+                                <button id="detail-add-cart-btn" class="btn-cart">
+                                    <i class="fas fa-cart-plus"></i> Add to Cart
+                                </button>
                                 <button id="detail-buy-btn" class="btn-buy">
                                     <i class="fas fa-shopping-cart"></i> Buy Now
                                 </button>
                             </div>
 
                             <div class="detail-specs-container">
-                                <h3>Product Details</h3>
-                                <div id="detail-long-desc" class="detail-long-desc"></div>
-
                                 <h3>Features</h3>
                                 <ul id="detail-features" class="detail-features-list"></ul>
 
@@ -93,6 +174,87 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cart Sidebar -->
+        <div id="cart-drawer" class="cart-drawer hidden">
+            <div class="cart-overlay" id="cart-overlay"></div>
+            <div class="cart-content">
+                <div class="cart-header">
+                    <h2>Your Cart</h2>
+                    <button id="close-cart" class="close-btn"><i class="fas fa-times"></i></button>
+                </div>
+                <div id="cart-items" class="cart-items-list">
+                    <!-- Items injected by JS -->
+                </div>
+                <div class="cart-footer">
+                    <div class="cart-total">
+                        <span>Total:</span>
+                        <span id="cart-total-amount">LKR 0</span>
+                    </div>
+                    <button id="checkout-btn" class="btn-checkout">Generate Invoice & Order</button>
+                    <p class="cart-note">Note: Order will be sent via WhatsApp</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Invoice Modal -->
+        <div id="invoice-modal" class="invoice-modal hidden">
+            <div class="invoice-overlay"></div>
+            <div class="invoice-container">
+                <div class="invoice-paper" id="invoice-paper">
+                    <div class="invoice-header">
+                        <div class="brand">
+                            <h2>Pubudu Electronics</h2>
+                            <p>Premium Electronic Components</p>
+                        </div>
+                        <div class="invoice-meta">
+                            <h3>INVOICE</h3>
+                            <p id="invoice-date"></p>
+                            <p id="invoice-id"></p>
+                        </div>
+                    </div>
+                    <div class="invoice-user">
+                        <h4>Bill To:</h4>
+                        <p id="invoice-user-name"></p>
+                        <p id="invoice-user-email"></p>
+                    </div>
+                    <table class="invoice-table">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Qty</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="invoice-items">
+                            <!-- Items injected by JS -->
+                        </tbody>
+                    </table>
+                    <div class="invoice-summary">
+                        <div class="summary-line">
+                            <span>Subtotal:</span>
+                            <span id="invoice-subtotal"></span>
+                        </div>
+                        <div class="summary-line total">
+                            <span>Total:</span>
+                            <span id="invoice-total"></span>
+                        </div>
+                    </div>
+                    <div class="invoice-footer">
+                        <p>Thank you for choosing Pubudu Electronics!</p>
+                        <p>Weliweriya, Gampaha | +94 78 915 5130</p>
+                    </div>
+                </div>
+                <div class="invoice-actions">
+                    <button id="print-invoice" class="btn-outline"><i class="fas fa-print"></i> Print PDF</button>
+                    <button id="send-whatsapp-invoice" class="btn-primary">
+                        <i class="fab fa-whatsapp"></i> Send Order to WhatsApp
+                    </button>
+                    <button id="close-invoice" class="btn-text">Close</button>
                 </div>
             </div>
         </div>
@@ -119,7 +281,8 @@
                         </ul>
                     </div>
                     <div class="about-image">
-                        <img src="https://placehold.co/600x400?text=Electronics+Lab" alt="Pubudu Electronics Workshop">
+                        <img src="https://images.unsplash.com/photo-1550009158-9ebf69173e03?q=80&w=1200&auto=format&fit=crop"
+                            alt="Pubudu Electronics Showcase">
                     </div>
                 </div>
             </div>

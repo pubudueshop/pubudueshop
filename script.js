@@ -89,6 +89,8 @@ async function loadCategories() {
 // Product Data Management
 let products = [];
 let db = null;
+const defaultDocumentTitle = "Pubudu Electronics | Premium Electronic Components in Sri Lanka";
+const defaultMetaDescription = "Buy high-quality electronic components in Sri Lanka. Wide range of Arduino, ESP32, sensors, power adapters, and modules at affordable prices. Fast delivery island-wide.";
 
 // FIREBASE CONFIGURATION (REPLACE WITH YOUR OWN FROM FIREBASE CONSOLE)
 // 1. Go to console.firebase.google.com
@@ -112,7 +114,9 @@ function initFirebase() {
                 firebase.initializeApp(firebaseConfig);
             }
             db = firebase.firestore();
-            console.log("Firebase Initialized");
+            auth = firebase.auth();
+            console.log("Firebase & Auth Initialized");
+            initAuth();
             return true;
         } catch (e) {
             console.error("Firebase Init Error:", e);
@@ -220,14 +224,237 @@ const detailCategory = document.getElementById('detail-category');
 const detailTitle = document.getElementById('detail-title');
 const detailPrice = document.getElementById('detail-price');
 const detailDescription = document.getElementById('detail-description');
-const detailLongDesc = document.getElementById('detail-long-desc');
 const detailFeatures = document.getElementById('detail-features');
 const detailSpecsBody = document.getElementById('detail-specs-body');
 const detailVideoBtn = document.getElementById('detail-video-btn');
+const detailAddCartBtn = document.getElementById('detail-add-cart-btn');
 const detailBuyBtn = document.getElementById('detail-buy-btn');
 
+// Auth & Cart State
+let auth = null;
+let currentUser = null;
+let cart = JSON.parse(localStorage.getItem('eshop_cart')) || [];
+
+// --- Authentication Logic ---
+function initAuth() {
+    if (!auth) return;
+    auth.onAuthStateChanged(user => {
+        currentUser = user;
+        const loginBtn = document.getElementById('login-btn');
+        const userProfile = document.getElementById('user-profile');
+        const userAvatar = document.getElementById('user-avatar');
+
+        if (user) {
+            if (loginBtn) loginBtn.classList.add('hidden');
+            if (userProfile) userProfile.classList.remove('hidden');
+            if (userAvatar) userAvatar.src = user.photoURL || 'https://via.placeholder.com/40';
+        } else {
+            if (loginBtn) loginBtn.classList.remove('hidden');
+            if (userProfile) userProfile.classList.add('hidden');
+        }
+    });
+}
+
+async function handleLogin() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    try {
+        await auth.signInWithPopup(provider);
+    } catch (error) {
+        console.error("Login Error:", error);
+        alert("Failed to login. Please try again.");
+    }
+}
+
+function handleLogout() {
+    auth.signOut();
+}
+
+// --- Cart Logic ---
+function addToCart(productId) {
+    const product = products.find(p => p.id === productId);
+    if (!product) return;
+
+    const existingItem = cart.find(item => item.id === productId);
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cart.push({
+            id: product.id,
+            title: product.title,
+            price: product.price,
+            image: product.image,
+            quantity: 1
+        });
+    }
+
+    saveCart();
+    updateCartUI();
+    showToast(`Added ${product.title} to cart`);
+}
+
+function removeFromCart(productId) {
+    cart = cart.filter(item => item.id !== productId);
+    saveCart();
+    updateCartUI();
+}
+
+function updateQuantity(productId, delta) {
+    const item = cart.find(i => i.id === productId);
+    if (item) {
+        item.quantity += delta;
+        if (item.quantity <= 0) {
+            removeFromCart(productId);
+        } else {
+            saveCart();
+            updateCartUI();
+        }
+    }
+}
+
+function saveCart() {
+    localStorage.setItem('eshop_cart', JSON.stringify(cart));
+}
+
+function clearCart() {
+    cart = [];
+    saveCart();
+    updateCartUI();
+}
+
+function updateCartUI() {
+    const cartBadge = document.getElementById('cart-badge');
+    const cartItemsList = document.getElementById('cart-items');
+    const cartTotalAmount = document.getElementById('cart-total-amount');
+
+    const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+    if (cartBadge) cartBadge.textContent = totalQty;
+    if (cartTotalAmount) cartTotalAmount.textContent = `LKR ${totalPrice.toLocaleString()}`;
+
+    if (cartItemsList) {
+        cartItemsList.innerHTML = cart.length === 0
+            ? '<p style="text-align: center; color: var(--text-light); padding: 2rem;">Your cart is empty.</p>'
+            : cart.map(item => `
+                <div class="cart-item">
+                    <img src="${item.image}" alt="${item.title}" class="cart-item-img">
+                    <div class="cart-item-info">
+                        <h4 class="cart-item-title">${item.title}</h4>
+                        <div class="cart-item-price">LKR ${item.price.toLocaleString()}</div>
+                        <div class="cart-item-controls">
+                            <button class="qty-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
+                            <span>${item.quantity}</span>
+                            <button class="qty-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+                            <button class="qty-btn" style="margin-left: auto; color: #ef4444;" onclick="removeFromCart(${item.id})">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+    }
+}
+
+function showToast(msg) {
+    const existing = document.querySelector('.toast');
+    if (existing) existing.remove();
+
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.style.cssText = `
+        position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
+        background: #1e293b; color: white; padding: 0.8rem 1.5rem;
+        border-radius: 50px; z-index: 10001; font-weight: 600;
+        box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        animation: slideUp 0.3s ease-out;
+    `;
+    toast.textContent = msg;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+}
+
+// Export functions to window
+window.updateQuantity = updateQuantity;
+window.removeFromCart = removeFromCart;
+
+// --- Invoice & Order Logic ---
+function openInvoice() {
+    if (!currentUser) {
+        alert("Please login with Gmail to create an order.");
+        handleLogin();
+        return;
+    }
+    if (cart.length === 0) {
+        alert("Your cart is empty.");
+        return;
+    }
+
+    const invoiceModal = document.getElementById('invoice-modal');
+    const invoiceDate = document.getElementById('invoice-date');
+    const invoiceId = document.getElementById('invoice-id');
+    const invoiceUserName = document.getElementById('invoice-user-name');
+    const invoiceUserEmail = document.getElementById('invoice-user-email');
+    const invoiceItems = document.getElementById('invoice-items');
+    const invoiceSubtotal = document.getElementById('invoice-subtotal');
+    const invoiceTotal = document.getElementById('invoice-total');
+
+    const date = new Date();
+    invoiceDate.textContent = date.toLocaleDateString();
+    invoiceId.textContent = `PE-${Math.floor(Math.random() * 90000) + 10000}`;
+    invoiceUserName.textContent = currentUser.displayName;
+    invoiceUserEmail.textContent = currentUser.email;
+
+    invoiceItems.innerHTML = cart.map(item => `
+        <tr>
+            <td>${item.title}</td>
+            <td>${item.quantity}</td>
+            <td>LKR ${item.price.toLocaleString()}</td>
+            <td>LKR ${(item.price * item.quantity).toLocaleString()}</td>
+        </tr>
+    `).join('');
+
+    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    invoiceSubtotal.textContent = `LKR ${subtotal.toLocaleString()}`;
+    invoiceTotal.textContent = `LKR ${subtotal.toLocaleString()}`;
+
+    invoiceModal.classList.remove('hidden');
+    document.getElementById('cart-drawer').classList.add('hidden');
+}
+
+function closeInvoice() {
+    document.getElementById('invoice-modal').classList.add('hidden');
+}
+
+function sendOrderViaWhatsApp() {
+    const phone = "94789155130";
+    let message = `*NEW ORDER FROM PUBUDU ELECTRONICS*\n`;
+    message += `----------------------------\n`;
+    message += `*Customer:* ${currentUser.displayName}\n`;
+    message += `*Email:* ${currentUser.email}\n`;
+    message += `*Invoice:* ${document.getElementById('invoice-id').textContent}\n`;
+    message += `----------------------------\n`;
+
+    cart.forEach(item => {
+        message += `• ${item.title} x ${item.quantity} = LKR ${(item.price * item.quantity).toLocaleString()}\n`;
+    });
+
+    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    message += `----------------------------\n`;
+    message += `*TOTAL AMOUNT: LKR ${total.toLocaleString()}*\n`;
+    message += `----------------------------\n`;
+    message += `Please confirm my order. Thank you!`;
+
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+
+    // Optionally clear cart after sending
+    // clearCart();
+    // closeInvoice();
+}
+
+
 // Update URL Parameters
-function updateURL(mainCat, subCat) {
+function updateURL(mainCat, subCat, productId) {
     const url = new URL(window.location);
     if (mainCat && mainCat !== 'all') {
         url.searchParams.set('category', mainCat);
@@ -239,6 +466,12 @@ function updateURL(mainCat, subCat) {
         url.searchParams.set('subcategory', subCat);
     } else {
         url.searchParams.delete('subcategory');
+    }
+
+    if (productId) {
+        url.searchParams.set('product', productId);
+    } else {
+        url.searchParams.delete('product');
     }
 
     window.history.pushState({}, '', url);
@@ -374,10 +607,13 @@ function renderProducts(mainCat = 'all', subCat = 'all') {
                 <h3 class="product-title">${product.title}</h3>
                 <div class="product-price">LKR ${product.price.toLocaleString()}</div>
                 <div class="product-actions">
+                    <button class="btn-cart-sm" title="Add to Cart" onclick="event.stopPropagation(); addToCart(${product.id})">
+                        <i class="fas fa-cart-plus"></i>
+                    </button>
                     <button class="btn-video" onclick="event.stopPropagation(); openProductDetails(${product.id})">
                          Details
                     </button>
-                    <button class="btn-buy" onclick="event.stopPropagation(); contactSeller('${product.title}')">
+                    <button class="btn-buy" onclick="event.stopPropagation(); addToCart(${product.id}); document.getElementById('cart-drawer').classList.remove('hidden');">
                         <i class="fas fa-shopping-cart"></i> Buy
                     </button>
                 </div>
@@ -397,14 +633,24 @@ function openProductDetails(id) {
     detailThumbnails.innerHTML = '';
     detailFeatures.innerHTML = '';
     detailSpecsBody.innerHTML = '';
-    detailLongDesc.textContent = '';
+    if (detailDescription) detailDescription.textContent = '';
     if (detailTags) detailTags.innerHTML = '';
 
     // Populate Data
     detailCategory.textContent = `${product.mainCategory} > ${product.subCategory}`;
     detailTitle.textContent = product.title;
     detailPrice.textContent = `LKR ${product.price.toLocaleString()}`;
-    detailDescription.textContent = product.description;
+
+    // Model Number Display
+    const modelDisplay = document.getElementById('detail-model-display');
+    if (modelDisplay) {
+        if (product.modelNumber) {
+            modelDisplay.textContent = `Model: ${product.modelNumber}`;
+            modelDisplay.style.display = 'block';
+        } else {
+            modelDisplay.style.display = 'none';
+        }
+    }
 
     // Image & Thumbnails
     if (product.images && product.images.length > 0) {
@@ -426,8 +672,10 @@ function openProductDetails(id) {
         detailImage.loading = "lazy";
     }
 
-    // Long Description
-    detailLongDesc.textContent = product.longDescription || product.description;
+    // Product Description (Under Title)
+    if (detailDescription) {
+        detailDescription.textContent = product.longDescription || product.description;
+    }
 
     // Keywords/Tags
     if (detailTags && product.keywords) {
@@ -458,7 +706,56 @@ function openProductDetails(id) {
     // Buttons
     detailVideoBtn.href = product.videoUrl;
     detailVideoBtn.style.display = product.videoUrl === '#' ? 'none' : 'flex';
-    detailBuyBtn.onclick = () => contactSeller(product.title, product.price);
+
+    detailAddCartBtn.onclick = () => addToCart(product.id);
+    detailBuyBtn.onclick = () => {
+        addToCart(product.id);
+        document.getElementById('cart-drawer').classList.remove('hidden');
+    };
+
+    // SEO: Update document title, meta description, and inject JSON-LD
+    document.title = `${product.title} | Pubudu Electronics`;
+
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (!metaDescription) {
+        metaDescription = document.createElement('meta');
+        metaDescription.name = "description";
+        document.head.appendChild(metaDescription);
+    }
+    metaDescription.content = product.description || product.longDescription || `Explore ${product.title} from Pubudu Electronics. Price: LKR ${product.price.toLocaleString()}.`;
+
+    // Remove any existing product JSON-LD
+    const oldScript = document.getElementById('product-json-ld');
+    if (oldScript) oldScript.remove();
+
+    const productSchema = {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": product.title,
+        "image": product.images && product.images.length > 0 ? product.images[0] : product.image,
+        "description": product.description || product.longDescription,
+        "sku": product.modelNumber || product.id,
+        "brand": {
+            "@type": "Brand",
+            "name": "Pubudu Electronics"
+        },
+        "offers": {
+            "@type": "Offer",
+            "url": window.location.href,
+            "priceCurrency": "LKR",
+            "price": product.price,
+            "itemCondition": "https://schema.org/NewCondition",
+            "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+        }
+    };
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.id = 'product-json-ld';
+    script.textContent = JSON.stringify(productSchema);
+    document.head.appendChild(script);
+
+    // Update URL to include product ID
+    updateURL(product.mainCategory, product.subCategory, product.id);
 
     // Show Modal
     productModalRoot.classList.remove('hidden');
@@ -469,6 +766,20 @@ function openProductDetails(id) {
 function closeProductModal() {
     productModalRoot.classList.add('hidden');
     document.body.classList.remove('modal-open');
+
+    // Reset Title and URL
+    document.title = defaultDocumentTitle;
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+        metaDescription.content = defaultMetaDescription;
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    updateURL(urlParams.get('category'), urlParams.get('subcategory'), null);
+
+    // Remove temporary product JSON-LD
+    const oldScript = document.getElementById('product-json-ld');
+    if (oldScript) oldScript.remove();
 }
 
 
@@ -515,14 +826,57 @@ document.addEventListener('DOMContentLoaded', async () => {
             initFilters();
         }
 
+        // Deep Link Check: Open product if ID in URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('product');
+        if (productId) {
+            openProductDetails(parseInt(productId));
+        }
+
         // Modal Close Events
         if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeProductModal);
         if (modalOverlay) modalOverlay.addEventListener('click', closeProductModal);
 
+        // --- NEW EVENT LISTENERS ---
+        // Auth Listeners
+        const loginBtn = document.getElementById('login-btn');
+        const logoutBtn = document.getElementById('logout-btn');
+        if (loginBtn) loginBtn.addEventListener('click', handleLogin);
+        if (logoutBtn) logoutBtn.addEventListener('click', handleLogout);
+
+        // Cart Drawer Listeners
+        const cartBtn = document.getElementById('cart-btn');
+        const closeCartBtn = document.getElementById('close-cart');
+        const cartOverlay = document.getElementById('cart-overlay');
+        const cartDrawer = document.getElementById('cart-drawer');
+
+        if (cartBtn) cartBtn.addEventListener('click', () => {
+            updateCartUI();
+            cartDrawer.classList.remove('hidden');
+        });
+        if (closeCartBtn) closeCartBtn.addEventListener('click', () => cartDrawer.classList.add('hidden'));
+        if (cartOverlay) cartOverlay.addEventListener('click', () => cartDrawer.classList.add('hidden'));
+
+        // Checkout & Invoice Listeners
+        const checkoutBtn = document.getElementById('checkout-btn');
+        const closeInvoiceBtn = document.getElementById('close-invoice');
+        const sendWhatsappBtn = document.getElementById('send-whatsapp-invoice');
+        const printBtn = document.getElementById('print-invoice');
+
+        if (checkoutBtn) checkoutBtn.addEventListener('click', openInvoice);
+        if (closeInvoiceBtn) closeInvoiceBtn.addEventListener('click', closeInvoice);
+        if (sendWhatsappBtn) sendWhatsappBtn.addEventListener('click', sendOrderViaWhatsApp);
+        if (printBtn) printBtn.addEventListener('click', () => window.print());
+
+        // Initialize Cart UI
+        updateCartUI();
+
         // Close on Escape key
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && productModalRoot && !productModalRoot.classList.contains('hidden')) {
-                closeProductModal();
+            if (e.key === 'Escape') {
+                if (productModalRoot && !productModalRoot.classList.contains('hidden')) closeProductModal();
+                if (cartDrawer && !cartDrawer.classList.contains('hidden')) cartDrawer.classList.add('hidden');
+                if (document.getElementById('invoice-modal') && !document.getElementById('invoice-modal').classList.contains('hidden')) closeInvoice();
             }
         });
 
@@ -530,6 +884,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         const navLogo = document.getElementById('nav-logo');
         if (navLogo) {
             navLogo.addEventListener('click', resetApp);
+        }
+
+        // WhatsApp Navbar Button Explicit Handler
+        const navContactBtn = document.getElementById('nav-contact-btn');
+        if (navContactBtn) {
+            navContactBtn.addEventListener('click', (e) => {
+                console.log("Contact button clicked");
+            });
         }
 
         // Also bind to footer home link if present

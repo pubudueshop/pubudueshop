@@ -116,7 +116,6 @@ function initFirebase() {
             db = firebase.firestore();
             auth = firebase.auth();
             console.log("Firebase & Auth Initialized");
-            initAuth();
             return true;
         } catch (e) {
             console.error("Firebase Init Error:", e);
@@ -244,7 +243,7 @@ function initAuth() {
     }
     auth.onAuthStateChanged(user => {
         currentUser = user;
-        const loginBtn = document.getElementById('login-btn');
+        const loginBtn = document.getElementById('customer-login-btn');
         const userProfile = document.getElementById('user-profile');
         const userAvatar = document.getElementById('user-avatar');
 
@@ -842,6 +841,12 @@ function contactSeller(title, price) {
 
 // Initial Render
 document.addEventListener('DOMContentLoaded', async () => {
+    // If we are on the admin page, skip the customer-facing initializations
+    if (document.getElementById('admin-page')) {
+        await loadProducts();
+        return;
+    }
+
     // 1. Add Event Listeners Immediately (Non-Firebase)
     try {
         // Modal Close Events
@@ -849,10 +854,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (modalOverlay) modalOverlay.addEventListener('click', closeProductModal);
 
         // Auth Listeners
-        const loginBtn = document.getElementById('login-btn');
-        const logoutBtn = document.getElementById('logout-btn');
-        if (loginBtn) loginBtn.addEventListener('click', handleLogin);
-        if (logoutBtn) logoutBtn.addEventListener('click', handleLogout);
+        const customerLoginBtn = document.getElementById('customer-login-btn');
+        const customerLogoutBtn = document.getElementById('customer-logout-btn');
+        if (customerLoginBtn) customerLoginBtn.addEventListener('click', handleLogin);
+        if (customerLogoutBtn) customerLogoutBtn.addEventListener('click', handleLogout);
 
         // Cart Drawer Listeners
         const cartBtn = document.getElementById('cart-btn');
@@ -928,6 +933,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (productId) {
             openProductDetails(parseInt(productId));
         }
+
+        // Initialize Auth after products/firebase ready
+        initAuth();
 
     } catch (err) {
         console.error("App Crash:", err);

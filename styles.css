@@ -1174,3 +1174,37 @@ body.modal-open {
     color: white;
     border-color: var(--primary);
 }
+
+.modal-quantity-container {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+}
+
+.qty-label {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--text-light);
+    text-transform: uppercase;
+}
+
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+#modal-qty-value {
+    font-weight: 700;
+    min-width: 20px;
+    text-align: center;
+}

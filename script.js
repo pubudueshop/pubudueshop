@@ -234,10 +234,14 @@ const detailBuyBtn = document.getElementById('detail-buy-btn');
 let auth = null;
 let currentUser = null;
 let cart = JSON.parse(localStorage.getItem('eshop_cart')) || [];
+let modalQty = 1;
 
 // --- Authentication Logic ---
 function initAuth() {
-    if (!auth) return;
+    if (!auth) {
+        console.warn("Auth not initialized yet");
+        return;
+    }
     auth.onAuthStateChanged(user => {
         currentUser = user;
         const loginBtn = document.getElementById('login-btn');
@@ -245,10 +249,12 @@ function initAuth() {
         const userAvatar = document.getElementById('user-avatar');
 
         if (user) {
+            console.log("User logged in:", user.email);
             if (loginBtn) loginBtn.classList.add('hidden');
             if (userProfile) userProfile.classList.remove('hidden');
             if (userAvatar) userAvatar.src = user.photoURL || 'https://via.placeholder.com/40';
         } else {
+            console.log("User logged out");
             if (loginBtn) loginBtn.classList.remove('hidden');
             if (userProfile) userProfile.classList.add('hidden');
         }
@@ -256,6 +262,10 @@ function initAuth() {
 }
 
 async function handleLogin() {
+    if (!auth) {
+        alert("Authentication system is still loading. Please wait a second.");
+        return;
+    }
     const provider = new firebase.auth.GoogleAuthProvider();
     try {
         await auth.signInWithPopup(provider);
@@ -266,30 +276,37 @@ async function handleLogin() {
 }
 
 function handleLogout() {
-    auth.signOut();
+    if (auth) auth.signOut();
 }
 
 // --- Cart Logic ---
-function addToCart(productId) {
+function addToCart(productId, quantity = 1) {
     const product = products.find(p => p.id === productId);
     if (!product) return;
 
     const existingItem = cart.find(item => item.id === productId);
     if (existingItem) {
-        existingItem.quantity += 1;
+        existingItem.quantity += quantity;
     } else {
         cart.push({
             id: product.id,
             title: product.title,
             price: product.price,
             image: product.image,
-            quantity: 1
+            quantity: quantity
         });
     }
 
     saveCart();
     updateCartUI();
-    showToast(`Added ${product.title} to cart`);
+    showToast(`Added ${quantity} x ${product.title} to cart`);
+}
+
+function updateModalQty(delta) {
+    modalQty += delta;
+    if (modalQty < 1) modalQty = 1;
+    const qtyValueDisplay = document.getElementById('modal-qty-value');
+    if (qtyValueDisplay) qtyValueDisplay.textContent = modalQty;
 }
 
 function removeFromCart(productId) {
@@ -701,65 +718,70 @@ function openProductDetails(id) {
             tr.innerHTML = `<td>${key}</td><td>${value}</td>`;
             detailSpecsBody.appendChild(tr);
         }
-    }
+        detailVideoBtn.href = product.videoUrl;
+        detailVideoBtn.style.display = product.videoUrl === '#' ? 'none' : 'flex';
 
-    // Buttons
-    detailVideoBtn.href = product.videoUrl;
-    detailVideoBtn.style.display = product.videoUrl === '#' ? 'none' : 'flex';
+        // Reset Modal Qty
+        modalQty = 1;
+        const qtyValueDisplay = document.getElementById('modal-qty-value');
+        if (qtyValueDisplay) qtyValueDisplay.textContent = modalQty;
 
-    detailAddCartBtn.onclick = () => addToCart(product.id);
-    detailBuyBtn.onclick = () => {
-        addToCart(product.id);
-        document.getElementById('cart-drawer').classList.remove('hidden');
-    };
+        detailAddCartBtn.onclick = () => {
+            addToCart(product.id, modalQty);
+        };
+        detailBuyBtn.onclick = () => {
+            addToCart(product.id, modalQty);
+            document.getElementById('cart-drawer').classList.remove('hidden');
+        };
 
-    // SEO: Update document title, meta description, and inject JSON-LD
-    document.title = `${product.title} | Pubudu Electronics`;
+        // SEO: Update document title, meta description, and inject JSON-LD
+        document.title = `${product.title} | Pubudu Electronics`;
 
-    let metaDescription = document.querySelector('meta[name="description"]');
-    if (!metaDescription) {
-        metaDescription = document.createElement('meta');
-        metaDescription.name = "description";
-        document.head.appendChild(metaDescription);
-    }
-    metaDescription.content = product.description || product.longDescription || `Explore ${product.title} from Pubudu Electronics. Price: LKR ${product.price.toLocaleString()}.`;
-
-    // Remove any existing product JSON-LD
-    const oldScript = document.getElementById('product-json-ld');
-    if (oldScript) oldScript.remove();
-
-    const productSchema = {
-        "@context": "https://schema.org",
-        "@type": "Product",
-        "name": product.title,
-        "image": product.images && product.images.length > 0 ? product.images[0] : product.image,
-        "description": product.description || product.longDescription,
-        "sku": product.modelNumber || product.id,
-        "brand": {
-            "@type": "Brand",
-            "name": "Pubudu Electronics"
-        },
-        "offers": {
-            "@type": "Offer",
-            "url": window.location.href,
-            "priceCurrency": "LKR",
-            "price": product.price,
-            "itemCondition": "https://schema.org/NewCondition",
-            "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+        let metaDescription = document.querySelector('meta[name="description"]');
+        if (!metaDescription) {
+            metaDescription = document.createElement('meta');
+            metaDescription.name = "description";
+            document.head.appendChild(metaDescription);
         }
-    };
-    const script = document.createElement('script');
-    script.type = 'application/ld+json';
-    script.id = 'product-json-ld';
-    script.textContent = JSON.stringify(productSchema);
-    document.head.appendChild(script);
+        metaDescription.content = product.description || product.longDescription || `Explore ${product.title} from Pubudu Electronics. Price: LKR ${product.price.toLocaleString()}.`;
 
-    // Update URL to include product ID
-    updateURL(product.mainCategory, product.subCategory, product.id);
+        // Remove any existing product JSON-LD
+        const oldScript = document.getElementById('product-json-ld');
+        if (oldScript) oldScript.remove();
 
-    // Show Modal
-    productModalRoot.classList.remove('hidden');
-    document.body.classList.add('modal-open');
+        const productSchema = {
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": product.title,
+            "image": product.images && product.images.length > 0 ? product.images[0] : product.image,
+            "description": product.description || product.longDescription,
+            "sku": product.modelNumber || product.id,
+            "brand": {
+                "@type": "Brand",
+                "name": "Pubudu Electronics"
+            },
+            "offers": {
+                "@type": "Offer",
+                "url": window.location.href,
+                "priceCurrency": "LKR",
+                "price": product.price,
+                "itemCondition": "https://schema.org/NewCondition",
+                "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+            }
+        };
+        const script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.id = 'product-json-ld';
+        script.textContent = JSON.stringify(productSchema);
+        document.head.appendChild(script);
+
+        // Update URL to include product ID
+        updateURL(product.mainCategory, product.subCategory, product.id);
+
+        // Show Modal
+        productModalRoot.classList.remove('hidden');
+        document.body.classList.add('modal-open');
+    }
 }
 
 // Close Modal
@@ -820,24 +842,12 @@ function contactSeller(title, price) {
 
 // Initial Render
 document.addEventListener('DOMContentLoaded', async () => {
+    // 1. Add Event Listeners Immediately (Non-Firebase)
     try {
-        await loadProducts(); // Load from Cloud or Local first
-        if (filterContainer) {
-            initFilters();
-        }
-
-        // Deep Link Check: Open product if ID in URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const productId = urlParams.get('product');
-        if (productId) {
-            openProductDetails(parseInt(productId));
-        }
-
         // Modal Close Events
         if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeProductModal);
         if (modalOverlay) modalOverlay.addEventListener('click', closeProductModal);
 
-        // --- NEW EVENT LISTENERS ---
         // Auth Listeners
         const loginBtn = document.getElementById('login-btn');
         const logoutBtn = document.getElementById('logout-btn');
@@ -867,6 +877,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (closeInvoiceBtn) closeInvoiceBtn.addEventListener('click', closeInvoice);
         if (sendWhatsappBtn) sendWhatsappBtn.addEventListener('click', sendOrderViaWhatsApp);
         if (printBtn) printBtn.addEventListener('click', () => window.print());
+
+        // Modal Quantity Listeners
+        const modalQtyMinus = document.getElementById('modal-qty-minus');
+        const modalQtyPlus = document.getElementById('modal-qty-plus');
+        if (modalQtyMinus) modalQtyMinus.addEventListener('click', () => updateModalQty(-1));
+        if (modalQtyPlus) modalQtyPlus.addEventListener('click', () => updateModalQty(1));
 
         // Initialize Cart UI
         updateCartUI();
@@ -899,6 +915,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (footerHome) {
             footerHome.addEventListener('click', resetApp);
         }
+
+        // 2. Load Data and Firebase (Async)
+        await loadProducts(); // Load from Cloud or Local first
+        if (filterContainer) {
+            initFilters();
+        }
+
+        // Deep Link Check: Open product if ID in URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('product');
+        if (productId) {
+            openProductDetails(parseInt(productId));
+        }
+
     } catch (err) {
         console.error("App Crash:", err);
         showStatus("Website error. Please contact admin.", true);

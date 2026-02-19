@@ -540,7 +540,7 @@ function initZoom() {
 }
 
 // Update URL Parameters
-function updateURL(mainCat, subCat, productId) {
+function updateURL(mainCat, subCat, productId, searchQuery) {
     const url = new URL(window.location);
     if (mainCat && mainCat !== 'all') {
         url.searchParams.set('category', mainCat);
@@ -560,6 +560,12 @@ function updateURL(mainCat, subCat, productId) {
         url.searchParams.delete('product');
     }
 
+    if (searchQuery) {
+        url.searchParams.set('search', searchQuery);
+    } else {
+        url.searchParams.delete('search');
+    }
+
     window.history.pushState({}, '', url);
 }
 
@@ -575,6 +581,7 @@ function initFilters() {
     const urlParams = new URLSearchParams(window.location.search);
     const initialMain = urlParams.get('category') || 'all';
     const initialSub = urlParams.get('subcategory') || 'all';
+    const initialSearch = urlParams.get('search') || '';
 
     // Main Category Select
     const mainSelect = document.createElement('select');
@@ -635,12 +642,21 @@ function initFilters() {
     const clearBtn = document.getElementById('clear-search');
 
     if (searchInput) {
+        searchInput.value = initialSearch;
+        if (clearBtn) clearBtn.classList.toggle('hidden', initialSearch.length === 0);
+
+        let searchTimeout;
         searchInput.addEventListener('input', (e) => {
             const query = e.target.value;
             if (clearBtn) {
                 clearBtn.classList.toggle('hidden', query.length === 0);
             }
-            renderProducts(mainSelect.value, subSelect.value, query);
+
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                renderProducts(mainSelect.value, subSelect.value, query);
+                updateURL(mainSelect.value, subSelect.value, null, query);
+            }, 300); // 300ms Debounce
         });
     }
 
@@ -649,11 +665,12 @@ function initFilters() {
             searchInput.value = '';
             clearBtn.classList.add('hidden');
             renderProducts(mainSelect.value, subSelect.value, '');
+            updateURL(mainSelect.value, subSelect.value, null, '');
         });
     }
 
     // Initial Render based on URL
-    renderProducts(initialMain, initialSub);
+    renderProducts(initialMain, initialSub, initialSearch);
 }
 
 // Show Error to User
@@ -932,6 +949,7 @@ function resetApp(e) {
     url.searchParams.delete('category');
     url.searchParams.delete('subcategory');
     url.searchParams.delete('product');
+    url.searchParams.delete('search');
     window.history.pushState({}, '', url);
 
     // Clear Search Input

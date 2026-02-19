@@ -23,9 +23,14 @@ function generateProducts() {
             description: "High-quality 12V 2A power adapter for electronics projects.",
             longDescription: "Standard 12V DC power adapter, 2A output. Ideal for microcontrollers, LED strips, and other DC projects.",
             keywords: ["power", "adapter", "12v"],
-            features: ["Overload protection", "Stable voltage output"],
-            specs: { "Input": "100-240V AC", "Output": "12V 2A DC" },
-            videoUrl: "#"
+            features: ["Overload protection", "Stable voltage output", "New Condition"],
+            specs: { "Brand": "Generic", "Model": "N/A", "Condition": "New", "Input": "100-240V AC", "Output": "12V 2A DC" },
+            videoUrl: "#",
+            images: [
+                "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800",
+                "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800",
+                "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800"
+            ]
         },
         {
             id: 2,
@@ -38,9 +43,14 @@ function generateProducts() {
             description: "The classic microcontroller for makers and beginners.",
             longDescription: "Compatible with Arduino Uno R3. A great starting point for learning electronics and coding.",
             keywords: ["arduino", "uno", "microcontroller"],
-            features: ["Easy to program", "Wide compatibility"],
-            specs: { "MCU": "ATmega328P", "Voltage": "5V" },
-            videoUrl: "https://www.youtube.com/watch?v=d8nK7F67Y60"
+            features: ["Easy to program", "Wide compatibility", "New Condition"],
+            specs: { "Brand": "Arduino", "Model": "R3", "Condition": "New", "MCU": "ATmega328P", "Voltage": "5V" },
+            videoUrl: "https://www.youtube.com/watch?v=d8nK7F67Y60",
+            images: [
+                "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800",
+                "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800",
+                "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800"
+            ]
         }
     ];
 }
@@ -394,7 +404,7 @@ window.updateQuantity = updateQuantity;
 window.removeFromCart = removeFromCart;
 
 // --- Invoice & Order Logic ---
-function openInvoice() {
+function openInvoice(customerData) {
     if (!currentUser) {
         alert("Please login with Gmail to create an order.");
         handleLogin();
@@ -407,18 +417,26 @@ function openInvoice() {
 
     const invoiceModal = document.getElementById('invoice-modal');
     const invoiceDate = document.getElementById('invoice-date');
-    const invoiceId = document.getElementById('invoice-id');
+    const invoiceIdText = document.getElementById('invoice-id');
     const invoiceUserName = document.getElementById('invoice-user-name');
-    const invoiceUserEmail = document.getElementById('invoice-user-email');
+    const invoiceUserAddress = document.getElementById('invoice-user-address');
+    const invoiceUserCityDistrict = document.getElementById('invoice-user-city-district');
+    const invoiceUserPhone = document.getElementById('invoice-user-phone');
     const invoiceItems = document.getElementById('invoice-items');
     const invoiceSubtotal = document.getElementById('invoice-subtotal');
     const invoiceTotal = document.getElementById('invoice-total');
 
     const date = new Date();
-    invoiceDate.textContent = date.toLocaleDateString();
-    invoiceId.textContent = `PE-${Math.floor(Math.random() * 90000) + 10000}`;
-    invoiceUserName.textContent = currentUser.displayName;
-    invoiceUserEmail.textContent = currentUser.email;
+    const invoiceId = `PE-${Math.floor(Math.random() * 90000) + 10000}`;
+
+    invoiceDate.textContent = `Date: ${date.toLocaleDateString()}`;
+    invoiceIdText.textContent = `Invoice ID: #${invoiceId}`;
+
+    // Fill Customer Data
+    invoiceUserName.textContent = customerData.name;
+    invoiceUserAddress.textContent = customerData.address;
+    invoiceUserCityDistrict.textContent = `${customerData.city}, ${customerData.district}`;
+    invoiceUserPhone.textContent = `Phone: ${customerData.phone1}${customerData.phone2 ? ' / ' + customerData.phone2 : ''}`;
 
     invoiceItems.innerHTML = cart.map(item => `
         <tr>
@@ -433,6 +451,10 @@ function openInvoice() {
     invoiceSubtotal.textContent = `LKR ${subtotal.toLocaleString()}`;
     invoiceTotal.textContent = `LKR ${subtotal.toLocaleString()}`;
 
+    // Store current customer data for WhatsApp
+    window.currentCheckoutData = customerData;
+    window.currentInvoiceId = invoiceId;
+
     invoiceModal.classList.remove('hidden');
     document.getElementById('cart-drawer').classList.add('hidden');
 }
@@ -443,12 +465,23 @@ function closeInvoice() {
 
 function sendOrderViaWhatsApp() {
     const phone = "94789155130";
+    const data = window.currentCheckoutData;
+    const invId = window.currentInvoiceId;
+    if (!data) return;
+
     let message = `*NEW ORDER FROM PUBUDU ELECTRONICS*\n`;
     message += `----------------------------\n`;
-    message += `*Customer:* ${currentUser.displayName}\n`;
-    message += `*Email:* ${currentUser.email}\n`;
-    message += `*Invoice:* ${document.getElementById('invoice-id').textContent}\n`;
+    message += `*Invoice ID:* #${invId}\n`;
     message += `----------------------------\n`;
+    message += `*CUSTOMER DETAILS:*\n`;
+    message += `👤 *Name:* ${data.name}\n`;
+    message += `🏠 *Address:* ${data.address}\n`;
+    message += `📍 *City:* ${data.city}\n`;
+    message += `🗺️ *District:* ${data.district}\n`;
+    message += `📞 *Phone 1:* ${data.phone1}\n`;
+    if (data.phone2) message += `📞 *Phone 2:* ${data.phone2}\n`;
+    message += `----------------------------\n`;
+    message += `*ORDER ITEMS:*\n`;
 
     cart.forEach(item => {
         message += `• ${item.title} x ${item.quantity} = LKR ${(item.price * item.quantity).toLocaleString()}\n`;
@@ -462,10 +495,6 @@ function sendOrderViaWhatsApp() {
 
     const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
-
-    // Optionally clear cart after sending
-    // clearCart();
-    // closeInvoice();
 }
 
 
@@ -757,14 +786,14 @@ function openProductDetails(id) {
             "sku": product.modelNumber || product.id,
             "brand": {
                 "@type": "Brand",
-                "name": "Pubudu Electronics"
+                "name": product.specs && product.specs.Brand ? product.specs.Brand : "Pubudu Electronics"
             },
             "offers": {
                 "@type": "Offer",
                 "url": window.location.href,
                 "priceCurrency": "LKR",
                 "price": product.price,
-                "itemCondition": "https://schema.org/NewCondition",
+                "itemCondition": product.specs && product.specs.Condition === 'Used' ? "https://schema.org/UsedCondition" : (product.specs && product.specs.Condition === 'Refurbished' ? "https://schema.org/RefurbishedCondition" : "https://schema.org/NewCondition"),
                 "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
             }
         };
@@ -872,8 +901,46 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (closeCartBtn) closeCartBtn.addEventListener('click', () => cartDrawer.classList.add('hidden'));
         if (cartOverlay) cartOverlay.addEventListener('click', () => cartDrawer.classList.add('hidden'));
 
-        // Checkout & Invoice Listeners
         const checkoutBtn = document.getElementById('checkout-btn');
+        const checkoutStep = document.getElementById('checkout-step');
+        const cartMainView = document.getElementById('cart-main-view');
+        const checkoutForm = document.getElementById('checkout-form');
+        const backToCartBtn = document.getElementById('back-to-cart');
+
+        if (checkoutBtn) {
+            checkoutBtn.addEventListener('click', () => {
+                if (!currentUser) {
+                    alert("Please login with Gmail first.");
+                    handleLogin();
+                    return;
+                }
+                cartMainView.classList.add('hidden');
+                checkoutStep.classList.remove('hidden');
+            });
+        }
+
+        if (backToCartBtn) {
+            backToCartBtn.addEventListener('click', () => {
+                checkoutStep.classList.add('hidden');
+                cartMainView.classList.remove('hidden');
+            });
+        }
+
+        if (checkoutForm) {
+            checkoutForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const customerData = {
+                    name: document.getElementById('cust-name').value,
+                    address: document.getElementById('cust-address').value,
+                    district: document.getElementById('cust-district').value,
+                    city: document.getElementById('cust-city').value,
+                    phone1: document.getElementById('cust-phone1').value,
+                    phone2: document.getElementById('cust-phone2').value
+                };
+                openInvoice(customerData);
+            });
+        }
+
         const closeInvoiceBtn = document.getElementById('close-invoice');
         const sendWhatsappBtn = document.getElementById('send-whatsapp-invoice');
         const printBtn = document.getElementById('print-invoice');

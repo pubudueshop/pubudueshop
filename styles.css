@@ -1,19 +1,35 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 
 :root {
-    --primary: #3b82f6;
-    --primary-dark: #2563eb;
+    /* Professional Tech Palette */
+    --primary: #2563eb;
+    /* Royal Blue */
+    --primary-dark: #1e40af;
+    /* Deep Blue */
     --secondary: #10b981;
+    /* Emerald Green */
     --accent: #f59e0b;
-    --background: #f8fafc;
+    /* Amber */
+    --danger: #ef4444;
+    /* Red */
+    --background: #f1f5f9;
+    /* Light Slate Background */
     --surface: #ffffff;
-    --text: #1e293b;
+    /* White Surface */
+    --surface-hover: #f8fafc;
+    /* Hover State */
+    --text: #0f172a;
+    /* Dark Slate Text */
     --text-light: #64748b;
+    /* Muted Text */
     --border: #e2e8f0;
-    --shadow-soft: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    --shadow-hover: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-    --transition: all 0.3s ease;
-    --gradient: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    /* Light Border */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --gradient: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    --radius: 0.75rem;
 }
 
 * {
@@ -743,8 +759,34 @@ footer {
         gap: 2rem;
     }
 
+    /* Disable sticky image */
+    .details-image-col {
+        position: static;
+        top: auto;
+    }
+
+    /* Limit image height */
+    .main-image-container {
+        height: auto;
+        min-height: 250px;
+        max-height: 50vh;
+        /* Prevents image from taking full screen */
+        aspect-ratio: auto;
+        /* Allow flexible height */
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .detail-main-image {
+        max-height: 45vh;
+        width: auto;
+        max-width: 100%;
+        /* Ensure no zoom/interaction blocks scrolling */
+        pointer-events: none;
+    }
+
     .product-details-content {
-        padding: 1.5rem;
+        padding: 1.5rem 1rem;
     }
 
     .details-info-col h1 {
@@ -1174,6 +1216,97 @@ body.modal-open {
     color: white;
     border-color: var(--primary);
 }
+
+/* === Checkout & A4 Print Styling === */
+.checkout-step {
+    padding: 1.5rem;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.checkout-step .form-group {
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.checkout-step label {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-light);
+}
+
+.checkout-step input,
+.checkout-step select,
+.checkout-step textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.9rem;
+}
+
+/* A4 Print Optimization */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    #invoice-modal,
+    #invoice-modal * {
+        visibility: visible;
+    }
+
+    #invoice-modal {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 210mm;
+        /* A4 Width */
+        height: 297mm;
+        /* A4 Height */
+        background: white;
+        padding: 0;
+        margin: 0;
+        display: block !important;
+    }
+
+    .invoice-container {
+        box-shadow: none;
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        padding: 0;
+        background: white;
+    }
+
+    .invoice-paper {
+        padding: 15mm !important;
+        border: none !important;
+        width: 210mm;
+        height: 297mm;
+        box-sizing: border-box;
+    }
+
+    .invoice-actions,
+    .invoice-overlay {
+        display: none !important;
+    }
+}
+
+.bill-to p {
+    margin: 0.1rem 0;
+    font-size: 0.95rem;
+}
+
 
 .modal-quantity-container {
     display: flex;

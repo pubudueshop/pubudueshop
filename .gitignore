@@ -12,3 +12,5 @@ Thumbs.db
 # Env
 .env
 .env.local
+
+.tmp.driveupload/

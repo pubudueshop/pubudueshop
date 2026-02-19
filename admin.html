@@ -502,9 +502,23 @@
                         <label>Product Title</label>
                         <input type="text" id="prod-title" required placeholder="e.g. 12V Power Adapter">
                     </div>
+                    <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label>Model Number</label>
+                            <input type="text" id="prod-model" placeholder="e.g. MK-1234">
+                        </div>
+                        <div class="form-group">
+                            <label>Brand</label>
+                            <input type="text" id="prod-brand" placeholder="e.g. Generic, Samsung">
+                        </div>
+                    </div>
                     <div class="form-group">
-                        <label>Model Number</label>
-                        <input type="text" id="prod-model" placeholder="e.g. MK-1234">
+                        <label>Item Condition</label>
+                        <select id="prod-condition">
+                            <option value="New">New</option>
+                            <option value="Used">Used</option>
+                            <option value="Refurbished">Refurbished</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label>Price (LKR)</label>
@@ -515,7 +529,7 @@
                         <input type="number" id="prod-stock" required min="0" value="10">
                     </div>
                     <div class="form-group">
-                        <label>Main Image URL</label>
+                        <label>Main Image URL (Mandatory)</label>
                         <input type="url" id="prod-image-1" required placeholder="https://..."
                             onchange="updateImagePreview(this)">
                         <p style="font-size: 0.75rem; color: var(--text-light); margin-top: 0.25rem;">
@@ -525,19 +539,19 @@
                         </p>
                     </div>
                     <div class="form-group">
-                        <label>Additional Image 2</label>
-                        <input type="url" id="prod-image-2" placeholder="https://...">
+                        <label>Image 2 (Mandatory)</label>
+                        <input type="url" id="prod-image-2" required placeholder="https://...">
                     </div>
                     <div class="form-group">
-                        <label>Additional Image 3</label>
-                        <input type="url" id="prod-image-3" placeholder="https://...">
+                        <label>Image 3 (Mandatory)</label>
+                        <input type="url" id="prod-image-3" required placeholder="https://...">
                     </div>
                     <div class="form-group">
-                        <label>Additional Image 4</label>
+                        <label>Image 4 (Optional)</label>
                         <input type="url" id="prod-image-4" placeholder="https://...">
                     </div>
                     <div class="form-group">
-                        <label>Additional Image 5</label>
+                        <label>Image 5 (Optional)</label>
                         <input type="url" id="prod-image-5" placeholder="https://...">
                     </div>
                     <div class="form-group">
@@ -595,12 +609,15 @@
                     // Listen for auth state changes
                     auth.onAuthStateChanged((user) => {
                         if (user) {
-                            // Check if user is allowed
+                            // SECURITY NOTE: Client-side validation is NOT sufficient for sensitive data.
+                            // In a production environment, you MUST use Firebase Security Rules (firestore.rules)
+                            // to restrict write access to the 'shop' collection to only specific user UIDs/emails.
+                            // This JS check is only for UI convenience to redirect unauthorized users.
                             if (ALLOWED_ADMINS.includes(user.email.toLowerCase())) {
                                 showAdmin(user);
                             } else {
                                 auth.signOut();
-                                showError("Access Denied. Your email is not on the admin list.");
+                                showError("Access Denied. Your email is not authorized.");
                             }
                         } else {
                             showLogin();
@@ -890,6 +907,8 @@
                 document.getElementById('prod-id').value = p.id;
                 document.getElementById('prod-title').value = p.title;
                 document.getElementById('prod-model').value = p.modelNumber || '';
+                document.getElementById('prod-brand').value = p.brand || '';
+                document.getElementById('prod-condition').value = p.condition || 'New';
                 document.getElementById('prod-price').value = p.price;
                 document.getElementById('prod-stock').value = p.stock || 0;
 
@@ -919,6 +938,7 @@
                 const title = document.getElementById('prod-title').value.trim();
                 const mainCat = document.getElementById('prod-main-cat').value;
                 const subCat = document.getElementById('prod-sub-cat').value;
+                const brand = document.getElementById('prod-brand').value.trim();
 
                 if (!title) {
                     alert("Please enter a product title first!");
@@ -926,7 +946,7 @@
                 }
 
                 const base = title.toLowerCase();
-                const keywords = [
+                let keywords = [
                     base,
                     `${base} price in sri lanka`,
                     `${base} buy online sri lanka`,
@@ -938,6 +958,11 @@
                     `best price for ${base} in sri lanka`,
                     `${mainCat.toLowerCase()} shop sri lanka`
                 ];
+
+                if (brand) {
+                    keywords.push(`${brand.toLowerCase()} ${base}`);
+                    keywords.push(`${brand.toLowerCase()} electronics sri lanka`);
+                }
 
                 document.getElementById('prod-keywords').value = keywords.join(', ');
             }
@@ -961,6 +986,8 @@
                     id: isEdit ? parseInt(id) : Date.now(),
                     title: document.getElementById('prod-title').value,
                     modelNumber: document.getElementById('prod-model').value.trim(),
+                    brand: document.getElementById('prod-brand').value.trim(),
+                    condition: document.getElementById('prod-condition').value,
                     mainCategory: mainCatSelect.value,
                     subCategory: subCatSelect.value,
                     price: parseInt(document.getElementById('prod-price').value),
@@ -970,9 +997,11 @@
                     description: document.getElementById('prod-desc').value,
                     keywords: document.getElementById('prod-keywords').value.split(',').map(k => k.trim()).filter(k => k),
                     longDescription: document.getElementById('prod-desc').value,
-                    features: ["High Quality Component"],
+                    features: ["High Quality Component", document.getElementById('prod-condition').value + " Condition"],
                     specs: {
                         "Model": document.getElementById('prod-model').value.trim() || "N/A",
+                        "Brand": document.getElementById('prod-brand').value.trim() || "Generic",
+                        "Condition": document.getElementById('prod-condition').value,
                         "Category": subCatSelect.value
                     },
                     videoUrl: document.getElementById('prod-video-admin') ? document.getElementById('prod-video-admin').value.trim() : (document.getElementById('prod-video') ? document.getElementById('prod-video').value.trim() : "#")

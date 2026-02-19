@@ -194,16 +194,87 @@
                     <h2>Your Cart</h2>
                     <button id="close-cart" class="close-btn"><i class="fas fa-times"></i></button>
                 </div>
-                <div id="cart-items" class="cart-items-list">
-                    <!-- Items injected by JS -->
-                </div>
-                <div class="cart-footer">
-                    <div class="cart-total">
-                        <span>Total:</span>
-                        <span id="cart-total-amount">LKR 0</span>
+                <div id="cart-main-view">
+                    <div id="cart-items" class="cart-items-list">
+                        <!-- Items injected by JS -->
                     </div>
-                    <button id="checkout-btn" class="btn-checkout">Generate Invoice & Order</button>
-                    <p class="cart-note">Note: Order will be sent via WhatsApp</p>
+                    <div class="cart-footer">
+                        <div class="cart-total">
+                            <span>Total:</span>
+                            <span id="cart-total-amount">LKR 0</span>
+                        </div>
+                        <button id="checkout-btn" class="btn-checkout">Continue to Checkout</button>
+                        <p class="cart-note">Proceed to add delivery details</p>
+                    </div>
+                </div>
+
+                <!-- Checkout Form Step -->
+                <div id="checkout-step" class="checkout-step hidden">
+                    <div class="checkout-header">
+                        <button id="back-to-cart" class="btn-text" style="padding:0; margin-bottom:1rem;"><i
+                                class="fas fa-arrow-left"></i> Back to Cart</button>
+                        <h3>Delivery Details</h3>
+                    </div>
+                    <form id="checkout-form">
+                        <div class="form-group">
+                            <label>Full Name *</label>
+                            <input type="text" id="cust-name" required placeholder="Enter your full name">
+                        </div>
+                        <div class="form-group">
+                            <label>Delivery Address *</label>
+                            <textarea id="cust-address" rows="2" required
+                                placeholder="House No, Street, Village"></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>District *</label>
+                                <select id="cust-district" required>
+                                    <option value="">Select District</option>
+                                    <option value="Colombo">Colombo</option>
+                                    <option value="Gampaha">Gampaha</option>
+                                    <option value="Kalutara">Kalutara</option>
+                                    <option value="Kandy">Kandy</option>
+                                    <option value="Matale">Matale</option>
+                                    <option value="Nuwara Eliya">Nuwara Eliya</option>
+                                    <option value="Galle">Galle</option>
+                                    <option value="Matara">Matara</option>
+                                    <option value="Hambantota">Hambantota</option>
+                                    <option value="Jaffna">Jaffna</option>
+                                    <option value="Kilinochchi">Kilinochchi</option>
+                                    <option value="Mannar">Mannar</option>
+                                    <option value="Vavuniya">Vavuniya</option>
+                                    <option value="Mullaitivu">Mullaitivu</option>
+                                    <option value="Batticaloa">Batticaloa</option>
+                                    <option value="Ampara">Ampara</option>
+                                    <option value="Trincomalee">Trincomalee</option>
+                                    <option value="Kurunegala">Kurunegala</option>
+                                    <option value="Puttalam">Puttalam</option>
+                                    <option value="Anuradhapura">Anuradhapura</option>
+                                    <option value="Polonnaruwa">Polonnaruwa</option>
+                                    <option value="Badulla">Badulla</option>
+                                    <option value="Moneragala">Moneragala</option>
+                                    <option value="Ratnapura">Ratnapura</option>
+                                    <option value="Kegalle">Kegalle</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Near City *</label>
+                                <input type="text" id="cust-city" required placeholder="Gampaha, Colombo 07, etc">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Phone Number 1 *</label>
+                                <input type="tel" id="cust-phone1" required placeholder="07XXXXXXXX">
+                            </div>
+                            <div class="form-group">
+                                <label>Phone Number 2</label>
+                                <input type="tel" id="cust-phone2" placeholder="07XXXXXXXX">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-checkout full-width" style="margin-top: 1rem;">Generate Invoice
+                            & Order</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -225,9 +296,13 @@
                         </div>
                     </div>
                     <div class="invoice-user">
-                        <h4>Bill To:</h4>
-                        <p id="invoice-user-name"></p>
-                        <p id="invoice-user-email"></p>
+                        <div class="bill-to">
+                            <h4>Billed To:</h4>
+                            <p id="invoice-user-name"></p>
+                            <p id="invoice-user-address"></p>
+                            <p id="invoice-user-city-district"></p>
+                            <p id="invoice-user-phone"></p>
+                        </div>
                     </div>
                     <table class="invoice-table">
                         <thead>

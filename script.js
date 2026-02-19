@@ -1018,6 +1018,35 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         }
 
+        // Mobile Menu Logic
+        const menuToggle = document.getElementById('menu-toggle');
+        const menuClose = document.getElementById('menu-close');
+        const navLinks = document.getElementById('nav-links');
+
+        if (menuToggle && navLinks) {
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.add('active');
+                document.body.classList.add('modal-open'); // Prevent scroll
+            });
+        }
+
+        if (menuClose && navLinks) {
+            menuClose.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                document.body.classList.remove('modal-open');
+            });
+        }
+
+        // Close menu on link click
+        if (navLinks) {
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                    document.body.classList.remove('modal-open');
+                });
+            });
+        }
+
         // Also bind to footer home link if present
         const footerHome = document.querySelector('.footer-links a[href="#"]');
         if (footerHome) {

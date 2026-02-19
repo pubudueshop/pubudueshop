@@ -518,29 +518,25 @@ function initZoom() {
     });
 
     // Mobile Zoom: Toggle zoom on tap
-    container.addEventListener('click', (e) => {
+    container.onclick = (e) => {
         if (window.innerWidth > 768) return; // Only mobile
+
+        console.log("Zoom container clicked"); // Debug log
 
         container.classList.toggle('mobile-zoomed');
 
         if (container.classList.contains('mobile-zoomed')) {
-            // Track touch/tap position for mobile origin
             const { left, top, width, height } = container.getBoundingClientRect();
-            // Fallback to center if it's a programatic click, but usually it's touch
-            const touchX = e.clientX || (e.touches && e.touches[0].clientX);
-            const touchY = e.clientY || (e.touches && e.touches[0].clientY);
+            const touchX = e.clientX;
+            const touchY = e.clientY;
 
-            if (touchX && touchY) {
-                const x = ((touchX - left) / width) * 100;
-                const y = ((touchY - top) / height) * 100;
-                img.style.transformOrigin = `${x}% ${y}%`;
-            } else {
-                img.style.transformOrigin = 'center center';
-            }
+            const x = ((touchX - left) / width) * 100;
+            const y = ((touchY - top) / height) * 100;
+            img.style.transformOrigin = `${x}% ${y}%`;
         } else {
             img.style.transformOrigin = 'center center';
         }
-    });
+    };
 }
 
 // Update URL Parameters
@@ -907,6 +903,12 @@ function closeProductModal() {
     // Remove temporary product JSON-LD
     const oldScript = document.getElementById('product-json-ld');
     if (oldScript) oldScript.remove();
+
+    // Reset Zoom State
+    const zoomContainer = document.getElementById('zoom-container');
+    const zoomImg = document.getElementById('detail-image');
+    if (zoomContainer) zoomContainer.classList.remove('mobile-zoomed');
+    if (zoomImg) zoomImg.style.transformOrigin = 'center center';
 }
 
 

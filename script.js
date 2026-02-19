@@ -495,6 +495,54 @@ function sendOrderViaWhatsApp() {
 }
 
 
+// --- Zoom Feature Logic ---
+function initZoom() {
+    const container = document.getElementById('zoom-container');
+    const img = document.getElementById('detail-image');
+
+    if (!container || !img) return;
+
+    // Desktop Zoom: Track mouse movement
+    container.addEventListener('mousemove', (e) => {
+        if (window.innerWidth <= 768) return; // Skip on mobile
+
+        const { left, top, width, height } = container.getBoundingClientRect();
+        const x = ((e.pageX - left - window.scrollX) / width) * 100;
+        const y = ((e.pageY - top - window.scrollY) / height) * 100;
+
+        img.style.transformOrigin = `${x}% ${y}%`;
+    });
+
+    container.addEventListener('mouseleave', () => {
+        img.style.transformOrigin = 'center center';
+    });
+
+    // Mobile Zoom: Toggle zoom on tap
+    container.addEventListener('click', (e) => {
+        if (window.innerWidth > 768) return; // Only mobile
+
+        container.classList.toggle('mobile-zoomed');
+
+        if (container.classList.contains('mobile-zoomed')) {
+            // Track touch/tap position for mobile origin
+            const { left, top, width, height } = container.getBoundingClientRect();
+            // Fallback to center if it's a programatic click, but usually it's touch
+            const touchX = e.clientX || (e.touches && e.touches[0].clientX);
+            const touchY = e.clientY || (e.touches && e.touches[0].clientY);
+
+            if (touchX && touchY) {
+                const x = ((touchX - left) / width) * 100;
+                const y = ((touchY - top) / height) * 100;
+                img.style.transformOrigin = `${x}% ${y}%`;
+            } else {
+                img.style.transformOrigin = 'center center';
+            }
+        } else {
+            img.style.transformOrigin = 'center center';
+        }
+    });
+}
+
 // Update URL Parameters
 function updateURL(mainCat, subCat, productId) {
     const url = new URL(window.location);
@@ -1068,6 +1116,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Initialize Auth after products/firebase ready
         initCustomerAuth();
+
+        // Initialize Image Zoom
+        initZoom();
 
     } catch (err) {
         console.error("App Crash:", err);

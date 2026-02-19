@@ -23,8 +23,8 @@ function generateProducts() {
             description: "High-quality 12V 2A power adapter for electronics projects.",
             longDescription: "Standard 12V DC power adapter, 2A output. Ideal for microcontrollers, LED strips, and other DC projects.",
             keywords: ["power", "adapter", "12v"],
-            features: ["Overload protection", "Stable voltage output", "New Condition"],
-            specs: { "Brand": "Generic", "Model": "N/A", "Condition": "New", "Input": "100-240V AC", "Output": "12V 2A DC" },
+            features: ["Overload protection", "Stable voltage output", "Brand New Condition"],
+            specs: { "Brand": "Generic", "Model": "N/A", "Condition": "Brand New", "Input": "100-240V AC", "Output": "12V 2A DC" },
             videoUrl: "#",
             images: [
                 "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800",
@@ -43,8 +43,8 @@ function generateProducts() {
             description: "The classic microcontroller for makers and beginners.",
             longDescription: "Compatible with Arduino Uno R3. A great starting point for learning electronics and coding.",
             keywords: ["arduino", "uno", "microcontroller"],
-            features: ["Easy to program", "Wide compatibility", "New Condition"],
-            specs: { "Brand": "Arduino", "Model": "R3", "Condition": "New", "MCU": "ATmega328P", "Voltage": "5V" },
+            features: ["Easy to program", "Wide compatibility", "Brand New Condition"],
+            specs: { "Brand": "Arduino", "Model": "R3", "Condition": "Brand New", "MCU": "ATmega328P", "Voltage": "5V" },
             videoUrl: "https://www.youtube.com/watch?v=d8nK7F67Y60",
             images: [
                 "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800",
@@ -135,55 +135,52 @@ function initFirebase() {
     return false;
 }
 
-// Load products from Cloud or Local
+// Load products - UPDATED for speed (Local First, then Cloud)
 async function loadProducts() {
-    const isCloud = initFirebase();
-    await loadCategories(); // Load categories first
-
-    // Try Cloud First
-    if (isCloud && db) {
-        try {
-            const doc = await db.collection("shop").doc("inventory").get();
-            if (doc.exists) {
-                const cloudProducts = doc.data().products || [];
-                // Mutate existing array to keep references alive
-                products.length = 0;
-                products.push(...cloudProducts);
-
-                console.log("Loaded from Cloud", products.length);
-                renderProducts(); // Re-render after async load
-                if (window.renderAdminList) window.renderAdminList();
-
-                // Update Local Backup
-                localStorage.setItem('eshop_products', JSON.stringify(products));
-                return;
-            }
-        } catch (e) {
-            console.error("Cloud Load Error:", e);
-            if (e.code === 'permission-denied') {
-                showStatus("Access Denied: Please check your Firebase Rules.", true);
-            } else {
-                showStatus("Database Error: " + e.message, true);
-            }
-        }
-    }
-
-    // Fallback to LocalStorage
+    // 1. Try to load from LocalStorage immediately for instant UI
     const storedProducts = localStorage.getItem('eshop_products');
     if (storedProducts) {
         const localProducts = JSON.parse(storedProducts);
         products.length = 0;
         products.push(...localProducts);
-        console.log("Loaded from LocalStorage");
-    } else {
-        const generated = generateProducts();
-        products.length = 0;
-        products.push(...generated);
-        // DO NOT call saveProducts() here anymore. 
-        // We don't want the public site to overwrite the cloud with empty data.
+        console.log("Instant Load: LocalStorage", products.length);
+        renderProducts(); // Render immediately!
+        if (window.renderAdminList) window.renderAdminList();
     }
-    renderProducts();
-    if (window.renderAdminList) window.renderAdminList();
+
+    // 2. Initialize Firebase in background
+    const isCloud = initFirebase();
+    await loadCategories();
+
+    // 3. Update from Cloud if available
+    if (isCloud && db) {
+        try {
+            const doc = await db.collection("shop").doc("inventory").get();
+            if (doc.exists) {
+                const cloudProducts = doc.data().products || [];
+
+                // Compare with local - only re-render if changed
+                if (JSON.stringify(cloudProducts) !== JSON.stringify(products)) {
+                    products.length = 0;
+                    products.push(...cloudProducts);
+                    console.log("Cloud Update: Sync completed", products.length);
+                    renderProducts();
+                    if (window.renderAdminList) window.renderAdminList();
+                    localStorage.setItem('eshop_products', JSON.stringify(products));
+                }
+                return;
+            }
+        } catch (e) {
+            console.error("Cloud Sync Error:", e);
+        }
+    }
+
+    // 4. Default if nothing found anywhere
+    if (products.length === 0) {
+        const generated = generateProducts();
+        products.push(...generated);
+        renderProducts();
+    }
 }
 
 // Save products to Cloud and Local
@@ -524,7 +521,11 @@ function updateURL(mainCat, subCat, productId) {
 
 // Initialize Filters with URL Support
 function initFilters() {
-    filterContainer.innerHTML = '';
+    // Don't clear innerHTML as it removes the search bar
+    const existingMain = document.getElementById('category-filter');
+    const existingSub = document.getElementById('subcategory-filter');
+    if (existingMain) existingMain.remove();
+    if (existingSub) existingSub.remove();
 
     // Get URL Params
     const urlParams = new URLSearchParams(window.location.search);
@@ -585,6 +586,28 @@ function initFilters() {
     filterContainer.appendChild(mainSelect);
     filterContainer.appendChild(subSelect);
 
+    // Search Logic
+    const searchInput = document.getElementById('product-search');
+    const clearBtn = document.getElementById('clear-search');
+
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value;
+            if (clearBtn) {
+                clearBtn.classList.toggle('hidden', query.length === 0);
+            }
+            renderProducts(mainSelect.value, subSelect.value, query);
+        });
+    }
+
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            clearBtn.classList.add('hidden');
+            renderProducts(mainSelect.value, subSelect.value, '');
+        });
+    }
+
     // Initial Render based on URL
     renderProducts(initialMain, initialSub);
 }
@@ -600,10 +623,9 @@ function showStatus(msg, isError = false) {
     `;
 }
 
-// Render Products
-function renderProducts(mainCat = 'all', subCat = 'all') {
+// Optimized Render Products
+function renderProducts(mainCat = 'all', subCat = 'all', searchQuery = '') {
     if (!productGrid) return;
-    productGrid.innerHTML = '';
 
     if (products.length === 0) {
         productGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; font-size: 1.2rem; color: var(--text-light); padding: 2rem;">No products found in database.</p>';
@@ -613,7 +635,17 @@ function renderProducts(mainCat = 'all', subCat = 'all') {
     const filteredProducts = products.filter(p => {
         const matchMain = mainCat === 'all' || p.mainCategory === mainCat;
         const matchSub = subCat === 'all' || p.subCategory === subCat;
-        return matchMain && matchSub;
+
+        let matchSearch = true;
+        if (searchQuery) {
+            const q = searchQuery.toLowerCase();
+            const inTitle = p.title.toLowerCase().includes(q);
+            const inCategory = p.mainCategory.toLowerCase().includes(q) || p.subCategory.toLowerCase().includes(q);
+            const inKeywords = p.keywords ? p.keywords.some(k => k.toLowerCase().includes(q)) : false;
+            matchSearch = inTitle || inCategory || inKeywords;
+        }
+
+        return matchMain && matchSub && matchSearch;
     });
 
     if (filteredProducts.length === 0) {
@@ -621,51 +653,48 @@ function renderProducts(mainCat = 'all', subCat = 'all') {
         return;
     }
 
-    filteredProducts.forEach(product => {
-        const card = document.createElement('div');
-        card.className = 'product-card';
-        card.onclick = (e) => {
-            if (!e.target.closest('button') && !e.target.closest('a')) {
-                openProductDetails(product.id);
-            }
-        };
-
-        // Stock Color Logic
+    // Build entire HTML string once to minimize Reflows/Repaints
+    const html = filteredProducts.map(product => {
         const stockColor = product.stock > 10 ? 'var(--secondary)' : 'var(--accent)';
         const stockText = product.stock > 0 ? `Available: ${product.stock}` : 'Out of Stock';
 
-        card.innerHTML = `
-            <div class="product-image-container">
-                <span class="badge">${product.mainCategory}</span>
-                <img src="${product.image}" alt="${product.title}" class="product-image" loading="lazy" onerror="this.src='https://via.placeholder.com/300x300?text=Image+Not+Found'">
-            </div>
-            <div class="product-info">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem;">
-                    <span class="product-category">${product.subCategory}</span>
-                    <span style="font-size: 0.8rem; font-weight: 600; color: ${stockColor};">
-                        <i class="fas fa-cubes"></i> ${stockText}
-                    </span>
+        return `
+            <div class="product-card" onclick="openProductDetails(${product.id})">
+                <div class="product-image-container">
+                    <span class="badge">${product.mainCategory}</span>
+                    <img src="${product.image}" alt="${product.title}" class="product-image" 
+                         loading="lazy" decoding="async" 
+                         onerror="this.src='https://via.placeholder.com/300x300?text=Image+Not+Found'">
                 </div>
-                <div style="width: 100%; background: #e2e8f0; height: 4px; border-radius: 2px; margin-bottom: 0.5rem; overflow: hidden;">
-                    <div style="width: ${Math.min(product.stock, 100)}%; background: ${stockColor}; height: 100%; border-radius: 2px;"></div>
-                </div>
-                <h3 class="product-title">${product.title}</h3>
-                <div class="product-price">LKR ${product.price.toLocaleString()}</div>
-                <div class="product-actions">
-                    <button class="btn-cart-sm" title="Add to Cart" onclick="event.stopPropagation(); addToCart(${product.id})">
-                        <i class="fas fa-cart-plus"></i>
-                    </button>
-                    <button class="btn-video" onclick="event.stopPropagation(); openProductDetails(${product.id})">
-                         Details
-                    </button>
-                    <button class="btn-buy" onclick="event.stopPropagation(); addToCart(${product.id}); document.getElementById('cart-drawer').classList.remove('hidden');">
-                        <i class="fas fa-shopping-cart"></i> Buy
-                    </button>
+                <div class="product-info">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem;">
+                        <span class="product-category">${product.subCategory}</span>
+                        <span style="font-size: 0.8rem; font-weight: 600; color: ${stockColor};">
+                            <i class="fas fa-cubes"></i> ${stockText}
+                        </span>
+                    </div>
+                    <div style="width: 100%; background: #e2e8f0; height: 4px; border-radius: 2px; margin-bottom: 0.5rem; overflow: hidden;">
+                        <div style="width: ${Math.min(product.stock, 100)}%; background: ${stockColor}; height: 100%; border-radius: 2px;"></div>
+                    </div>
+                    <h3 class="product-title">${product.title}</h3>
+                    <div class="product-price">LKR ${product.price.toLocaleString()}</div>
+                    <div class="product-actions">
+                        <button class="btn-cart-sm" title="Add to Cart" onclick="event.stopPropagation(); addToCart(${product.id})">
+                            <i class="fas fa-cart-plus"></i>
+                        </button>
+                        <button class="btn-video" onclick="event.stopPropagation(); openProductDetails(${product.id})">
+                             Details
+                        </button>
+                        <button class="btn-buy" onclick="event.stopPropagation(); addToCart(${product.id}); document.getElementById('cart-drawer').classList.remove('hidden');">
+                            <i class="fas fa-shopping-cart"></i> Buy
+                        </button>
+                    </div>
                 </div>
             </div>
         `;
-        productGrid.appendChild(card);
-    });
+    }).join('');
+
+    productGrid.innerHTML = html;
 }
 
 // Open Product Details (Modal)
@@ -793,7 +822,7 @@ function openProductDetails(id) {
                 "url": window.location.href,
                 "priceCurrency": "LKR",
                 "price": product.price,
-                "itemCondition": product.specs && product.specs.Condition === 'Used' ? "https://schema.org/UsedCondition" : (product.specs && product.specs.Condition === 'Refurbished' ? "https://schema.org/RefurbishedCondition" : "https://schema.org/NewCondition"),
+                "itemCondition": product.specs && product.specs.Condition === 'Used' ? "https://schema.org/UsedCondition" : (product.specs && product.specs.Condition === 'For Part or Repair' ? "https://schema.org/DamagedCondition" : "https://schema.org/NewCondition"),
                 "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
             }
         };
@@ -852,7 +881,14 @@ function resetApp(e) {
     const url = new URL(window.location);
     url.searchParams.delete('category');
     url.searchParams.delete('subcategory');
+    url.searchParams.delete('product');
     window.history.pushState({}, '', url);
+
+    // Clear Search Input
+    const searchInput = document.getElementById('product-search');
+    const clearBtn = document.getElementById('clear-search');
+    if (searchInput) searchInput.value = '';
+    if (clearBtn) clearBtn.classList.add('hidden');
 
     // Reset View
     closeProductModal();

@@ -515,9 +515,9 @@
                     <div class="form-group">
                         <label>Item Condition</label>
                         <select id="prod-condition">
-                            <option value="New">New</option>
+                            <option value="Brand New">Brand New</option>
                             <option value="Used">Used</option>
-                            <option value="Refurbished">Refurbished</option>
+                            <option value="For Part or Repair">For Part or Repair</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -543,8 +543,8 @@
                         <input type="url" id="prod-image-2" required placeholder="https://...">
                     </div>
                     <div class="form-group">
-                        <label>Image 3 (Mandatory)</label>
-                        <input type="url" id="prod-image-3" required placeholder="https://...">
+                        <label>Image 3 (Optional)</label>
+                        <input type="url" id="prod-image-3" placeholder="https://...">
                     </div>
                     <div class="form-group">
                         <label>Image 4 (Optional)</label>
@@ -908,7 +908,7 @@
                 document.getElementById('prod-title').value = p.title;
                 document.getElementById('prod-model').value = p.modelNumber || '';
                 document.getElementById('prod-brand').value = p.brand || '';
-                document.getElementById('prod-condition').value = p.condition || 'New';
+                document.getElementById('prod-condition').value = p.condition || 'Brand New';
                 document.getElementById('prod-price').value = p.price;
                 document.getElementById('prod-stock').value = p.stock || 0;
 

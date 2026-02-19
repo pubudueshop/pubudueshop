@@ -5,6 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pubudu Electronics | Premium Electronic Components in Sri Lanka</title>
+
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://www.gstatic.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
     <meta name="description"
         content="Buy high-quality electronic components in Sri Lanka. Wide range of Arduino, ESP32, sensors, power adapters, and modules at affordable prices. Fast delivery island-wide.">
     <meta name="keywords"
@@ -66,10 +73,11 @@
     }
     </script>
 
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <!-- Firebase SDKs - Loaded with defer for speed -->
+    <script defer src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
 </head>
 
 <body>
@@ -117,12 +125,23 @@
         <div class="section-header">
             <h2>Browse Components</h2>
             <div class="filter-controls">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="product-search" placeholder="Search components...">
+                    <button id="clear-search" class="clear-search hidden">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
                 <!-- Selects injected by JS -->
             </div>
         </div>
 
         <div id="product-grid" class="product-grid">
-            <p style="grid-column: 1/-1; text-align: center; color: var(--text-light);">Loading products...</p>
+            <!-- Skeleton Loaders for Instant Feedback -->
+            <div class="product-card skeleton" style="height: 400px;"></div>
+            <div class="product-card skeleton" style="height: 400px;"></div>
+            <div class="product-card skeleton" style="height: 400px;"></div>
+            <div class="product-card skeleton" style="height: 400px;"></div>
         </div>
 
         <div id="product-modal-root" class="product-modal hidden">
@@ -411,7 +430,7 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script defer src="script.js"></script>
 </body>
 
 </html>

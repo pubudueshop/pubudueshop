@@ -1257,6 +1257,10 @@ function contactSeller(title, price) {
 
 // Initial Render
 document.addEventListener('DOMContentLoaded', async () => {
+    // Update Copyright Year
+    const yearEl = document.getElementById('current-year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+
     // If we are on the admin page, skip the customer-facing initializations
     if (document.getElementById('admin-page')) {
         await loadProducts();

@@ -731,6 +731,64 @@ footer {
         min-width: 140px;
         flex: 1;
     }
+
+    .fav-btn-nav {
+        display: block !important;
+        margin: 1rem 0;
+    }
+}
+
+/* Favorites Heart Styles */
+.btn-fav {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    z-index: 5;
+    transition: var(--transition);
+    color: #94a3b8;
+}
+
+.btn-fav:hover {
+    transform: scale(1.1);
+    color: #ef4444;
+}
+
+.btn-fav.active {
+    color: #ef4444;
+}
+
+.modal-fav-btn {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    padding: 0.8rem 1.2rem;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: var(--transition);
+    color: var(--text-light);
+}
+
+.modal-fav-btn.active {
+    background: #fee2e2;
+    border-color: #fecaca;
+    color: #ef4444;
+}
+
+.modal-fav-btn:hover {
+    background: #f1f5f9;
 }
 
 /* Product Grid Responsiveness Master */
@@ -1216,6 +1274,10 @@ body.modal-open {
     cursor: pointer;
     position: relative;
     padding: 0.5rem;
+}
+
+.nav-icon-btn.active {
+    color: #ef4444;
 }
 
 .cart-badge {

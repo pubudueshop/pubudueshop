@@ -240,6 +240,9 @@ const detailBuyBtn = document.getElementById('detail-buy-btn');
 let customerAuth = null;
 let currentUser = null;
 let cart = JSON.parse(localStorage.getItem('eshop_cart')) || [];
+let favorites = [];
+let userDeliveryDetails = {};
+let showingFavorites = false;
 let modalQty = 1;
 
 // --- Authentication Logic ---
@@ -248,7 +251,7 @@ function initCustomerAuth() {
         console.warn("Auth not initialized yet");
         return;
     }
-    customerAuth.onAuthStateChanged(user => {
+    customerAuth.onAuthStateChanged(async (user) => {
         currentUser = user;
         const loginBtn = document.getElementById('customer-login-btn');
         const userProfile = document.getElementById('user-profile');
@@ -259,12 +262,64 @@ function initCustomerAuth() {
             if (loginBtn) loginBtn.classList.add('hidden');
             if (userProfile) userProfile.classList.remove('hidden');
             if (userAvatar) userAvatar.src = user.photoURL || 'https://via.placeholder.com/40';
+
+            // Load persist user data (Favorites & Details)
+            await loadUserData(user.uid);
+            renderProducts(); // Re-render to show favorite hearts
         } else {
             console.log("User logged out");
             if (loginBtn) loginBtn.classList.remove('hidden');
             if (userProfile) userProfile.classList.add('hidden');
+            favorites = [];
+            userDeliveryDetails = {};
+            showingFavorites = false;
+            renderProducts();
         }
     });
+}
+
+async function loadUserData(uid) {
+    if (!db) return;
+    try {
+        const userDoc = await db.collection("users").doc(uid).get();
+        if (userDoc.exists) {
+            const userData = userDoc.data();
+            favorites = userData.favorites || [];
+            userDeliveryDetails = userData.details || {};
+
+            // Auto-fill form if needed
+            if (userDeliveryDetails.name) {
+                const fields = {
+                    'cust-name': userDeliveryDetails.name,
+                    'cust-address': userDeliveryDetails.address,
+                    'cust-district': userDeliveryDetails.district,
+                    'cust-city': userDeliveryDetails.city,
+                    'cust-phone1': userDeliveryDetails.phone1,
+                    'cust-phone2': userDeliveryDetails.phone2
+                };
+                for (const [id, value] of Object.entries(fields)) {
+                    const el = document.getElementById(id);
+                    if (el) el.value = value || '';
+                }
+            }
+        }
+    } catch (e) {
+        console.error("Load User Data Error:", e);
+    }
+}
+
+async function saveUserData() {
+    if (!currentUser || !db) return;
+    try {
+        await db.collection("users").doc(currentUser.uid).set({
+            favorites: favorites,
+            details: userDeliveryDetails,
+            lastSeen: new Date()
+        }, { merge: true });
+        console.log("User data saved to Cloud");
+    } catch (e) {
+        console.error("Save User Data Error:", e);
+    }
 }
 
 async function handleLogin() {
@@ -285,7 +340,35 @@ function handleLogout() {
     if (customerAuth) customerAuth.signOut();
 }
 
-// --- Cart Logic ---
+// --- Cart & Favorites Logic ---
+function toggleFavorite(productId) {
+    if (!currentUser) {
+        alert("Please login with Gmail to use favorites.");
+        handleLogin();
+        return;
+    }
+    const index = favorites.indexOf(productId);
+    if (index === -1) {
+        favorites.push(productId);
+        showToast("Added to favorites");
+    } else {
+        favorites.splice(index, 1);
+        showToast("Removed from favorites");
+    }
+    saveUserData();
+    renderProducts();
+
+    // Update modal heart if open
+    const modalBtn = document.getElementById('modal-fav-btn');
+    if (modalBtn) {
+        const isFav = favorites.includes(productId);
+        modalBtn.classList.toggle('active', isFav);
+        modalBtn.innerHTML = isFav
+            ? '<i class="fas fa-heart"></i> Favorited'
+            : '<i class="far fa-heart"></i> Favorite';
+    }
+}
+
 function addToCart(productId, quantity = 1) {
     const product = products.find(p => p.id === productId);
     if (!product) return;
@@ -712,6 +795,7 @@ function renderProducts(mainCat = 'all', subCat = 'all', searchQuery = '') {
     const filteredProducts = products.filter(p => {
         const matchMain = mainCat === 'all' || p.mainCategory === mainCat;
         const matchSub = subCat === 'all' || p.subCategory === subCat;
+        const matchFav = !showingFavorites || favorites.includes(p.id);
 
         let matchSearch = true;
         if (searchQuery) {
@@ -722,11 +806,11 @@ function renderProducts(mainCat = 'all', subCat = 'all', searchQuery = '') {
             matchSearch = inTitle || inCategory || inKeywords;
         }
 
-        return matchMain && matchSub && matchSearch;
+        return matchMain && matchSub && matchSearch && matchFav;
     });
 
     if (filteredProducts.length === 0) {
-        productGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; font-size: 1.2rem; color: var(--text-light);">No products found.</p>';
+        productGrid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; font-size: 1.2rem; color: var(--text-light); padding: 2rem;">${showingFavorites ? 'No favorites yet.' : 'No products found.'}</p>`;
         return;
     }
 
@@ -734,9 +818,13 @@ function renderProducts(mainCat = 'all', subCat = 'all', searchQuery = '') {
     const html = filteredProducts.map(product => {
         const stockColor = product.stock > 10 ? 'var(--secondary)' : 'var(--accent)';
         const stockText = product.stock > 0 ? `Available: ${product.stock}` : 'Out of Stock';
+        const isFav = favorites.includes(product.id);
 
         return `
             <div class="product-card" onclick="openProductDetails(${product.id})">
+                <button class="btn-fav ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite(${product.id})" title="${isFav ? 'Remove from Favorites' : 'Add to Favorites'}">
+                    <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
+                </button>
                 <div class="product-image-container">
                     <span class="badge">${product.mainCategory}</span>
                     <img src="${product.image}" alt="${product.title}" class="product-image" 
@@ -867,6 +955,16 @@ function openProductDetails(id) {
             addToCart(product.id, modalQty);
             document.getElementById('cart-drawer').classList.remove('hidden');
         };
+
+        const modalFavBtn = document.getElementById('modal-fav-btn');
+        if (modalFavBtn) {
+            const isFav = favorites.includes(product.id);
+            modalFavBtn.classList.toggle('active', isFav);
+            modalFavBtn.innerHTML = isFav
+                ? '<i class="fas fa-heart"></i> Favorited'
+                : '<i class="far fa-heart"></i> Favorite';
+            modalFavBtn.onclick = () => toggleFavorite(product.id);
+        }
 
         // SEO: Update document title, meta description, and inject JSON-LD
         document.title = `${product.title} | Pubudu Electronics`;
@@ -1057,7 +1155,23 @@ document.addEventListener('DOMContentLoaded', async () => {
                     phone1: document.getElementById('cust-phone1').value,
                     phone2: document.getElementById('cust-phone2').value
                 };
+
+                // Save user details for next time
+                if (currentUser) {
+                    userDeliveryDetails = customerData;
+                    saveUserData();
+                }
+
                 openInvoice(customerData);
+            });
+        }
+
+        const navFavBtn = document.getElementById('nav-fav-btn');
+        if (navFavBtn) {
+            navFavBtn.addEventListener('click', () => {
+                showingFavorites = !showingFavorites;
+                navFavBtn.classList.toggle('active', showingFavorites);
+                renderProducts();
             });
         }
 

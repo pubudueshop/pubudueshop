@@ -398,6 +398,26 @@ function updateModalQty(delta) {
     if (qtyValueDisplay) qtyValueDisplay.textContent = modalQty;
 }
 
+function quickShare(productId, btnElement) {
+    const shareUrl = new URL(window.location.origin + window.location.pathname);
+    shareUrl.searchParams.set('product', productId);
+    const finalUrl = shareUrl.toString();
+
+    navigator.clipboard.writeText(finalUrl).then(() => {
+        const originalIcon = btnElement.innerHTML;
+        btnElement.innerHTML = '<i class="fas fa-check"></i>';
+        btnElement.style.color = "var(--secondary)";
+        showToast("Product link copied!");
+        setTimeout(() => {
+            btnElement.innerHTML = originalIcon;
+            btnElement.style.color = "";
+        }, 2000);
+    }).catch(err => {
+        console.error("Quick share failed:", err);
+        alert("Copy link: " + finalUrl);
+    });
+}
+
 function removeFromCart(productId) {
     cart = cart.filter(item => item.id !== productId);
     saveCart();
@@ -847,6 +867,9 @@ function renderProducts(mainCat = 'all', subCat = 'all', searchQuery = '') {
                         <button class="btn-cart-sm" title="Add to Cart" onclick="event.stopPropagation(); addToCart(${product.id})">
                             <i class="fas fa-cart-plus"></i>
                         </button>
+                        <button class="btn-cart-sm" title="Copy Share Link" onclick="event.stopPropagation(); quickShare(${product.id}, this)">
+                             <i class="fas fa-share-alt"></i>
+                        </button>
                         <button class="btn-video" onclick="event.stopPropagation(); openProductDetails(${product.id})">
                              Details
                         </button>
@@ -964,6 +987,39 @@ function openProductDetails(id) {
                 ? '<i class="fas fa-heart"></i> Favorited'
                 : '<i class="far fa-heart"></i> Favorite';
             modalFavBtn.onclick = () => toggleFavorite(product.id);
+        }
+
+        // --- Share Feature Logic ---
+        const copyLinkBtn = document.getElementById('copy-link-btn');
+        const fbShareBtn = document.getElementById('fb-share-btn');
+
+        // Generate a clean direct URL
+        const shareUrl = new URL(window.location.origin + window.location.pathname);
+        shareUrl.searchParams.set('product', product.id);
+        const finalUrl = shareUrl.toString();
+
+        if (copyLinkBtn) {
+            copyLinkBtn.onclick = () => {
+                navigator.clipboard.writeText(finalUrl).then(() => {
+                    const originalText = copyLinkBtn.innerHTML;
+                    copyLinkBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    copyLinkBtn.style.borderColor = "var(--secondary)";
+                    setTimeout(() => {
+                        copyLinkBtn.innerHTML = originalText;
+                        copyLinkBtn.style.borderColor = "";
+                    }, 2000);
+                }).catch(err => {
+                    console.error("Copy failed:", err);
+                    alert("Link: " + finalUrl);
+                });
+            };
+        }
+
+        if (fbShareBtn) {
+            fbShareBtn.onclick = () => {
+                const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(finalUrl)}`;
+                window.open(fbUrl, '_blank', 'width=600,height=400');
+            };
         }
 
         // SEO: Update document title, meta description, and inject JSON-LD

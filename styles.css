@@ -1010,6 +1010,70 @@ footer {
     font-size: 1.1rem;
 }
 
+.share-section {
+    margin-bottom: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+}
+
+.share-label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-light);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+.share-buttons {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.share-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    border: 1px solid var(--border);
+}
+
+.share-copy {
+    background: white;
+    color: var(--text);
+}
+
+.share-copy:hover {
+    background: #f8fafc;
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.share-fb {
+    background: #1877f2;
+    color: white;
+    border-color: #1877f2;
+}
+
+.share-fb:hover {
+    background: #166fe5;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(24, 119, 242, 0.3);
+}
+
+@media (max-width: 600px) {
+    .share-btn {
+        flex: 1;
+        justify-content: center;
+    }
+}
+
 .detail-specs-container h3 {
     font-size: 1.25rem;
     font-weight: 700;

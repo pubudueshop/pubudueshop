@@ -1156,16 +1156,23 @@ footer {
 @media (max-width: 768px) {
     .main-image-container {
         cursor: default;
-        aspect-ratio: 1;
-        max-height: 40vh;
-        /* Don't take too much vertical space */
-        padding: 1rem;
+        aspect-ratio: auto;
+        /* Allow height to be determined by image or max-height */
+        height: auto;
+        max-height: 45vh;
+        padding: 0;
+        background: none;
+        border: none;
+        margin-bottom: 1.5rem;
     }
 
     .detail-main-image {
         transform: none !important;
-        /* Force disable zoom */
         object-fit: contain;
+        width: 100%;
+        max-height: 45vh;
+        mix-blend-mode: normal;
+        /* Normal mode if box is removed, looks cleaner on white */
     }
 
     .zoom-text-hint,
@@ -1177,7 +1184,7 @@ footer {
 
 @media (max-width: 992px) {
     .product-details-content {
-        padding: 1.5rem 1rem;
+        padding: 1rem;
     }
 
     .details-info-col h1 {

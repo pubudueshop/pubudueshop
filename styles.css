@@ -1156,11 +1156,22 @@ footer {
 @media (max-width: 768px) {
     .main-image-container {
         cursor: default;
+        aspect-ratio: 1;
+        max-height: 40vh;
+        /* Don't take too much vertical space */
+        padding: 1rem;
+    }
+
+    .detail-main-image {
+        transform: none !important;
+        /* Force disable zoom */
+        object-fit: contain;
     }
 
     .zoom-text-hint,
     .zoom-hint {
         display: none !important;
+        /* Hide anything suggesting zoom */
     }
 }
 

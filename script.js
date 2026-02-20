@@ -864,17 +864,11 @@ function renderProducts(mainCat = 'all', subCat = 'all', searchQuery = '') {
                     <h3 class="product-title">${product.title}</h3>
                     <div class="product-price">LKR ${product.price.toLocaleString()}</div>
                     <div class="product-actions">
-                        <button class="btn-cart-sm" title="Add to Cart" onclick="event.stopPropagation(); addToCart(${product.id})">
-                            <i class="fas fa-cart-plus"></i>
-                        </button>
-                        <button class="btn-cart-sm" title="Copy Share Link" onclick="event.stopPropagation(); quickShare(${product.id}, this)">
-                             <i class="fas fa-share-alt"></i>
-                        </button>
-                        <button class="btn-video" onclick="event.stopPropagation(); openProductDetails(${product.id})">
-                             Details
+                        <button class="btn-video" onclick="event.stopPropagation(); addToCart(${product.id})">
+                             Add to Cart
                         </button>
                         <button class="btn-buy" onclick="event.stopPropagation(); addToCart(${product.id}); document.getElementById('cart-drawer').classList.remove('hidden');">
-                            <i class="fas fa-shopping-cart"></i> Buy
+                             Buy Now
                         </button>
                     </div>
                 </div>
@@ -1344,28 +1338,28 @@ document.addEventListener('DOMContentLoaded', async () => {
         const menuToggle = document.getElementById('menu-toggle');
         const menuClose = document.getElementById('menu-close');
         const navLinks = document.getElementById('nav-links');
+        const navOverlay = document.getElementById('nav-overlay');
 
-        if (menuToggle && navLinks) {
-            menuToggle.addEventListener('click', () => {
-                navLinks.classList.add('active');
-                document.body.classList.add('modal-open'); // Prevent scroll
-            });
-        }
+        const openMenu = () => {
+            if (navLinks) navLinks.classList.add('active');
+            if (navOverlay) navOverlay.classList.add('active');
+            document.body.classList.add('modal-open');
+        };
 
-        if (menuClose && navLinks) {
-            menuClose.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                document.body.classList.remove('modal-open');
-            });
-        }
+        const closeMenu = () => {
+            if (navLinks) navLinks.classList.remove('active');
+            if (navOverlay) navOverlay.classList.remove('active');
+            document.body.classList.remove('modal-open');
+        };
+
+        if (menuToggle) menuToggle.addEventListener('click', openMenu);
+        if (menuClose) menuClose.addEventListener('click', closeMenu);
+        if (navOverlay) navOverlay.addEventListener('click', closeMenu);
 
         // Close menu on link click
         if (navLinks) {
             navLinks.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    navLinks.classList.remove('active');
-                    document.body.classList.remove('modal-open');
-                });
+                link.addEventListener('click', closeMenu);
             });
         }
 

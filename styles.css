@@ -1247,16 +1247,16 @@ footer {
 
 @media (max-width: 992px) {
     .details-content {
-        flex-direction: column;
-        gap: 2rem;
+        display: block;
+        padding: 0;
     }
 
     .details-image-col,
     .details-info-col {
-        flex: 1 1 auto;
-        width: 100%;
-        max-width: 100%;
-        position: static;
+        position: static !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-bottom: 2rem;
     }
 }
 

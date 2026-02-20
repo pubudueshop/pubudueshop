@@ -876,6 +876,8 @@ footer {
     max-height: 90vh;
     overflow-y: auto;
     z-index: 1;
+    display: flex;
+    flex-direction: column;
     animation: modalScale 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -919,17 +921,25 @@ footer {
 
 .product-details-content {
     padding: 3rem;
+    max-width: 100%;
 }
 
 .details-content {
-    display: grid;
-    grid-template-columns: 1fr 1.2fr;
+    display: flex;
+    flex-wrap: wrap;
     gap: 4rem;
 }
 
 .details-image-col {
+    flex: 1 1 400px;
+    max-width: 100%;
     position: sticky;
-    top: 0;
+    top: 2rem;
+}
+
+.details-info-col {
+    flex: 1.2 1 400px;
+    max-width: 100%;
 }
 
 .main-image-container {
@@ -1014,15 +1024,28 @@ footer {
 
 .detail-actions {
     display: flex;
-    gap: 1.5rem;
-    margin-bottom: 3rem;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+    width: 100%;
 }
 
-.detail-actions .btn-buy,
+.detail-actions button,
 .detail-actions .btn-video {
-    flex: 1;
-    height: 60px;
-    font-size: 1.1rem;
+    flex: 1 1 240px;
+    min-height: 56px;
+    font-size: 1.05rem;
+    padding: 0.75rem 1.5rem;
+    white-space: normal;
+    text-align: center;
+}
+
+@media (max-width: 480px) {
+
+    .detail-actions button,
+    .detail-actions .btn-video {
+        flex: 1 1 100%;
+    }
 }
 
 .share-section {
@@ -1144,18 +1167,6 @@ footer {
     width: 40%;
 }
 
-@media (max-width: 992px) {
-    .details-content {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-    }
-
-    /* Disable sticky image */
-    .details-image-col {
-        position: static;
-        top: auto;
-    }
-}
 
 /* Inner Zoom Effect - Global Styles */
 .main-image-container {
@@ -1236,9 +1247,8 @@ footer {
     .main-image-container {
         cursor: default;
         aspect-ratio: auto;
-        /* Allow height to be determined by image or max-height */
         height: auto;
-        max-height: 45vh;
+        max-height: 40vh;
         padding: 0;
         background: none;
         border: none;
@@ -1249,43 +1259,71 @@ footer {
         transform: none !important;
         object-fit: contain;
         width: 100%;
-        max-height: 45vh;
+        max-height: 40vh;
         mix-blend-mode: normal;
-        /* Normal mode if box is removed, looks cleaner on white */
     }
 
     .zoom-text-hint,
     .zoom-hint {
         display: none !important;
-        /* Hide anything suggesting zoom */
+    }
+
+    .modal-close-btn {
+        top: 1rem !important;
+        right: 1rem !important;
+        background: white !important;
+        box-shadow: var(--shadow-lg) !important;
     }
 }
 
 @media (max-width: 992px) {
+    .modal-container {
+        width: 95%;
+        height: 90vh;
+        max-height: 90vh;
+        border-radius: 20px;
+        overflow-x: hidden;
+    }
+
     .product-details-content {
-        padding: 1rem;
+        padding: 2.5rem 1.5rem;
+    }
+
+    .details-content {
+        flex-direction: column;
+        gap: 2rem;
     }
 
     .details-info-col h1 {
-        font-size: 1.75rem;
+        font-size: 2rem;
+    }
+
+    .detail-actions button,
+    .detail-actions .btn-video {
+        flex: 1 1 100%;
+        height: 56px;
     }
 
     .detail-features-list {
         grid-template-columns: 1fr;
     }
+}
 
+/* Small Phones (< 600px) */
+@media (max-width: 600px) {
     .modal-container {
-        width: 100%;
-        height: 100%;
-        max-height: 100vh;
-        border-radius: 0;
+        width: 100% !important;
+        height: 100% !important;
+        max-height: 100vh !important;
+        border-radius: 0 !important;
     }
 
-    .modal-close-btn {
-        top: 1rem;
-        right: 1rem;
-        background: white;
-        box-shadow: var(--shadow-lg);
+    .product-details-content {
+        padding: 5rem 1rem 2rem !important;
+    }
+
+    .details-info-col h1 {
+        font-size: 1.75rem !important;
     }
 }
 

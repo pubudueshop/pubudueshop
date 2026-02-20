@@ -1329,6 +1329,51 @@ footer {
         box-shadow: var(--shadow-lg) !important;
         width: 44px;
         height: 44px;
+        z-index: 100;
+    }
+}
+
+/* Floating Mobile Action Bar */
+.mobile-action-bar {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.1);
+    z-index: 10002;
+    gap: 1rem;
+    border-top: 1px solid var(--border);
+    animation: slideUp 0.3s ease-out;
+}
+
+@media (max-width: 768px) {
+    .mobile-action-bar {
+        display: flex;
+    }
+
+    .product-details-content {
+        padding-bottom: 8rem !important;
+        /* Extra padding so bottom content isn't hidden */
+    }
+
+    .detail-actions button,
+    .detail-actions .btn-video {
+        width: 100%;
+        height: 52px;
+        flex: none;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
     }
 }
 

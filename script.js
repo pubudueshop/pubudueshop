@@ -223,7 +223,7 @@ const modalOverlay = document.getElementById('modal-overlay');
 const productDetailsView = document.getElementById('product-details-view');
 
 // Detail Elements
-const detailImage = document.getElementById('detail-image');
+let detailImage = document.getElementById('detail-image');
 const detailThumbnails = document.getElementById('detail-thumbnails');
 const detailTags = document.getElementById('detail-tags');
 const detailCategory = document.getElementById('detail-category');
@@ -1020,6 +1020,66 @@ function openProductDetails(id) {
                 const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(finalUrl)}`;
                 window.open(fbUrl, '_blank', 'width=600,height=400');
             };
+        }
+
+        // --- NEW: Mobile Action Bar & Swiping ---
+        const mobileAddBtn = document.getElementById('mobile-add-cart-btn');
+        const mobileBuyBtn = document.getElementById('mobile-buy-btn');
+        const zoomContainer = document.getElementById('zoom-container');
+
+        if (mobileAddBtn) {
+            mobileAddBtn.onclick = () => addToCart(product.id, parseInt(modalQtyValue.textContent));
+        }
+        if (mobileBuyBtn) {
+            mobileBuyBtn.onclick = () => {
+                addToCart(product.id, parseInt(modalQtyValue.textContent));
+                closeProductDetails();
+                toggleCart(true);
+            };
+        }
+
+        // Swipe interaction for mobile images
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        if (zoomContainer) {
+            // Remove existing to prevent clones if any
+            const newContainer = zoomContainer.cloneNode(true);
+            zoomContainer.parentNode.replaceChild(newContainer, zoomContainer);
+
+            // Re-assign references after clone
+            detailImage = newContainer.querySelector('#detail-image');
+
+            newContainer.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+
+            newContainer.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                const threshold = 50;
+
+                if (!product.images || product.images.length <= 1) return;
+
+                const currentIndex = product.images.indexOf(detailImage.src);
+
+                if (touchEndX < touchStartX - threshold) {
+                    // Next
+                    const nextIdx = (currentIndex + 1) % product.images.length;
+                    detailImage.src = product.images[nextIdx];
+                    updateThumbnails(nextIdx);
+                } else if (touchEndX > touchStartX + threshold) {
+                    // Prev
+                    const prevIdx = (currentIndex - 1 + product.images.length) % product.images.length;
+                    detailImage.src = product.images[prevIdx];
+                    updateThumbnails(prevIdx);
+                }
+            }, { passive: true });
+        }
+
+        function updateThumbnails(idx) {
+            document.querySelectorAll('.thumbnail').forEach((t, i) => {
+                t.classList.toggle('active', i === idx);
+            });
         }
 
         // SEO: Update document title, meta description, and inject JSON-LD

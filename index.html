@@ -286,7 +286,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Near City *</label>
+                                <label>Nearly Town / City *</label>
                                 <input type="text" id="cust-city" required placeholder="Gampaha, Colombo 07, etc">
                             </div>
                         </div>
@@ -361,9 +361,11 @@
                     </div>
                 </div>
                 <div class="invoice-actions">
-                    <button id="print-invoice" class="btn-outline"><i class="fas fa-print"></i> Print PDF</button>
+                    <button id="download-pdf" class="btn-outline"><i class="fas fa-file-pdf"></i> Download PDF</button>
+                    <button id="edit-invoice-details" class="btn-outline"><i class="fas fa-edit"></i> Edit
+                        Details</button>
                     <button id="send-whatsapp-invoice" class="btn-primary">
-                        <i class="fab fa-whatsapp"></i> Send Order to WhatsApp
+                        <i class="fab fa-whatsapp"></i> Send to WhatsApp
                     </button>
                     <button id="close-invoice" class="btn-text">Close</button>
                 </div>
@@ -439,6 +441,7 @@
         </div>
     </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
     <script defer src="script.js"></script>
 </body>
 

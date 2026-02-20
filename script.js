@@ -494,6 +494,40 @@ function sendOrderViaWhatsApp() {
     window.open(url, '_blank');
 }
 
+function downloadInvoicePDF() {
+    const element = document.getElementById('invoice-paper');
+    const invId = window.currentInvoiceId || 'inv';
+    const btn = document.getElementById('download-pdf');
+
+    if (!element) return;
+    if (typeof html2pdf === 'undefined') {
+        alert("The PDF library is still loading. Please wait or refresh the page.");
+        return;
+    }
+
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+    btn.disabled = true;
+
+    const opt = {
+        margin: [10, 10, 10, 10], // mm
+        filename: `Pubudu_Electronics_Invoice_${invId}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, letterRendering: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    html2pdf().set(opt).from(element).save().then(() => {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+    }).catch(err => {
+        console.error("PDF Error:", err);
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+        alert("Could not generate PDF. Please use the Print option instead.");
+    });
+}
+
 
 // --- Zoom Feature Logic ---
 function initZoom() {
@@ -517,26 +551,8 @@ function initZoom() {
         img.style.transformOrigin = 'center center';
     });
 
-    // Mobile Zoom: Toggle zoom on tap
-    container.onclick = (e) => {
-        if (window.innerWidth > 768) return; // Only mobile
-
-        console.log("Zoom container clicked"); // Debug log
-
-        container.classList.toggle('mobile-zoomed');
-
-        if (container.classList.contains('mobile-zoomed')) {
-            const { left, top, width, height } = container.getBoundingClientRect();
-            const touchX = e.clientX;
-            const touchY = e.clientY;
-
-            const x = ((touchX - left) / width) * 100;
-            const y = ((touchY - top) / height) * 100;
-            img.style.transformOrigin = `${x}% ${y}%`;
-        } else {
-            img.style.transformOrigin = 'center center';
-        }
-    };
+    // Mobile Zoom: Disabled
+    container.onclick = null;
 }
 
 // Update URL Parameters
@@ -1047,12 +1063,20 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const closeInvoiceBtn = document.getElementById('close-invoice');
         const sendWhatsappBtn = document.getElementById('send-whatsapp-invoice');
-        const printBtn = document.getElementById('print-invoice');
+        const downloadPdfBtn = document.getElementById('download-pdf');
+        const editInvoiceBtn = document.getElementById('edit-invoice-details');
 
-        if (checkoutBtn) checkoutBtn.addEventListener('click', openInvoice);
         if (closeInvoiceBtn) closeInvoiceBtn.addEventListener('click', closeInvoice);
         if (sendWhatsappBtn) sendWhatsappBtn.addEventListener('click', sendOrderViaWhatsApp);
-        if (printBtn) printBtn.addEventListener('click', () => window.print());
+        if (downloadPdfBtn) downloadPdfBtn.addEventListener('click', downloadInvoicePDF);
+        if (editInvoiceBtn) {
+            editInvoiceBtn.addEventListener('click', () => {
+                document.getElementById('invoice-modal').classList.add('hidden');
+                document.getElementById('cart-drawer').classList.remove('hidden');
+                document.getElementById('checkout-step').classList.remove('hidden');
+                document.getElementById('cart-main-view').classList.add('hidden');
+            });
+        }
 
         // Modal Quantity Listeners
         const modalQtyMinus = document.getElementById('modal-qty-minus');

@@ -116,6 +116,8 @@ const firebaseConfig = {
     appId: "1:12742630809:web:68eab94d5c8b4257784708"
 };
 
+const SITE_URL = "https://pubudueshop.github.io/pubudueshop/";
+
 // Initialize Firebase if configure
 function initFirebase() {
     if (firebaseConfig.apiKey !== "YOUR_API_KEY" && typeof firebase !== 'undefined') {
@@ -1079,43 +1081,64 @@ function openProductDetails(id) {
         // SEO: Update document title, meta description, and inject JSON-LD
         document.title = `${product.title} | Pubudu Electronics`;
 
-        let metaDescription = document.querySelector('meta[name="description"]');
-        if (!metaDescription) {
-            metaDescription = document.createElement('meta');
-            metaDescription.name = "description";
-            document.head.appendChild(metaDescription);
+        // Update Canonical
+        let canonical = document.querySelector('link[rel="canonical"]');
+        if (canonical) canonical.setAttribute('href', finalUrl);
+
+        // Update Meta Tags for SEO/Social
+        const metaTags = {
+            'description': product.description || product.longDescription,
+            'og:title': `${product.title} | Pubudu Electronics`,
+            'og:description': product.description || product.longDescription,
+            'og:url': finalUrl,
+            'og:image': product.image,
+            'twitter:title': `${product.title} | Pubudu Electronics`,
+            'twitter:description': product.description || product.longDescription,
+            'twitter:url': finalUrl,
+            'twitter:image': product.image
+        };
+
+        for (const [name, content] of Object.entries(metaTags)) {
+            let tag = name.startsWith('og:') || name.startsWith('twitter:')
+                ? document.querySelector(`meta[property="${name}"]`) || document.querySelector(`meta[name="${name}"]`)
+                : document.querySelector(`meta[name="${name}"]`);
+
+            if (tag) {
+                tag.setAttribute('content', content);
+            }
         }
-        metaDescription.content = product.description || product.longDescription || `Explore ${product.title} from Pubudu Electronics. Price: LKR ${product.price.toLocaleString()}.`;
 
-        // Remove any existing product JSON-LD
-        const oldScript = document.getElementById('product-json-ld');
-        if (oldScript) oldScript.remove();
-
+        // --- JSON-LD Structered Data (Product Schema) ---
         const productSchema = {
             "@context": "https://schema.org",
             "@type": "Product",
             "name": product.title,
-            "image": product.images && product.images.length > 0 ? product.images[0] : product.image,
+            "image": product.images && product.images.length > 0 ? product.images : [product.image],
             "description": product.description || product.longDescription,
-            "sku": product.modelNumber || product.id,
+            "sku": product.modelNumber || `PE-${product.id}`,
             "brand": {
                 "@type": "Brand",
                 "name": product.specs && product.specs.Brand ? product.specs.Brand : "Pubudu Electronics"
             },
             "offers": {
                 "@type": "Offer",
-                "url": window.location.href,
+                "url": finalUrl,
                 "priceCurrency": "LKR",
                 "price": product.price,
-                "itemCondition": product.specs && product.specs.Condition === 'Used' ? "https://schema.org/UsedCondition" : (product.specs && product.specs.Condition === 'For Part or Repair' ? "https://schema.org/DamagedCondition" : "https://schema.org/NewCondition"),
-                "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+                "priceValidUntil": "2026-12-31",
+                "itemCondition": product.specs && product.specs.Condition === 'Used' ? "https://schema.org/UsedCondition" : "https://schema.org/NewCondition",
+                "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+                "seller": {
+                    "@type": "Organization",
+                    "name": "Pubudu Electronics"
+                }
             }
         };
-        const script = document.createElement('script');
-        script.type = 'application/ld+json';
-        script.id = 'product-json-ld';
-        script.textContent = JSON.stringify(productSchema);
-        document.head.appendChild(script);
+        const scriptJsonLd = document.getElementById('product-structured-data');
+        if (scriptJsonLd) scriptJsonLd.textContent = JSON.stringify(productSchema);
+
+        // --- Internal Linking: Related Products ---
+        renderRelatedProducts(product);
 
         // Update URL to include product ID
         updateURL(product.mainCategory, product.subCategory, product.id);
@@ -1123,6 +1146,42 @@ function openProductDetails(id) {
         // Show Modal
         productModalRoot.classList.remove('hidden');
         document.body.classList.add('modal-open');
+    }
+}
+
+// Function to render related products for internal linking
+function renderRelatedProducts(currentProduct) {
+    const relatedContainer = document.getElementById('related-products-list');
+    if (!relatedContainer) {
+        // Create container if it doesn't exist (optional, or assuming it's in HTML)
+        const specsContainer = document.querySelector('.detail-specs-container');
+        if (specsContainer) {
+            const heading = document.createElement('h3');
+            heading.textContent = "Related Components";
+            heading.style.marginTop = "2rem";
+            const list = document.createElement('div');
+            list.id = "related-products-list";
+            list.className = "related-products-grid";
+            specsContainer.appendChild(heading);
+            specsContainer.appendChild(list);
+        }
+    }
+
+    const related = products
+        .filter(p => p.id !== currentProduct.id && p.mainCategory === currentProduct.mainCategory)
+        .slice(0, 4);
+
+    const container = document.getElementById('related-products-list');
+    if (container) {
+        container.innerHTML = related.map(p => `
+            <div class="related-item" onclick="openProductDetails(${p.id})">
+                <img src="${p.image}" alt="${p.title}" loading="lazy">
+                <div class="related-info">
+                    <h4>${p.title}</h4>
+                    <span>LKR ${p.price.toLocaleString()}</span>
+                </div>
+            </div>
+        `).join('');
     }
 }
 

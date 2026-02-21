@@ -1856,20 +1856,27 @@ body.modal-open {
     max-width: 600px;
     background: white;
     border-radius: 16px;
-    padding: 2rem;
+    padding: 0;
+    /* Padding removed - handled by children */
     max-height: 95vh;
+    min-height: 0;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    /* Clip content, let children scroll */
 }
 
 .invoice-paper {
-    padding: 2.5rem;
+    padding: 2rem 2rem 1.5rem;
     border: 1px solid #eee;
     background: white;
-    overflow: visible;
-    /* Required for PDF capture */
+    overflow-y: auto;
+    /* Scroll when many items */
+    flex: 1;
+    /* Fill remaining space */
+    min-height: 0;
+    /* Allow shrinking for scroll to work */
     font-family: 'Inter', sans-serif;
-    min-height: auto;
 }
 
 .invoice-header {
@@ -1933,15 +1940,14 @@ body.modal-open {
 .invoice-actions {
     display: flex;
     gap: 1rem;
-    margin-top: 1.5rem;
-    padding: 1.5rem;
+    padding: 1.25rem 1.5rem;
     background: #f8fafc;
     border-top: 1px solid var(--border);
-    position: sticky;
-    bottom: 0;
+    flex-shrink: 0;
+    /* Always pinned at the bottom - never pushed off screen */
     z-index: 10;
-    border-bottom-left-radius: 24px;
-    border-bottom-right-radius: 24px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
     justify-content: center;
     flex-wrap: wrap;
 }

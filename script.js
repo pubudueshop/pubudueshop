@@ -146,6 +146,7 @@ async function loadProducts() {
         products.length = 0;
         products.push(...localProducts);
         console.log("Instant Load: LocalStorage", products.length);
+        renderHomeGrid();
         renderProducts(); // Render immediately!
         if (window.renderAdminList) window.renderAdminList();
     }
@@ -166,6 +167,7 @@ async function loadProducts() {
                     products.length = 0;
                     products.push(...cloudProducts);
                     console.log("Cloud Update: Sync completed", products.length);
+                    renderHomeGrid();
                     renderProducts();
                     if (window.renderAdminList) window.renderAdminList();
                     localStorage.setItem('eshop_products', JSON.stringify(products));
@@ -181,6 +183,7 @@ async function loadProducts() {
     if (products.length === 0) {
         const generated = generateProducts();
         products.push(...generated);
+        renderHomeGrid();
         renderProducts();
     }
 }
@@ -614,18 +617,41 @@ function downloadInvoicePDF() {
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
     btn.disabled = true;
 
+    // Temporarily remove overflow so html2canvas captures the FULL content, not just what's visible
+    const originalOverflow = element.style.overflow;
+    const originalMaxHeight = element.style.maxHeight;
+    const originalHeight = element.style.height;
+    element.style.overflow = 'visible';
+    element.style.maxHeight = 'none';
+    element.style.height = 'auto';
+
     const opt = {
         margin: [10, 10, 10, 10], // mm
         filename: `Pubudu_Electronics_Invoice_${invId}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, letterRendering: true },
+        html2canvas: {
+            scale: 2,
+            useCORS: true,
+            letterRendering: true,
+            scrollY: 0,
+            windowWidth: element.scrollWidth,
+            windowHeight: element.scrollHeight
+        },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
 
     html2pdf().set(opt).from(element).save().then(() => {
+        // Restore original styles
+        element.style.overflow = originalOverflow;
+        element.style.maxHeight = originalMaxHeight;
+        element.style.height = originalHeight;
         btn.innerHTML = originalText;
         btn.disabled = false;
     }).catch(err => {
+        // Restore original styles even on error
+        element.style.overflow = originalOverflow;
+        element.style.maxHeight = originalMaxHeight;
+        element.style.height = originalHeight;
         console.error("PDF Error:", err);
         btn.innerHTML = originalText;
         btn.disabled = false;
@@ -744,6 +770,7 @@ function initFilters() {
 
     // Event Listeners
     mainSelect.addEventListener('change', (e) => {
+        showAllProducts();
         const selectedMain = e.target.value;
         populateSubCategories(selectedMain);
         renderProducts(selectedMain, 'all');
@@ -751,6 +778,7 @@ function initFilters() {
     });
 
     subSelect.addEventListener('change', (e) => {
+        showAllProducts();
         renderProducts(mainSelect.value, e.target.value);
         updateURL(mainSelect.value, e.target.value);
     });
@@ -775,6 +803,7 @@ function initFilters() {
 
             clearTimeout(searchTimeout);
             searchTimeout = setTimeout(() => {
+                if (query.length > 0) showAllProducts();
                 renderProducts(mainSelect.value, subSelect.value, query);
                 updateURL(mainSelect.value, subSelect.value, null, query);
             }, 300); // 300ms Debounce
@@ -785,12 +814,16 @@ function initFilters() {
         clearBtn.addEventListener('click', () => {
             searchInput.value = '';
             clearBtn.classList.add('hidden');
+            showAllProducts();
             renderProducts(mainSelect.value, subSelect.value, '');
             updateURL(mainSelect.value, subSelect.value, null, '');
         });
     }
 
     // Initial Render based on URL
+    if (initialMain !== 'all' || initialSub !== 'all' || initialSearch !== '') {
+        showAllProducts();
+    }
     renderProducts(initialMain, initialSub, initialSearch);
 }
 
@@ -803,6 +836,120 @@ function showStatus(msg, isError = false) {
             ${isError ? '<button onclick="location.reload()" style="margin-top: 1rem; padding: 0.5rem 1rem; background: #b91c1c; color: white; border: none; border-radius: 6px; cursor: pointer;">Retry Connection</button>' : ''}
         </div>
     `;
+}
+
+function showAllProducts() {
+    const homeFeatured = document.getElementById('home-featured');
+    if (homeFeatured) homeFeatured.classList.add('hidden');
+
+    const productsSection = document.getElementById('products');
+    if (productsSection) {
+        productsSection.classList.remove('hidden');
+    }
+}
+
+let homeGridRendered = false;
+let homeGridSelectedProducts = [];
+
+function renderHomeGrid() {
+    const homeGrid = document.getElementById('home-product-grid');
+    if (!homeGrid) return;
+
+    if (products.length === 0) {
+        homeGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; font-size: 1.2rem; color: var(--text-light); padding: 2rem;">No products found.</p>';
+        return;
+    }
+
+    if (!homeGridRendered) {
+        const recentIds = JSON.parse(localStorage.getItem('recent_products') || '[]');
+        let usedIds = new Set();
+        homeGridSelectedProducts = [];
+
+        // 1. Recently Viewed (max 4)
+        for (const id of recentIds) {
+            if (homeGridSelectedProducts.length >= 4) break;
+            const p = products.find(prod => prod.id === id);
+            if (p && !usedIds.has(p.id)) {
+                homeGridSelectedProducts.push(p);
+                usedIds.add(p.id);
+            }
+        }
+
+        // 2. Newly Added (max 4, Sort by ID desc)
+        const sortedByNew = [...products].sort((a, b) => b.id - a.id);
+        let newCount = 0;
+        for (const p of sortedByNew) {
+            if (newCount >= 4) break;
+            if (!usedIds.has(p.id)) {
+                homeGridSelectedProducts.push(p);
+                usedIds.add(p.id);
+                newCount++;
+            }
+        }
+
+        // 3. Random Fill for remaining slots
+        let remaining = products.filter(p => !usedIds.has(p.id));
+        remaining.sort(() => 0.5 - Math.random());
+        for (const p of remaining) {
+            if (homeGridSelectedProducts.length >= 12) break;
+            homeGridSelectedProducts.push(p);
+            usedIds.add(p.id);
+        }
+
+        homeGridSelectedProducts = homeGridSelectedProducts.slice(0, 12);
+        homeGridRendered = true;
+    }
+
+    const html = homeGridSelectedProducts.map(product => {
+        const stockColor = product.stock > 10 ? 'var(--secondary)' : 'var(--accent)';
+        const stockText = product.stock > 0 ? `Available: ${product.stock}` : 'Out of Stock';
+        const isFav = favorites.includes(product.id);
+
+        return `
+            <div class="product-card" onclick="openProductDetails(${product.id})">
+                <button class="btn-fav ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite(${product.id})" title="${isFav ? 'Remove from Favorites' : 'Add to Favorites'}">
+                    <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
+                </button>
+                <div class="product-image-container">
+                    <span class="badge">${product.mainCategory}</span>
+                    <img src="${product.image}" alt="${product.title}" class="product-image" 
+                         loading="lazy" decoding="async" 
+                         onerror="this.src='https://via.placeholder.com/300x300?text=Image+Not+Found'">
+                </div>
+                <div class="product-info">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem;">
+                        <span class="product-category">${product.subCategory}</span>
+                        <span style="font-size: 0.8rem; font-weight: 600; color: ${stockColor};">
+                            <i class="fas fa-cubes"></i> ${stockText}
+                        </span>
+                    </div>
+                    <div style="width: 100%; background: #e2e8f0; height: 4px; border-radius: 2px; margin-bottom: 0.5rem; overflow: hidden;">
+                        <div style="width: ${Math.min(product.stock, 100)}%; background: ${stockColor}; height: 100%; border-radius: 2px;"></div>
+                    </div>
+                    <h3 class="product-title">${product.title}</h3>
+                    <div class="product-price">LKR ${product.price.toLocaleString()}</div>
+                    <div class="product-actions">
+                        <button class="btn-video" onclick="event.stopPropagation(); addToCart(${product.id})">
+                             Add to Cart
+                        </button>
+                        <button class="btn-buy" onclick="event.stopPropagation(); addToCart(${product.id}); document.getElementById('cart-drawer').classList.remove('hidden');">
+                             Buy Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    homeGrid.innerHTML = html;
+}
+
+function trackRecentProduct(id) {
+    let recent = JSON.parse(localStorage.getItem('recent_products') || '[]');
+    recent = recent.filter(pId => pId !== id);
+    recent.unshift(id);
+    if (recent.length > 12) recent.pop();
+    localStorage.setItem('recent_products', JSON.stringify(recent));
 }
 
 // Optimized Render Products
@@ -830,6 +977,9 @@ function renderProducts(mainCat = 'all', subCat = 'all', searchQuery = '') {
 
         return matchMain && matchSub && matchSearch && matchFav;
     });
+
+    // Priority: Add Time (Newest First)
+    filteredProducts.sort((a, b) => b.id - a.id);
 
     if (filteredProducts.length === 0) {
         productGrid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; font-size: 1.2rem; color: var(--text-light); padding: 2rem;">${showingFavorites ? 'No favorites yet.' : 'No products found.'}</p>`;
@@ -874,7 +1024,7 @@ function renderProducts(mainCat = 'all', subCat = 'all', searchQuery = '') {
                         </button>
                     </div>
                 </div>
-            </div>
+            </div >
         `;
     }).join('');
 
@@ -886,6 +1036,9 @@ function openProductDetails(id) {
     const product = products.find(p => p.id === id);
     if (!product) return;
 
+    // Track for homepage recently viewed grid
+    trackRecentProduct(product.id);
+
     // Clear Previous Data
     detailImage.src = '';
     detailThumbnails.innerHTML = '';
@@ -895,15 +1048,15 @@ function openProductDetails(id) {
     if (detailTags) detailTags.innerHTML = '';
 
     // Populate Data
-    detailCategory.textContent = `${product.mainCategory} > ${product.subCategory}`;
+    detailCategory.textContent = `${product.mainCategory} > ${product.subCategory} `;
     detailTitle.textContent = product.title;
-    detailPrice.textContent = `LKR ${product.price.toLocaleString()}`;
+    detailPrice.textContent = `LKR ${product.price.toLocaleString()} `;
 
     // Model Number Display
     const modelDisplay = document.getElementById('detail-model-display');
     if (modelDisplay) {
         if (product.modelNumber) {
-            modelDisplay.textContent = `Model: ${product.modelNumber}`;
+            modelDisplay.textContent = `Model: ${product.modelNumber} `;
             modelDisplay.style.display = 'block';
         } else {
             modelDisplay.style.display = 'none';
@@ -917,7 +1070,7 @@ function openProductDetails(id) {
             const thumb = document.createElement('img');
             thumb.src = imgUrl;
             thumb.loading = "lazy";
-            thumb.className = `thumbnail ${index === 0 ? 'active' : ''}`;
+            thumb.className = `thumbnail ${index === 0 ? 'active' : ''} `;
             thumb.onclick = () => {
                 detailImage.src = imgUrl;
                 document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
@@ -937,7 +1090,7 @@ function openProductDetails(id) {
 
     // Keywords/Tags
     if (detailTags && product.keywords) {
-        detailTags.innerHTML = product.keywords.map(k => `<span class="tag">${k}</span>`).join('');
+        detailTags.innerHTML = product.keywords.map(k => `< span class="tag" > ${k}</span > `).join('');
         detailTags.classList.remove('hidden');
     }
 
@@ -956,7 +1109,7 @@ function openProductDetails(id) {
     if (product.specs) {
         for (const [key, value] of Object.entries(product.specs)) {
             const tr = document.createElement('tr');
-            tr.innerHTML = `<td>${key}</td><td>${value}</td>`;
+            tr.innerHTML = `< td > ${key}</td > <td>${value}</td>`;
             detailSpecsBody.appendChild(tr);
         }
         detailVideoBtn.href = product.videoUrl;
@@ -1242,6 +1395,11 @@ function resetApp(e) {
     if (clearBtn) clearBtn.classList.add('hidden');
 
     // Reset View
+    const homeFeatured = document.getElementById('home-featured');
+    if (homeFeatured) homeFeatured.classList.remove('hidden');
+    const productsSection = document.getElementById('products');
+    if (productsSection) productsSection.classList.add('hidden');
+
     closeProductModal();
     renderProducts();
     window.scrollTo({ top: 0, behavior: 'smooth' });

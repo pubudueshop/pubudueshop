@@ -1689,10 +1689,21 @@ body.modal-open {
     align-items: center;
 }
 
+/* Cart main view: flex column so items scroll and footer stays pinned */
+#cart-main-view {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+    min-height: 0;
+}
+
 .cart-items-list {
     flex: 1;
     overflow-y: auto;
     padding: 1.5rem;
+    min-height: 0;
+    /* Critical: allows flex child to shrink and scroll */
 }
 
 .cart-item {
@@ -1760,6 +1771,8 @@ body.modal-open {
     padding: 1.5rem;
     border-top: 1px solid var(--border);
     background: #f8fafc;
+    flex-shrink: 0;
+    /* Prevent footer from being squeezed out */
 }
 
 .cart-total {
@@ -1985,8 +1998,10 @@ body.modal-open {
 /* === Checkout & A4 Print Styling === */
 .checkout-step {
     padding: 1.5rem;
-    height: 100%;
+    flex: 1;
     overflow-y: auto;
+    min-height: 0;
+    /* Allows checkout form to scroll properly */
 }
 
 .form-row {

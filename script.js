@@ -352,7 +352,7 @@ function toggleFavorite(productId) {
         handleLogin();
         return;
     }
-    const index = favorites.indexOf(productId);
+    const index = favorites.findIndex(id => id == productId);
     if (index === -1) {
         favorites.push(productId);
         showToast("Added to favorites");
@@ -366,7 +366,7 @@ function toggleFavorite(productId) {
     // Update modal heart if open
     const modalBtn = document.getElementById('modal-fav-btn');
     if (modalBtn) {
-        const isFav = favorites.includes(productId);
+        const isFav = favorites.some(id => id == productId);
         modalBtn.classList.toggle('active', isFav);
         modalBtn.innerHTML = isFav
             ? '<i class="fas fa-heart"></i> Favorited'
@@ -375,10 +375,10 @@ function toggleFavorite(productId) {
 }
 
 function addToCart(productId, quantity = 1) {
-    const product = products.find(p => p.id === productId);
+    const product = products.find(p => p.id == productId);
     if (!product) return;
 
-    const existingItem = cart.find(item => item.id === productId);
+    const existingItem = cart.find(item => item.id == productId);
     if (existingItem) {
         existingItem.quantity += quantity;
     } else {
@@ -424,13 +424,13 @@ function quickShare(productId, btnElement) {
 }
 
 function removeFromCart(productId) {
-    cart = cart.filter(item => item.id !== productId);
+    cart = cart.filter(item => item.id != productId);
     saveCart();
     updateCartUI();
 }
 
 function updateQuantity(productId, delta) {
-    const item = cart.find(i => i.id === productId);
+    const item = cart.find(i => i.id == productId);
     if (item) {
         item.quantity += delta;
         if (item.quantity <= 0) {
@@ -868,7 +868,7 @@ function renderHomeGrid() {
         // 1. Recently Viewed (max 4)
         for (const id of recentIds) {
             if (homeGridSelectedProducts.length >= 4) break;
-            const p = products.find(prod => prod.id === id);
+            const p = products.find(prod => prod.id == id);
             if (p && !usedIds.has(p.id)) {
                 homeGridSelectedProducts.push(p);
                 usedIds.add(p.id);
@@ -903,11 +903,11 @@ function renderHomeGrid() {
     const html = homeGridSelectedProducts.map(product => {
         const stockColor = product.stock > 10 ? 'var(--secondary)' : 'var(--accent)';
         const stockText = product.stock > 0 ? `Available: ${product.stock}` : 'Out of Stock';
-        const isFav = favorites.includes(product.id);
+        const isFav = favorites.some(id => id == product.id);
 
         return `
-            <div class="product-card" onclick="openProductDetails(${product.id})">
-                <button class="btn-fav ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite(${product.id})" title="${isFav ? 'Remove from Favorites' : 'Add to Favorites'}">
+            <div class="product-card" onclick="openProductDetails('${product.id}')">
+                <button class="btn-fav ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${product.id}')" title="${isFav ? 'Remove from Favorites' : 'Add to Favorites'}">
                     <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
                 </button>
                 <div class="product-image-container">
@@ -929,10 +929,10 @@ function renderHomeGrid() {
                     <h3 class="product-title">${product.title}</h3>
                     <div class="product-price">LKR ${product.price.toLocaleString()}</div>
                     <div class="product-actions">
-                        <button class="btn-video" onclick="event.stopPropagation(); addToCart(${product.id})">
+                        <button class="btn-video" onclick="event.stopPropagation(); addToCart('${product.id}')">
                              Add to Cart
                         </button>
-                        <button class="btn-buy" onclick="event.stopPropagation(); addToCart(${product.id}); document.getElementById('cart-drawer').classList.remove('hidden');">
+                        <button class="btn-buy" onclick="event.stopPropagation(); addToCart('${product.id}'); document.getElementById('cart-drawer').classList.remove('hidden');">
                              Buy Now
                         </button>
                     </div>
@@ -946,7 +946,7 @@ function renderHomeGrid() {
 
 function trackRecentProduct(id) {
     let recent = JSON.parse(localStorage.getItem('recent_products') || '[]');
-    recent = recent.filter(pId => pId !== id);
+    recent = recent.filter(pId => pId != id);
     recent.unshift(id);
     if (recent.length > 12) recent.pop();
     localStorage.setItem('recent_products', JSON.stringify(recent));
@@ -990,11 +990,11 @@ function renderProducts(mainCat = 'all', subCat = 'all', searchQuery = '') {
     const html = filteredProducts.map(product => {
         const stockColor = product.stock > 10 ? 'var(--secondary)' : 'var(--accent)';
         const stockText = product.stock > 0 ? `Available: ${product.stock}` : 'Out of Stock';
-        const isFav = favorites.includes(product.id);
+        const isFav = favorites.some(id => id == product.id);
 
         return `
-            <div class="product-card" onclick="openProductDetails(${product.id})">
-                <button class="btn-fav ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite(${product.id})" title="${isFav ? 'Remove from Favorites' : 'Add to Favorites'}">
+            <div class="product-card" onclick="openProductDetails('${product.id}')">
+                <button class="btn-fav ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${product.id}')" title="${isFav ? 'Remove from Favorites' : 'Add to Favorites'}">
                     <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
                 </button>
                 <div class="product-image-container">
@@ -1016,15 +1016,15 @@ function renderProducts(mainCat = 'all', subCat = 'all', searchQuery = '') {
                     <h3 class="product-title">${product.title}</h3>
                     <div class="product-price">LKR ${product.price.toLocaleString()}</div>
                     <div class="product-actions">
-                        <button class="btn-video" onclick="event.stopPropagation(); addToCart(${product.id})">
+                        <button class="btn-video" onclick="event.stopPropagation(); addToCart('${product.id}')">
                              Add to Cart
                         </button>
-                        <button class="btn-buy" onclick="event.stopPropagation(); addToCart(${product.id}); document.getElementById('cart-drawer').classList.remove('hidden');">
+                        <button class="btn-buy" onclick="event.stopPropagation(); addToCart('${product.id}'); document.getElementById('cart-drawer').classList.remove('hidden');">
                              Buy Now
                         </button>
                     </div>
                 </div>
-            </div >
+            </div>
         `;
     }).join('');
 
@@ -1033,7 +1033,7 @@ function renderProducts(mainCat = 'all', subCat = 'all', searchQuery = '') {
 
 // Open Product Details (Modal)
 function openProductDetails(id) {
-    const product = products.find(p => p.id === id);
+    const product = products.find(p => p.id == id);
     if (!product) return;
 
     // Track for homepage recently viewed grid
@@ -1048,15 +1048,15 @@ function openProductDetails(id) {
     if (detailTags) detailTags.innerHTML = '';
 
     // Populate Data
-    detailCategory.textContent = `${product.mainCategory} > ${product.subCategory} `;
+    detailCategory.textContent = `${product.mainCategory} > ${product.subCategory}`;
     detailTitle.textContent = product.title;
-    detailPrice.textContent = `LKR ${product.price.toLocaleString()} `;
+    detailPrice.textContent = `LKR ${product.price.toLocaleString()}`;
 
     // Model Number Display
     const modelDisplay = document.getElementById('detail-model-display');
     if (modelDisplay) {
         if (product.modelNumber) {
-            modelDisplay.textContent = `Model: ${product.modelNumber} `;
+            modelDisplay.textContent = `Model: ${product.modelNumber}`;
             modelDisplay.style.display = 'block';
         } else {
             modelDisplay.style.display = 'none';
@@ -1070,7 +1070,7 @@ function openProductDetails(id) {
             const thumb = document.createElement('img');
             thumb.src = imgUrl;
             thumb.loading = "lazy";
-            thumb.className = `thumbnail ${index === 0 ? 'active' : ''} `;
+            thumb.className = `thumbnail ${index === 0 ? 'active' : ''}`;
             thumb.onclick = () => {
                 detailImage.src = imgUrl;
                 document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
@@ -1085,12 +1085,12 @@ function openProductDetails(id) {
 
     // Product Description (Under Title)
     if (detailDescription) {
-        detailDescription.textContent = product.longDescription || product.description;
+        detailDescription.innerHTML = product.longDescription || product.description;
     }
 
     // Keywords/Tags
     if (detailTags && product.keywords) {
-        detailTags.innerHTML = product.keywords.map(k => `< span class="tag" > ${k}</span > `).join('');
+        detailTags.innerHTML = product.keywords.map(k => `<span class="tag">${k}</span>`).join('');
         detailTags.classList.remove('hidden');
     }
 
@@ -1109,7 +1109,7 @@ function openProductDetails(id) {
     if (product.specs) {
         for (const [key, value] of Object.entries(product.specs)) {
             const tr = document.createElement('tr');
-            tr.innerHTML = `< td > ${key}</td > <td>${value}</td>`;
+            tr.innerHTML = `<td>${key}</td><td>${value}</td>`;
             detailSpecsBody.appendChild(tr);
         }
         detailVideoBtn.href = product.videoUrl;
@@ -1130,7 +1130,7 @@ function openProductDetails(id) {
 
         const modalFavBtn = document.getElementById('modal-fav-btn');
         if (modalFavBtn) {
-            const isFav = favorites.includes(product.id);
+            const isFav = favorites.some(id => id == product.id);
             modalFavBtn.classList.toggle('active', isFav);
             modalFavBtn.innerHTML = isFav
                 ? '<i class="fas fa-heart"></i> Favorited'

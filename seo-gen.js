@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 // Configuration
-const SITE_URL = "https://pubudueshop.github.io/pubudueshop/";
+const SITE_URL = "https://ichouse.lk/";
 const LAST_MOD = new Date().toISOString().split('T')[0];
 
 // Categories from script.js (hardcoded as fallback or extracted)

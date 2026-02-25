@@ -1,4 +1,4 @@
-const SITE_URL = "https://pubudueshop.github.io/pubudueshop/";
+const SITE_URL = "https://ichouse.lk/";
 const SITEMAP_URL = SITE_URL + "sitemap.xml";
 
 async function pingGoogle() {

@@ -116,7 +116,7 @@ const firebaseConfig = {
     appId: "1:12742630809:web:68eab94d5c8b4257784708"
 };
 
-const SITE_URL = "https://pubudueshop.github.io/pubudueshop/";
+const SITE_URL = "https://ichouse.lk/";
 
 // Initialize Firebase if configure
 function initFirebase() {

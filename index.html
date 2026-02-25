@@ -180,259 +180,259 @@
             <div class="product-card skeleton" style="height: 400px;"></div>
             <div class="product-card skeleton" style="height: 400px;"></div>
         </div>
-
-        <div id="product-modal-root" class="product-modal hidden">
-            <div class="modal-overlay" id="modal-overlay"></div>
-            <div class="modal-container">
-                <button id="modal-close" class="modal-close-btn">
-                    <i class="fas fa-times"></i>
-                </button>
-                <div id="product-details-view" class="product-details-content">
-                    <div class="details-content">
-                        <div class="details-image-col">
-                            <div class="main-image-container" id="zoom-container">
-                                <img id="detail-image" src="" alt="" class="detail-main-image">
-                                <span class="zoom-hint"><i class="fas fa-search-plus"></i></span>
-                                <span class="zoom-text-hint">Tap to Zoom</span>
-                            </div>
-                            <div id="detail-thumbnails" class="detail-thumbnails">
-                                <!-- Thumbnails injected by JS -->
-                            </div>
-                        </div>
-                        <div class="details-info-col">
-                            <span id="detail-category" class="detail-category">Category</span>
-                            <h1 id="detail-title">Product Title</h1>
-                            <div id="detail-price" class="detail-price">LKR 0</div>
-                            <div id="detail-model-display" class="detail-model-tag"
-                                style="margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-light); font-weight: 500;">
-                            </div>
-                            <div id="detail-tags" class="detail-tags hidden"></div>
-                            <div id="detail-description" class="detail-short-desc"></div>
-
-                            <div class="detail-actions">
-                                <a id="detail-video-btn" href="#" target="_blank" class="btn-video">
-                                    <i class="fas fa-play"></i> Watch Video
-                                </a>
-                                <div class="modal-quantity-container">
-                                    <span class="qty-label">Quantity:</span>
-                                    <div class="quantity-selector">
-                                        <button class="qty-btn" id="modal-qty-minus">-</button>
-                                        <span id="modal-qty-value">1</span>
-                                        <button class="qty-btn" id="modal-qty-plus">+</button>
-                                    </div>
-                                </div>
-                                <button id="detail-add-cart-btn" class="btn-cart">
-                                    <i class="fas fa-cart-plus"></i> Add to Cart
-                                </button>
-                                <button id="detail-buy-btn" class="btn-buy">
-                                    <i class="fas fa-shopping-cart"></i> Buy Now
-                                </button>
-                                <button id="modal-fav-btn" class="modal-fav-btn">
-                                    <i class="far fa-heart"></i> Favorite
-                                </button>
-                            </div>
-
-                            <div class="share-section">
-                                <span class="share-label">Share with friends:</span>
-                                <div class="share-buttons">
-                                    <button id="copy-link-btn" class="share-btn share-copy" title="Copy Product Link">
-                                        <i class="fas fa-link"></i> Copy Link
-                                    </button>
-                                    <button id="fb-share-btn" class="share-btn share-fb" title="Share on Facebook">
-                                        <i class="fab fa-facebook"></i> Facebook
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="detail-specs-container">
-                                <h3>Features</h3>
-                                <ul id="detail-features" class="detail-features-list"></ul>
-
-                                <h3>Specifications</h3>
-                                <table class="detail-specs-table">
-                                    <tbody id="detail-specs-body"></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="mobile-action-bar">
-                <button id="mobile-add-cart-btn" class="btn-cart">
-                    <i class="fas fa-cart-plus"></i> Add to Cart
-                </button>
-                <button id="mobile-buy-btn" class="btn-buy">
-                    Buy Now
-                </button>
-            </div>
-        </div>
-
-        <!-- Cart Sidebar -->
-        <div id="cart-drawer" class="cart-drawer hidden">
-            <div class="cart-overlay" id="cart-overlay"></div>
-            <div class="cart-content">
-                <div class="cart-header">
-                    <h2>Your Cart</h2>
-                    <button id="close-cart" class="close-btn"><i class="fas fa-times"></i></button>
-                </div>
-                <div id="cart-main-view">
-                    <div id="cart-items" class="cart-items-list">
-                        <!-- Items injected by JS -->
-                    </div>
-                    <div class="cart-footer">
-                        <div class="cart-total">
-                            <span>Total:</span>
-                            <span id="cart-total-amount">LKR 0</span>
-                        </div>
-                        <button id="checkout-btn" class="btn-checkout">Continue to Checkout</button>
-                        <p class="cart-note">Proceed to add delivery details</p>
-                    </div>
-                </div>
-
-                <!-- Checkout Form Step -->
-                <div id="checkout-step" class="checkout-step hidden">
-                    <div class="checkout-header">
-                        <button id="back-to-cart" class="btn-text" style="padding:0; margin-bottom:1rem;"><i
-                                class="fas fa-arrow-left"></i> Back to Cart</button>
-                        <h3>Delivery Details</h3>
-                    </div>
-                    <form id="checkout-form">
-                        <div class="form-group">
-                            <label>Full Name *</label>
-                            <input type="text" id="cust-name" required placeholder="Enter your full name">
-                        </div>
-                        <div class="form-group">
-                            <label>Delivery Address *</label>
-                            <textarea id="cust-address" rows="2" required
-                                placeholder="House No, Street, Village"></textarea>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>District *</label>
-                                <select id="cust-district" required>
-                                    <option value="">Select District</option>
-                                    <option value="Colombo">Colombo</option>
-                                    <option value="Gampaha">Gampaha</option>
-                                    <option value="Kalutara">Kalutara</option>
-                                    <option value="Kandy">Kandy</option>
-                                    <option value="Matale">Matale</option>
-                                    <option value="Nuwara Eliya">Nuwara Eliya</option>
-                                    <option value="Galle">Galle</option>
-                                    <option value="Matara">Matara</option>
-                                    <option value="Hambantota">Hambantota</option>
-                                    <option value="Jaffna">Jaffna</option>
-                                    <option value="Kilinochchi">Kilinochchi</option>
-                                    <option value="Mannar">Mannar</option>
-                                    <option value="Vavuniya">Vavuniya</option>
-                                    <option value="Mullaitivu">Mullaitivu</option>
-                                    <option value="Batticaloa">Batticaloa</option>
-                                    <option value="Ampara">Ampara</option>
-                                    <option value="Trincomalee">Trincomalee</option>
-                                    <option value="Kurunegala">Kurunegala</option>
-                                    <option value="Puttalam">Puttalam</option>
-                                    <option value="Anuradhapura">Anuradhapura</option>
-                                    <option value="Polonnaruwa">Polonnaruwa</option>
-                                    <option value="Badulla">Badulla</option>
-                                    <option value="Moneragala">Moneragala</option>
-                                    <option value="Ratnapura">Ratnapura</option>
-                                    <option value="Kegalle">Kegalle</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Nearly Town / City *</label>
-                                <input type="text" id="cust-city" required placeholder="Gampaha, Colombo 07, etc">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Phone Number 1 *</label>
-                                <input type="tel" id="cust-phone1" required placeholder="07XXXXXXXX">
-                            </div>
-                            <div class="form-group">
-                                <label>Phone Number 2</label>
-                                <input type="tel" id="cust-phone2" placeholder="07XXXXXXXX">
-                            </div>
-                        </div>
-                        <button type="submit" class="btn-checkout full-width" style="margin-top: 1rem;">Generate Invoice
-                            & Order</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <!-- Invoice Modal -->
-        <div id="invoice-modal" class="invoice-modal hidden">
-            <div class="invoice-overlay"></div>
-            <div class="invoice-container">
-                <div class="invoice-paper" id="invoice-paper">
-                    <div class="invoice-header">
-                        <div class="brand">
-                            <h2 style="color: var(--primary); margin:0; font-size: 1.4rem;">Pubudu Electronics</h2>
-                            <p style="margin:0.2rem 0 0; font-size: 0.85rem; color: var(--text-light);">Premium
-                                Electronic Components</p>
-                            <p style="margin:0.1rem 0 0; font-size: 0.8rem; color: var(--text-light);">Weliweriya,
-                                Gampaha | +94 78 915 5130</p>
-                        </div>
-                        <div class="invoice-meta">
-                            <h3 style="margin:0; color: var(--primary); letter-spacing:2px;">INVOICE</h3>
-                            <p id="invoice-date" style="margin:0.3rem 0 0.1rem; font-size:0.9rem;"></p>
-                            <p id="invoice-id" style="margin:0; font-size:0.85rem; font-weight:700;"></p>
-                        </div>
-                    </div>
-                    <div class="invoice-user">
-                        <div class="bill-to">
-                            <h4
-                                style="margin:0 0 0.5rem; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; color:var(--text-light);">
-                                Billed To:</h4>
-                            <p id="invoice-user-name" style="font-weight:700; font-size:1rem;"></p>
-                            <p id="invoice-user-address"></p>
-                            <p id="invoice-user-city-district"></p>
-                            <p id="invoice-user-phone"></p>
-                        </div>
-                    </div>
-                    <table class="invoice-table">
-                        <thead>
-                            <tr>
-                                <th>Item Description</th>
-                                <th>Qty</th>
-                                <th>Unit Price</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody id="invoice-items">
-                            <!-- Items injected by JS -->
-                        </tbody>
-                    </table>
-                    <div class="invoice-summary">
-                        <div class="summary-line">
-                            <span>Subtotal:</span>
-                            <span id="invoice-subtotal"></span>
-                        </div>
-                        <div class="summary-line total">
-                            <span>TOTAL:</span>
-                            <span id="invoice-total"></span>
-                        </div>
-                    </div>
-                    <div class="invoice-footer">
-                        <p>Thank you for choosing Pubudu Electronics!</p>
-                        <p>Weliweriya, Gampaha | +94 78 915 5130</p>
-                    </div>
-                </div>
-                <div class="invoice-actions">
-                    <button id="download-pdf" class="btn-outline">
-                        <i class="fas fa-file-pdf" style="color:#ef4444;"></i> Download PDF
-                    </button>
-                    <button id="edit-invoice-details" class="btn-outline">
-                        <i class="fas fa-edit"></i> Edit
-                    </button>
-                    <button id="send-whatsapp-invoice">
-                        <i class="fab fa-whatsapp"></i> Send via WhatsApp
-                    </button>
-                    <button id="close-invoice" class="btn-text">✕ Close</button>
-                </div>
-            </div>
-        </div>
     </main>
+
+    <div id="product-modal-root" class="product-modal hidden">
+        <div class="modal-overlay" id="modal-overlay"></div>
+        <div class="modal-container">
+            <button id="modal-close" class="modal-close-btn">
+                <i class="fas fa-times"></i>
+            </button>
+            <div id="product-details-view" class="product-details-content">
+                <div class="details-content">
+                    <div class="details-image-col">
+                        <div class="main-image-container" id="zoom-container">
+                            <img id="detail-image" src="" alt="" class="detail-main-image">
+                            <span class="zoom-hint"><i class="fas fa-search-plus"></i></span>
+                            <span class="zoom-text-hint">Tap to Zoom</span>
+                        </div>
+                        <div id="detail-thumbnails" class="detail-thumbnails">
+                            <!-- Thumbnails injected by JS -->
+                        </div>
+                    </div>
+                    <div class="details-info-col">
+                        <span id="detail-category" class="detail-category">Category</span>
+                        <h1 id="detail-title">Product Title</h1>
+                        <div id="detail-price" class="detail-price">LKR 0</div>
+                        <div id="detail-model-display" class="detail-model-tag"
+                            style="margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-light); font-weight: 500;">
+                        </div>
+                        <div id="detail-tags" class="detail-tags hidden"></div>
+                        <div id="detail-description" class="detail-short-desc"></div>
+
+                        <div class="detail-actions">
+                            <a id="detail-video-btn" href="#" target="_blank" class="btn-video">
+                                <i class="fas fa-play"></i> Watch Video
+                            </a>
+                            <div class="modal-quantity-container">
+                                <span class="qty-label">Quantity:</span>
+                                <div class="quantity-selector">
+                                    <button class="qty-btn" id="modal-qty-minus">-</button>
+                                    <span id="modal-qty-value">1</span>
+                                    <button class="qty-btn" id="modal-qty-plus">+</button>
+                                </div>
+                            </div>
+                            <button id="detail-add-cart-btn" class="btn-cart">
+                                <i class="fas fa-cart-plus"></i> Add to Cart
+                            </button>
+                            <button id="detail-buy-btn" class="btn-buy">
+                                <i class="fas fa-shopping-cart"></i> Buy Now
+                            </button>
+                            <button id="modal-fav-btn" class="modal-fav-btn">
+                                <i class="far fa-heart"></i> Favorite
+                            </button>
+                        </div>
+
+                        <div class="share-section">
+                            <span class="share-label">Share with friends:</span>
+                            <div class="share-buttons">
+                                <button id="copy-link-btn" class="share-btn share-copy" title="Copy Product Link">
+                                    <i class="fas fa-link"></i> Copy Link
+                                </button>
+                                <button id="fb-share-btn" class="share-btn share-fb" title="Share on Facebook">
+                                    <i class="fab fa-facebook"></i> Facebook
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="detail-specs-container">
+                            <h3>Features</h3>
+                            <ul id="detail-features" class="detail-features-list"></ul>
+
+                            <h3>Specifications</h3>
+                            <table class="detail-specs-table">
+                                <tbody id="detail-specs-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mobile-action-bar">
+            <button id="mobile-add-cart-btn" class="btn-cart">
+                <i class="fas fa-cart-plus"></i> Add to Cart
+            </button>
+            <button id="mobile-buy-btn" class="btn-buy">
+                Buy Now
+            </button>
+        </div>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div id="cart-drawer" class="cart-drawer hidden">
+        <div class="cart-overlay" id="cart-overlay"></div>
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Your Cart</h2>
+                <button id="close-cart" class="close-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="cart-main-view">
+                <div id="cart-items" class="cart-items-list">
+                    <!-- Items injected by JS -->
+                </div>
+                <div class="cart-footer">
+                    <div class="cart-total">
+                        <span>Total:</span>
+                        <span id="cart-total-amount">LKR 0</span>
+                    </div>
+                    <button id="checkout-btn" class="btn-checkout">Continue to Checkout</button>
+                    <p class="cart-note">Proceed to add delivery details</p>
+                </div>
+            </div>
+
+            <!-- Checkout Form Step -->
+            <div id="checkout-step" class="checkout-step hidden">
+                <div class="checkout-header">
+                    <button id="back-to-cart" class="btn-text" style="padding:0; margin-bottom:1rem;"><i
+                            class="fas fa-arrow-left"></i> Back to Cart</button>
+                    <h3>Delivery Details</h3>
+                </div>
+                <form id="checkout-form">
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" id="cust-name" required placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label>Delivery Address *</label>
+                        <textarea id="cust-address" rows="2" required
+                            placeholder="House No, Street, Village"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>District *</label>
+                            <select id="cust-district" required>
+                                <option value="">Select District</option>
+                                <option value="Colombo">Colombo</option>
+                                <option value="Gampaha">Gampaha</option>
+                                <option value="Kalutara">Kalutara</option>
+                                <option value="Kandy">Kandy</option>
+                                <option value="Matale">Matale</option>
+                                <option value="Nuwara Eliya">Nuwara Eliya</option>
+                                <option value="Galle">Galle</option>
+                                <option value="Matara">Matara</option>
+                                <option value="Hambantota">Hambantota</option>
+                                <option value="Jaffna">Jaffna</option>
+                                <option value="Kilinochchi">Kilinochchi</option>
+                                <option value="Mannar">Mannar</option>
+                                <option value="Vavuniya">Vavuniya</option>
+                                <option value="Mullaitivu">Mullaitivu</option>
+                                <option value="Batticaloa">Batticaloa</option>
+                                <option value="Ampara">Ampara</option>
+                                <option value="Trincomalee">Trincomalee</option>
+                                <option value="Kurunegala">Kurunegala</option>
+                                <option value="Puttalam">Puttalam</option>
+                                <option value="Anuradhapura">Anuradhapura</option>
+                                <option value="Polonnaruwa">Polonnaruwa</option>
+                                <option value="Badulla">Badulla</option>
+                                <option value="Moneragala">Moneragala</option>
+                                <option value="Ratnapura">Ratnapura</option>
+                                <option value="Kegalle">Kegalle</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Nearly Town / City *</label>
+                            <input type="text" id="cust-city" required placeholder="Gampaha, Colombo 07, etc">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Phone Number 1 *</label>
+                            <input type="tel" id="cust-phone1" required placeholder="07XXXXXXXX">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number 2</label>
+                            <input type="tel" id="cust-phone2" placeholder="07XXXXXXXX">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-checkout full-width" style="margin-top: 1rem;">Generate Invoice
+                        & Order</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Invoice Modal -->
+    <div id="invoice-modal" class="invoice-modal hidden">
+        <div class="invoice-overlay"></div>
+        <div class="invoice-container">
+            <div class="invoice-paper" id="invoice-paper">
+                <div class="invoice-header">
+                    <div class="brand">
+                        <h2 style="color: var(--primary); margin:0; font-size: 1.4rem;">Pubudu Electronics</h2>
+                        <p style="margin:0.2rem 0 0; font-size: 0.85rem; color: var(--text-light);">Premium
+                            Electronic Components</p>
+                        <p style="margin:0.1rem 0 0; font-size: 0.8rem; color: var(--text-light);">Weliweriya,
+                            Gampaha | +94 78 915 5130</p>
+                    </div>
+                    <div class="invoice-meta">
+                        <h3 style="margin:0; color: var(--primary); letter-spacing:2px;">INVOICE</h3>
+                        <p id="invoice-date" style="margin:0.3rem 0 0.1rem; font-size:0.9rem;"></p>
+                        <p id="invoice-id" style="margin:0; font-size:0.85rem; font-weight:700;"></p>
+                    </div>
+                </div>
+                <div class="invoice-user">
+                    <div class="bill-to">
+                        <h4
+                            style="margin:0 0 0.5rem; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; color:var(--text-light);">
+                            Billed To:</h4>
+                        <p id="invoice-user-name" style="font-weight:700; font-size:1rem;"></p>
+                        <p id="invoice-user-address"></p>
+                        <p id="invoice-user-city-district"></p>
+                        <p id="invoice-user-phone"></p>
+                    </div>
+                </div>
+                <table class="invoice-table">
+                    <thead>
+                        <tr>
+                            <th>Item Description</th>
+                            <th>Qty</th>
+                            <th>Unit Price</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="invoice-items">
+                        <!-- Items injected by JS -->
+                    </tbody>
+                </table>
+                <div class="invoice-summary">
+                    <div class="summary-line">
+                        <span>Subtotal:</span>
+                        <span id="invoice-subtotal"></span>
+                    </div>
+                    <div class="summary-line total">
+                        <span>TOTAL:</span>
+                        <span id="invoice-total"></span>
+                    </div>
+                </div>
+                <div class="invoice-footer">
+                    <p>Thank you for choosing Pubudu Electronics!</p>
+                    <p>Weliweriya, Gampaha | +94 78 915 5130</p>
+                </div>
+            </div>
+            <div class="invoice-actions">
+                <button id="download-pdf" class="btn-outline">
+                    <i class="fas fa-file-pdf" style="color:#ef4444;"></i> Download PDF
+                </button>
+                <button id="edit-invoice-details" class="btn-outline">
+                    <i class="fas fa-edit"></i> Edit
+                </button>
+                <button id="send-whatsapp-invoice">
+                    <i class="fab fa-whatsapp"></i> Send via WhatsApp
+                </button>
+                <button id="close-invoice" class="btn-text">✕ Close</button>
+            </div>
+        </div>
+    </div>
 
     <section id="about" class="about-section">
         <div class="container">

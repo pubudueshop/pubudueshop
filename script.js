@@ -510,11 +510,6 @@ window.removeFromCart = removeFromCart;
 
 // --- Invoice & Order Logic ---
 function openInvoice(customerData) {
-    if (!currentUser) {
-        alert("Please login with Gmail to create an order.");
-        handleLogin();
-        return;
-    }
     if (cart.length === 0) {
         alert("Your cart is empty.");
         return;
@@ -1458,11 +1453,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (checkoutBtn) {
             checkoutBtn.addEventListener('click', () => {
-                if (!currentUser) {
-                    alert("Please login with Gmail first.");
-                    handleLogin();
-                    return;
-                }
                 cartMainView.classList.add('hidden');
                 checkoutStep.classList.remove('hidden');
             });

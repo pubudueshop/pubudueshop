@@ -108,6 +108,31 @@ a {
     align-items: center;
 }
 
+.logo-container {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.logo-container:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+.nav-logo-img {
+    height: 45px;
+    width: auto;
+    object-fit: contain;
+}
+
+.footer-logo-img {
+    height: 55px;
+    width: auto;
+    margin-bottom: 1rem;
+    object-fit: contain;
+}
+
 .logo {
     font-size: 1.5rem;
     font-weight: 700;

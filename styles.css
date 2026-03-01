@@ -277,6 +277,35 @@ a {
     overflow: hidden;
 }
 
+.hero-logo-img {
+    height: 120px;
+    width: auto;
+    margin: 0 auto 2rem;
+    display: block;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1));
+    animation: fadeInUp 1s ease-out;
+}
+
+@media (max-width: 768px) {
+    .hero-logo-img {
+        height: 80px;
+        margin-bottom: 1.5rem;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .hero h1 {
     font-size: 4rem;
     font-weight: 800;

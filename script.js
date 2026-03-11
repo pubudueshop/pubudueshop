@@ -138,6 +138,13 @@ function initFirebase() {
 }
 
 // Load products - UPDATED for speed (Local First, then Cloud)
+function generateSlug(title, id) {
+    if (!title) return id;
+    let slug = title.toLowerCase().replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, '-');
+    if (slug.length > 50) slug = slug.substring(0, 50).replace(/-$/, '');
+    return `${slug}-${id}`;
+}
+
 async function loadProducts() {
     // 1. Try to load from LocalStorage immediately for instant UI
     const storedProducts = localStorage.getItem('eshop_products');
@@ -725,6 +732,33 @@ function initFilters() {
     const initialSub = urlParams.get('subcategory') || 'all';
     const initialSearch = urlParams.get('search') || '';
 
+    // Sidebar Category Injection for SEO & Navigation
+    const sidebarNav = document.getElementById('sidebar-categories');
+    if (sidebarNav) {
+        let sidebarHtml = `<a href="#" class="sidebar-link ${initialMain === 'all' ? 'active' : ''}" onclick="filterByCategory('all', 'all', event)">
+            <i class="fas fa-th-large"></i> All Components
+        </a>`;
+
+        Object.keys(categoryData).forEach(cat => {
+            const isActive = cat === initialMain;
+            sidebarHtml += `<a href="#" class="sidebar-link ${isActive ? 'active' : ''}" onclick="filterByCategory('${cat}', 'all', event)">
+                <i class="fas fa-microchip"></i> ${cat}
+            </a>`;
+            
+            if (isActive) {
+                sidebarHtml += `<div class="sub-sidebar-nav">`;
+                categoryData[cat].forEach(sub => {
+                    const isSubActive = sub === initialSub;
+                    sidebarHtml += `<a href="#" class="sub-sidebar-link ${isSubActive ? 'active' : ''}" onclick="filterByCategory('${cat}', '${sub}', event)">
+                        ${sub}
+                    </a>`;
+                });
+                sidebarHtml += `</div>`;
+            }
+        });
+        sidebarNav.innerHTML = sidebarHtml;
+    }
+
     // Main Category Select
     const mainSelect = document.createElement('select');
     mainSelect.id = 'category-filter';
@@ -815,12 +849,76 @@ function initFilters() {
         });
     }
 
+    // Hero Search Sync
+    const heroSearch = document.getElementById('hero-product-search');
+    const heroClearBtn = document.getElementById('hero-clear-search');
+    const heroSearchSubmit = document.querySelector('.hero-search-btn');
+
+    if (heroSearch) {
+        heroSearch.value = initialSearch;
+        heroSearch.addEventListener('input', (e) => {
+            const query = e.target.value;
+            if (heroClearBtn) heroClearBtn.classList.toggle('hidden', query.length === 0);
+            if (searchInput) {
+                searchInput.value = query;
+                searchInput.dispatchEvent(new Event('input'));
+            }
+        });
+        
+        heroSearch.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                window.scrollTo({ top: document.getElementById('products').offsetTop - 80, behavior: 'smooth' });
+            }
+        });
+    }
+
+    if (heroSearchSubmit) {
+        heroSearchSubmit.addEventListener('click', () => {
+            window.scrollTo({ top: document.getElementById('products').offsetTop - 80, behavior: 'smooth' });
+        });
+    }
+    
+    if (heroClearBtn) {
+        heroClearBtn.addEventListener('click', () => {
+            heroSearch.value = '';
+            heroClearBtn.classList.add('hidden');
+            if (searchInput) {
+                searchInput.value = '';
+                searchInput.dispatchEvent(new Event('input'));
+            }
+        });
+    }
+
     // Initial Render based on URL
     if (initialMain !== 'all' || initialSub !== 'all' || initialSearch !== '') {
         showAllProducts();
     }
     renderProducts(initialMain, initialSub, initialSearch);
 }
+
+// Global filter helper for sidebar
+function filterByCategory(main, sub, event) {
+    if (event) event.preventDefault();
+    const mainSelect = document.getElementById('category-filter');
+    const subSelect = document.getElementById('subcategory-filter');
+    
+    if (mainSelect) {
+        mainSelect.value = main;
+        mainSelect.dispatchEvent(new Event('change'));
+    }
+    
+    // Re-render sidebar to show active state and sub-categories
+    initFilters();
+    
+    if (sub !== 'all' && subSelect) {
+        subSelect.value = sub;
+        subSelect.dispatchEvent(new Event('change'));
+    }
+    
+    window.scrollTo({ top: document.getElementById('products').offsetTop - 100, behavior: 'smooth' });
+}
+
+window.filterByCategory = filterByCategory;
 
 // Show Error to User
 function showStatus(msg, isError = false) {
@@ -834,8 +932,9 @@ function showStatus(msg, isError = false) {
 }
 
 function showAllProducts() {
+    // We no longer hide home-featured as we want a unified scrollable experience
     const homeFeatured = document.getElementById('home-featured');
-    if (homeFeatured) homeFeatured.classList.add('hidden');
+    // if (homeFeatured) homeFeatured.classList.add('hidden');
 
     const productsSection = document.getElementById('products');
     if (productsSection) {
@@ -988,7 +1087,7 @@ function renderProducts(mainCat = 'all', subCat = 'all', searchQuery = '') {
         const isFav = favorites.some(id => id == product.id);
 
         return `
-            <div class="product-card" onclick="openProductDetails('${product.id}')">
+            <a href="/products/${generateSlug(product.title, product.id)}/" class="product-card" onclick="if(window.innerWidth > 768){ event.preventDefault(); openProductDetails('${product.id}'); }">
                 <button class="btn-fav ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${product.id}')" title="${isFav ? 'Remove from Favorites' : 'Add to Favorites'}">
                     <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
                 </button>
@@ -1393,7 +1492,7 @@ function resetApp(e) {
     const homeFeatured = document.getElementById('home-featured');
     if (homeFeatured) homeFeatured.classList.remove('hidden');
     const productsSection = document.getElementById('products');
-    if (productsSection) productsSection.classList.add('hidden');
+    // if (productsSection) productsSection.classList.add('hidden');
 
     closeProductModal();
     renderProducts();
@@ -1598,6 +1697,35 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Initialize Image Zoom
         initZoom();
+
+        // If on a product page (MPA), ensure the correct product ID is set for interactivity
+        if (window.location.pathname.includes('/products/')) {
+            const pathParts = window.location.pathname.split('/');
+            const slug = pathParts.find(p => p.includes('-'));
+            if (slug) {
+                const idMatch = slug.match(/-(\d+)$/);
+                if (idMatch) {
+                    const id = idMatch[1];
+                    // We don't open details because it's already pre-rendered
+                    // but we set up the listeners for that product
+                    const product = products.find(p => p.id == id);
+                    if (product) {
+                        // Re-bind actions to the pre-rendered buttons
+                        detailAddCartBtn.onclick = () => addToCart(product.id, modalQty);
+                        detailBuyBtn.onclick = () => {
+                            addToCart(product.id, modalQty);
+                            document.getElementById('cart-drawer').classList.remove('hidden');
+                        };
+                         const modalFavBtn = document.getElementById('modal-fav-btn');
+                        if (modalFavBtn) {
+                            const isFav = favorites.some(id => id == product.id);
+                            modalFavBtn.classList.toggle('active', isFav);
+                            modalFavBtn.onclick = () => toggleFavorite(product.id);
+                        }
+                    }
+                }
+            }
+        }
 
     } catch (err) {
         console.error("App Crash:", err);

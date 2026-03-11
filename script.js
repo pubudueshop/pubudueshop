@@ -1410,6 +1410,9 @@ function openProductDetails(id) {
             };
         }
 
+        // --- Dynamic WhatsApp Link ---
+        updateWhatsAppMessage(product.title);
+
         // --- NEW: Mobile Action Bar & Swiping ---
         const mobileAddBtn = document.getElementById('mobile-add-cart-btn');
         const mobileBuyBtn = document.getElementById('mobile-buy-btn');
@@ -1601,6 +1604,9 @@ function closeProductModal() {
     const zoomImg = document.getElementById('detail-image');
     if (zoomContainer) zoomContainer.classList.remove('mobile-zoomed');
     if (zoomImg) zoomImg.style.transformOrigin = 'center center';
+
+    // Reset WhatsApp Message
+    updateWhatsAppMessage();
 }
 
 
@@ -1650,6 +1656,20 @@ function contactSeller(title, price) {
     const message = `Hi! I'm interested in buying: ${title} (LKR ${price}). Is it available?`;
     const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
+}
+
+function updateWhatsAppMessage(productTitle = null) {
+    const whatsappLink = document.getElementById('whatsapp-link');
+    if (!whatsappLink) return;
+
+    const phone = "94789155130";
+    let message = "Hi! I have a question about the electronic components at ichouse.lk";
+    
+    if (productTitle) {
+        message = `Hi! I'm interested in the ${productTitle}. Can I get more technical details?`;
+    }
+
+    whatsappLink.href = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 }
 
 // Initial Render

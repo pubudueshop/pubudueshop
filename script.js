@@ -849,32 +849,47 @@ function initFilters() {
         });
     }
 
-    // Hero Search Sync
+    // Initial Render based on URL
+    if (initialMain !== 'all' || initialSub !== 'all' || initialSearch !== '') {
+        // No auto-scroll on load unless specifically search? 
+        // Keeping it consistent
+    }
+    renderProducts(initialMain, initialSub, initialSearch);
+}
+
+// Hero Search Sync (Global initialization)
+function initHeroSearch() {
     const heroSearch = document.getElementById('hero-product-search');
     const heroClearBtn = document.getElementById('hero-clear-search');
     const heroSearchSubmit = document.querySelector('.hero-search-btn');
+    const searchInput = document.getElementById('product-search');
 
     if (heroSearch) {
-        heroSearch.value = initialSearch;
         heroSearch.addEventListener('input', (e) => {
             const query = e.target.value;
             if (heroClearBtn) heroClearBtn.classList.toggle('hidden', query.length === 0);
-            if (searchInput) {
-                searchInput.value = query;
-                searchInput.dispatchEvent(new Event('input'));
+            
+            // Sync with main hidden search
+            const mainSearch = document.getElementById('product-search');
+            if (mainSearch) {
+                mainSearch.value = query;
+                // Dispatch input to trigger the debounce logic in initFilters
+                mainSearch.dispatchEvent(new Event('input'));
             }
         });
         
         heroSearch.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
-                window.scrollTo({ top: document.getElementById('products').offsetTop - 80, behavior: 'smooth' });
+                const productsSection = document.getElementById('products');
+                if (productsSection) window.scrollTo({ top: productsSection.offsetTop - 80, behavior: 'smooth' });
             }
         });
     }
 
     if (heroSearchSubmit) {
         heroSearchSubmit.addEventListener('click', () => {
-            window.scrollTo({ top: document.getElementById('products').offsetTop - 80, behavior: 'smooth' });
+             const productsSection = document.getElementById('products');
+             if (productsSection) window.scrollTo({ top: productsSection.offsetTop - 80, behavior: 'smooth' });
         });
     }
     
@@ -882,40 +897,30 @@ function initFilters() {
         heroClearBtn.addEventListener('click', () => {
             heroSearch.value = '';
             heroClearBtn.classList.add('hidden');
-            if (searchInput) {
-                searchInput.value = '';
-                searchInput.dispatchEvent(new Event('input'));
+            const mainSearch = document.getElementById('product-search');
+            if (mainSearch) {
+                mainSearch.value = '';
+                mainSearch.dispatchEvent(new Event('input'));
             }
         });
     }
-
-    // Initial Render based on URL
-    if (initialMain !== 'all' || initialSub !== 'all' || initialSearch !== '') {
-        showAllProducts();
-    }
-    renderProducts(initialMain, initialSub, initialSearch);
 }
 
 // Global filter helper for sidebar
 function filterByCategory(main, sub, event) {
     if (event) event.preventDefault();
-    const mainSelect = document.getElementById('category-filter');
-    const subSelect = document.getElementById('subcategory-filter');
     
-    if (mainSelect) {
-        mainSelect.value = main;
-        mainSelect.dispatchEvent(new Event('change'));
-    }
+    // Update URL Params
+    updateURL(main, sub);
     
-    // Re-render sidebar to show active state and sub-categories
+    // Re-initialize filters to update UI and render products
     initFilters();
     
-    if (sub !== 'all' && subSelect) {
-        subSelect.value = sub;
-        subSelect.dispatchEvent(new Event('change'));
+    // Smooth scroll to catalog
+    const productsSection = document.getElementById('products');
+    if (productsSection) {
+        window.scrollTo({ top: productsSection.offsetTop - 100, behavior: 'smooth' });
     }
-    
-    window.scrollTo({ top: document.getElementById('products').offsetTop - 100, behavior: 'smooth' });
 }
 
 window.filterByCategory = filterByCategory;
@@ -932,13 +937,10 @@ function showStatus(msg, isError = false) {
 }
 
 function showAllProducts() {
-    // We no longer hide home-featured as we want a unified scrollable experience
-    const homeFeatured = document.getElementById('home-featured');
-    // if (homeFeatured) homeFeatured.classList.add('hidden');
-
     const productsSection = document.getElementById('products');
     if (productsSection) {
         productsSection.classList.remove('hidden');
+        window.scrollTo({ top: productsSection.offsetTop - 80, behavior: 'smooth' });
     }
 }
 
@@ -1684,12 +1686,24 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (filterContainer) {
             initFilters();
         }
+        initHeroSearch();
+
+        // Sync hero search with URL on load
+        const urlParams = new URLSearchParams(window.location.search);
+        const initialSearch = urlParams.get('search') || '';
+        const heroSearch = document.getElementById('hero-product-search');
+        if (heroSearch) heroSearch.value = initialSearch;
 
         // Deep Link Check: Open product if ID in URL
-        const urlParams = new URLSearchParams(window.location.search);
         const productId = urlParams.get('product');
         if (productId) {
             openProductDetails(parseInt(productId));
+        } else if (urlParams.get('category') || urlParams.get('subcategory') || initialSearch) {
+             // Scroll to results if landing on a filtered page
+             setTimeout(() => {
+                const productsSection = document.getElementById('products');
+                if (productsSection) window.scrollTo({ top: productsSection.offsetTop - 80, behavior: 'smooth' });
+            }, 300);
         }
 
         // Initialize Auth after products/firebase ready

@@ -985,12 +985,12 @@ function renderHomeGrid() {
         let remaining = products.filter(p => !usedIds.has(p.id));
         remaining.sort(() => 0.5 - Math.random());
         for (const p of remaining) {
-            if (homeGridSelectedProducts.length >= 12) break;
+            if (homeGridSelectedProducts.length >= 8) break;
             homeGridSelectedProducts.push(p);
             usedIds.add(p.id);
         }
 
-        homeGridSelectedProducts = homeGridSelectedProducts.slice(0, 12);
+        homeGridSelectedProducts = homeGridSelectedProducts.slice(0, 8);
         homeGridRendered = true;
     }
 

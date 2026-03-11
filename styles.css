@@ -513,14 +513,8 @@ a {
 }
 
 /* Homepage Grid Limits */
-.home-product-grid .product-card:nth-child(n+13) {
+.home-product-grid .product-card:nth-child(n+9) {
     display: none !important;
-}
-
-@media (max-width: 991px) {
-    .home-product-grid .product-card:nth-child(n+9) {
-        display: none !important;
-    }
 }
 
 /* Product Card Premium Styles */

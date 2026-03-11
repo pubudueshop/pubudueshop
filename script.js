@@ -909,18 +909,22 @@ function initFilters() {
 
     // Initial Render based on URL
     if (initialMain !== 'all' || initialSub !== 'all' || initialSearch !== '') {
-        // No auto-scroll on load unless specifically search? 
-        // Keeping it consistent
+        const prodSection = document.getElementById('products');
+        if (prodSection) prodSection.classList.remove('hidden-on-home');
+        renderProducts(initialMain, initialSub, initialSearch);
+    } else {
+        // Just hide the products section on homepage by default
+        const prodSection = document.getElementById('products');
+        if (prodSection) prodSection.classList.add('hidden-on-home');
     }
-    renderProducts(initialMain, initialSub, initialSearch);
     renderCategoryNavigator();
 }
 
 function renderCategoryNavigator() {
     const nav = document.getElementById('category-navigator');
     const subNav = document.getElementById('subcategory-navigator');
-    const mainSelect = document.getElementById('main-category-select');
-    const subSelect = document.getElementById('sub-category-select');
+    const mainSelect = document.getElementById('category-filter');
+    const subSelect = document.getElementById('subcategory-filter');
     
     if (!nav || !mainSelect) return;
 
@@ -954,15 +958,37 @@ function renderCategoryNavigator() {
 }
 
 function toggleCategoryNav(cat) {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('category') === cat) {
+    const mainSelect = document.getElementById('category-filter');
+    if (!mainSelect) return;
+
+    const prodSection = document.getElementById('products');
+    if (prodSection) prodSection.classList.remove('hidden-on-home');
+    
+    if (mainSelect.value === cat) {
         filterByCategory('all', 'all');
     } else {
         filterByCategory(cat, 'all');
     }
 }
 
+function showAllProducts() {
+    const prodSection = document.getElementById('products');
+    if (prodSection) prodSection.classList.remove('hidden-on-home');
+    
+    const hero = document.querySelector('.hero');
+    const featured = document.getElementById('home-featured');
+    if (hero) hero.style.display = 'none';
+    if (featured) featured.style.display = 'none';
+    
+    // Also scroll to results
+    setTimeout(() => {
+        const productsSection = document.getElementById('products');
+        if (productsSection) window.scrollTo({ top: productsSection.offsetTop - 80, behavior: 'smooth' });
+    }, 100);
+}
+
 window.toggleCategoryNav = toggleCategoryNav;
+window.showAllProducts = showAllProducts;
 
 // Hero Search Sync (Global initialization)
 function initHeroSearch() {

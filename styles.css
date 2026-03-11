@@ -2427,3 +2427,19 @@ body.modal-open {
     min-width: 20px;
     text-align: center;
 }
+
+/* Visibility Helpers */
+.hidden-on-home {
+    display: none !important;
+}
+
+/* Ensure Home Grid strictly shows only 8 products */
+.home-product-grid .product-card:nth-child(n+9) {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    .home-product-grid .product-card:nth-child(n+9) {
+        display: none !important;
+    }
+}

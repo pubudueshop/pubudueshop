@@ -1,9 +1,18 @@
 // Category Structure (Initial defaults)
 let categoryData = {
-    "Power Adapters": ["12V Adapters", "24V Adapters", "5V Adapters", "Adjustable Power Supply", "Industrial Switching"],
     "Microcontrollers": ["Arduino Compatible", "ESP8266 Series", "ESP32 Series", "Raspberry Pi", "STM32 Boards"],
-    "Sensors": ["Temperature & Humidity", "Motion Sensors", "Distance Sensors", "Gas Sensors", "Light & Sound"],
-    "Modules": ["Relay Modules", "Bluetooth Modules", "WiFi Modules", "GPS Modules", "Motor Drivers", "Thermal Modules"],
+    "Modules": ["Relay Modules", "Bluetooth Modules", "WiFi Modules", "GPS Modules", "Motor Drivers"],
+    "Power & Volt": ["12V Adapters", "24V Adapters", "5V Adapters", "Adjustable Power Supply", "Transformers"],
+    "Passive Components": ["Resistors", "Capacitors", "Inductors", "Potentiometers", "Diodes"],
+    "Sensors": ["Temperature & Humidity", "Motion Sensors", "Distance Sensors", "Gas Sensors"],
+};
+
+const categoryIcons = {
+    "Microcontrollers": "fas fa-microchip",
+    "Modules": "fas fa-cube",
+    "Power & Volt": "fas fa-plug",
+    "Passive Components": "fas fa-project-diagram",
+    "Sensors": "fas fa-broadcast-tower"
 };
 
 // Start with an empty list
@@ -140,9 +149,9 @@ function initFirebase() {
 // Load products - UPDATED for speed (Local First, then Cloud)
 function generateSlug(title, id) {
     if (!title) return id;
-    let slug = title.toLowerCase().replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, '-');
+    let slug = title.toLowerCase().replace(/[^a-z0-9 ]/g, '').trim().replace(/\s+/g, '-');
     if (slug.length > 50) slug = slug.substring(0, 50).replace(/-$/, '');
-    return `${slug}-${id}`;
+    return id ? `${slug}-${id}` : slug;
 }
 
 async function loadProducts() {
@@ -726,11 +735,33 @@ function initFilters() {
     if (existingMain) existingMain.remove();
     if (existingSub) existingSub.remove();
 
-    // Get URL Params
+    // Get URL Params or Pre-rendered Window Globals or Path Slugs
     const urlParams = new URLSearchParams(window.location.search);
-    const initialMain = urlParams.get('category') || 'all';
-    const initialSub = urlParams.get('subcategory') || 'all';
+    let initialMain = window.initialCategory || urlParams.get('category') || 'all';
+    let initialSub = window.initialSubCategory || urlParams.get('subcategory') || 'all';
     const initialSearch = urlParams.get('search') || '';
+
+    // Extract from Path if applicable (e.g. /category/microcontrollers/arduino-compatible/)
+    if (initialMain === 'all' && window.location.pathname.includes('/category/')) {
+        const parts = window.location.pathname.split('/').filter(p => p);
+        const catIdx = parts.indexOf('category');
+        if (catIdx !== -1) {
+            const mainSlug = parts[catIdx + 1];
+            const subSlug = parts[catIdx + 2];
+            
+            // Map slugs back to Names
+            Object.keys(categoryData).forEach(cat => {
+                if (generateSlug(cat, "") === mainSlug) {
+                    initialMain = cat;
+                    if (subSlug) {
+                        categoryData[cat].forEach(sub => {
+                            if (generateSlug(sub, "") === subSlug) initialSub = sub;
+                        });
+                    }
+                }
+            });
+        }
+    }
 
     // Sidebar Category Injection for SEO & Navigation
     const sidebarNav = document.getElementById('sidebar-categories');
@@ -833,6 +864,33 @@ function initFilters() {
             clearTimeout(searchTimeout);
             searchTimeout = setTimeout(() => {
                 if (query.length > 0) showAllProducts();
+                
+                // Search Integration: Map keywords to categories
+                let searchMain = mainSelect.value;
+                let searchSub = subSelect.value;
+                
+                const q = query.toLowerCase();
+                if (q.includes('resistor')) {
+                    searchMain = "Passive Components";
+                    searchSub = "Resistors";
+                } else if (q.includes('capacitor')) {
+                    searchMain = "Passive Components";
+                    searchSub = "Capacitors";
+                } else if (q.includes('arduino') || q.includes('esp32') || q.includes('esp8266')) {
+                    searchMain = "Microcontrollers";
+                } else if (q.includes('relay') || q.includes('bluetooth') || q.includes('wifi')) {
+                    searchMain = "Modules";
+                } else if (q.includes('adapter') || q.includes('power') || q.includes('voltage') || q.includes('transformer')) {
+                    searchMain = "Power & Volt";
+                } else if (q.includes('sensor') || q.includes('temp') || q.includes('motion')) {
+                    searchMain = "Sensors";
+                }
+
+                if (searchMain !== mainSelect.value || searchSub !== subSelect.value) {
+                    filterByCategory(searchMain, searchSub);
+                    return; // filterByCategory will trigger re-render
+                }
+
                 renderProducts(mainSelect.value, subSelect.value, query);
                 updateURL(mainSelect.value, subSelect.value, null, query);
             }, 300); // 300ms Debounce
@@ -855,7 +913,56 @@ function initFilters() {
         // Keeping it consistent
     }
     renderProducts(initialMain, initialSub, initialSearch);
+    renderCategoryNavigator();
 }
+
+function renderCategoryNavigator() {
+    const nav = document.getElementById('category-navigator');
+    const subNav = document.getElementById('subcategory-navigator');
+    const mainSelect = document.getElementById('main-category-select');
+    const subSelect = document.getElementById('sub-category-select');
+    
+    if (!nav || !mainSelect) return;
+
+    const activeMain = mainSelect.value;
+    const activeSub = subSelect.value;
+    
+    let html = '';
+    Object.keys(categoryData).forEach(cat => {
+        const icon = categoryIcons[cat] || 'fas fa-th';
+        const isActive = cat === activeMain;
+        html += `
+            <div class="category-card ${isActive ? 'active' : ''}" onclick="toggleCategoryNav('${cat}')">
+                <i class="${icon}"></i>
+                <h3>${cat}</h3>
+            </div>
+        `;
+    });
+    nav.innerHTML = html;
+
+    if (activeMain !== 'all' && categoryData[activeMain]) {
+        subNav.classList.remove('hidden');
+        let subHtml = `<a href="#" class="subcategory-pill ${activeSub === 'all' ? 'active' : ''}" onclick="filterByCategory('${activeMain}', 'all', event)">All ${activeMain}</a>`;
+        categoryData[activeMain].forEach(sub => {
+            const isSubActive = sub === activeSub;
+            subHtml += `<a href="#" class="subcategory-pill ${isSubActive ? 'active' : ''}" onclick="filterByCategory('${activeMain}', '${sub}', event)">${sub}</a>`;
+        });
+        subNav.innerHTML = subHtml;
+    } else {
+        subNav.classList.add('hidden');
+    }
+}
+
+function toggleCategoryNav(cat) {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('category') === cat) {
+        filterByCategory('all', 'all');
+    } else {
+        filterByCategory(cat, 'all');
+    }
+}
+
+window.toggleCategoryNav = toggleCategoryNav;
 
 // Hero Search Sync (Global initialization)
 function initHeroSearch() {
@@ -910,11 +1017,21 @@ function initHeroSearch() {
 function filterByCategory(main, sub, event) {
     if (event) event.preventDefault();
     
-    // Update URL Params
-    updateURL(main, sub);
+    // Update URL Params or Path for SEO
+    if (main !== 'all') {
+        const mainSlug = generateSlug(main, "");
+        const subSlug = sub !== 'all' ? generateSlug(sub, "") : "";
+        const newPath = sub !== 'all' ? `/category/${mainSlug}/${subSlug}/` : `/category/${mainSlug}/`;
+        
+        // Push state with the clean SEO path
+        window.history.pushState({ category: main, subcategory: sub }, '', newPath);
+    } else {
+        window.history.pushState({ category: 'all', subcategory: 'all' }, '', '/');
+    }
     
     // Re-initialize filters to update UI and render products
     initFilters();
+    renderCategoryNavigator();
     
     // Smooth scroll to catalog
     const productsSection = document.getElementById('products');

@@ -51,6 +51,10 @@ foreach ($p in $prods) {
     $page = $page -replace '(?s)<meta name="description"\s+content=".*?"', ("<meta name=`"description`" content=`"$shortDesc`"")
     $page = $page -replace '(?s)<link rel="canonical"\s+href=".*?"', ("<link rel=`"canonical`" href=`"$pUrl`"")
     
+    # Behavior & Navigation
+    $page = $page -replace '(?s)<body', '<body class="standalone-product-page"'
+    $page = $page -replace '(<a href=)"#"( class="logo")', ('$1"' + $SITE_URL + '"$2')
+
     # OG Tags
     $page = $page -replace '(?s)<meta property="og:url"\s+content=".*?"', ("<meta property=`"og:url`" content=`"$pUrl`"")
     $page = $page -replace '(?s)<meta property="og:title"\s+id="og-title"\s+content=".*?"', ("<meta property=`"og:title`" id=`"og-title`" content=`"$title`"")
@@ -111,8 +115,10 @@ foreach ($cKey in $cats.Keys) {
     $urls.Add($cUrl)
     
     $cPage = $base
-    $cPage = $cPage -replace ($lt + 'title' + $gt + '.*' + $lt + '/title' + $gt), ($lt + 'title' + $gt + $cKey + " | ichouse.lk" + $lt + '/title' + $gt)
-    $cPage = $cPage -replace 'href="https://ichouse.lk/"', ('href="' + $cUrl + '"')
+    $cPage = $cPage -replace '(?s)<title>.*?</title>', ("<title>$cKey | ichouse.lk</title>")
+    $cPage = $cPage -replace '(<a href=)"#"( class="logo")', ('$1"' + $SITE_URL + '"$2')
+    $cPage = $cPage.Replace($lt + 'header class="hero"' + $gt, $lt + 'header class="hero" style="display:none;"' + $gt)
+    $cPage = $cPage.Replace('id="home-featured"', 'id="home-featured" style="display:none;"')
     $cPage = $cPage.Replace($lt + "body" + $gt, $lt + "body" + $gt + $lt + "script" + $gt + "window.initialCategory='" + $cKey + "';" + $lt + "/script" + $gt)
     $cPage | Out-File -FilePath ($cPath + "/index.html") -Encoding utf8
     
@@ -124,8 +130,10 @@ foreach ($cKey in $cats.Keys) {
         $urls.Add($sUrl)
         
         $sPage = $base
-        $sPage = $sPage -replace ($lt + 'title' + $gt + '.*' + $lt + '/title' + $gt), ($lt + 'title' + $gt + $sName + " | ichouse.lk" + $lt + '/title' + $gt)
-        $sPage = $sPage -replace 'href="https://ichouse.lk/"', ('href="' + $sUrl + '"')
+        $sPage = $sPage -replace '(?s)<title>.*?</title>', ("<title>$sName | ichouse.lk</title>")
+        $sPage = $sPage -replace '(<a href=)"#"( class="logo")', ('$1"' + $SITE_URL + '"$2')
+        $sPage = $sPage.Replace($lt + 'header class="hero"' + $gt, $lt + 'header class="hero" style="display:none;"' + $gt)
+        $sPage = $sPage.Replace('id="home-featured"', 'id="home-featured" style="display:none;"')
         $sPage = $sPage.Replace($lt + "body" + $gt, $lt + "body" + $gt + $lt + "script" + $gt + "window.initialCategory='" + $cKey + "'; window.initialSubCategory='" + $sName + "';" + $lt + "/script" + $gt)
         $sPage | Out-File -FilePath ($sPath + "/index.html") -Encoding utf8
     }

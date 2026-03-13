@@ -766,13 +766,14 @@ function initFilters() {
     // Sidebar Category Injection for SEO & Navigation
     const sidebarNav = document.getElementById('sidebar-categories');
     if (sidebarNav) {
-        let sidebarHtml = `<a href="#" class="sidebar-link ${initialMain === 'all' ? 'active' : ''}" onclick="filterByCategory('all', 'all', event)">
+        let sidebarHtml = `<a href="${SITE_URL}" class="sidebar-link ${initialMain === 'all' ? 'active' : ''}">
             <i class="fas fa-th-large"></i> All Components
         </a>`;
 
         Object.keys(categoryData).forEach(cat => {
             const isActive = cat === initialMain;
-            sidebarHtml += `<a href="#" class="sidebar-link ${isActive ? 'active' : ''}" onclick="filterByCategory('${cat}', 'all', event)">
+            const catSlug = generateSlug(cat, "");
+            sidebarHtml += `<a href="${SITE_URL}category/${catSlug}/" class="sidebar-link ${isActive ? 'active' : ''}">
                 <i class="fas fa-microchip"></i> ${cat}
             </a>`;
             
@@ -780,7 +781,8 @@ function initFilters() {
                 sidebarHtml += `<div class="sub-sidebar-nav">`;
                 categoryData[cat].forEach(sub => {
                     const isSubActive = sub === initialSub;
-                    sidebarHtml += `<a href="#" class="sub-sidebar-link ${isSubActive ? 'active' : ''}" onclick="filterByCategory('${cat}', '${sub}', event)">
+                    const subSlug = generateSlug(sub, "");
+                    sidebarHtml += `<a href="${SITE_URL}category/${catSlug}/${subSlug}/" class="sub-sidebar-link ${isSubActive ? 'active' : ''}">
                         ${sub}
                     </a>`;
                 });
@@ -935,21 +937,24 @@ function renderCategoryNavigator() {
     Object.keys(categoryData).forEach(cat => {
         const icon = categoryIcons[cat] || 'fas fa-th';
         const isActive = cat === activeMain;
+        const catSlug = generateSlug(cat, "");
         html += `
-            <div class="category-card ${isActive ? 'active' : ''}" onclick="toggleCategoryNav('${cat}')">
+            <a href="${SITE_URL}category/${catSlug}/" class="category-card ${isActive ? 'active' : ''}">
                 <i class="${icon}"></i>
                 <h3>${cat}</h3>
-            </div>
+            </a>
         `;
     });
     nav.innerHTML = html;
 
     if (activeMain !== 'all' && categoryData[activeMain]) {
         subNav.classList.remove('hidden');
-        let subHtml = `<a href="#" class="subcategory-pill ${activeSub === 'all' ? 'active' : ''}" onclick="filterByCategory('${activeMain}', 'all', event)">All ${activeMain}</a>`;
+        const catSlug = generateSlug(activeMain, "");
+        let subHtml = `<a href="${SITE_URL}category/${catSlug}/" class="subcategory-pill ${activeSub === 'all' ? 'active' : ''}">All ${activeMain}</a>`;
         categoryData[activeMain].forEach(sub => {
             const isSubActive = sub === activeSub;
-            subHtml += `<a href="#" class="subcategory-pill ${isSubActive ? 'active' : ''}" onclick="filterByCategory('${activeMain}', '${sub}', event)">${sub}</a>`;
+            const subSlug = generateSlug(sub, "");
+            subHtml += `<a href="${SITE_URL}category/${catSlug}/${subSlug}/" class="subcategory-pill ${isSubActive ? 'active' : ''}">${sub}</a>`;
         });
         subNav.innerHTML = subHtml;
     } else {
@@ -1145,7 +1150,7 @@ function renderHomeGrid() {
         const isFav = favorites.some(id => id == product.id);
 
         return `
-            <div class="product-card" onclick="openProductDetails('${product.id}')">
+            <a href="${SITE_URL}products/${generateSlug(product.title, product.id)}/" class="product-card">
                 <button class="btn-fav ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${product.id}')" title="${isFav ? 'Remove from Favorites' : 'Add to Favorites'}">
                     <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
                 </button>
@@ -1176,7 +1181,7 @@ function renderHomeGrid() {
                         </button>
                     </div>
                 </div>
-            </div>
+            </a>
         `;
     }).join('');
 
@@ -1232,7 +1237,7 @@ function renderProducts(mainCat = 'all', subCat = 'all', searchQuery = '') {
         const isFav = favorites.some(id => id == product.id);
 
         return `
-            <a href="/products/${generateSlug(product.title, product.id)}/" class="product-card" onclick="if(window.innerWidth > 768){ event.preventDefault(); openProductDetails('${product.id}'); }">
+            <a href="${SITE_URL}products/${generateSlug(product.title, product.id)}/" class="product-card">
                 <button class="btn-fav ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${product.id}')" title="${isFav ? 'Remove from Favorites' : 'Add to Favorites'}">
                     <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
                 </button>
@@ -1569,13 +1574,13 @@ function renderRelatedProducts(currentProduct) {
     const container = document.getElementById('related-products-list');
     if (container) {
         container.innerHTML = related.map(p => `
-            <div class="related-item" onclick="openProductDetails(${p.id})">
+            <a href="${SITE_URL}products/${generateSlug(p.title, p.id)}/" class="related-item">
                 <img src="${p.image}" alt="${p.title}" loading="lazy">
                 <div class="related-info">
                     <h4>${p.title}</h4>
                     <span>LKR ${p.price.toLocaleString()}</span>
                 </div>
-            </div>
+            </a>
         `).join('');
     }
 }

@@ -10,9 +10,8 @@ $amp = [char]38
 function Get-Slug([string]$title, [string]$id) {
     if (-not $title) { return $id }
     $s = $title.ToLower() -replace '[^a-z0-9 ]', ''
-    $s = $s -replace ' ', '-'
-    $s = $s.Trim('-')
-    if ($s.Length -gt 50) { $s = $s.Substring(0, 50).Trim('-') }
+    $s = $s.Trim() -replace '\s+', '-'
+    if ($s.Length -gt 50) { $s = $s.Substring(0, 50) -replace '-$', '' }
     if ($id) { return $s + "-" + $id } else { return $s }
 }
 
@@ -53,6 +52,8 @@ foreach ($p in $prods) {
     
     # Behavior & Navigation
     $page = $page -replace '(?s)<body', '<body class="standalone-product-page"'
+    $page = $page -replace 'href="styles.css"', 'href="/styles.css"'
+    $page = $page -replace 'src="script.js"', 'src="/script.js"'
     $page = $page -replace '(<a href=)"#"( class="logo")', ('$1"' + $SITE_URL + '"$2')
 
     # OG Tags
@@ -116,6 +117,8 @@ foreach ($cKey in $cats.Keys) {
     
     $cPage = $base
     $cPage = $cPage -replace '(?s)<title>.*?</title>', ("<title>$cKey | ichouse.lk</title>")
+    $cPage = $cPage -replace 'href="styles.css"', 'href="/styles.css"'
+    $cPage = $cPage -replace 'src="script.js"', 'src="/script.js"'
     $cPage = $cPage -replace '(<a href=)"#"( class="logo")', ('$1"' + $SITE_URL + '"$2')
     $cPage = $cPage.Replace($lt + 'header class="hero"' + $gt, $lt + 'header class="hero" style="display:none;"' + $gt)
     $cPage = $cPage.Replace('id="home-featured"', 'id="home-featured" style="display:none;"')
@@ -131,6 +134,8 @@ foreach ($cKey in $cats.Keys) {
         
         $sPage = $base
         $sPage = $sPage -replace '(?s)<title>.*?</title>', ("<title>$sName | ichouse.lk</title>")
+        $sPage = $sPage -replace 'href="styles.css"', 'href="/styles.css"'
+        $sPage = $sPage -replace 'src="script.js"', 'src="/script.js"'
         $sPage = $sPage -replace '(<a href=)"#"( class="logo")', ('$1"' + $SITE_URL + '"$2')
         $sPage = $sPage.Replace($lt + 'header class="hero"' + $gt, $lt + 'header class="hero" style="display:none;"' + $gt)
         $sPage = $sPage.Replace('id="home-featured"', 'id="home-featured" style="display:none;"')

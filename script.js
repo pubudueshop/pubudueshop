@@ -1574,7 +1574,7 @@ function renderRelatedProducts(currentProduct) {
     const container = document.getElementById('related-products-list');
     if (container) {
         container.innerHTML = related.map(p => `
-            <a href="${SITE_URL}products/${generateSlug(p.title, p.id)}/" class="related-item">
+            <a href="/products/${generateSlug(p.title, p.id)}/" class="related-item">
                 <img src="${p.image}" alt="${p.title}" loading="lazy">
                 <div class="related-info">
                     <h4>${p.title}</h4>
@@ -1882,29 +1882,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // If on a product page (MPA), ensure the correct product ID is set for interactivity
         if (window.location.pathname.includes('/products/')) {
-            const pathParts = window.location.pathname.split('/');
-            const slug = pathParts.find(p => p.includes('-'));
+            const pathParts = window.location.pathname.split('/').filter(p => p);
+            const slug = pathParts[pathParts.indexOf('products') + 1];
             if (slug) {
                 const idMatch = slug.match(/-(\d+)$/);
                 if (idMatch) {
                     const id = idMatch[1];
-                    // We don't open details because it's already pre-rendered
-                    // but we set up the listeners for that product
-                    const product = products.find(p => p.id == id);
-                    if (product) {
-                        // Re-bind actions to the pre-rendered buttons
-                        detailAddCartBtn.onclick = () => addToCart(product.id, modalQty);
-                        detailBuyBtn.onclick = () => {
-                            addToCart(product.id, modalQty);
-                            document.getElementById('cart-drawer').classList.remove('hidden');
-                        };
-                         const modalFavBtn = document.getElementById('modal-fav-btn');
-                        if (modalFavBtn) {
-                            const isFav = favorites.some(id => id == product.id);
-                            modalFavBtn.classList.toggle('active', isFav);
-                            modalFavBtn.onclick = () => toggleFavorite(product.id);
-                        }
-                    }
+                    // On product detail page, we should ensure the modal content for that product is visible
+                    // since our script.js still uses the "modal" div as the product detail view.
+                    openProductDetails(id);
                 }
             }
         }

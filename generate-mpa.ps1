@@ -54,7 +54,6 @@ foreach ($p in $prods) {
     $page = $page -replace '(?s)<body', '<body class="standalone-product-page"'
     $page = $page -replace 'href="styles.css"', 'href="/styles.css"'
     $page = $page -replace 'src="script.js"', 'src="/script.js"'
-    $page = $page -replace '(<a href=)"#"( class="logo")', ('$1"' + $SITE_URL + '"$2')
 
     # OG Tags
     $page = $page -replace '(?s)<meta property="og:url"\s+content=".*?"', ("<meta property=`"og:url`" content=`"$pUrl`"")
@@ -119,7 +118,6 @@ foreach ($cKey in $cats.Keys) {
     $cPage = $cPage -replace '(?s)<title>.*?</title>', ("<title>$cKey | ichouse.lk</title>")
     $cPage = $cPage -replace 'href="styles.css"', 'href="/styles.css"'
     $cPage = $cPage -replace 'src="script.js"', 'src="/script.js"'
-    $cPage = $cPage -replace '(<a href=)"#"( class="logo")', ('$1"' + $SITE_URL + '"$2')
     $cPage = $cPage.Replace($lt + 'header class="hero"' + $gt, $lt + 'header class="hero" style="display:none;"' + $gt)
     $cPage = $cPage.Replace('id="home-featured"', 'id="home-featured" style="display:none;"')
     $cPage = $cPage.Replace($lt + "body" + $gt, $lt + "body" + $gt + $lt + "script" + $gt + "window.initialCategory='" + $cKey + "';" + $lt + "/script" + $gt)
@@ -136,7 +134,6 @@ foreach ($cKey in $cats.Keys) {
         $sPage = $sPage -replace '(?s)<title>.*?</title>', ("<title>$sName | ichouse.lk</title>")
         $sPage = $sPage -replace 'href="styles.css"', 'href="/styles.css"'
         $sPage = $sPage -replace 'src="script.js"', 'src="/script.js"'
-        $sPage = $sPage -replace '(<a href=)"#"( class="logo")', ('$1"' + $SITE_URL + '"$2')
         $sPage = $sPage.Replace($lt + 'header class="hero"' + $gt, $lt + 'header class="hero" style="display:none;"' + $gt)
         $sPage = $sPage.Replace('id="home-featured"', 'id="home-featured" style="display:none;"')
         $sPage = $sPage.Replace($lt + "body" + $gt, $lt + "body" + $gt + $lt + "script" + $gt + "window.initialCategory='" + $cKey + "'; window.initialSubCategory='" + $sName + "';" + $lt + "/script" + $gt)

@@ -1026,6 +1026,7 @@ function initHeroSearch() {
 
     if (heroSearchSubmit) {
         heroSearchSubmit.addEventListener('click', () => {
+             showAllProducts();
              const productsSection = document.getElementById('products');
              if (productsSection) window.scrollTo({ top: productsSection.offsetTop - 80, behavior: 'smooth' });
         });
@@ -1268,7 +1269,7 @@ function renderProducts(mainCat = 'all', subCat = 'all', searchQuery = '') {
                         </button>
                     </div>
                 </div>
-            </div>
+            </a>
         `;
     }).join('');
 

@@ -2651,5 +2651,23 @@ body.modal-open {
 @media (max-width: 768px) {
     .home-product-grid .product-card:nth-child(n+9) {
         display: none !important;
-    }
+}
+}
+
+.home-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: #ff4d4d;
+    color: white;
+    padding: 10px 18px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 6px;
+    z-index: 9999;
+    font-family: Arial, sans-serif;
+}
+
+.home-button:hover {
+    background: #cc0000;
 }

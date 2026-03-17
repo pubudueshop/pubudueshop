@@ -1150,7 +1150,7 @@ function renderHomeGrid() {
         const isFav = favorites.some(id => id == product.id);
 
         return `
-            <a href="${SITE_URL}products/${generateSlug(product.title, product.id)}/" class="product-card">
+            <a href="${SITE_URL}products/${generateSlug(product.title, product.id)}/?product=${product.id}" class="product-card">
                 <button class="btn-fav ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${product.id}')" title="${isFav ? 'Remove from Favorites' : 'Add to Favorites'}">
                     <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
                 </button>
@@ -1237,7 +1237,7 @@ function renderProducts(mainCat = 'all', subCat = 'all', searchQuery = '') {
         const isFav = favorites.some(id => id == product.id);
 
         return `
-            <a href="${SITE_URL}products/${generateSlug(product.title, product.id)}/" class="product-card">
+            <a href="${SITE_URL}products/${generateSlug(product.title, product.id)}/?product=${product.id}" class="product-card">
                 <button class="btn-fav ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${product.id}')" title="${isFav ? 'Remove from Favorites' : 'Add to Favorites'}">
                     <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
                 </button>
@@ -1574,7 +1574,7 @@ function renderRelatedProducts(currentProduct) {
     const container = document.getElementById('related-products-list');
     if (container) {
         container.innerHTML = related.map(p => `
-            <a href="/products/${generateSlug(p.title, p.id)}/" class="related-item">
+            <a href="${SITE_URL}products/${generateSlug(p.title, p.id)}/?product=${p.id}" class="related-item">
                 <img src="${p.image}" alt="${p.title}" loading="lazy">
                 <div class="related-info">
                     <h4>${p.title}</h4>

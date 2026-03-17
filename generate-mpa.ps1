@@ -121,6 +121,7 @@ foreach ($cKey in $cats.Keys) {
     $cPage = $cPage.Replace($lt + 'header class="hero"' + $gt, $lt + 'header class="hero" style="display:none;"' + $gt)
     $cPage = $cPage.Replace('id="home-featured"', 'id="home-featured" style="display:none;"')
     $cPage = $cPage.Replace($lt + "body" + $gt, $lt + "body" + $gt + $lt + "script" + $gt + "window.initialCategory='" + $cKey + "';" + $lt + "/script" + $gt)
+    $cPage = $cPage -replace '(?s)<link rel="canonical"\s+href=".*?"', ("<link rel=`"canonical`" href=`"$cUrl`"")
     $cPage | Out-File -FilePath ($cPath + "/index.html") -Encoding utf8
     
     foreach ($sName in $cats[$cKey]) {
@@ -137,6 +138,7 @@ foreach ($cKey in $cats.Keys) {
         $sPage = $sPage.Replace($lt + 'header class="hero"' + $gt, $lt + 'header class="hero" style="display:none;"' + $gt)
         $sPage = $sPage.Replace('id="home-featured"', 'id="home-featured" style="display:none;"')
         $sPage = $sPage.Replace($lt + "body" + $gt, $lt + "body" + $gt + $lt + "script" + $gt + "window.initialCategory='" + $cKey + "'; window.initialSubCategory='" + $sName + "';" + $lt + "/script" + $gt)
+        $sPage = $sPage -replace '(?s)<link rel="canonical"\s+href=".*?"', ("<link rel=`"canonical`" href=`"$sUrl`"")
         $sPage | Out-File -FilePath ($sPath + "/index.html") -Encoding utf8
     }
 }

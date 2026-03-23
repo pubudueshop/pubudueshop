@@ -978,13 +978,6 @@ function showStatus(msg, isError = false) {
     `;
 }
 
-function showAllProducts() {
-    const productsSection = document.getElementById('products');
-    if (productsSection) {
-        productsSection.classList.remove('hidden');
-        window.scrollTo({ top: productsSection.offsetTop - 80, behavior: 'smooth' });
-    }
-}
 
 let homeGridRendered = false;
 let homeGridSelectedProducts = [];

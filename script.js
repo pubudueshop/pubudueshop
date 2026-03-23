@@ -999,8 +999,6 @@ window.showAllProducts = showAllProducts;
 function initHeroSearch() {
     const heroSearch = document.getElementById('hero-product-search');
     const heroClearBtn = document.getElementById('hero-clear-search');
-    const heroSearchSubmit = document.querySelector('.hero-search-btn');
-    const searchInput = document.getElementById('product-search');
 
     if (heroSearch) {
         heroSearch.addEventListener('input', (e) => {
@@ -1024,13 +1022,6 @@ function initHeroSearch() {
         });
     }
 
-    if (heroSearchSubmit) {
-        heroSearchSubmit.addEventListener('click', () => {
-             showAllProducts();
-             const productsSection = document.getElementById('products');
-             if (productsSection) window.scrollTo({ top: productsSection.offsetTop - 80, behavior: 'smooth' });
-        });
-    }
     
     if (heroClearBtn) {
         heroClearBtn.addEventListener('click', () => {

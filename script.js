@@ -848,67 +848,6 @@ function initFilters() {
     filterContainer.appendChild(mainSelect);
     filterContainer.appendChild(subSelect);
 
-    // Search Logic
-    const searchInput = document.getElementById('product-search');
-    const clearBtn = document.getElementById('clear-search');
-
-    if (searchInput) {
-        searchInput.value = initialSearch;
-        if (clearBtn) clearBtn.classList.toggle('hidden', initialSearch.length === 0);
-
-        let searchTimeout;
-        searchInput.addEventListener('input', (e) => {
-            const query = e.target.value;
-            if (clearBtn) {
-                clearBtn.classList.toggle('hidden', query.length === 0);
-            }
-
-            clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(() => {
-                if (query.length > 0) showAllProducts();
-                
-                // Search Integration: Map keywords to categories
-                let searchMain = mainSelect.value;
-                let searchSub = subSelect.value;
-                
-                const q = query.toLowerCase();
-                if (q.includes('resistor')) {
-                    searchMain = "Passive Components";
-                    searchSub = "Resistors";
-                } else if (q.includes('capacitor')) {
-                    searchMain = "Passive Components";
-                    searchSub = "Capacitors";
-                } else if (q.includes('arduino') || q.includes('esp32') || q.includes('esp8266')) {
-                    searchMain = "Microcontrollers";
-                } else if (q.includes('relay') || q.includes('bluetooth') || q.includes('wifi')) {
-                    searchMain = "Modules";
-                } else if (q.includes('adapter') || q.includes('power') || q.includes('voltage') || q.includes('transformer')) {
-                    searchMain = "Power & Volt";
-                } else if (q.includes('sensor') || q.includes('temp') || q.includes('motion')) {
-                    searchMain = "Sensors";
-                }
-
-                if (searchMain !== mainSelect.value || searchSub !== subSelect.value) {
-                    filterByCategory(searchMain, searchSub);
-                    return; // filterByCategory will trigger re-render
-                }
-
-                renderProducts(mainSelect.value, subSelect.value, query);
-                updateURL(mainSelect.value, subSelect.value, null, query);
-            }, 300); // 300ms Debounce
-        });
-    }
-
-    if (clearBtn) {
-        clearBtn.addEventListener('click', () => {
-            searchInput.value = '';
-            clearBtn.classList.add('hidden');
-            showAllProducts();
-            renderProducts(mainSelect.value, subSelect.value, '');
-            updateURL(mainSelect.value, subSelect.value, null, '');
-        });
-    }
-
     // Initial Render based on URL
     if (initialMain !== 'all' || initialSub !== 'all' || initialSearch !== '') {
         const prodSection = document.getElementById('products');
@@ -995,46 +934,6 @@ function showAllProducts() {
 window.toggleCategoryNav = toggleCategoryNav;
 window.showAllProducts = showAllProducts;
 
-// Hero Search Sync (Global initialization)
-function initHeroSearch() {
-    const heroSearch = document.getElementById('hero-product-search');
-    const heroClearBtn = document.getElementById('hero-clear-search');
-
-    if (heroSearch) {
-        heroSearch.addEventListener('input', (e) => {
-            const query = e.target.value;
-            if (heroClearBtn) heroClearBtn.classList.toggle('hidden', query.length === 0);
-            
-            // Sync with main hidden search
-            const mainSearch = document.getElementById('product-search');
-            if (mainSearch) {
-                mainSearch.value = query;
-                // Dispatch input to trigger the debounce logic in initFilters
-                mainSearch.dispatchEvent(new Event('input'));
-            }
-        });
-        
-        heroSearch.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                const productsSection = document.getElementById('products');
-                if (productsSection) window.scrollTo({ top: productsSection.offsetTop - 80, behavior: 'smooth' });
-            }
-        });
-    }
-
-    
-    if (heroClearBtn) {
-        heroClearBtn.addEventListener('click', () => {
-            heroSearch.value = '';
-            heroClearBtn.classList.add('hidden');
-            const mainSearch = document.getElementById('product-search');
-            if (mainSearch) {
-                mainSearch.value = '';
-                mainSearch.dispatchEvent(new Event('input'));
-            }
-        });
-    }
-}
 
 // Global filter helper for sidebar
 function filterByCategory(main, sub, event) {

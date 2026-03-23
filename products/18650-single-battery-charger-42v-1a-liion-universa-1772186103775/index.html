@@ -11,6 +11,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <meta name="description" content="Compact and reliable single-slot 18650 Li-ion battery charger with universal AC 100-240V input and 4.2V 1000mA output for fast and safe charging. Built-in pr...">
     <meta name="keywords"
@@ -157,15 +159,33 @@
             <h1>High-Quality <span class="gradient-text">Electronic Components</span></h1>
             <p>Find the best parts for your projects. Reliable, affordable, and ready to ship.</p>
             
-            <div class="hero-search-wrapper">
-                <div class="search-container hero-search">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" id="hero-product-search" placeholder="Search for ICs, Modules, Sensors, Arduino...">
-                    <button id="hero-clear-search" class="clear-search hidden">
-                        <i class="fas fa-times"></i>
+            <!-- Modern Search Bar Component -->
+            <div class="max-w-3xl mx-auto mt-8 px-4">
+                <div class="flex items-center bg-white border border-slate-200 rounded-md overflow-hidden shadow-sm focus-within:ring-2 focus-within:ring-blue-500/20 transition-all font-['Inter',sans-serif]">
+                    <!-- Input Section -->
+                    <div class="flex-1 flex items-center px-4">
+                        <i class="fas fa-search text-slate-400 mr-2"></i>
+                        <input type="text" id="main-search-input" placeholder="Search for Products" class="w-full py-3 outline-none border-none text-slate-700 bg-transparent placeholder-slate-400">
+                    </div>
+
+                    <!-- Category Selector Section -->
+                    <div class="hidden md:flex items-center border-l border-slate-200 px-4 h-12 bg-slate-50 relative">
+                        <select id="main-category-search" class="bg-transparent outline-none text-slate-600 text-sm font-medium cursor-pointer appearance-none pr-8 relative z-10">
+                            <option value="all">All Categories</option>
+                            <!-- Options injected by JS -->
+                        </select>
+                        <div class="absolute right-4 pointer-events-none text-slate-400 z-0">
+                            <i class="fas fa-sort"></i>
+                        </div>
+                    </div>
+
+                    <!-- Search Button -->
+                    <button id="main-search-btn" class="bg-[#1e293b] hover:bg-[#0f172a] text-white w-14 h-12 flex items-center justify-center transition-colors">
+                        <i class="fas fa-search"></i>
                     </button>
                 </div>
             </div>
+
         </div>
         <div class="hero-bg"></div>
     </header>
@@ -201,13 +221,7 @@
             <div class="shop-main">
                 <div class="section-header" style="margin-top: 0;">
                     <div class="filter-controls">
-                        <div class="search-container" style="display:none;">
-                            <i class="fas fa-search search-icon"></i>
-                            <input type="text" id="product-search" placeholder="Search components...">
-                            <button id="clear-search" class="clear-search hidden">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
+
                         <div id="filter-container" class="filter-controls">
                             <!-- Selects injected by JS as secondary filters -->
                         </div>

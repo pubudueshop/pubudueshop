@@ -256,6 +256,9 @@ const detailSpecsBody = document.getElementById('detail-specs-body');
 const detailVideoBtn = document.getElementById('detail-video-btn');
 const detailAddCartBtn = document.getElementById('detail-add-cart-btn');
 const detailBuyBtn = document.getElementById('detail-buy-btn');
+const mainSearchInput = document.getElementById('main-search-input');
+const mainCategorySearch = document.getElementById('main-category-search');
+const mainSearchBtn = document.getElementById('main-search-btn');
 
 // Auth & Cart State
 let customerAuth = null;
@@ -1745,7 +1748,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (filterContainer) {
             initFilters();
         }
-        initHeroSearch();
+
 
         // Sync hero search with URL on load
         const urlParams = new URLSearchParams(window.location.search);
@@ -1783,6 +1786,55 @@ document.addEventListener('DOMContentLoaded', async () => {
                     // since our script.js still uses the "modal" div as the product detail view.
                     openProductDetails(id);
                 }
+            }
+        }
+
+        // Initialize Modern Search Bar
+        if (mainCategorySearch) {
+            // Populate categories
+            Object.keys(categoryData).forEach(cat => {
+                const opt = document.createElement('option');
+                opt.value = cat;
+                opt.textContent = cat;
+                mainCategorySearch.appendChild(opt);
+            });
+        }
+
+        if (mainSearchBtn) {
+            mainSearchBtn.onclick = () => {
+                const query = mainSearchInput.value.trim();
+                const cat = mainCategorySearch.value;
+                handleSearch(query, cat);
+            };
+        }
+
+        if (mainSearchInput) {
+            mainSearchInput.onkeypress = (e) => {
+                if (e.key === 'Enter') {
+                    const query = mainSearchInput.value.trim();
+                    const cat = mainCategorySearch.value;
+                    handleSearch(query, cat);
+                }
+            };
+        }
+
+        function handleSearch(query, category) {
+            // Show products section and hide hero/featured
+            showAllProducts();
+            
+            // Call existing renderProducts with (mainCat, subCat, searchQuery)
+            renderProducts(category, 'all', query);
+            
+            // Update URL to reflect search
+            updateURL(category, 'all', null, query);
+            
+            // Scroll to products section
+            const productsSection = document.getElementById('products');
+            if (productsSection) {
+                window.scrollTo({ 
+                    top: productsSection.offsetTop - 80, 
+                    behavior: 'smooth' 
+                });
             }
         }
 

@@ -769,14 +769,14 @@ function initFilters() {
     // Sidebar Category Injection for SEO & Navigation
     const sidebarNav = document.getElementById('sidebar-categories');
     if (sidebarNav) {
-        let sidebarHtml = `<a href="${SITE_URL}" class="sidebar-link ${initialMain === 'all' ? 'active' : ''}">
+        let sidebarHtml = `<a href="${SITE_URL}" class="sidebar-link ${initialMain === 'all' ? 'active' : ''}" onclick="filterByCategory('all', 'all', event)">
             <i class="fas fa-th-large"></i> All Components
         </a>`;
 
         Object.keys(categoryData).forEach(cat => {
             const isActive = cat === initialMain;
             const catSlug = generateSlug(cat, "");
-            sidebarHtml += `<a href="${SITE_URL}category/${catSlug}/" class="sidebar-link ${isActive ? 'active' : ''}">
+            sidebarHtml += `<a href="${SITE_URL}category/${catSlug}/" class="sidebar-link ${isActive ? 'active' : ''}" onclick="filterByCategory('${cat}', 'all', event)">
                 <i class="fas fa-microchip"></i> ${cat}
             </a>`;
             
@@ -785,7 +785,7 @@ function initFilters() {
                 categoryData[cat].forEach(sub => {
                     const isSubActive = sub === initialSub;
                     const subSlug = generateSlug(sub, "");
-                    sidebarHtml += `<a href="${SITE_URL}category/${catSlug}/${subSlug}/" class="sub-sidebar-link ${isSubActive ? 'active' : ''}">
+                    sidebarHtml += `<a href="${SITE_URL}category/${catSlug}/${subSlug}/" class="sub-sidebar-link ${isSubActive ? 'active' : ''}" onclick="filterByCategory('${cat}', '${sub}', event)">
                         ${sub}
                     </a>`;
                 });
@@ -881,7 +881,7 @@ function renderCategoryNavigator() {
         const isActive = cat === activeMain;
         const catSlug = generateSlug(cat, "");
         html += `
-            <a href="${SITE_URL}category/${catSlug}/" class="category-card ${isActive ? 'active' : ''}">
+            <a href="${SITE_URL}category/${catSlug}/" class="category-card ${isActive ? 'active' : ''}" onclick="filterByCategory('${cat}', 'all', event)">
                 <i class="${icon}"></i>
                 <h3>${cat}</h3>
             </a>
@@ -892,11 +892,11 @@ function renderCategoryNavigator() {
     if (activeMain !== 'all' && categoryData[activeMain]) {
         subNav.classList.remove('hidden');
         const catSlug = generateSlug(activeMain, "");
-        let subHtml = `<a href="${SITE_URL}category/${catSlug}/" class="subcategory-pill ${activeSub === 'all' ? 'active' : ''}">All ${activeMain}</a>`;
+        let subHtml = `<a href="${SITE_URL}category/${catSlug}/" class="subcategory-pill ${activeSub === 'all' ? 'active' : ''}" onclick="filterByCategory('${activeMain}', 'all', event)">All ${activeMain}</a>`;
         categoryData[activeMain].forEach(sub => {
             const isSubActive = sub === activeSub;
             const subSlug = generateSlug(sub, "");
-            subHtml += `<a href="${SITE_URL}category/${catSlug}/${subSlug}/" class="subcategory-pill ${isSubActive ? 'active' : ''}">${sub}</a>`;
+            subHtml += `<a href="${SITE_URL}category/${catSlug}/${subSlug}/" class="subcategory-pill ${isSubActive ? 'active' : ''}" onclick="filterByCategory('${activeMain}', '${sub}', event)">${sub}</a>`;
         });
         subNav.innerHTML = subHtml;
     } else {

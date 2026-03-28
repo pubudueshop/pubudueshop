@@ -1445,6 +1445,7 @@ function openProductDetails(id) {
         // Show Modal
         productModalRoot.classList.remove('hidden');
         document.body.classList.add('modal-open');
+        document.body.classList.add('is-viewing-product');
     }
 }
 
@@ -1488,6 +1489,7 @@ function renderRelatedProducts(currentProduct) {
 function closeProductModal() {
     productModalRoot.classList.add('hidden');
     document.body.classList.remove('modal-open');
+    document.body.classList.remove('is-viewing-product');
 
     // Reset Title and URL
     document.title = defaultDocumentTitle;

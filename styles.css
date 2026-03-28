@@ -1057,23 +1057,26 @@ footer {
     display: none !important;
 }
 
-/* Standalone Product Page Adjustments */
-body.standalone-product-page .product-modal {
-    position: relative;
-    z-index: 1;
-    height: auto;
+/* Standalone Product Page & Focused View Adjustments */
+body.standalone-product-page .product-modal,
+body.is-viewing-product .product-modal {
+    position: relative !important;
+    z-index: 1001;
+    height: auto !important;
     min-height: 80vh;
-    padding-top: 100px;
-    background: #f8fafc;
+    padding-top: 2rem;
+    background: var(--background) !important;
     display: block !important;
     overflow: visible;
 }
 
-body.standalone-product-page .modal-overlay {
+body.standalone-product-page .modal-overlay,
+body.is-viewing-product .modal-overlay {
     display: none !important;
 }
 
-body.standalone-product-page .modal-container {
+body.standalone-product-page .modal-container,
+body.is-viewing-product .modal-container {
     box-shadow: none;
     max-height: none;
     width: 100%;
@@ -1084,20 +1087,35 @@ body.standalone-product-page .modal-container {
     border-radius: 0;
 }
 
-body.standalone-product-page .modal-close-btn {
-    display: none !important;
+body.standalone-product-page .modal-close-btn,
+body.is-viewing-product .modal-close-btn {
+    display: flex !important; /* Keep it visible for dynamic view */
+    background: white;
+    box-shadow: var(--shadow-md);
 }
 
-body.standalone-product-page .product-details-content {
+body.standalone-product-page .product-details-content,
+body.is-viewing-product .product-details-content {
     background: white;
     border-radius: 30px;
     margin-bottom: 4rem;
     box-shadow: var(--shadow-md);
 }
 
-body.standalone-product-page .navbar {
+body.standalone-product-page .navbar,
+body.is-viewing-product .navbar {
     background: white;
     box-shadow: var(--shadow-sm);
+}
+
+/* Hide background elements in focused view */
+body.standalone-product-page .hero,
+body.standalone-product-page #home-featured,
+body.standalone-product-page #products,
+body.is-viewing-product .hero,
+body.is-viewing-product #home-featured,
+body.is-viewing-product #products {
+    display: none !important;
 }
 
 /* ===== PRODUCT MODAL ===== */

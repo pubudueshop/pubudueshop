@@ -51,7 +51,7 @@ foreach ($p in $prods) {
     $page = $page -replace '(?s)<link rel="canonical"\s+href=".*?"', ("<link rel=`"canonical`" href=`"$pUrl`"")
     
     # Behavior & Navigation
-    $page = $page -replace '(?s)<body', '<body class="standalone-product-page"'
+    $page = $page -replace '(?s)<body', '<body class="standalone-product-page is-viewing-product"'
     $page = $page -replace 'href="styles.css"', 'href="/styles.css"'
     $page = $page -replace 'src="script.js"', 'src="/script.js"'
 

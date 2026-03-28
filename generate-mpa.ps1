@@ -118,6 +118,8 @@ foreach ($cKey in $cats.Keys) {
     
     $cPage = $base
     $cPage = $cPage -replace '(?s)<title>.*?</title>', ("<title>$cKey</title>")
+    $cDesc = "Shop high-quality $cKey in Sri Lanka. Best prices on Arduino, sensors, and power modules. Fast island-wide delivery from Pubudu Electronics."
+    $cPage = $cPage -replace '(?s)<meta name="description"\s+content=".*?"', ("<meta name=`"description`" content=`"$cDesc`"")
     $cPage = $cPage -replace 'href="styles.css"', 'href="/styles.css"'
     $cPage = $cPage -replace 'src="script.js"', 'src="/script.js"'
     $cPage = $cPage.Replace($lt + 'header class="hero"' + $gt, $lt + 'header class="hero" style="display:none;"' + $gt)
@@ -136,6 +138,8 @@ foreach ($cKey in $cats.Keys) {
         
         $sPage = $base
         $sPage = $sPage -replace '(?s)<title>.*?</title>', ("<title>$sName</title>")
+        $sDesc = "Get the best prices on $sName in Sri Lanka. High-quality parts for your projects with fast island-wide delivery from Pubudu Electronics."
+        $sPage = $sPage -replace '(?s)<meta name="description"\s+content=".*?"', ("<meta name=`"description`" content=`"$sDesc`"")
         $sPage = $sPage -replace 'href="styles.css"', 'href="/styles.css"'
         $sPage = $sPage -replace 'src="script.js"', 'src="/script.js"'
         $sPage = $sPage.Replace($lt + 'header class="hero"' + $gt, $lt + 'header class="hero" style="display:none;"' + $gt)

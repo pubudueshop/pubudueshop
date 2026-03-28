@@ -115,7 +115,7 @@ async function loadCategories() {
 let products = [];
 let db = null;
 const defaultDocumentTitle = "Pubudu Electronics | Premium Electronic Components in Sri Lanka";
-const defaultMetaDescription = "Buy high-quality electronic components in Sri Lanka. Wide range of Arduino, ESP32, sensors, power adapters, and modules at affordable prices. Fast delivery island-wide.";
+const defaultMetaDescription = "Premium electronic components in Sri Lanka. Shop Arduino, sensors, and modules at the best prices. Fast island-wide delivery. Trusted by makers and engineers.";
 
 // FIREBASE CONFIGURATION (REPLACE WITH YOUR OWN FROM FIREBASE CONSOLE)
 // 1. Go to console.firebase.google.com

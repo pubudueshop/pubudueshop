@@ -409,6 +409,11 @@ function addToCart(productId, quantity = 1) {
     const product = products.find(p => p.id == productId);
     if (!product) return;
 
+    if (product.stock <= 0) {
+        showToast("Sorry, this item is currently out of stock", "error");
+        return;
+    }
+
     const existingItem = cart.find(item => item.id == productId);
     if (existingItem) {
         existingItem.quantity += quantity;
@@ -1044,17 +1049,19 @@ function renderHomeGrid() {
     }
 
     const html = homeGridSelectedProducts.map(product => {
-        const stockColor = product.stock > 10 ? 'var(--secondary)' : 'var(--accent)';
-        const stockText = product.stock > 0 ? `Available: ${product.stock}` : 'Out of Stock';
+        const isOutOfStock = product.stock <= 0;
+        const stockColor = isOutOfStock ? 'var(--danger)' : (product.stock > 10 ? 'var(--secondary)' : 'var(--accent)');
+        const stockText = isOutOfStock ? 'Out of Stock' : `Available: ${product.stock}`;
         const isFav = favorites.some(id => id == product.id);
 
         return `
-            <a href="${SITE_URL}products/${generateSlug(product.title, product.id)}/?product=${product.id}" class="product-card">
+            <a href="${SITE_URL}products/${generateSlug(product.title, product.id)}/?product=${product.id}" class="product-card ${isOutOfStock ? 'out-of-stock' : ''}">
                 <button class="btn-fav ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${product.id}')" title="${isFav ? 'Remove from Favorites' : 'Add to Favorites'}">
                     <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
                 </button>
                 <div class="product-image-container">
                     <span class="badge">${product.mainCategory}</span>
+                    ${isOutOfStock ? '<div class="out-of-stock-badge">Out Of Stock</div>' : ''}
                     <img src="${product.image}" alt="${product.title}" class="product-image" 
                          loading="lazy" decoding="async" 
                          onerror="this.src='https://via.placeholder.com/300x300?text=Image+Not+Found'">
@@ -1072,10 +1079,14 @@ function renderHomeGrid() {
                     <h3 class="product-title">${product.title}</h3>
                     <div class="product-price">LKR ${product.price.toLocaleString()}</div>
                     <div class="product-actions">
-                        <button class="btn-video" onclick="event.stopPropagation(); addToCart('${product.id}')">
-                             Add to Cart
+                        <button class="btn-video ${isOutOfStock ? 'btn-disabled' : ''}" 
+                                onclick="event.stopPropagation(); ${isOutOfStock ? '' : `addToCart('${product.id}')`}"
+                                ${isOutOfStock ? 'disabled' : ''}>
+                             ${isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
                         </button>
-                        <button class="btn-buy" onclick="event.stopPropagation(); addToCart('${product.id}'); document.getElementById('cart-drawer').classList.remove('hidden');">
+                        <button class="btn-buy ${isOutOfStock ? 'btn-disabled' : ''}" 
+                                onclick="event.stopPropagation(); ${isOutOfStock ? '' : `addToCart('${product.id}'); document.getElementById('cart-drawer').classList.remove('hidden');`}"
+                                ${isOutOfStock ? 'disabled' : ''}>
                              Buy Now
                         </button>
                     </div>
@@ -1131,17 +1142,19 @@ function renderProducts(mainCat = 'all', subCat = 'all', searchQuery = '') {
 
     // Build entire HTML string once to minimize Reflows/Repaints
     const html = filteredProducts.map(product => {
-        const stockColor = product.stock > 10 ? 'var(--secondary)' : 'var(--accent)';
-        const stockText = product.stock > 0 ? `Available: ${product.stock}` : 'Out of Stock';
+        const isOutOfStock = product.stock <= 0;
+        const stockColor = isOutOfStock ? 'var(--danger)' : (product.stock > 10 ? 'var(--secondary)' : 'var(--accent)');
+        const stockText = isOutOfStock ? 'Out of Stock' : `Available: ${product.stock}`;
         const isFav = favorites.some(id => id == product.id);
 
         return `
-            <a href="${SITE_URL}products/${generateSlug(product.title, product.id)}/?product=${product.id}" class="product-card">
+            <a href="${SITE_URL}products/${generateSlug(product.title, product.id)}/?product=${product.id}" class="product-card ${isOutOfStock ? 'out-of-stock' : ''}">
                 <button class="btn-fav ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${product.id}')" title="${isFav ? 'Remove from Favorites' : 'Add to Favorites'}">
                     <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
                 </button>
                 <div class="product-image-container">
                     <span class="badge">${product.mainCategory}</span>
+                    ${isOutOfStock ? '<div class="out-of-stock-badge">Out Of Stock</div>' : ''}
                     <img src="${product.image}" alt="${product.title}" class="product-image" 
                          loading="lazy" decoding="async" 
                          onerror="this.src='https://via.placeholder.com/300x300?text=Image+Not+Found'">
@@ -1159,10 +1172,14 @@ function renderProducts(mainCat = 'all', subCat = 'all', searchQuery = '') {
                     <h3 class="product-title">${product.title}</h3>
                     <div class="product-price">LKR ${product.price.toLocaleString()}</div>
                     <div class="product-actions">
-                        <button class="btn-video" onclick="event.stopPropagation(); addToCart('${product.id}')">
-                             Add to Cart
+                        <button class="btn-video ${isOutOfStock ? 'btn-disabled' : ''}" 
+                                onclick="event.stopPropagation(); ${isOutOfStock ? '' : `addToCart('${product.id}')`}"
+                                ${isOutOfStock ? 'disabled' : ''}>
+                             ${isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
                         </button>
-                        <button class="btn-buy" onclick="event.stopPropagation(); addToCart('${product.id}'); document.getElementById('cart-drawer').classList.remove('hidden');">
+                        <button class="btn-buy ${isOutOfStock ? 'btn-disabled' : ''}" 
+                                onclick="event.stopPropagation(); ${isOutOfStock ? '' : `addToCart('${product.id}'); document.getElementById('cart-drawer').classList.remove('hidden');`}"
+                                ${isOutOfStock ? 'disabled' : ''}>
                              Buy Now
                         </button>
                     </div>
@@ -1263,13 +1280,29 @@ function openProductDetails(id) {
         const qtyValueDisplay = document.getElementById('modal-qty-value');
         if (qtyValueDisplay) qtyValueDisplay.textContent = modalQty;
 
+        const isOutOfStock = product.stock <= 0;
         detailAddCartBtn.onclick = () => {
+            if (isOutOfStock) return;
             addToCart(product.id, modalQty);
         };
         detailBuyBtn.onclick = () => {
+            if (isOutOfStock) return;
             addToCart(product.id, modalQty);
             document.getElementById('cart-drawer').classList.remove('hidden');
         };
+
+        // UI for Out of Stock in Modal
+        if (isOutOfStock) {
+            detailAddCartBtn.classList.add('btn-disabled');
+            detailAddCartBtn.textContent = 'Out of Stock';
+            detailBuyBtn.classList.add('btn-disabled');
+            detailBuyBtn.textContent = 'Unavailable';
+        } else {
+            detailAddCartBtn.classList.remove('btn-disabled');
+            detailAddCartBtn.textContent = 'Add to Cart';
+            detailBuyBtn.classList.remove('btn-disabled');
+            detailBuyBtn.textContent = 'Buy Now';
+        }
 
         const modalFavBtn = document.getElementById('modal-fav-btn');
         if (modalFavBtn) {

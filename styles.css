@@ -254,7 +254,7 @@ a {
     overflow: hidden;
 }
 
-.hero h1 {
+.hero h1, .hero .hero-title {
     font-size: 4rem;
     font-weight: 800;
     color: var(--text);

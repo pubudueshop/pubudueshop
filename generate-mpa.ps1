@@ -46,7 +46,7 @@ foreach ($p in $prods) {
 
     $page = $base
     # Update Critical SEO Tags
-    $page = $page -replace '(?s)<title>.*?</title>', ("<title>$title | ichouse.lk</title>")
+    $page = $page -replace '(?s)<title>.*?</title>', ("<title>$title</title>")
     $page = $page -replace '(?s)<meta name="description"\s+content=".*?"', ("<meta name=`"description`" content=`"$shortDesc`"")
     $page = $page -replace '(?s)<link rel="canonical"\s+href=".*?"', ("<link rel=`"canonical`" href=`"$pUrl`"")
     
@@ -89,7 +89,9 @@ foreach ($p in $prods) {
 
     # Behavior
     $page = $page.Replace('id="product-modal-root" class="product-modal hidden"', 'id="product-modal-root" class="product-modal"')
+    $page = $page.Replace('<h2 id="detail-title">Product Title</h2>', "<h1 id=`"detail-title`">$title</h1>")
     $page = $page.Replace($lt + 'header class="hero"' + $gt, $lt + 'header class="hero" style="display:none;"' + $gt)
+    $page = $page.Replace('<h1>High-Quality <span class="gradient-text">Electronic Components</span></h1>', '<div class="hero-title">High-Quality <span class="gradient-text">Electronic Components</span></div>')
     $page = $page.Replace('id="home-featured"', 'id="home-featured" style="display:none;"')
 
     $page | Out-File -FilePath ($pPath + "/index.html") -Encoding utf8
@@ -115,10 +117,11 @@ foreach ($cKey in $cats.Keys) {
     $urls.Add($cUrl)
     
     $cPage = $base
-    $cPage = $cPage -replace '(?s)<title>.*?</title>', ("<title>$cKey | ichouse.lk</title>")
+    $cPage = $cPage -replace '(?s)<title>.*?</title>', ("<title>$cKey</title>")
     $cPage = $cPage -replace 'href="styles.css"', 'href="/styles.css"'
     $cPage = $cPage -replace 'src="script.js"', 'src="/script.js"'
     $cPage = $cPage.Replace($lt + 'header class="hero"' + $gt, $lt + 'header class="hero" style="display:none;"' + $gt)
+    $cPage = $cPage.Replace('<h1>High-Quality <span class="gradient-text">Electronic Components</span></h1>', '<div class="hero-title">High-Quality <span class="gradient-text">Electronic Components</span></div>')
     $cPage = $cPage.Replace('id="home-featured"', 'id="home-featured" style="display:none;"')
     $cPage = $cPage.Replace($lt + "body" + $gt, $lt + "body" + $gt + $lt + "script" + $gt + "window.initialCategory='" + $cKey + "';" + $lt + "/script" + $gt)
     $cPage = $cPage -replace '(?s)<link rel="canonical"\s+href=".*?"', ("<link rel=`"canonical`" href=`"$cUrl`"")
@@ -132,10 +135,11 @@ foreach ($cKey in $cats.Keys) {
         $urls.Add($sUrl)
         
         $sPage = $base
-        $sPage = $sPage -replace '(?s)<title>.*?</title>', ("<title>$sName | ichouse.lk</title>")
+        $sPage = $sPage -replace '(?s)<title>.*?</title>', ("<title>$sName</title>")
         $sPage = $sPage -replace 'href="styles.css"', 'href="/styles.css"'
         $sPage = $sPage -replace 'src="script.js"', 'src="/script.js"'
         $sPage = $sPage.Replace($lt + 'header class="hero"' + $gt, $lt + 'header class="hero" style="display:none;"' + $gt)
+        $sPage = $sPage.Replace('<h1>High-Quality <span class="gradient-text">Electronic Components</span></h1>', '<div class="hero-title">High-Quality <span class="gradient-text">Electronic Components</span></div>')
         $sPage = $sPage.Replace('id="home-featured"', 'id="home-featured" style="display:none;"')
         $sPage = $sPage.Replace($lt + "body" + $gt, $lt + "body" + $gt + $lt + "script" + $gt + "window.initialCategory='" + $cKey + "'; window.initialSubCategory='" + $sName + "';" + $lt + "/script" + $gt)
         $sPage = $sPage -replace '(?s)<link rel="canonical"\s+href=".*?"', ("<link rel=`"canonical`" href=`"$sUrl`"")

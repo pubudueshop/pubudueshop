@@ -1050,50 +1050,37 @@ function renderHomeGrid() {
 
     const html = homeGridSelectedProducts.map(product => {
         const isOutOfStock = product.stock <= 0;
-        const stockColor = isOutOfStock ? 'var(--danger)' : (product.stock > 10 ? 'var(--secondary)' : 'var(--accent)');
-        const stockText = isOutOfStock ? 'Out of Stock' : `Available: ${product.stock}`;
         const isFav = favorites.some(id => id == product.id);
+        const stockStatusClass = isOutOfStock ? 'stock-out' : 'stock-available';
+        const stockStatusText = isOutOfStock ? 'Out of Stock' : 'In Stock';
 
         return `
-            <a href="${SITE_URL}products/${generateSlug(product.title, product.id)}/?product=${product.id}" class="product-card ${isOutOfStock ? 'out-of-stock' : ''}">
-                <button class="btn-fav ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${product.id}')" title="${isFav ? 'Remove from Favorites' : 'Add to Favorites'}">
+            <div class="product-card">
+                <button class="btn-fav ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${product.id}')" title="${isFav ? 'Remove' : 'Add to Favorites'}">
                     <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
                 </button>
-                <div class="product-image-container">
-                    <span class="badge">${product.mainCategory}</span>
-                    ${isOutOfStock ? '<div class="out-of-stock-badge">Out Of Stock</div>' : ''}
-                    <img src="${product.image}" alt="${product.title}" class="product-image" 
-                         loading="lazy" decoding="async" 
-                         onerror="this.src='https://via.placeholder.com/300x300?text=Image+Not+Found'">
-                </div>
-                <div class="product-info">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem;">
-                        <span class="product-category">${product.subCategory}</span>
-                        <span style="font-size: 0.8rem; font-weight: 600; color: ${stockColor};">
-                            <i class="fas fa-cubes"></i> ${stockText}
-                        </span>
+                <a href="${SITE_URL}products/${generateSlug(product.title, product.id)}/?product=${product.id}" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                    <div class="product-image-container">
+                        <img src="${product.image}" alt="${product.title}" class="product-image" loading="lazy">
                     </div>
-                    <div style="width: 100%; background: #e2e8f0; height: 4px; border-radius: 2px; margin-bottom: 0.5rem; overflow: hidden;">
-                        <div style="width: ${Math.min(product.stock, 100)}%; background: ${stockColor}; height: 100%; border-radius: 2px;"></div>
+                    <div class="product-info">
+                        <div style="margin-bottom: 0.5rem;">
+                            <span class="stock-status ${stockStatusClass}">${stockStatusText}</span>
+                        </div>
+                        <h3 class="product-title">${product.title}</h3>
+                        <div class="product-price">LKR ${product.price.toLocaleString()}</div>
+                        <div class="product-actions">
+                            <button class="btn-buy ${isOutOfStock ? 'btn-disabled' : ''}" 
+                                    onclick="event.preventDefault(); event.stopPropagation(); ${isOutOfStock ? '' : `addToCart('${product.id}')`}">
+                                <i class="fas fa-cart-plus"></i> ${isOutOfStock ? 'Stock Out' : 'Add to Cart'}
+                            </button>
+                        </div>
                     </div>
-                    <h3 class="product-title">${product.title}</h3>
-                    <div class="product-price">LKR ${product.price.toLocaleString()}</div>
-                    <div class="product-actions">
-                        <button class="btn-video ${isOutOfStock ? 'btn-disabled' : ''}" 
-                                onclick="event.stopPropagation(); ${isOutOfStock ? '' : `addToCart('${product.id}')`}"
-                                ${isOutOfStock ? 'disabled' : ''}>
-                             ${isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
-                        </button>
-                        <button class="btn-buy ${isOutOfStock ? 'btn-disabled' : ''}" 
-                                onclick="event.stopPropagation(); ${isOutOfStock ? '' : `addToCart('${product.id}'); document.getElementById('cart-drawer').classList.remove('hidden');`}"
-                                ${isOutOfStock ? 'disabled' : ''}>
-                             Buy Now
-                        </button>
-                    </div>
-                </div>
-            </a>
+                </a>
+            </div>
         `;
     }).join('');
+
 
     homeGrid.innerHTML = html;
 }
@@ -1106,9 +1093,19 @@ function trackRecentProduct(id) {
     localStorage.setItem('recent_products', JSON.stringify(recent));
 }
 
+// Pagination state
+let currentLimit = 8;
+const DEFAULT_LIMIT_DESKTOP = 8;
+const DEFAULT_LIMIT_MOBILE = 6;
+
 // Optimized Render Products
-function renderProducts(mainCat = 'all', subCat = 'all', searchQuery = '') {
+function renderProducts(mainCat = 'all', subCat = 'all', searchQuery = '', resetLimit = true) {
     if (!productGrid) return;
+    
+    if (resetLimit) {
+        currentLimit = window.innerWidth < 768 ? DEFAULT_LIMIT_MOBILE : DEFAULT_LIMIT_DESKTOP;
+    }
+
 
     if (products.length === 0) {
         productGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; font-size: 1.2rem; color: var(--text-light); padding: 2rem;">No products found in database.</p>';
@@ -1137,59 +1134,88 @@ function renderProducts(mainCat = 'all', subCat = 'all', searchQuery = '') {
 
     if (filteredProducts.length === 0) {
         productGrid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; font-size: 1.2rem; color: var(--text-light); padding: 2rem;">${showingFavorites ? 'No favorites yet.' : 'No products found.'}</p>`;
+        const loadMoreContainer = document.getElementById('load-more-container');
+        if (loadMoreContainer) loadMoreContainer.classList.add('hidden');
         return;
     }
 
+    // Apply Pagination Limit
+    const displayedProducts = filteredProducts.slice(0, currentLimit);
+    const hasMore = filteredProducts.length > currentLimit;
+
+    // Show/Hide Load More Button
+    const loadMoreContainer = document.getElementById('load-more-container');
+    if (loadMoreContainer) {
+        if (hasMore) {
+            loadMoreContainer.classList.remove('hidden');
+        } else {
+            loadMoreContainer.classList.add('hidden');
+        }
+    }
+
+
     // Build entire HTML string once to minimize Reflows/Repaints
-    const html = filteredProducts.map(product => {
+    const html = displayedProducts.map(product => {
         const isOutOfStock = product.stock <= 0;
-        const stockColor = isOutOfStock ? 'var(--danger)' : (product.stock > 10 ? 'var(--secondary)' : 'var(--accent)');
-        const stockText = isOutOfStock ? 'Out of Stock' : `Available: ${product.stock}`;
         const isFav = favorites.some(id => id == product.id);
+        const stockStatusClass = isOutOfStock ? 'stock-out' : 'stock-available';
+        const stockStatusText = isOutOfStock ? 'Out of Stock' : 'In Stock';
 
         return `
-            <a href="${SITE_URL}products/${generateSlug(product.title, product.id)}/?product=${product.id}" class="product-card ${isOutOfStock ? 'out-of-stock' : ''}">
-                <button class="btn-fav ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${product.id}')" title="${isFav ? 'Remove from Favorites' : 'Add to Favorites'}">
+            <div class="product-card">
+                <button class="btn-fav ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${product.id}')" title="${isFav ? 'Remove' : 'Add to Favorites'}">
                     <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
                 </button>
-                <div class="product-image-container">
-                    <span class="badge">${product.mainCategory}</span>
-                    ${isOutOfStock ? '<div class="out-of-stock-badge">Out Of Stock</div>' : ''}
-                    <img src="${product.image}" alt="${product.title}" class="product-image" 
-                         loading="lazy" decoding="async" 
-                         onerror="this.src='https://via.placeholder.com/300x300?text=Image+Not+Found'">
-                </div>
-                <div class="product-info">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem;">
-                        <span class="product-category">${product.subCategory}</span>
-                        <span style="font-size: 0.8rem; font-weight: 600; color: ${stockColor};">
-                            <i class="fas fa-cubes"></i> ${stockText}
-                        </span>
+                <a href="${SITE_URL}products/${generateSlug(product.title, product.id)}/?product=${product.id}" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                    <div class="product-image-container">
+                        <img src="${product.image}" alt="${product.title}" class="product-image" loading="lazy" onerror="this.src='https://via.placeholder.com/300x300?text=Parts'">
                     </div>
-                    <div style="width: 100%; background: #e2e8f0; height: 4px; border-radius: 2px; margin-bottom: 0.5rem; overflow: hidden;">
-                        <div style="width: ${Math.min(product.stock, 100)}%; background: ${stockColor}; height: 100%; border-radius: 2px;"></div>
+                    <div class="product-info">
+                        <div style="margin-bottom: 0.5rem;">
+                            <span class="stock-status ${stockStatusClass}">${stockStatusText}</span>
+                        </div>
+                        <h3 class="product-title">${product.title}</h3>
+                        <div class="product-price">LKR ${product.price.toLocaleString()}</div>
+                        <div class="product-actions">
+                            <button class="btn-buy ${isOutOfStock ? 'btn-disabled' : ''}" 
+                                    onclick="event.preventDefault(); event.stopPropagation(); ${isOutOfStock ? '' : `addToCart('${product.id}')`}">
+                                <i class="fas fa-cart-plus"></i> ${isOutOfStock ? 'Stock Out' : 'Add to Cart'}
+                            </button>
+                        </div>
                     </div>
-                    <h3 class="product-title">${product.title}</h3>
-                    <div class="product-price">LKR ${product.price.toLocaleString()}</div>
-                    <div class="product-actions">
-                        <button class="btn-video ${isOutOfStock ? 'btn-disabled' : ''}" 
-                                onclick="event.stopPropagation(); ${isOutOfStock ? '' : `addToCart('${product.id}')`}"
-                                ${isOutOfStock ? 'disabled' : ''}>
-                             ${isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
-                        </button>
-                        <button class="btn-buy ${isOutOfStock ? 'btn-disabled' : ''}" 
-                                onclick="event.stopPropagation(); ${isOutOfStock ? '' : `addToCart('${product.id}'); document.getElementById('cart-drawer').classList.remove('hidden');`}"
-                                ${isOutOfStock ? 'disabled' : ''}>
-                             Buy Now
-                        </button>
-                    </div>
-                </div>
-            </a>
+                </a>
+            </div>
         `;
     }).join('');
 
     productGrid.innerHTML = html;
 }
+
+// Load More Handler
+function handleLoadMore() {
+    const mainSelect = document.getElementById('category-filter');
+    const subSelect = document.getElementById('subcategory-filter');
+    const searchValue = document.getElementById('main-search-input')?.value || '';
+    
+    const increment = window.innerWidth < 768 ? 4 : 8;
+    currentLimit += increment;
+    
+    renderProducts(
+        mainSelect?.value || 'all', 
+        subSelect?.value || 'all', 
+        searchValue, 
+        false // Do not reset limit
+    );
+}
+
+// Add event listener for Load More button
+document.addEventListener('DOMContentLoaded', () => {
+    const loadMoreBtn = document.getElementById('load-more-btn');
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', handleLoadMore);
+    }
+});
+
 
 // Open Product Details (Modal)
 function openProductDetails(id) {

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting... | Pubudu Electronics</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+        .loader {
+            text-align: center;
+        }
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #2563eb;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    <script>
+        // --- Smart Product Redirection Logic ---
+        // This script catches visits to products that exist in Firebase 
+        // but haven't had their static HTML files generated yet.
+        
+        const path = window.location.pathname;
+        // Match the pattern /products/some-slug-ID/ or /products/some-slug-ID
+        const productMatch = path.match(/\/products\/.*-([0-9]+)\/?$/);
+        
+        if (productMatch && productMatch[1]) {
+            const productId = productMatch[1];
+            console.log("Found Product ID in 404 URL:", productId);
+            // Redirect to home page with the product query parameter
+            // The script.js logic will catch this and open the modal instantly
+            window.location.replace('/?product=' + productId);
+        } else {
+            // If it's not a product URL, just go home
+            console.log("Generic 404, redirecting home");
+            window.location.replace('/');
+        }
+    </script>
+</head>
+<body>
+    <div class="loader">
+        <div class="spinner"></div>
+        <p>Opening product details...</p>
+    </div>
+</body>
+</html>

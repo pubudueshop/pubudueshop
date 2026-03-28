@@ -81,27 +81,33 @@ async function saveCategories() {
 }
 
 async function loadCategories() {
-    // Try Cloud First
-    if (db) {
-        try {
-            const doc = await db.collection("shop").doc("categories").get();
-            if (doc.exists) {
-                const newData = doc.data().data || {};
-                // Clear and update categoryData without re-assigning
-                Object.keys(categoryData).forEach(key => delete categoryData[key]);
-                Object.assign(categoryData, newData);
-                console.log("Categories loaded from Cloud");
-                return;
-            }
-        } catch (e) {
-            console.error("Cloud Category Load Error:", e);
-        }
-    }
-
-    // Fallback to Local
+    // 1. Local Fallback First
     const stored = localStorage.getItem('eshop_categories');
     if (stored) {
-        categoryData = JSON.parse(stored);
+        const localData = JSON.parse(stored);
+        Object.keys(categoryData).forEach(key => delete categoryData[key]);
+        Object.assign(categoryData, localData);
+        if (window.populateCategoryUI) window.populateCategoryUI();
+    }
+
+    // 2. Real-time Cloud Sync
+    if (db) {
+        db.collection("shop").doc("categories").onSnapshot((doc) => {
+            if (doc.exists) {
+                const newData = doc.data().data || {};
+                // Only update if data actually changed to avoid flickers
+                if (JSON.stringify(newData) !== JSON.stringify(categoryData)) {
+                    Object.keys(categoryData).forEach(key => delete categoryData[key]);
+                    Object.assign(categoryData, newData);
+                    console.log("Categories updated from Cloud (Live)");
+                    localStorage.setItem('eshop_categories', JSON.stringify(categoryData));
+                    
+                    // Refresh UI components that use category data
+                    if (typeof initFilters === 'function') initFilters();
+                    if (window.populateCategoryUI) window.populateCategoryUI();
+                }
+            }
+        }, (err) => console.error("Category Sync Error:", err));
     }
 }
 
@@ -163,45 +169,51 @@ async function loadProducts() {
         products.push(...localProducts);
         console.log("Instant Load: LocalStorage", products.length);
         renderHomeGrid();
-        renderProducts(); // Render immediately!
+        renderProducts();
         if (window.renderAdminList) window.renderAdminList();
     }
 
-    // 2. Initialize Firebase in background
+    // 2. Initialize Firebase
     const isCloud = initFirebase();
+    
+    // Load Categories (now with onSnapshot)
     await loadCategories();
 
-    // 3. Update from Cloud if available
+    // 3. Real-time Sync from Cloud
     if (isCloud && db) {
-        try {
-            const doc = await db.collection("shop").doc("inventory").get();
+        db.collection("shop").doc("inventory").onSnapshot((doc) => {
             if (doc.exists) {
                 const cloudProducts = doc.data().products || [];
 
-                // Compare with local - only re-render if changed
+                // Compare with current state - only update if different
+                // JSON stringify is a quick way for deep comparison of plain objects
                 if (JSON.stringify(cloudProducts) !== JSON.stringify(products)) {
                     products.length = 0;
                     products.push(...cloudProducts);
-                    console.log("Cloud Update: Sync completed", products.length);
+                    console.log("Inventory Update: Synchronized (Live)", products.length);
+                    
+                    localStorage.setItem('eshop_products', JSON.stringify(products));
+                    
+                    // Trigger UI updates
                     renderHomeGrid();
                     renderProducts();
                     if (window.renderAdminList) window.renderAdminList();
-                    localStorage.setItem('eshop_products', JSON.stringify(products));
                 }
-                return;
             }
-        } catch (e) {
-            console.error("Cloud Sync Error:", e);
-        }
+        }, (err) => {
+            console.error("Cloud Sync Error:", err);
+        });
     }
 
-    // 4. Default if nothing found anywhere
-    if (products.length === 0) {
-        const generated = generateProducts();
-        products.push(...generated);
-        renderHomeGrid();
-        renderProducts();
-    }
+    // 4. Default if nothing found anywhere after a short delay
+    setTimeout(() => {
+        if (products.length === 0) {
+            const generated = generateProducts();
+            products.push(...generated);
+            renderHomeGrid();
+            renderProducts();
+        }
+    }, 2000);
 }
 
 // Save products to Cloud and Local

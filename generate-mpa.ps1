@@ -22,7 +22,7 @@ $prods = $resp.fields.products.arrayValue.values
 if (Test-Path "products") { Remove-Item "products" -Recurse -Force }
 New-Item -ItemType Directory -Path "products" -Force | Out-Null
 
-$base = Get-Content "index.html" -Raw
+$base = Get-Content "index.html" -Raw -Encoding UTF8
 
 $urls = New-Object System.Collections.Generic.List[string]
 

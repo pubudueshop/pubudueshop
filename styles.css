@@ -1150,6 +1150,7 @@ body.standalone-product-page #home-featured,
 body.standalone-product-page #products,
 body.is-viewing-product .hero,
 body.is-viewing-product #home-featured,
+body.is-viewing-product #about,
 body.is-viewing-product #products {
     display: none !important;
 }

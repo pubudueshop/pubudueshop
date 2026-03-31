@@ -760,6 +760,7 @@ function initFilters() {
     let initialMain = window.initialCategory || urlParams.get('category') || 'all';
     let initialSub = window.initialSubCategory || urlParams.get('subcategory') || 'all';
     const initialSearch = urlParams.get('search') || '';
+    const viewMode = urlParams.get('view');
 
     // Extract from Path if applicable (e.g. /category/microcontrollers/arduino-compatible/)
     if (initialMain === 'all' && window.location.pathname.includes('/category/')) {
@@ -869,10 +870,16 @@ function initFilters() {
     filterContainer.appendChild(subSelect);
 
     // Initial Render based on URL
-    if (initialMain !== 'all' || initialSub !== 'all' || initialSearch !== '') {
+    if (initialMain !== 'all' || initialSub !== 'all' || initialSearch !== '' || viewMode === 'products') {
         const prodSection = document.getElementById('products');
         if (prodSection) prodSection.classList.remove('hidden-on-home');
         renderProducts(initialMain, initialSub, initialSearch);
+        
+        // Hide hero and featured if shop is being viewed
+        const hero = document.querySelector('.hero');
+        const featured = document.getElementById('home-featured');
+        if (hero) hero.style.display = 'none';
+        if (featured) featured.style.display = 'none';
     } else {
         // Just hide the products section on homepage by default
         const prodSection = document.getElementById('products');
@@ -937,12 +944,21 @@ function toggleCategoryNav(cat) {
 
 function showAllProducts() {
     const prodSection = document.getElementById('products');
-    if (prodSection) prodSection.classList.remove('hidden-on-home');
+    
+    // If we're not on the homepage (where #products exists), navigate there
+    if (!prodSection) {
+        window.location.href = '/?view=products';
+        return;
+    }
+
+    prodSection.classList.remove('hidden-on-home');
     
     const hero = document.querySelector('.hero');
     const featured = document.getElementById('home-featured');
+    const about = document.getElementById('about');
     if (hero) hero.style.display = 'none';
     if (featured) featured.style.display = 'none';
+    if (about) about.style.display = 'block'; // Ensure about is visible if we're manually showing products
     
     // Reset filters to show everything including categories
     if (window.renderProducts) {

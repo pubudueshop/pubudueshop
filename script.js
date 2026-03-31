@@ -1769,11 +1769,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
 
-        // Add Event Listeners for Home/Reset
+        // Logo is now unclickable span
         const navLogo = document.getElementById('nav-logo');
-        if (navLogo) {
-            navLogo.addEventListener('click', resetApp);
-        }
 
         // WhatsApp Navbar Button Explicit Handler
         const navContactBtn = document.getElementById('nav-contact-btn');

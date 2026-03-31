@@ -116,6 +116,8 @@ a {
     color: var(--text);
     text-decoration: none;
     letter-spacing: -0.5px;
+    cursor: default;
+    user-select: none;
 }
 
 .logo .accent {

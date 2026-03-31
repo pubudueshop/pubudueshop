@@ -944,6 +944,15 @@ function showAllProducts() {
     if (hero) hero.style.display = 'none';
     if (featured) featured.style.display = 'none';
     
+    // Reset filters to show everything including categories
+    if (window.renderProducts) {
+        renderProducts('all', 'all');
+        
+        // Update URL state
+        const SITE_URL = window.SITE_URL || '/';
+        window.history.pushState({ category: 'all', subcategory: 'all' }, '', SITE_URL);
+    }
+    
     // Also scroll to results
     setTimeout(() => {
         const productsSection = document.getElementById('products');

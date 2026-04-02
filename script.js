@@ -18,51 +18,6 @@ const categoryIcons = {
 // Start with an empty list
 const baseProducts = [];
 
-// Helper to generate sample product list for fallback
-function generateProducts() {
-    return [
-        {
-            id: 1,
-            title: "12V 2A Power Adapter",
-            mainCategory: "Power Adapters",
-            subCategory: "12V Adapters",
-            price: 1250,
-            stock: 45,
-            image: "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800",
-            description: "High-quality 12V 2A power adapter for electronics projects.",
-            longDescription: "Standard 12V DC power adapter, 2A output. Ideal for microcontrollers, LED strips, and other DC projects.",
-            keywords: ["power", "adapter", "12v"],
-            features: ["Overload protection", "Stable voltage output", "Brand New Condition"],
-            specs: { "Brand": "Generic", "Model": "N/A", "Condition": "Brand New", "Input": "100-240V AC", "Output": "12V 2A DC" },
-            videoUrl: "#",
-            images: [
-                "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800",
-                "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800",
-                "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800"
-            ]
-        },
-        {
-            id: 2,
-            title: "Arduino Uno R3 Compatible",
-            mainCategory: "Microcontrollers",
-            subCategory: "Arduino Compatible",
-            price: 2450,
-            stock: 20,
-            image: "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800",
-            description: "The classic microcontroller for makers and beginners.",
-            longDescription: "Compatible with Arduino Uno R3. A great starting point for learning electronics and coding.",
-            keywords: ["arduino", "uno", "microcontroller"],
-            features: ["Easy to program", "Wide compatibility", "Brand New Condition"],
-            specs: { "Brand": "Arduino", "Model": "R3", "Condition": "Brand New", "MCU": "ATmega328P", "Voltage": "5V" },
-            videoUrl: "https://www.youtube.com/watch?v=d8nK7F67Y60",
-            images: [
-                "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800",
-                "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800",
-                "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800"
-            ]
-        }
-    ];
-}
 
 // Global Category Management
 async function saveCategories() {
@@ -205,15 +160,6 @@ async function loadProducts() {
         });
     }
 
-    // 4. Default if nothing found anywhere after a short delay
-    setTimeout(() => {
-        if (products.length === 0) {
-            const generated = generateProducts();
-            products.push(...generated);
-            renderHomeGrid();
-            renderProducts();
-        }
-    }, 2000);
 }
 
 // Save products to Cloud and Local

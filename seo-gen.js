@@ -1,5 +1,6 @@
 const fs = require('fs');
 const https = require('https');
+const path = require('path');
 
 // Configuration
 const SITE_URL = "https://ichouse.lk/";
@@ -7,21 +8,26 @@ const PROJECT_ID = "pubudueshop-cde28";
 const API_KEY = "AIzaSyDl9N6YmDJI9bhhdkeUQPUxWKxIhZhryus";
 const LAST_MOD = new Date().toISOString().split('T')[0];
 
-console.log("--- SEO GENERATOR CONFIG ---");
+console.log("--- SEO & SSG GENERATOR ---");
 console.log(`URL: ${SITE_URL}`);
 console.log(`Project: ${PROJECT_ID}`);
 console.log(`Date: ${LAST_MOD}`);
 console.log("----------------------------");
 
+function getSlug(title, id) {
+    if (!title) return id || "";
+    let slug = title.toLowerCase().replace(/[^a-z0-9 ]/g, '').trim().replace(/\s+/g, '-');
+    if (slug.length > 50) slug = slug.substring(0, 50).replace(/-$/, '');
+    return id ? `${slug}-${id}` : slug;
+}
+
 async function fetchProducts() {
     const url = `https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents/shop/inventory?key=${API_KEY}`;
-
-    console.log("📡 Fetching products from Firebase...");
+    console.log("📡 Fetching inventory from Firebase...");
+    
     return new Promise((resolve, reject) => {
-        const req = https.get(url, { timeout: 10000 }, (res) => {
+        const req = https.get(url, { timeout: 15000 }, (res) => {
             let data = '';
-            console.log(`📡 Status Code: ${res.statusCode}`);
-
             res.on('data', (chunk) => data += chunk);
             res.on('end', () => {
                 if (res.statusCode !== 200) {
@@ -34,16 +40,20 @@ async function fetchProducts() {
                     if (json.fields && json.fields.products && json.fields.products.arrayValue) {
                         const rawProducts = json.fields.products.arrayValue.values || [];
                         const products = rawProducts.map(p => {
-                            const fields = p.mapValue.fields;
+                            const f = p.mapValue.fields;
                             return {
-                                id: fields.id.integerValue || fields.id.stringValue,
-                                mainCategory: fields.mainCategory ? fields.mainCategory.stringValue : 'General'
+                                id: (f.id.integerValue || f.id.stringValue),
+                                title: f.title.stringValue,
+                                mainCategory: (f.mainCategory ? f.mainCategory.stringValue : 'General'),
+                                subCategory: (f.subCategory ? f.subCategory.stringValue : ''),
+                                description: (f.description ? f.description.stringValue : (f.longDescription ? f.longDescription.stringValue : '')),
+                                price: (f.price ? (f.price.integerValue || f.price.doubleValue) : 0),
+                                image: (f.image ? f.image.stringValue : (f.images && f.images.arrayValue.values ? f.images.arrayValue.values[0].stringValue : ''))
                             };
                         });
                         console.log(`✅ Extracted ${products.length} products.`);
                         resolve(products);
                     } else {
-                        console.log("⚠️ No products found in inventory document.");
                         resolve([]);
                     }
                 } catch (e) {
@@ -52,36 +62,33 @@ async function fetchProducts() {
                 }
             });
         });
-
-        req.on('error', (err) => {
-            console.error("❌ Network Error:", err.message);
-            reject(err);
-        });
-
-        req.on('timeout', () => {
-            req.destroy();
-            console.error("❌ Request timed out after 10s");
-            reject(new Error("Timeout"));
-        });
+        req.on('error', (err) => reject(err));
     });
 }
 
-function generateSitemap(productList = []) {
+function generateSitemap(productList, categoryUrls) {
     let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
     xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
-
+    
+    // Homepage
     xml += `  <url>\n    <loc>${SITE_URL}</loc>\n    <lastmod>${LAST_MOD}</lastmod>\n    <priority>1.0</priority>\n  </url>\n`;
 
-    const categories = [...new Set(productList.map(p => p.mainCategory))];
-    categories.forEach(cat => {
-        if (cat) {
-            xml += `  <url>\n    <loc>${SITE_URL}?category=${encodeURIComponent(cat)}</loc>\n    <lastmod>${LAST_MOD}</lastmod>\n    <priority>0.8</priority>\n  </url>\n`;
-        }
+    // Static Pages
+    const staticPages = ['delivery.html', 'faq.html', 'payment.html', 'privacy.html', 'return.html', 'terms.html'];
+    staticPages.forEach(page => {
+        xml += `  <url>\n    <loc>${SITE_URL}${page}</loc>\n    <lastmod>${LAST_MOD}</lastmod>\n    <priority>0.5</priority>\n  </url>\n`;
     });
 
+    // Categories
+    categoryUrls.forEach(url => {
+        xml += `  <url>\n    <loc>${url}</loc>\n    <lastmod>${LAST_MOD}</lastmod>\n    <priority>0.8</priority>\n  </url>\n`;
+    });
+
+    // Products
     productList.forEach(prod => {
-        if (prod.id) {
-            xml += `  <url>\n    <loc>${SITE_URL}?product=${prod.id}</loc>\n    <lastmod>${LAST_MOD}</lastmod>\n    <priority>0.7</priority>\n  </url>\n`;
+        if (prod.id && prod.title) {
+            const slug = getSlug(prod.title, prod.id);
+            xml += `  <url>\n    <loc>${SITE_URL}products/${slug}/</loc>\n    <lastmod>${LAST_MOD}</lastmod>\n    <priority>0.7</priority>\n  </url>\n`;
         }
     });
 
@@ -104,10 +111,111 @@ async function run() {
     try {
         const products = await fetchProducts();
         generateRobots();
-        generateSitemap(products);
-        console.log("✨ Done!");
+
+        const baseHtml = fs.readFileSync('index.html', 'utf8');
+        const urls = [];
+
+        // Clean up old directories (optional, but good for CI)
+        if (fs.existsSync('products')) fs.rmSync('products', { recursive: true, force: true });
+        if (fs.existsSync('category')) fs.rmSync('category', { recursive: true, force: true });
+
+        // 1. Generate Product Pages
+        console.log("📁 Generating Product Pages...");
+        fs.mkdirSync('products', { recursive: true });
+        
+        products.forEach(p => {
+            const slug = getSlug(p.title, p.id);
+            const pUrl = `${SITE_URL}products/${slug}/`;
+            const pDir = path.join('products', slug);
+            fs.mkdirSync(pDir, { recursive: true });
+
+            const cleanTitle = p.title.replace(/"/g, '&quot;');
+            const shortDesc = p.description ? p.description.substring(0, 160).replace(/"/g, '&quot;') : "";
+            
+            let page = baseHtml;
+            // SEO Injection
+            page = page.replace(/<title>.*?<\/title>/s, `<title>${cleanTitle} | Pubudu Electronics</title>`);
+            page = page.replace(/<meta name="description" content=".*?"/s, `<meta name="description" content="${shortDesc}"`);
+            page = page.replace(/<link rel="canonical" href=".*?"/s, `<link rel="canonical" href="${pUrl}"`);
+            
+            // Social Media Tags
+            page = page.replace(/property="og:url" content=".*?"/g, `property="og:url" content="${pUrl}"`);
+            page = page.replace(/property="og:title" id="og-title" content=".*?"/g, `property="og:title" id="og-title" content="${cleanTitle}"`);
+            page = page.replace(/property="og:description" id="og-desc" content=".*?"/g, `property="og:description" id="og-desc" content="${shortDesc}"`);
+            page = page.replace(/property="og:image" id="og-image" content=".*?"/g, `property="og:image" id="og-image" content="${p.image}"`);
+            
+            // Twitter
+            page = page.replace(/name="twitter:url" content=".*?"/g, `name="twitter:url" content="${pUrl}"`);
+            page = page.replace(/name="twitter:title" id="tw-title" content=".*?"/g, `name="twitter:title" id="tw-title" content="${cleanTitle}"`);
+            page = page.replace(/name="twitter:description" id="tw-desc" content=".*?"/g, `name="twitter:description" id="tw-desc" content="${shortDesc}"`);
+            page = page.replace(/name="twitter:image" id="tw-image" content=".*?"/g, `name="twitter:image" id="tw-image" content="${p.image}"`);
+
+            // Asset and Link paths fix (pointing to root)
+            page = page.replace(/href="styles\.css"/g, 'href="/styles.css"');
+            page = page.replace(/src="script\.js"/g, 'src="/script.js"');
+            page = page.replace(/href="\/favicon\.png"/g, 'href="/favicon.png"');
+            page = page.replace(/src="logo\.png"/g, 'src="/logo.png"');
+            
+            // Fix relative navigation links in footer/nav for subdirectories
+            const staticPages = ['delivery.html', 'faq.html', 'payment.html', 'privacy.html', 'return.html', 'terms.html', 'index.html'];
+            staticPages.forEach(sp => {
+                const regex = new RegExp(`href="${sp}"`, 'g');
+                page = page.replace(regex, `href="/${sp}"`);
+            });
+
+            // Set state for script.js to pick up
+            page = page.replace('<body', `<body class="standalone-product-page" data-product-id="${p.id}"`);
+
+            fs.writeFileSync(path.join(pDir, 'index.html'), page);
+        });
+
+        // 2. Generate Category Pages
+        console.log("📁 Generating Category Pages...");
+        const categoryMap = {};
+        products.forEach(p => {
+            if (!categoryMap[p.mainCategory]) categoryMap[p.mainCategory] = new Set();
+            if (p.subCategory) categoryMap[p.mainCategory].add(p.subCategory);
+        });
+
+        fs.mkdirSync('category', { recursive: true });
+
+        Object.keys(categoryMap).forEach(cat => {
+            const catSlug = getSlug(cat, "");
+            const catUrl = `${SITE_URL}category/${catSlug}/`;
+            const catDir = path.join('category', catSlug);
+            fs.mkdirSync(catDir, { recursive: true });
+            urls.push(catUrl);
+
+            let catPage = baseHtml;
+            catPage = catPage.replace(/<title>.*?<\/title>/s, `<title>${cat} | Pubudu Electronics</title>`);
+            catPage = catPage.replace(/href="styles\.css"/g, 'href="/styles.css"');
+            catPage = catPage.replace(/src="script\.js"/g, 'src="/script.js"');
+            catPage = catPage.replace('<body', `<body data-category="${cat}"`);
+            
+            fs.writeFileSync(path.join(catDir, 'index.html'), catPage);
+
+            categoryMap[cat].forEach(sub => {
+                const subSlug = getSlug(sub, "");
+                const subUrl = `${catUrl}${subSlug}/`;
+                const subDir = path.join(catDir, subSlug);
+                fs.mkdirSync(subDir, { recursive: true });
+                urls.push(subUrl);
+
+                let subPage = baseHtml;
+                subPage = subPage.replace(/<title>.*?<\/title>/s, `<title>${sub} | Pubudu Electronics</title>`);
+                subPage = subPage.replace(/href="styles\.css"/g, 'href="/styles.css"');
+                subPage = subPage.replace(/src="script\.js"/g, 'src="/script.js"');
+                subPage = subPage.replace('<body', `<body data-category="${cat}" data-subcategory="${sub}"`);
+                
+                fs.writeFileSync(path.join(subDir, 'index.html'), subPage);
+            });
+        });
+
+        generateSitemap(products, urls);
+        console.log("✨ All tasks completed successfully!");
     } catch (e) {
         console.error("🚨 Critical failure:", e.message);
+        process.exit(1);
     }
 }
 

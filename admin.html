@@ -536,9 +536,9 @@
                     <div class="form-group">
                         <label>Item Condition</label>
                         <select id="prod-condition">
-                            <option value="Brand New">Brand New</option>
+                            <option value="Brand new">Brand new</option>
                             <option value="Used">Used</option>
-                            <option value="For Part or Repair">For Part or Repair</option>
+                            <option value="for parts">for parts</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -929,7 +929,11 @@
                 document.getElementById('prod-title').value = p.title;
                 document.getElementById('prod-model').value = p.modelNumber || '';
                 document.getElementById('prod-brand').value = p.brand || '';
-                document.getElementById('prod-condition').value = p.condition || 'Brand New';
+                // Handle condition value with backward compatibility
+                let cond = p.condition || 'Brand new';
+                if (cond === 'Brand New') cond = 'Brand new';
+                if (cond === 'For Part or Repair') cond = 'for parts';
+                document.getElementById('prod-condition').value = cond;
                 document.getElementById('prod-price').value = p.price;
                 document.getElementById('prod-stock').value = p.stock || 0;
 

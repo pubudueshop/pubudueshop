@@ -115,6 +115,9 @@ function generateSlug(title, id) {
     return id ? `${slug}-${id}` : slug;
 }
 
+// Guard flag: prevents double-render from LocalStorage + Firebase firing simultaneously
+let initialRenderDone = false;
+
 async function loadProducts() {
     // 1. Try to load from LocalStorage immediately for instant UI
     const storedProducts = localStorage.getItem('eshop_products');
@@ -126,6 +129,7 @@ async function loadProducts() {
         renderHomeGrid();
         renderProducts();
         if (window.renderAdminList) window.renderAdminList();
+        initialRenderDone = true; // Mark first paint as complete
     }
 
     // 2. Initialize Firebase
@@ -148,16 +152,27 @@ async function loadProducts() {
                     console.log("Inventory Update: Synchronized (Live)", products.length);
                     
                     localStorage.setItem('eshop_products', JSON.stringify(products));
-                    
-                    // Trigger UI updates
-                    renderHomeGrid();
-                    renderProducts();
-                    if (window.renderAdminList) window.renderAdminList();
+
+                    // Only re-render UI after the initial paint is done to prevent duplicate renders
+                    if (initialRenderDone) {
+                        renderHomeGrid();
+                        renderProducts();
+                        if (window.renderAdminList) window.renderAdminList();
+                    } else {
+                        // First-ever load (no LocalStorage cache). Render now and mark done.
+                        renderHomeGrid();
+                        renderProducts();
+                        if (window.renderAdminList) window.renderAdminList();
+                        initialRenderDone = true;
+                    }
                 }
             }
         }, (err) => {
             console.error("Cloud Sync Error:", err);
         });
+    } else if (!initialRenderDone) {
+        // No Firebase, no LocalStorage: mark done to unblock initFilters
+        initialRenderDone = true;
     }
 
 }
@@ -694,7 +709,8 @@ function updateURL(mainCat, subCat, productId, searchQuery) {
 }
 
 // Initialize Filters with URL Support
-function initFilters() {
+// skipInitialRender: pass true when called right after loadProducts() to avoid a redundant render
+function initFilters(skipInitialRender = false) {
     // Don't clear innerHTML as it removes the search bar
     const existingMain = document.getElementById('category-filter');
     const existingSub = document.getElementById('subcategory-filter');
@@ -819,7 +835,11 @@ function initFilters() {
     if (initialMain !== 'all' || initialSub !== 'all' || initialSearch !== '' || viewMode === 'products') {
         const prodSection = document.getElementById('products');
         if (prodSection) prodSection.classList.remove('hidden-on-home');
-        renderProducts(initialMain, initialSub, initialSearch);
+
+        // Only call renderProducts if we weren't asked to skip (avoids triple-render on startup)
+        if (!skipInitialRender) {
+            renderProducts(initialMain, initialSub, initialSearch);
+        }
         
         // Hide hero and featured if shop is being viewed
         const hero = document.querySelector('.hero');
@@ -1780,7 +1800,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         // 2. Load Data and Firebase (Async)
         await loadProducts(); // Load from Cloud or Local first
         if (filterContainer) {
-            initFilters();
+            // Pass skipInitialRender=true to avoid renderProducts() being called a 3rd time
+            // right after loadProducts() has already rendered via LocalStorage + Firebase
+            initFilters(true);
         }
 
 

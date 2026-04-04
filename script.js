@@ -241,6 +241,7 @@ let favorites = [];
 let userDeliveryDetails = {};
 let showingFavorites = false;
 let modalQty = 1;
+let currentModalProductId = null;
 
 // --- Authentication Logic ---
 function initCustomerAuth() {
@@ -376,6 +377,18 @@ function addToCart(productId, quantity = 1) {
     }
 
     const existingItem = cart.find(item => item.id == productId);
+    const cartQty = existingItem ? existingItem.quantity : 0;
+    
+    if (cartQty + quantity > product.stock) {
+        const available = product.stock - cartQty;
+        if (available > 0) {
+            showToast(`You can only add ${available} more of this item (Stock: ${product.stock})`, "error");
+        } else {
+            showToast(`Maximum stock limit (${product.stock}) reached for this item`, "error");
+        }
+        return;
+    }
+
     if (existingItem) {
         existingItem.quantity += quantity;
     } else {
@@ -394,8 +407,33 @@ function addToCart(productId, quantity = 1) {
 }
 
 function updateModalQty(delta) {
+    if (!currentModalProductId) {
+        modalQty += delta;
+        if (modalQty < 1) modalQty = 1;
+        const qtyValueDisplay = document.getElementById('modal-qty-value');
+        if (qtyValueDisplay) qtyValueDisplay.textContent = modalQty;
+        return;
+    }
+
+    const product = products.find(p => p.id == currentModalProductId);
+    if (!product) return;
+    
+    const existingItem = cart.find(item => item.id == currentModalProductId);
+    const cartQty = existingItem ? existingItem.quantity : 0;
+    const maxAllowed = product.stock - cartQty;
+    
     modalQty += delta;
     if (modalQty < 1) modalQty = 1;
+    
+    if (modalQty > maxAllowed) {
+        modalQty = maxAllowed > 0 ? maxAllowed : 1;
+        if (maxAllowed > 0 && delta > 0) {
+            showToast(`You can only select up to ${maxAllowed} units based on stock.`);
+        } else if (maxAllowed <= 0 && delta > 0) {
+            showToast(`You already have all available stock (${product.stock}) in your cart.`);
+        }
+    }
+    
     const qtyValueDisplay = document.getElementById('modal-qty-value');
     if (qtyValueDisplay) qtyValueDisplay.textContent = modalQty;
 }
@@ -428,7 +466,12 @@ function removeFromCart(productId) {
 
 function updateQuantity(productId, delta) {
     const item = cart.find(i => i.id == productId);
+    const product = products.find(p => p.id == productId);
     if (item) {
+        if (product && delta > 0 && item.quantity + delta > product.stock) {
+            showToast(`Maximum stock limit (${product.stock}) reached for this item`, "error");
+            return;
+        }
         item.quantity += delta;
         if (item.quantity <= 0) {
             removeFromCart(productId);
@@ -1323,6 +1366,7 @@ function openProductDetails(id) {
         }
 
         // Reset Modal Qty
+        currentModalProductId = product.id;
         modalQty = 1;
         const qtyValueDisplay = document.getElementById('modal-qty-value');
         if (qtyValueDisplay) qtyValueDisplay.textContent = modalQty;

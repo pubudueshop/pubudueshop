@@ -1492,6 +1492,10 @@ function openProductDetails(id) {
         // Update URL to include product ID
         updateURL(product.mainCategory, product.subCategory, product.id);
 
+        // Hide static SEO block since the dynamic modal is now active
+        const seoBlock = document.getElementById('seo-product-content');
+        if (seoBlock) seoBlock.style.display = 'none';
+
         // Show Modal
         productModalRoot.classList.remove('hidden');
         document.body.classList.add('modal-open');
@@ -1563,6 +1567,10 @@ function closeProductModal() {
 
     // Reset WhatsApp Message
     updateWhatsAppMessage();
+
+    // Show SEO block again if it exists
+    const seoBlock = document.getElementById('seo-product-content');
+    if (seoBlock) seoBlock.style.display = 'block';
 }
 
 

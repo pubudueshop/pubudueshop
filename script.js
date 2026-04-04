@@ -1290,7 +1290,37 @@ function openProductDetails(id) {
             detailSpecsBody.appendChild(tr);
         }
         detailVideoBtn.href = product.videoUrl;
-        detailVideoBtn.style.display = product.videoUrl === '#' ? 'none' : 'flex';
+        detailVideoBtn.style.display = product.videoUrl === '#' || !product.videoUrl ? 'none' : 'flex';
+
+        // --- Video Preview Auto-Embed ---
+        const videoPreviewContainer = document.getElementById('detail-video-preview');
+        if (videoPreviewContainer) {
+            if (product.videoUrl && product.videoUrl !== '#' && (product.videoUrl.includes('youtu.be') || product.videoUrl.includes('youtube.com'))) {
+                let embedUrl = null;
+                try {
+                    if (product.videoUrl.includes('youtube.com/watch?v=')) {
+                        embedUrl = 'https://www.youtube.com/embed/' + new URL(product.videoUrl).searchParams.get('v');
+                    } else if (product.videoUrl.includes('youtu.be/')) {
+                        embedUrl = 'https://www.youtube.com/embed/' + product.videoUrl.split('youtu.be/')[1].split('?')[0];
+                    } else if (product.videoUrl.includes('youtube.com/embed/')) {
+                        embedUrl = product.videoUrl;
+                    }
+                } catch(e) {
+                    console.error("Error parsing video URL", e);
+                }
+
+                if (embedUrl) {
+                    videoPreviewContainer.innerHTML = `<iframe width="100%" height="240" src="${embedUrl}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: block; width: 100%; height: 240px; border: none; background: #000;"></iframe>`;
+                    videoPreviewContainer.style.display = 'block';
+                } else {
+                    videoPreviewContainer.style.display = 'none';
+                    videoPreviewContainer.innerHTML = '';
+                }
+            } else {
+                videoPreviewContainer.style.display = 'none';
+                videoPreviewContainer.innerHTML = '';
+            }
+        }
 
         // Reset Modal Qty
         modalQty = 1;
@@ -1567,6 +1597,13 @@ function closeProductModal() {
 
     // Reset WhatsApp Message
     updateWhatsAppMessage();
+
+    // Stop video playing by clearing the iframe
+    const videoPreviewContainer = document.getElementById('detail-video-preview');
+    if (videoPreviewContainer) {
+        videoPreviewContainer.innerHTML = '';
+        videoPreviewContainer.style.display = 'none';
+    }
 
     // Show SEO block again if it exists
     const seoBlock = document.getElementById('seo-product-content');

@@ -1338,15 +1338,30 @@ function openProductDetails(id) {
         // --- Video Preview Auto-Embed ---
         const videoPreviewContainer = document.getElementById('detail-video-preview');
         if (videoPreviewContainer) {
-            if (product.videoUrl && product.videoUrl !== '#' && (product.videoUrl.includes('youtu.be') || product.videoUrl.includes('youtube.com'))) {
+            if (product.videoUrl && product.videoUrl !== '#') {
                 let embedUrl = null;
                 try {
-                    if (product.videoUrl.includes('youtube.com/watch?v=')) {
-                        embedUrl = 'https://www.youtube.com/embed/' + new URL(product.videoUrl).searchParams.get('v');
-                    } else if (product.videoUrl.includes('youtu.be/')) {
-                        embedUrl = 'https://www.youtube.com/embed/' + product.videoUrl.split('youtu.be/')[1].split('?')[0];
-                    } else if (product.videoUrl.includes('youtube.com/embed/')) {
-                        embedUrl = product.videoUrl;
+                    let urlToParse = product.videoUrl.trim();
+                    if (!urlToParse.startsWith('http')) {
+                        urlToParse = 'https://' + urlToParse;
+                    }
+                    const parsedUrl = new URL(urlToParse);
+                    const hostname = parsedUrl.hostname.toLowerCase();
+                    
+                    if (hostname.includes('youtube.com') || hostname.includes('youtu.be')) {
+                        if (hostname.includes('youtu.be')) {
+                            embedUrl = 'https://www.youtube.com/embed/' + parsedUrl.pathname.substring(1).split('?')[0];
+                        } else if (parsedUrl.pathname.startsWith('/embed/')) {
+                            embedUrl = urlToParse;
+                        } else if (parsedUrl.pathname.startsWith('/shorts/')) {
+                            const shortId = parsedUrl.pathname.split('/shorts/')[1].split('?')[0];
+                            embedUrl = 'https://www.youtube.com/embed/' + shortId;
+                        } else {
+                            const v = parsedUrl.searchParams.get('v');
+                            if (v) embedUrl = 'https://www.youtube.com/embed/' + v;
+                        }
+                    } else if (hostname.includes('facebook.com') && urlToParse.includes('/video')) {
+                        embedUrl = 'https://www.facebook.com/plugins/video.php?href=' + encodeURIComponent(product.videoUrl) + '&show_text=false&width=560';
                     }
                 } catch(e) {
                     console.error("Error parsing video URL", e);

@@ -14,11 +14,12 @@ console.log(`Project: ${PROJECT_ID}`);
 console.log(`Date: ${LAST_MOD}`);
 console.log("----------------------------");
 
-function getSlug(title, id) {
-    if (!title) return id || "";
-    let slug = title.toLowerCase().replace(/[^a-z0-9 ]/g, '').trim().replace(/\s+/g, '-');
-    if (slug.length > 50) slug = slug.substring(0, 50).replace(/-$/, '');
-    return id ? `${slug}-${id}` : slug;
+function createSEOSlug(name) {
+    if (!name) return "";
+    return name
+        .toLowerCase()
+        .replace(/[^\w ]+/g, '')
+        .replace(/ +/g, '-');
 }
 
 async function fetchProducts() {
@@ -162,8 +163,8 @@ function injectProductContent(page, product, pageUrl) {
 <div id="seo-product-content" style="max-width:1000px;margin:2rem auto;padding:1rem 1.5rem;font-family:'Outfit',sans-serif;">
     <nav style="font-size:0.85rem;color:#64748b;margin-bottom:1rem;">
         <a href="/" style="color:#3b82f6;text-decoration:none;">Home</a> &rsaquo;
-        <a href="/category/${getSlug(product.mainCategory, '')}/" style="color:#3b82f6;text-decoration:none;">${product.mainCategory}</a>
-        ${product.subCategory ? `&rsaquo; <a href="/category/${getSlug(product.mainCategory, '')}/${getSlug(product.subCategory, '')}/" style="color:#3b82f6;text-decoration:none;">${product.subCategory}</a>` : ''}
+        <a href="/${createSEOSlug(product.mainCategory)}" style="color:#3b82f6;text-decoration:none;">${product.mainCategory}</a>
+        ${product.subCategory ? `&rsaquo; <a href="/${createSEOSlug(product.mainCategory)}/${createSEOSlug(product.subCategory)}/" style="color:#3b82f6;text-decoration:none;">${product.subCategory}</a>` : ''}
         &rsaquo; ${cleanTitle}
     </nav>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;">
@@ -217,14 +218,17 @@ function injectCategoryContent(page, cat, subCat, products, catUrl) {
     );
 
     const productListHtml = categoryProducts.slice(0, 20).map(p => {
-        const slug = getSlug(p.title, p.id);
+        const slug = createSEOSlug(p.title);
+        const mainCatSlug = createSEOSlug(p.mainCategory || 'General');
+        const subCatSlug = p.subCategory ? createSEOSlug(p.subCategory) : '';
+        const pUrlStr = subCatSlug ? `/${mainCatSlug}/${subCatSlug}/${slug}/` : `/${mainCatSlug}/${slug}/`;
         const cleanTitle = (p.title || '').replace(/</g, '&lt;');
         const price = parseInt(p.price) || 0;
         return `
         <div style="border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;background:white;">
-            ${p.image ? `<a href="/products/${slug}/?product=${p.id}"><img src="${p.image}" alt="${cleanTitle}" style="width:100%;height:180px;object-fit:contain;background:#f8fafc;" loading="lazy"></a>` : ''}
+            ${p.image ? `<a href="${pUrlStr}"><img src="${p.image}" alt="${cleanTitle}" style="width:100%;height:180px;object-fit:contain;background:#f8fafc;" loading="lazy"></a>` : ''}
             <div style="padding:0.75rem;">
-                <a href="/products/${slug}/?product=${p.id}" style="font-weight:600;color:#0f172a;text-decoration:none;font-size:0.95rem;display:block;margin-bottom:0.25rem;">${cleanTitle}</a>
+                <a href="${pUrlStr}" style="font-weight:600;color:#0f172a;text-decoration:none;font-size:0.95rem;display:block;margin-bottom:0.25rem;">${cleanTitle}</a>
                 <div style="color:#3b82f6;font-weight:700;">LKR ${price.toLocaleString()}</div>
                 ${p.stock > 0 ? '<span style="font-size:0.75rem;color:#16a34a;font-weight:600;">✓ In Stock</span>' : '<span style="font-size:0.75rem;color:#dc2626;font-weight:600;">Out of Stock</span>'}
             </div>
@@ -236,7 +240,7 @@ function injectCategoryContent(page, cat, subCat, products, catUrl) {
 <div id="seo-category-content" style="max-width:1100px;margin:2rem auto;padding:1rem 1.5rem;font-family:'Outfit',sans-serif;">
     <nav style="font-size:0.85rem;color:#64748b;margin-bottom:1rem;">
         <a href="/" style="color:#3b82f6;text-decoration:none;">Home</a> &rsaquo;
-        ${subCat ? `<a href="/category/${getSlug(cat, '')}/" style="color:#3b82f6;text-decoration:none;">${cat}</a> &rsaquo; ${subCat}` : cat}
+        ${subCat ? `<a href="/${createSEOSlug(cat)}/" style="color:#3b82f6;text-decoration:none;">${cat}</a> &rsaquo; ${subCat}` : cat}
     </nav>
     <h1 style="font-size:1.8rem;font-weight:800;color:#0f172a;margin-bottom:0.5rem;">${categoryName}</h1>
     <p style="color:#64748b;margin-bottom:1.5rem;">Browse our collection of ${categoryName} components available in Sri Lanka with fast island-wide delivery.</p>
@@ -296,8 +300,11 @@ function generateSitemap(productList, categoryUrls) {
     // Products
     productList.forEach(prod => {
         if (prod.id && prod.title) {
-            const slug = getSlug(prod.title, prod.id);
-            xml += `  <url>\n    <loc>${SITE_URL}products/${slug}/</loc>\n    <lastmod>${LAST_MOD}</lastmod>\n    <priority>0.9</priority>\n  </url>\n`;
+            const slug = createSEOSlug(prod.title);
+            const mainCatSlug = createSEOSlug(prod.mainCategory || 'General');
+            const subCatSlug = prod.subCategory ? createSEOSlug(prod.subCategory) : '';
+            const pUrlStr = subCatSlug ? `${SITE_URL}${mainCatSlug}/${subCatSlug}/${slug}/` : `${SITE_URL}${mainCatSlug}/${slug}/`;
+            xml += `  <url>\n    <loc>${pUrlStr}</loc>\n    <lastmod>${LAST_MOD}</lastmod>\n    <priority>0.9</priority>\n  </url>\n`;
         }
     });
 
@@ -330,13 +337,16 @@ async function run() {
 
         // 1. Generate Product Pages
         console.log("📁 Generating Product Pages with real content...");
-        fs.mkdirSync('products', { recursive: true });
         
         products.forEach(p => {
             if (!p.id || !p.title) return;
-            const slug = getSlug(p.title, p.id);
-            const pUrl = `${SITE_URL}products/${slug}/`;
-            const pDir = path.join('products', slug);
+            const slug = createSEOSlug(p.title);
+            const mainCatSlug = createSEOSlug(p.mainCategory || 'General');
+            const subCatSlug = p.subCategory ? createSEOSlug(p.subCategory) : '';
+            
+            const pUrl = subCatSlug ? `${SITE_URL}${mainCatSlug}/${subCatSlug}/${slug}/` : `${SITE_URL}${mainCatSlug}/${slug}/`;
+            const pDir = subCatSlug ? path.join(mainCatSlug, subCatSlug, slug) : path.join(mainCatSlug, slug);
+            
             fs.mkdirSync(pDir, { recursive: true });
 
             const cleanTitle = (p.title || '').replace(/"/g, '&quot;');
@@ -384,12 +394,10 @@ async function run() {
             if (p.subCategory) categoryMap[p.mainCategory].add(p.subCategory);
         });
 
-        fs.mkdirSync('category', { recursive: true });
-
         Object.keys(categoryMap).forEach(cat => {
-            const catSlug = getSlug(cat, "");
-            const catUrl = `${SITE_URL}category/${catSlug}/`;
-            const catDir = path.join('category', catSlug);
+            const catSlug = createSEOSlug(cat);
+            const catUrl = `${SITE_URL}${catSlug}/`;
+            const catDir = catSlug;
             fs.mkdirSync(catDir, { recursive: true });
             urls.push(catUrl);
 
@@ -408,7 +416,7 @@ async function run() {
             fs.writeFileSync(path.join(catDir, 'index.html'), catPage);
 
             categoryMap[cat].forEach(sub => {
-                const subSlug = getSlug(sub, "");
+                const subSlug = createSEOSlug(sub);
                 const subUrl = `${catUrl}${subSlug}/`;
                 const subDir = path.join(catDir, subSlug);
                 fs.mkdirSync(subDir, { recursive: true });

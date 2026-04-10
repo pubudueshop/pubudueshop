@@ -40,15 +40,19 @@
         // but haven't had their static HTML files generated yet.
         
         const path = window.location.pathname;
+        const urlParams = new URLSearchParams(window.location.search);
+        const queryId = urlParams.get('product');
+        
         // Match the pattern /products/some-slug-ID/ or /products/some-slug-ID
         const productMatch = path.match(/\/products\/.*-([0-9]+)\/?$/);
         
         if (productMatch && productMatch[1]) {
             const productId = productMatch[1];
             console.log("Found Product ID in 404 URL:", productId);
-            // Redirect to home page with the product query parameter
-            // The script.js logic will catch this and open the modal instantly
             window.location.replace('/?product=' + productId);
+        } else if (queryId) {
+            console.log("Found Product ID in query param on 404:", queryId);
+            window.location.replace('/?product=' + queryId);
         } else {
             // If it's not a product URL, just go home
             console.log("Generic 404, redirecting home");

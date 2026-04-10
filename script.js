@@ -108,11 +108,12 @@ function initFirebase() {
 }
 
 // Load products - UPDATED for speed (Local First, then Cloud)
-function generateSlug(title, id) {
-    if (!title) return id;
-    let slug = title.toLowerCase().replace(/[^a-z0-9 ]/g, '').trim().replace(/\s+/g, '-');
-    if (slug.length > 50) slug = slug.substring(0, 50).replace(/-$/, '');
-    return id ? `${slug}-${id}` : slug;
+function createSEOSlug(name) {
+    if (!name) return "";
+    return name
+        .toLowerCase()
+        .replace(/[^\w ]+/g, '')
+        .replace(/ +/g, '-');
 }
 
 // Guard flag: prevents double-render from LocalStorage + Firebase firing simultaneously
@@ -777,11 +778,11 @@ function initFilters(skipInitialRender = false) {
             
             // Map slugs back to Names
             Object.keys(categoryData).forEach(cat => {
-                if (generateSlug(cat, "") === mainSlug) {
+                if (createSEOSlug(cat) === mainSlug) {
                     initialMain = cat;
                     if (subSlug) {
                         categoryData[cat].forEach(sub => {
-                            if (generateSlug(sub, "") === subSlug) initialSub = sub;
+                            if (createSEOSlug(sub) === subSlug) initialSub = sub;
                         });
                     }
                 }
@@ -1093,7 +1094,7 @@ function renderHomeGrid() {
                 <button class="btn-fav ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${product.id}')" title="${isFav ? 'Remove' : 'Add to Favorites'}">
                     <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
                 </button>
-                <a href="${SITE_URL}products/${generateSlug(product.title, product.id)}/?product=${product.id}" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                <a href="${SITE_URL}${createSEOSlug(product.mainCategory)}/${product.subCategory ? createSEOSlug(product.subCategory) + '/' : ''}${createSEOSlug(product.title)}/" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
                     <div class="product-image-container">
                         <img src="${product.image}" alt="${product.title}" class="product-image" loading="lazy">
                     </div>
@@ -1200,7 +1201,7 @@ function renderProducts(mainCat = 'all', subCat = 'all', searchQuery = '', reset
                 <button class="btn-fav ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${product.id}')" title="${isFav ? 'Remove' : 'Add to Favorites'}">
                     <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
                 </button>
-                <a href="${SITE_URL}products/${generateSlug(product.title, product.id)}/?product=${product.id}" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                <a href="${SITE_URL}${createSEOSlug(product.mainCategory)}/${product.subCategory ? createSEOSlug(product.subCategory) + '/' : ''}${createSEOSlug(product.title)}/" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
                     <div class="product-image-container">
                         <img src="${product.image}" alt="${product.title}" class="product-image" loading="lazy" onerror="this.src='https://via.placeholder.com/300x300?text=Parts'">
                     </div>
@@ -1916,10 +1917,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         const heroSearch = document.getElementById('hero-product-search');
         if (heroSearch) heroSearch.value = initialSearch;
 
-        // Deep Link Check: Open product if ID in URL
+        // Deep Link Check / SEO Redirect Middleware: Open product if ID in URL
         const productId = urlParams.get('product');
         if (productId) {
-            openProductDetails(parseInt(productId));
+            const p = products.find(prod => prod.id == productId);
+            if (p) {
+                const subCatSlug = p.subCategory ? createSEOSlug(p.subCategory) + '/' : '';
+                const newUrl = `/${createSEOSlug(p.mainCategory || 'General')}/${subCatSlug}${createSEOSlug(p.title)}/`;
+                if (window.location.pathname !== newUrl) {
+                    console.log("SEO Redirect: Moving from ?product= to slug logic", newUrl);
+                    window.location.replace(newUrl);
+                    return; // Stop execution on this old URL
+                }
+            } else {
+                openProductDetails(parseInt(productId));
+            }
         } else if (urlParams.get('category') || urlParams.get('subcategory') || initialSearch) {
              // Scroll to results if landing on a filtered page
              setTimeout(() => {

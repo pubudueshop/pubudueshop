@@ -369,8 +369,23 @@ function toggleFavorite(productId) {
 }
 
 function addToCart(productId, quantity = 1) {
-    const product = products.find(p => p.id == productId);
-    if (!product) return;
+    let product = products.find(p => p.id == productId);
+    
+    // Fallback for standalone pages: if products array isn't loaded yet,
+    // try to get product data from the already-hydrated modal
+    if (!product && window._currentModalProduct && window._currentModalProduct.id == productId) {
+        product = window._currentModalProduct;
+    }
+    
+    if (!product) {
+        // Last resort: show loading message and retry once
+        showToast("Loading product data, please try again...");
+        setTimeout(() => {
+            const retryProduct = products.find(p => p.id == productId);
+            if (retryProduct) addToCart(productId, quantity);
+        }, 1500);
+        return;
+    }
 
     if (product.stock <= 0) {
         showToast("Sorry, this item is currently out of stock", "error");
@@ -405,6 +420,9 @@ function addToCart(productId, quantity = 1) {
     saveCart();
     updateCartUI();
     showToast(`Added ${quantity} x ${product.title} to cart`);
+    
+    // Auto-open the cart drawer so user sees the item was added
+    toggleCart(true);
 }
 
 function updateModalQty(delta) {
@@ -1306,6 +1324,9 @@ document.addEventListener('DOMContentLoaded', () => {
 function openProductDetails(id) {
     const product = products.find(p => p.id == id);
     if (!product) return;
+
+    // Cache for addToCart fallback on standalone pages
+    window._currentModalProduct = product;
 
     // Track for homepage recently viewed grid
     trackRecentProduct(product.id);

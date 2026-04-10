@@ -977,12 +977,14 @@ function toggleCategoryNav(cat) {
     }
 }
 
-function showAllProducts() {
+function showAllProducts(query = null) {
     const prodSection = document.getElementById('products');
     
-    // If we're not on the homepage (where #products exists), navigate there
+    // If we're not on the homepage (where #products exists), navigate there with query
     if (!prodSection) {
-        window.location.href = '/?view=products';
+        let redirectUrl = '/?view=products';
+        if (query) redirectUrl += `&search=${encodeURIComponent(query)}`;
+        window.location.href = redirectUrl;
         return;
     }
 
@@ -1996,7 +1998,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         function handleSearch(query, category) {
             // Show products section and hide hero/featured
-            showAllProducts();
+            showAllProducts(query);
             
             // Call existing renderProducts with (mainCat, subCat, searchQuery)
             renderProducts(category, 'all', query);

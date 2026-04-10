@@ -223,12 +223,12 @@ function injectProductContent(page, product, pageUrl) {
                     </div>
 
                     <div class="mt-auto flex flex-col sm:flex-row gap-4 no-mobile-bottom-bar">
-                        <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-3 active:scale-95 min-h-[48px]">
+                        <button onclick="if(window.addToCart) addToCart('${product.id}', 1)" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-3 active:scale-95 min-h-[48px]">
                             <i class="fas fa-cart-plus"></i> Add to Cart
                         </button>
-                        <a href="https://wa.me/94789155130?text=I am interested in ${encodeURIComponent(product.title)}" class="flex-1 bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 rounded-lg shadow-lg shadow-green-200 transition-all flex items-center justify-center gap-3 active:scale-95 min-h-[48px]">
+                        <button onclick="if(window.addToCart) { addToCart('${product.id}', 1); if(window.toggleCart) toggleCart(true); }" class="flex-1 bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 rounded-lg shadow-lg shadow-green-200 transition-all flex items-center justify-center gap-3 active:scale-95 min-h-[48px]">
                             <i class="fab fa-whatsapp"></i> Buy via WhatsApp
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -273,7 +273,14 @@ function injectProductContent(page, product, pageUrl) {
 `;
 
     // Inject the SEO block after the navbar/search section
-    page = page.replace(/(<div class="sticky-search-mobile">.*?<\/div>)/s, `$1\n${seoBlock}`);
+    // Using a more robust regex that handles potential whitespace and newlines
+    const searchDivRegex = /<div class="sticky-search-mobile">[\s\S]*?<\/div>/;
+    if (page.match(searchDivRegex)) {
+        page = page.replace(searchDivRegex, (match) => match + `\n${seoBlock}`);
+    } else {
+        // Fallback to body start if search div not found
+        page = page.replace(/(<body[^>]*>)/, `$1\n${seoBlock}`);
+    }
     return page;
 }
 
@@ -320,7 +327,12 @@ function injectCategoryContent(page, cat, subCat, products, catUrl) {
 <!-- ===== END SSR CATEGORY CONTENT ===== -->
 `;
     // Inject category SEO block after search section
-    page = page.replace(/(<div class="sticky-search-mobile">.*?<\/div>)/s, `$1\n${seoBlock}`);
+    const searchDivRegex = /<div class="sticky-search-mobile">[\s\S]*?<\/div>/;
+    if (page.match(searchDivRegex)) {
+        page = page.replace(searchDivRegex, (match) => match + `\n${seoBlock}`);
+    } else {
+        page = page.replace(/(<body[^>]*>)/, `$1\n${seoBlock}`);
+    }
     return page;
 }
 

@@ -56,16 +56,34 @@ body {
     width: 100%;
 }
 
-/* Standalone Page Fixes */
+/* Standalone Product Page Overrides */
 .standalone-product-page .hero,
 .standalone-product-page #home-featured,
 .standalone-product-page #products,
+.standalone-product-page #about,
 .standalone-product-page .home-button {
     display: none !important;
 }
 
 .standalone-product-page .navbar {
     box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+/* Ensure injected SEO content is visible and has room for sticky navbar */
+.standalone-product-page #seo-product-content,
+.standalone-product-page #seo-category-content,
+.standalone-product-page div[class*="min-h-screen"] {
+    margin-top: 0;
+    position: relative;
+    z-index: 10;
+}
+
+/* Hide breadcrumbs in mobile action bar if duplicated */
+.standalone-product-page .no-mobile-bottom-bar {
+    margin-bottom: 2rem;
 }
 
 body {

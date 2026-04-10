@@ -548,10 +548,33 @@ function showToast(msg) {
 }
 
 // Export functions to window
+function toggleCart(show) {
+    const cartDrawer = document.getElementById('cart-drawer');
+    if (!cartDrawer) return;
+    
+    if (show) {
+        updateCartUI();
+        cartDrawer.classList.remove('hidden');
+        // Back to main cart view if it was on checkout
+        const cartMainView = document.getElementById('cart-main-view');
+        const checkoutStep = document.getElementById('checkout-step');
+        if (cartMainView) cartMainView.classList.remove('hidden');
+        if (checkoutStep) checkoutStep.classList.add('hidden');
+    } else {
+        cartDrawer.classList.add('hidden');
+    }
+}
+
+function openCart() {
+    toggleCart(true);
+}
+
 window.updateQuantity = updateQuantity;
 window.removeFromCart = removeFromCart;
-
-// --- Invoice & Order Logic ---
+window.addToCart = addToCart;
+window.toggleCart = toggleCart;
+window.openCart = openCart;
+window.openProductDetails = openProductDetails;
 function openInvoice(customerData) {
     if (cart.length === 0) {
         alert("Your cart is empty.");
@@ -1703,17 +1726,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         const cartBtnTop = document.getElementById('cart-btn-top');
         const closeCartBtn = document.getElementById('close-cart');
         const cartOverlay = document.getElementById('cart-overlay');
-        const cartDrawer = document.getElementById('cart-drawer');
 
-        const openCart = () => {
-            updateCartUI();
-            cartDrawer.classList.remove('hidden');
-        };
-
-        if (cartBtn) cartBtn.addEventListener('click', openCart);
-        if (cartBtnTop) cartBtnTop.addEventListener('click', openCart);
-        if (closeCartBtn) closeCartBtn.addEventListener('click', () => cartDrawer.classList.add('hidden'));
-        if (cartOverlay) cartOverlay.addEventListener('click', () => cartDrawer.classList.add('hidden'));
+        if (cartBtn) cartBtn.addEventListener('click', () => toggleCart(true));
+        if (cartBtnTop) cartBtnTop.addEventListener('click', () => toggleCart(true));
+        if (closeCartBtn) closeCartBtn.addEventListener('click', () => toggleCart(false));
+        if (cartOverlay) cartOverlay.addEventListener('click', () => toggleCart(false));
 
         const checkoutBtn = document.getElementById('checkout-btn');
         const checkoutStep = document.getElementById('checkout-step');
@@ -1892,7 +1909,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         initZoom();
 
         // If on a product page (MPA), ensure the correct product ID is set for interactivity
-        if (window.location.pathname.includes('/products/')) {
+        const bodyProductId = document.body.dataset.productId;
+        if (bodyProductId) {
+             openProductDetails(parseInt(bodyProductId));
+        } else if (window.location.pathname.includes('/products/')) {
             const pathParts = window.location.pathname.split('/').filter(p => p);
             const slug = pathParts[pathParts.indexOf('products') + 1];
             if (slug) {

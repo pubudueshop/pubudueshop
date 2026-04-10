@@ -1,3 +1,23 @@
+// ✅ FIX: missing function
+function downloadInvoice() {
+    window.print();
+}
+
+// ✅ FIX: missing function
+function sendOrderWhatsApp() {
+    const message = "Hello, I want to confirm my order.";
+    const phone = "94789155130";
+    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
+}
+
+// ✅ FIX: modal quantity function
+function updateModalQty(delta) {
+    modalQty += delta;
+    if (modalQty < 1) modalQty = 1;
+
+    const el = document.getElementById('modal-qty-value');
+    if (el) el.textContent = modalQty;
+}
 // Category Structure (Initial defaults)
 let categoryData = {
     "Microcontrollers": ["Arduino Compatible", "ESP8266 Series", "ESP32 Series", "Raspberry Pi", "STM32 Boards"],
@@ -133,8 +153,9 @@ async function loadProducts() {
         initialRenderDone = true; // Mark first paint as complete
     }
 
-    // 2. Initialize Firebase
-    const isCloud = initFirebase();
+    document.addEventListener("DOMContentLoaded", () => {
+    initFirebase();
+});
     
     // Load Categories (now with onSnapshot)
     await loadCategories();
@@ -207,10 +228,23 @@ window.categoryData = categoryData;
 window.saveCategories = saveCategories;
 window.loadCategories = loadCategories;
 
+const cartBtn = document.getElementById("cart-btn");
+const cartBtnTop = document.getElementById("cart-btn-top");
+
+if (cartBtn) cartBtn.addEventListener("click", () => toggleCart(true));
+if (cartBtnTop) cartBtnTop.addEventListener("click", () => toggleCart(true));
+
 // Initialize - loadProducts is called in the DOMContentLoaded listener at the bottom of file
+
+const modalOverlay = document.getElementById('modal-overlay');
+
+if (modalOverlay) {
+    modalOverlay.addEventListener('click', closeProductModal);
+}
 
 // DOM Elements
 const productGrid = document.getElementById('product-grid');
+if (!productGrid) return;
 const filterContainer = document.querySelector('.filter-controls');
 const productModalRoot = document.getElementById('product-modal-root');
 const modalCloseBtn = document.getElementById('modal-close');

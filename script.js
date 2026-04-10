@@ -799,17 +799,17 @@ function initFilters(skipInitialRender = false) {
 
         Object.keys(categoryData).forEach(cat => {
             const isActive = cat === initialMain;
-            const catSlug = generateSlug(cat, "");
-            sidebarHtml += `<a href="${SITE_URL}category/${catSlug}/" class="sidebar-link ${isActive ? 'active' : ''}" onclick="filterByCategory('${cat}', 'all', event)">
-                <i class="fas fa-microchip"></i> ${cat}
+            const catSlug = createSEOSlug(cat);
+            sidebarHtml += `<a href="${SITE_URL}${catSlug}/" class="sidebar-link ${isActive ? 'active' : ''}" onclick="filterByCategory('${cat}', 'all', event)">
+                <i class="fas fa-chevron-right" style="font-size: 0.7rem;"></i> ${cat}
             </a>`;
             
             if (isActive) {
                 sidebarHtml += `<div class="sub-sidebar-nav">`;
                 categoryData[cat].forEach(sub => {
                     const isSubActive = sub === initialSub;
-                    const subSlug = generateSlug(sub, "");
-                    sidebarHtml += `<a href="${SITE_URL}category/${catSlug}/${subSlug}/" class="sub-sidebar-link ${isSubActive ? 'active' : ''}" onclick="filterByCategory('${cat}', '${sub}', event)">
+                    const subSlug = createSEOSlug(sub);
+                    sidebarHtml += `<a href="${SITE_URL}${catSlug}/${subSlug}/" class="sub-sidebar-link ${isSubActive ? 'active' : ''}" onclick="filterByCategory('${cat}', '${sub}', event)">
                         ${sub}
                     </a>`;
                 });
@@ -996,9 +996,9 @@ function filterByCategory(main, sub, event) {
     
     // Update URL Params or Path for SEO
     if (main !== 'all') {
-        const mainSlug = generateSlug(main, "");
-        const subSlug = sub !== 'all' ? generateSlug(sub, "") : "";
-        const newPath = sub !== 'all' ? `/category/${mainSlug}/${subSlug}/` : `/category/${mainSlug}/`;
+        const mainSlug = createSEOSlug(main);
+        const subSlug = sub !== 'all' ? createSEOSlug(sub) : "";
+        const newPath = sub !== 'all' ? `/${mainSlug}/${subSlug}/` : `/${mainSlug}/`;
         
         // Push state with the clean SEO path
         window.history.pushState({ category: main, subcategory: sub }, '', newPath);
@@ -1099,17 +1099,11 @@ function renderHomeGrid() {
                         <img src="${product.image}" alt="${product.title}" class="product-image" loading="lazy">
                     </div>
                     <div class="product-info">
-                        <div style="margin-bottom: 0.5rem;">
-                            <span class="stock-status ${stockStatusClass}">${stockStatusText}</span>
-                        </div>
                         <h3 class="product-title">${product.title}</h3>
                         <div class="product-price">LKR ${product.price.toLocaleString()}</div>
-                        <div class="product-actions">
-                            <button class="btn-buy ${isOutOfStock ? 'btn-disabled' : ''}" 
-                                    onclick="event.preventDefault(); event.stopPropagation(); ${isOutOfStock ? '' : `addToCart('${product.id}')`}">
-                                <i class="fas fa-cart-plus"></i> ${isOutOfStock ? 'Stock Out' : 'Add to Cart'}
-                            </button>
-                        </div>
+                        <button class="btn-details">
+                            View Details <i class="fas fa-arrow-right" style="font-size: 0.8rem;"></i>
+                        </button>
                     </div>
                 </a>
             </div>
@@ -1206,17 +1200,11 @@ function renderProducts(mainCat = 'all', subCat = 'all', searchQuery = '', reset
                         <img src="${product.image}" alt="${product.title}" class="product-image" loading="lazy" onerror="this.src='https://via.placeholder.com/300x300?text=Parts'">
                     </div>
                     <div class="product-info">
-                        <div style="margin-bottom: 0.5rem;">
-                            <span class="stock-status ${stockStatusClass}">${stockStatusText}</span>
-                        </div>
                         <h3 class="product-title">${product.title}</h3>
                         <div class="product-price">LKR ${product.price.toLocaleString()}</div>
-                        <div class="product-actions">
-                            <button class="btn-buy ${isOutOfStock ? 'btn-disabled' : ''}" 
-                                    onclick="event.preventDefault(); event.stopPropagation(); ${isOutOfStock ? '' : `addToCart('${product.id}')`}">
-                                <i class="fas fa-cart-plus"></i> ${isOutOfStock ? 'Stock Out' : 'Add to Cart'}
-                            </button>
-                        </div>
+                        <button class="btn-details">
+                            View Details <i class="fas fa-arrow-right" style="font-size: 0.8rem;"></i>
+                        </button>
                     </div>
                 </a>
             </div>

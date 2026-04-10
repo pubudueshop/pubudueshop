@@ -1257,329 +1257,280 @@ function openProductDetails(id) {
     if (detailTags) detailTags.innerHTML = '';
 
     // Populate Data
-    detailCategory.textContent = `${product.mainCategory} > ${product.subCategory}`;
+    // Injected: Create Breadcrumb slugs
+    const createSlug = (name) => (name || "").toLowerCase().replace(/[^\w ]+/g, '').replace(/ +/g, '-');
+    const mainSlug = createSlug(product.mainCategory);
+    const subSlug = product.subCategory ? createSlug(product.subCategory) : '';
+
+    // Populate Breadcrumbs
+    const modalBreadcrumbs = document.getElementById('modal-breadcrumbs');
+    if (modalBreadcrumbs) {
+        const breadcrumbData = [
+            { name: 'Home', link: '/' },
+            { name: product.mainCategory, link: `/${mainSlug}/` }
+        ];
+        if (product.subCategory) {
+            breadcrumbData.push({ name: product.subCategory, link: `/${mainSlug}/${subSlug}/` });
+        }
+        
+        modalBreadcrumbs.innerHTML = breadcrumbData.map((b, i) => `
+            <li class="flex items-center">
+                <a href="${b.link}" class="text-gray-400 hover:text-blue-600 transition-colors">${b.name}</a>
+                <span class="mx-2 text-gray-300">/</span>
+            </li>
+        `).join('') + `<li class="text-blue-600 font-bold truncate max-w-[150px]">${product.title}</li>`;
+    }
+
+    // Populate Data
     detailTitle.textContent = product.title;
     detailPrice.textContent = `LKR ${product.price.toLocaleString()}`;
+    
+    const detailPriceOld = document.getElementById('detail-price-old');
+    if (detailPriceOld) {
+        detailPriceOld.textContent = `LKR ${(product.price * 1.15).toLocaleString()}`;
+    }
+
+    // Stock Badge
+    const stockBadge = document.getElementById('detail-stock-badge');
+    if (stockBadge) {
+        const isOutOfStock = product.stock <= 0;
+        stockBadge.textContent = isOutOfStock ? 'Out of Stock' : 'In Stock';
+        stockBadge.className = isOutOfStock 
+            ? 'px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-red-100 text-red-700'
+            : 'px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-blue-100 text-blue-700';
+    }
 
     // Model Number Display
     const modelDisplay = document.getElementById('detail-model-display');
     if (modelDisplay) {
+        const modelSpan = modelDisplay.querySelector('span span');
         if (product.modelNumber) {
-            modelDisplay.textContent = `Model: ${product.modelNumber}`;
-            modelDisplay.style.display = 'block';
+            if (modelSpan) modelSpan.textContent = product.modelNumber;
+            modelDisplay.classList.remove('hidden');
         } else {
-            modelDisplay.style.display = 'none';
+            modelDisplay.classList.add('hidden');
         }
     }
 
-    // Image & Thumbnails
+    // Images & Zoom
     if (product.images && product.images.length > 0) {
         detailImage.src = product.images[0];
-        product.images.forEach((imgUrl, index) => {
-            const thumb = document.createElement('img');
-            thumb.src = imgUrl;
-            thumb.loading = "lazy";
-            thumb.className = `thumbnail ${index === 0 ? 'active' : ''}`;
-            thumb.onclick = () => {
-                detailImage.src = imgUrl;
-                document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
-                thumb.classList.add('active');
-            };
-            detailThumbnails.appendChild(thumb);
-        });
+        detailThumbnails.innerHTML = product.images.map((imgUrl, index) => `
+            <img src="${imgUrl}" 
+                 class="w-20 h-20 object-contain p-2 border-2 ${index === 0 ? 'border-blue-500' : 'border-gray-100'} rounded-lg cursor-pointer hover:border-blue-400 transition-all bg-white flex-shrink-0 thumbnail-item" 
+                 onclick="changeModalImage(this, '${imgUrl}')"
+                 loading="lazy">
+        `).join('');
     } else {
         detailImage.src = product.image;
-        detailImage.loading = "lazy";
+        detailThumbnails.innerHTML = '';
     }
 
-    // Product Description (Under Title)
+    // Description
     if (detailDescription) {
         detailDescription.innerHTML = product.longDescription || product.description;
     }
 
-    // Keywords/Tags
-    if (detailTags && product.keywords) {
-        detailTags.innerHTML = product.keywords.map(k => `<span class="tag">${k}</span>`).join('');
-        detailTags.classList.remove('hidden');
-    }
-
     // Features
-    if (product.features && product.features.length > 0) {
-        product.features.forEach(feature => {
-            const li = document.createElement('li');
-            li.textContent = feature;
-            detailFeatures.appendChild(li);
-        });
-    } else {
-        detailFeatures.innerHTML = '<li>Quality Tested</li><li>Available in Stock</li>';
+    if (detailFeatures) {
+        if (product.features && product.features.length > 0) {
+            detailFeatures.innerHTML = product.features.map(f => `
+                <li class="flex items-center gap-2">
+                    <i class="fas fa-check-circle text-green-500 text-xs"></i>
+                    <span>${f}</span>
+                </li>
+            `).join('');
+        } else {
+            detailFeatures.innerHTML = `
+                <li class="flex items-center gap-2">
+                    <i class="fas fa-check-circle text-green-500 text-xs"></i>
+                    <span>Authentic Component</span>
+                </li>
+                <li class="flex items-center gap-2">
+                    <i class="fas fa-check-circle text-green-500 text-xs"></i>
+                    <span>Tested for Quality</span>
+                </li>
+            `;
+        }
     }
 
     // Specs
-    if (product.specs) {
-        for (const [key, value] of Object.entries(product.specs)) {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `<td>${key}</td><td>${value}</td>`;
-            detailSpecsBody.appendChild(tr);
-        }
-        detailVideoBtn.href = product.videoUrl;
-        detailVideoBtn.style.display = product.videoUrl === '#' || !product.videoUrl ? 'none' : 'flex';
-
-        // --- Video Preview Auto-Embed ---
-        const videoPreviewContainer = document.getElementById('detail-video-preview');
-        if (videoPreviewContainer) {
-            if (product.videoUrl && product.videoUrl !== '#') {
-                let embedUrl = null;
-                try {
-                    let urlToParse = product.videoUrl.trim();
-                    if (!urlToParse.startsWith('http')) {
-                        urlToParse = 'https://' + urlToParse;
-                    }
-                    const parsedUrl = new URL(urlToParse);
-                    const hostname = parsedUrl.hostname.toLowerCase();
-                    
-                    if (hostname.includes('youtube.com') || hostname.includes('youtu.be')) {
-                        if (hostname.includes('youtu.be')) {
-                            embedUrl = 'https://www.youtube.com/embed/' + parsedUrl.pathname.substring(1).split('?')[0];
-                        } else if (parsedUrl.pathname.startsWith('/embed/')) {
-                            embedUrl = urlToParse;
-                        } else if (parsedUrl.pathname.startsWith('/shorts/')) {
-                            const shortId = parsedUrl.pathname.split('/shorts/')[1].split('?')[0];
-                            embedUrl = 'https://www.youtube.com/embed/' + shortId;
-                        } else {
-                            const v = parsedUrl.searchParams.get('v');
-                            if (v) embedUrl = 'https://www.youtube.com/embed/' + v;
-                        }
-                    } else if (hostname.includes('facebook.com') && urlToParse.includes('/video')) {
-                        embedUrl = 'https://www.facebook.com/plugins/video.php?href=' + encodeURIComponent(product.videoUrl) + '&show_text=false&width=560';
-                    }
-                } catch(e) {
-                    console.error("Error parsing video URL", e);
-                }
-
-                if (embedUrl) {
-                    videoPreviewContainer.innerHTML = `<iframe width="100%" height="240" src="${embedUrl}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: block; width: 100%; height: 240px; border: none; background: #000;"></iframe>`;
-                    videoPreviewContainer.style.display = 'block';
-                } else {
-                    videoPreviewContainer.style.display = 'none';
-                    videoPreviewContainer.innerHTML = '';
-                }
-            } else {
-                videoPreviewContainer.style.display = 'none';
-                videoPreviewContainer.innerHTML = '';
-            }
-        }
-
-        // Reset Modal Qty
-        currentModalProductId = product.id;
-        modalQty = 1;
-        const qtyValueDisplay = document.getElementById('modal-qty-value');
-        if (qtyValueDisplay) qtyValueDisplay.textContent = modalQty;
-
-        const isOutOfStock = product.stock <= 0;
-        detailAddCartBtn.onclick = () => {
-            if (isOutOfStock) return;
-            addToCart(product.id, modalQty);
-        };
-        detailBuyBtn.onclick = () => {
-            if (isOutOfStock) return;
-            addToCart(product.id, modalQty);
-            document.getElementById('cart-drawer').classList.remove('hidden');
-        };
-
-        // UI for Out of Stock in Modal
-        if (isOutOfStock) {
-            detailAddCartBtn.classList.add('btn-disabled');
-            detailAddCartBtn.textContent = 'Out of Stock';
-            detailBuyBtn.classList.add('btn-disabled');
-            detailBuyBtn.textContent = 'Unavailable';
+    if (detailSpecsBody) {
+        const specs = product.specs || {};
+        const entries = Object.entries(specs);
+        if (entries.length > 0) {
+            detailSpecsBody.innerHTML = entries.map(([key, value], i) => `
+                <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}">
+                    <td class="px-4 py-3 font-bold text-gray-700 border-b border-gray-100">${key}</td>
+                    <td class="px-4 py-3 text-gray-600 border-b border-gray-100">${value}</td>
+                </tr>
+            `).join('');
         } else {
-            detailAddCartBtn.classList.remove('btn-disabled');
-            detailAddCartBtn.textContent = 'Add to Cart';
-            detailBuyBtn.classList.remove('btn-disabled');
-            detailBuyBtn.textContent = 'Buy Now';
+            detailSpecsBody.innerHTML = `
+                <tr>
+                    <td class="px-4 py-3 font-bold text-gray-700 border-b border-gray-100">Category</td>
+                    <td class="px-4 py-3 text-gray-600 border-b border-gray-100">${product.mainCategory}</td>
+                </tr>
+            `;
         }
+    }
 
-        const modalFavBtn = document.getElementById('modal-fav-btn');
-        if (modalFavBtn) {
-            const isFav = favorites.some(id => id == product.id);
-            modalFavBtn.classList.toggle('active', isFav);
-            modalFavBtn.innerHTML = isFav
-                ? '<i class="fas fa-heart"></i> Favorited'
-                : '<i class="far fa-heart"></i> Favorite';
-            modalFavBtn.onclick = () => toggleFavorite(product.id);
-        }
+    // Reset Modal Qty
+    currentModalProductId = product.id;
+    modalQty = 1;
+    const qtyValueDisplay = document.getElementById('modal-qty-value');
+    if (qtyValueDisplay) qtyValueDisplay.textContent = modalQty;
 
-        // --- Share Feature Logic ---
-        const copyLinkBtn = document.getElementById('copy-link-btn');
-        const fbShareBtn = document.getElementById('fb-share-btn');
+    // CTA Handlers
+    const isOutOfStock = product.stock <= 0;
+    detailAddCartBtn.onclick = () => {
+        if (isOutOfStock) return;
+        addToCart(product.id, modalQty);
+    };
+    detailBuyBtn.onclick = () => {
+        if (isOutOfStock) return;
+        addToCart(product.id, modalQty);
+        document.getElementById('cart-drawer').classList.remove('hidden');
+    };
 
-        // Generate a clean direct URL
-        const shareUrl = new URL(window.location.origin + window.location.pathname);
-        shareUrl.searchParams.set('product', product.id);
-        const finalUrl = shareUrl.toString();
+    // UI for Out of Stock in Modal
+    if (isOutOfStock) {
+        detailAddCartBtn.classList.add('opacity-50', 'cursor-not-allowed', 'grayscale');
+        detailAddCartBtn.innerHTML = '<i class="fas fa-times-circle"></i> Out of Stock';
+        detailBuyBtn.classList.add('hidden');
+    } else {
+        detailAddCartBtn.classList.remove('opacity-50', 'cursor-not-allowed', 'grayscale');
+        detailAddCartBtn.innerHTML = '<i class="fas fa-cart-plus"></i> Add to Cart';
+        detailBuyBtn.classList.remove('hidden');
+    }
 
-        if (copyLinkBtn) {
-            copyLinkBtn.onclick = () => {
-                navigator.clipboard.writeText(finalUrl).then(() => {
-                    const originalText = copyLinkBtn.innerHTML;
-                    copyLinkBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-                    copyLinkBtn.style.borderColor = "var(--secondary)";
-                    setTimeout(() => {
-                        copyLinkBtn.innerHTML = originalText;
-                        copyLinkBtn.style.borderColor = "";
-                    }, 2000);
-                }).catch(err => {
-                    console.error("Copy failed:", err);
-                    alert("Link: " + finalUrl);
-                });
-            };
-        }
+    const modalFavBtn = document.getElementById('modal-fav-btn');
+    if (modalFavBtn) {
+        const isFav = favorites.some(id => id == product.id);
+        modalFavBtn.classList.toggle('text-pink-500', isFav);
+        modalFavBtn.classList.toggle('bg-pink-50', isFav);
+        modalFavBtn.innerHTML = isFav ? '<i class="fas fa-heart"></i>' : '<i class="far fa-heart"></i>';
+        modalFavBtn.onclick = () => toggleFavorite(product.id);
+    }
 
-        if (fbShareBtn) {
-            fbShareBtn.onclick = () => {
-                const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(finalUrl)}`;
-                window.open(fbUrl, '_blank', 'width=600,height=400');
-            };
-        }
+    // --- Share Feature Logic ---
+    const copyLinkBtn = document.getElementById('copy-link-btn');
+    const fbShareBtn = document.getElementById('fb-share-btn');
 
-        // --- Dynamic WhatsApp Link ---
-        updateWhatsAppMessage(product.title);
+    // Generate a clean direct URL
+    const shareUrl = new URL(window.location.origin + window.location.pathname);
+    shareUrl.searchParams.set('product', product.id);
+    const finalUrl = shareUrl.toString();
 
-        // --- NEW: Mobile Action Bar & Swiping ---
-        const mobileAddBtn = document.getElementById('mobile-add-cart-btn');
-        const mobileBuyBtn = document.getElementById('mobile-buy-btn');
-        const zoomContainer = document.getElementById('zoom-container');
-
-        if (mobileAddBtn) {
-            mobileAddBtn.onclick = () => addToCart(product.id, parseInt(modalQtyValue.textContent));
-        }
-        if (mobileBuyBtn) {
-            mobileBuyBtn.onclick = () => {
-                addToCart(product.id, parseInt(modalQtyValue.textContent));
-                closeProductDetails();
-                toggleCart(true);
-            };
-        }
-
-        // Swipe interaction for mobile images
-        let touchStartX = 0;
-        let touchEndX = 0;
-
-        if (zoomContainer) {
-            // Remove existing to prevent clones if any
-            const newContainer = zoomContainer.cloneNode(true);
-            zoomContainer.parentNode.replaceChild(newContainer, zoomContainer);
-
-            // Re-assign references after clone
-            detailImage = newContainer.querySelector('#detail-image');
-
-            newContainer.addEventListener('touchstart', (e) => {
-                touchStartX = e.changedTouches[0].screenX;
-            }, { passive: true });
-
-            newContainer.addEventListener('touchend', (e) => {
-                touchEndX = e.changedTouches[0].screenX;
-                const threshold = 50;
-
-                if (!product.images || product.images.length <= 1) return;
-
-                const currentIndex = product.images.indexOf(detailImage.src);
-
-                if (touchEndX < touchStartX - threshold) {
-                    // Next
-                    const nextIdx = (currentIndex + 1) % product.images.length;
-                    detailImage.src = product.images[nextIdx];
-                    updateThumbnails(nextIdx);
-                } else if (touchEndX > touchStartX + threshold) {
-                    // Prev
-                    const prevIdx = (currentIndex - 1 + product.images.length) % product.images.length;
-                    detailImage.src = product.images[prevIdx];
-                    updateThumbnails(prevIdx);
-                }
-            }, { passive: true });
-        }
-
-        function updateThumbnails(idx) {
-            document.querySelectorAll('.thumbnail').forEach((t, i) => {
-                t.classList.toggle('active', i === idx);
+    if (copyLinkBtn) {
+        copyLinkBtn.onclick = () => {
+            navigator.clipboard.writeText(finalUrl).then(() => {
+                const originalText = copyLinkBtn.innerHTML;
+                copyLinkBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                copyLinkBtn.style.borderColor = "var(--secondary)";
+                setTimeout(() => {
+                    copyLinkBtn.innerHTML = originalText;
+                    copyLinkBtn.style.borderColor = "";
+                }, 2000);
+            }).catch(err => {
+                console.error("Copy failed:", err);
+                alert("Link: " + finalUrl);
             });
-        }
-
-        // SEO: Update document title, meta description, and inject JSON-LD
-        document.title = `${product.title} | Pubudu Electronics`;
-
-        // Update Canonical
-        let canonical = document.querySelector('link[rel="canonical"]');
-        if (canonical) canonical.setAttribute('href', finalUrl);
-
-        // Update Meta Tags for SEO/Social
-        const metaTags = {
-            'description': product.description || product.longDescription,
-            'og:title': `${product.title} | Pubudu Electronics`,
-            'og:description': product.description || product.longDescription,
-            'og:url': finalUrl,
-            'og:image': product.image,
-            'twitter:title': `${product.title} | Pubudu Electronics`,
-            'twitter:description': product.description || product.longDescription,
-            'twitter:url': finalUrl,
-            'twitter:image': product.image
         };
+    }
 
-        for (const [name, content] of Object.entries(metaTags)) {
-            let tag = name.startsWith('og:') || name.startsWith('twitter:')
-                ? document.querySelector(`meta[property="${name}"]`) || document.querySelector(`meta[name="${name}"]`)
-                : document.querySelector(`meta[name="${name}"]`);
-
-            if (tag) {
-                tag.setAttribute('content', content);
-            }
-        }
-
-        // --- JSON-LD Structered Data (Product Schema) ---
-        const productSchema = {
-            "@context": "https://schema.org",
-            "@type": "Product",
-            "name": product.title,
-            "image": product.images && product.images.length > 0 ? product.images : [product.image],
-            "description": product.description || product.longDescription,
-            "sku": product.modelNumber || `PE-${product.id}`,
-            "brand": {
-                "@type": "Brand",
-                "name": product.specs && product.specs.Brand ? product.specs.Brand : "Pubudu Electronics"
-            },
-            "offers": {
-                "@type": "Offer",
-                "url": finalUrl,
-                "priceCurrency": "LKR",
-                "price": product.price,
-                "priceValidUntil": "2026-12-31",
-                "itemCondition": product.specs && product.specs.Condition === 'Used' ? "https://schema.org/UsedCondition" : "https://schema.org/NewCondition",
-                "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
-                "seller": {
-                    "@type": "Organization",
-                    "name": "Pubudu Electronics"
-                }
-            }
+    if (fbShareBtn) {
+        fbShareBtn.onclick = () => {
+            const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(finalUrl)}`;
+            window.open(fbUrl, '_blank', 'width=600,height=400');
         };
-        const scriptJsonLd = document.getElementById('product-structured-data');
-        if (scriptJsonLd) scriptJsonLd.textContent = JSON.stringify(productSchema);
+    }
 
-        // --- Internal Linking: Related Products ---
-        renderRelatedProducts(product);
+    // --- Dynamic WhatsApp Link ---
+    updateWhatsAppMessage(product.title);
 
-        // Update URL to include product ID
-        updateURL(product.mainCategory, product.subCategory, product.id);
+    // --- NEW: Mobile Action Bar ---
+    const mobileAddBtn = document.getElementById('mobile-add-cart-btn');
+    const mobileBuyBtn = document.getElementById('mobile-buy-btn');
+    const zoomContainer = document.getElementById('zoom-container');
 
-        // Hide static SEO block since the dynamic modal is now active
-        const seoBlock = document.getElementById('seo-product-content');
-        if (seoBlock) seoBlock.style.display = 'none';
+    if (mobileAddBtn) {
+        mobileAddBtn.onclick = () => addToCart(product.id, modalQty);
+    }
+    if (mobileBuyBtn) {
+        mobileBuyBtn.onclick = () => {
+            addToCart(product.id, modalQty);
+            closeProductDetails();
+            toggleCart(true);
+        };
+    }
 
-        // Show Modal
-        productModalRoot.classList.remove('hidden');
-        document.body.classList.add('modal-open');
-        document.body.classList.add('is-viewing-product');
+    // SEO: Update document title, meta description, and inject JSON-LD
+    document.title = `${product.title} | Pubudu Electronics`;
+
+    // Update Meta Tags
+    const metaTags = {
+        'description': product.description || product.longDescription,
+        'og:title': `${product.title} | Pubudu Electronics`,
+        'og:description': product.description || product.longDescription,
+        'og:url': finalUrl,
+        'og:image': product.image
+    };
+
+    for (const [name, content] of Object.entries(metaTags)) {
+        let tag = document.querySelector(`meta[property="${name}"]`) || document.querySelector(`meta[name="${name}"]`);
+        if (tag) tag.setAttribute('content', content);
+    }
+
+    // Update URL
+    updateURL(product.mainCategory, product.subCategory, product.id);
+
+    // Show Modal
+    productModalRoot.classList.remove('hidden');
+    document.body.classList.add('modal-open');
+}
+
+// Global helper for modal image changes
+function changeModalImage(thumb, url) {
+    const mainImg = document.getElementById('detail-image');
+    if (mainImg) {
+        mainImg.src = url;
+        // Update active state of thumbnails
+        document.querySelectorAll('.thumbnail-item').forEach(img => {
+            img.classList.remove('border-blue-500');
+            img.classList.add('border-gray-100');
+        });
+        thumb.classList.remove('border-gray-100');
+        thumb.classList.add('border-blue-500');
+        
+        // Reset zoom on image change
+        const container = document.getElementById('zoom-container');
+        if (container) container.classList.remove('is-zoomed');
     }
 }
+
+// Mobile Touch-to-Zoom logic
+document.addEventListener('click', (e) => {
+    const zoomContainer = e.target.closest('#zoom-container');
+    if (zoomContainer && window.innerWidth < 1024) {
+        zoomContainer.classList.toggle('is-zoomed');
+    }
+});
+
+// Sticky Header Logic (Sync Desktop & Mobile)
+window.addEventListener('scroll', () => {
+    const navbar = document.querySelector('.navbar');
+    const mobileSearch = document.querySelector('.sticky-search-mobile');
+    const scrollY = window.scrollY;
+
+    if (scrollY > 150) {
+        if (navbar) navbar.classList.add('sticky-navbar');
+        if (mobileSearch && window.innerWidth < 768) mobileSearch.style.display = 'block';
+    } else {
+        if (navbar) navbar.classList.remove('sticky-navbar');
+        if (mobileSearch) mobileSearch.style.display = 'none';
+    }
+});
 
 // Function to render related products for internal linking
 function renderRelatedProducts(currentProduct) {

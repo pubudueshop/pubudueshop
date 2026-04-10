@@ -103,46 +103,49 @@ async function fetchProducts() {
 function injectProductContent(page, product, pageUrl) {
     const cleanTitle = (product.title || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     const rawDesc = product.description || '';
-    const shortDesc = rawDesc.substring(0, 130).replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    const seoDesc = `Buy ${cleanTitle} in Sri Lanka at Pubudu Electronics. ${shortDesc}`.substring(0, 160);
     const price = parseInt(product.price) || 0;
-    const stockText = product.stock > 0 ? 'In Stock' : 'Out of Stock';
-    const stockColor = product.stock > 0 ? '#16a34a' : '#dc2626';
-    const allImages = product.images && product.images.length > 0 ? product.images : (product.image ? [product.image] : []);
-    const mainImage = allImages[0] || '';
+    const stockStatus = product.stock > 0 ? 'In Stock' : 'Out of Stock';
+    const stockColor = product.stock > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
+    
+    // Breadcrumb Logic
+    const mainCat = product.mainCategory || 'General';
+    const subCat = product.subCategory || '';
+    const mainCatSlug = createSEOSlug(mainCat);
+    const subCatSlug = subCat ? createSEOSlug(subCat) : '';
+    
+    const breadcrumbItems = [
+        { name: "Home", item: SITE_URL },
+        { name: mainCat, item: `${SITE_URL}${mainCatSlug}/` }
+    ];
+    if (subCat) {
+        breadcrumbItems.push({ name: subCat, item: `${SITE_URL}${mainCatSlug}/${subCatSlug}/` });
+    }
+    breadcrumbItems.push({ name: product.title, item: pageUrl });
 
-    // Build features HTML
-    const featuresHtml = (product.features && product.features.length > 0)
-        ? product.features.map(f => `<li>✓ ${f.replace(/</g, '&lt;')}</li>`).join('')
-        : '<li>✓ Quality Tested Component</li><li>✓ Fast Island-wide Delivery</li>';
+    const breadcrumbsHtml = breadcrumbItems.map((b, i) => `
+        <li class="flex items-center">
+            ${i > 0 ? '<svg class="w-3 h-3 text-gray-400 mx-1" fill="currentColor" viewBox="0 0 20 20"><path d="M7.293 14.707a1 1 0 010-1.414L10.586 10l-3.293-3.293a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"/></svg>' : ''}
+            <a href="${b.item}" class="text-sm font-medium ${i === breadcrumbItems.length - 1 ? 'text-gray-500 cursor-default' : 'text-blue-600 hover:text-blue-700'}">${b.name}</a>
+        </li>
+    `).join('');
 
-    // Build specs HTML
-    const specsHtml = Object.keys(product.specs || {}).length > 0
-        ? Object.entries(product.specs).map(([k, v]) => `<tr><td><strong>${k}</strong></td><td>${v}</td></tr>`).join('')
-        : `
-            ${product.modelNumber ? `<tr><td><strong>Model</strong></td><td>${product.modelNumber}</td></tr>` : ''}
-            ${product.brand ? `<tr><td><strong>Brand</strong></td><td>${product.brand}</td></tr>` : ''}
-            ${product.condition ? `<tr><td><strong>Condition</strong></td><td>${product.condition}</td></tr>` : ''}
-            <tr><td><strong>Category</strong></td><td>${product.subCategory || product.mainCategory}</td></tr>
-        `;
+    const breadcrumbJsonLd = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": breadcrumbItems.map((b, i) => ({
+            "@type": "ListItem",
+            "position": i + 1,
+            "name": b.name,
+            "item": b.item
+        }))
+    };
 
-    // Build keywords/tags HTML
-    const tagsHtml = (product.keywords && product.keywords.length > 0)
-        ? product.keywords.slice(0, 8).map(k => `<span style="display:inline-block;background:#f1f5f9;padding:3px 10px;margin:3px;border-radius:20px;font-size:0.8rem;color:#475569;">${k}</span>`).join('')
-        : '';
-
-    // Build image thumbnails
-    const thumbsHtml = allImages.slice(0, 5).map((img, i) =>
-        `<img src="${img}" alt="${cleanTitle} image ${i + 1}" style="width:70px;height:70px;object-fit:contain;border:2px solid ${i === 0 ? '#3b82f6' : '#e2e8f0'};border-radius:8px;cursor:pointer;background:#f8fafc;" loading="lazy">`
-    ).join('');
-
-    // JSON-LD structured data
-    const jsonLd = {
+    const productJsonLd = {
         "@context": "https://schema.org",
         "@type": "Product",
         "name": product.title,
-        "image": allImages.length > 0 ? allImages : [mainImage],
-        "description": rawDesc || seoDesc,
+        "image": product.images || [product.image],
+        "description": rawDesc,
         "sku": product.modelNumber || `PE-${product.id}`,
         "brand": { "@type": "Brand", "name": product.brand || "Pubudu Electronics" },
         "offers": {
@@ -150,60 +153,123 @@ function injectProductContent(page, product, pageUrl) {
             "url": pageUrl,
             "priceCurrency": "LKR",
             "price": price,
-            "priceValidUntil": "2026-12-31",
-            "itemCondition": (product.condition === 'Used' || product.condition === 'for parts') ? "https://schema.org/UsedCondition" : "https://schema.org/NewCondition",
             "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
             "seller": { "@type": "Organization", "name": "Pubudu Electronics" }
         }
     };
 
-    // The SEO content block injected BEFORE the JS loads - Google reads this!
+    const specsHtml = Object.entries(product.specs || {}).length > 0
+        ? Object.entries(product.specs).map(([k, v], i) => `
+            <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">${k}</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">${v}</td>
+            </tr>`).join('')
+        : `<tr class="bg-white"><td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td><td class="px-4 py-3 text-sm text-gray-600 border-b">${subCat || mainCat}</td></tr>`;
+
     const seoBlock = `
-<!-- ===== SSR-INJECTED PRODUCT CONTENT FOR SEO ===== -->
-<div id="seo-product-content" style="max-width:1000px;margin:2rem auto;padding:1rem 1.5rem;font-family:'Outfit',sans-serif;">
-    <nav style="font-size:0.85rem;color:#64748b;margin-bottom:1rem;">
-        <a href="/" style="color:#3b82f6;text-decoration:none;">Home</a> &rsaquo;
-        <a href="/${createSEOSlug(product.mainCategory)}" style="color:#3b82f6;text-decoration:none;">${product.mainCategory}</a>
-        ${product.subCategory ? `&rsaquo; <a href="/${createSEOSlug(product.mainCategory)}/${createSEOSlug(product.subCategory)}/" style="color:#3b82f6;text-decoration:none;">${product.subCategory}</a>` : ''}
-        &rsaquo; ${cleanTitle}
-    </nav>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;">
-        <div>
-            ${mainImage ? `<img src="${mainImage}" alt="${cleanTitle}" style="width:100%;max-height:400px;object-fit:contain;border-radius:12px;background:#f8fafc;border:1px solid #e2e8f0;" loading="eager">` : ''}
-            ${thumbsHtml ? `<div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">${thumbsHtml}</div>` : ''}
+<!-- ===== NEW PREMIUM PRODUCT LAYOUT ===== -->
+<div class="bg-gray-50 min-h-screen font-['Inter',sans-serif] text-gray-900 pb-20 md:pb-0">
+    <!-- Breadcrumbs -->
+    <div class="max-w-7xl mx-auto px-4 py-4">
+        <nav class="flex" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                ${breadcrumbsHtml}
+            </ol>
+        </nav>
+    </div>
+
+    <!-- Product Main Card -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div class="flex flex-col md:flex-row">
+                <!-- Left: Image Col (40%) -->
+                <div class="md:w-2/5 p-6 border-b md:border-b-0 md:border-r border-gray-100 flex flex-col items-center">
+                    <div class="w-full aspect-square relative bg-white border border-gray-100 rounded-lg overflow-hidden group">
+                        <img src="${product.image}" alt="${cleanTitle}" class="w-full h-full object-contain p-4 transition-transform duration-500 group-hover:scale-110" id="main-product-img" loading="eager">
+                        <div class="absolute bottom-4 right-4 bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium text-gray-600 shadow-sm border border-gray-200 md:block hidden">
+                            <i class="fas fa-search-plus mr-1"></i> Hover to Zoom
+                        </div>
+                    </div>
+                    ${product.images && product.images.length > 1 ? `
+                    <div class="flex gap-2 mt-4 overflow-x-auto pb-2 w-full scrollbar-hide">
+                        ${product.images.map(img => `
+                            <img src="${img}" class="w-20 h-20 object-contain p-1 border-2 border-gray-100 rounded-md cursor-pointer hover:border-blue-500 transition-colors bg-white flex-shrink-0" loading="lazy">
+                        `).join('')}
+                    </div>` : ''}
+                </div>
+
+                <!-- Right: Info Col (60%) -->
+                <div class="md:w-3/5 p-8 flex flex-col">
+                    <div class="mb-2">
+                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${stockColor}">
+                            ${stockStatus}
+                        </span>
+                    </div>
+                    <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 mb-4 leading-tight">${cleanTitle}</h1>
+                    
+                    <div class="flex items-baseline gap-2 mb-6">
+                        <span class="text-3xl font-black text-[#D32F2F]">LKR ${price.toLocaleString()}</span>
+                        <span class="text-sm text-gray-500 line-through">LKR ${(price * 1.1).toLocaleString()}</span>
+                    </div>
+
+                    ${product.modelNumber ? `
+                    <div class="flex items-center gap-2 mb-6 text-sm text-gray-600 bg-gray-50 px-3 py-2 rounded-lg border border-gray-100">
+                        <i class="fas fa-barcode"></i>
+                        <span>Model: <span class="font-bold text-gray-800">${product.modelNumber}</span></span>
+                    </div>` : ''}
+
+                    <div class="prose prose-sm max-w-none text-gray-600 mb-8 leading-relaxed">
+                        ${rawDesc}
+                    </div>
+
+                    <div class="mt-auto flex flex-col sm:flex-row gap-4 no-mobile-bottom-bar">
+                        <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-3 active:scale-95 min-h-[48px]">
+                            <i class="fas fa-cart-plus"></i> Add to Cart
+                        </button>
+                        <a href="https://wa.me/94789155130?text=I am interested in ${encodeURIComponent(product.title)}" class="flex-1 bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 rounded-lg shadow-lg shadow-green-200 transition-all flex items-center justify-center gap-3 active:scale-95 min-h-[48px]">
+                            <i class="fab fa-whatsapp"></i> Buy via WhatsApp
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div>
-            <p style="color:#64748b;font-size:0.9rem;margin:0 0 0.5rem;">${product.mainCategory}${product.subCategory ? ' › ' + product.subCategory : ''}</p>
-            <h1 style="font-size:1.6rem;font-weight:700;color:#0f172a;margin:0 0 0.75rem;line-height:1.3;">${cleanTitle}</h1>
-            <div style="font-size:1.8rem;font-weight:800;color:#3b82f6;margin-bottom:0.75rem;">LKR ${price.toLocaleString()}</div>
-            ${product.modelNumber ? `<p style="font-size:0.9rem;color:#64748b;margin-bottom:0.5rem;">Model: <strong>${product.modelNumber}</strong></p>` : ''}
-            <span style="display:inline-block;background:${stockColor};color:white;padding:4px 12px;border-radius:20px;font-size:0.8rem;font-weight:600;margin-bottom:1rem;">${stockText}</span>
-            ${product.condition ? `<span style="display:inline-block;background:#f1f5f9;color:#475569;padding:4px 12px;border-radius:20px;font-size:0.8rem;font-weight:600;margin-bottom:1rem;margin-left:8px;">${product.condition}</span>` : ''}
-            <p style="color:#334155;line-height:1.7;margin-bottom:1.5rem;">${rawDesc.replace(/</g, '&lt;').replace(/>/g, '&gt;') || seoDesc}</p>
-            ${tagsHtml ? `<div style="margin-bottom:1rem;">${tagsHtml}</div>` : ''}
-            <a href="https://wa.me/94789155130?text=Hi! I want to buy: ${encodeURIComponent(product.title)} (LKR ${price}). Is it available?" style="display:inline-flex;align-items:center;gap:8px;background:#25d366;color:white;padding:12px 24px;border-radius:10px;text-decoration:none;font-weight:700;font-size:1rem;" target="_blank">
-                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-                Order via WhatsApp
-            </a>
+
+        <!-- Secondary Info (Specs) -->
+        <div class="mt-12 mb-20 grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div class="bg-white p-8 rounded-xl border border-gray-200 shadow-sm">
+                <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+                    <i class="fas fa-list-ul text-blue-500"></i> Specifications
+                </h2>
+                <table class="w-full text-left">
+                    <tbody>
+                        ${specsHtml}
+                    </tbody>
+                </table>
+            </div>
+            <div class="bg-white p-8 rounded-xl border border-gray-200 shadow-sm">
+                <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+                    <i class="fas fa-star text-blue-500"></i> Product Description
+                </h2>
+                <div class="text-gray-600 leading-relaxed space-y-4">
+                    ${product.longDescription || product.description}
+                </div>
+            </div>
         </div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:2rem;">
-        <div>
-            <h2 style="font-size:1.1rem;font-weight:700;margin-bottom:0.75rem;color:#0f172a;">Features</h2>
-            <ul style="list-style:none;padding:0;margin:0;color:#334155;line-height:2;">${featuresHtml}</ul>
-        </div>
-        <div>
-            <h2 style="font-size:1.1rem;font-weight:700;margin-bottom:0.75rem;color:#0f172a;">Specifications</h2>
-            <table style="width:100%;border-collapse:collapse;font-size:0.9rem;">
-                <tbody>${specsHtml}</tbody>
-            </table>
-        </div>
-    </div>
-    <hr style="margin:2rem 0;border:none;border-top:1px solid #e2e8f0;">
-    <p style="color:#64748b;font-size:0.85rem;">📦 Fast island-wide delivery available. 📞 Call/WhatsApp: <a href="tel:+94789155130" style="color:#3b82f6;">+94 78 915 5130</a></p>
 </div>
-<!-- ===== END SSR PRODUCT CONTENT ===== -->
-<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
+
+<!-- Mobile Sticky Bottom Bar -->
+<div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 md:hidden flex gap-4 z-[2000] shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
+    <button class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
+        <i class="fas fa-cart-plus"></i> Cart
+    </button>
+    <a href="https://wa.me/94789155130?text=I am interested in ${encodeURIComponent(product.title)}" class="flex-1 bg-green-500 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
+        <i class="fab fa-whatsapp"></i> WhatsApp
+    </a>
+</div>
+
+<script type="application/ld+json">${JSON.stringify(breadcrumbJsonLd)}</script>
+<script type="application/ld+json">${JSON.stringify(productJsonLd)}</script>
 `;
 
     // Inject the SEO block right after <body ...>

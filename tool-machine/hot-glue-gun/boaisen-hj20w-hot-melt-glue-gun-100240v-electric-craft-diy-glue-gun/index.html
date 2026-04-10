@@ -207,35 +207,27 @@
 
                 <!-- Right: Info Col (60%) -->
                 <div class="md:w-3/5 p-8 flex flex-col">
-                    <div class="mb-2">
-                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-green-100 text-green-800">
-                            In Stock
-                        </span>
-                    </div>
-                    <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 mb-4 leading-tight">Boaisen HJ-20W Hot Melt Glue Gun 100-240V | Electric Craft & DIY Glue Gun</h1>
-                    
-                    <div class="flex items-baseline gap-2 mb-6">
-                        <span class="text-3xl font-black text-[#D32F2F]">LKR 350</span>
-                        <span class="text-sm text-gray-500 line-through">LKR 385</span>
-                    </div>
-
-                    
-                    <div class="flex items-center gap-2 mb-6 text-sm text-gray-600 bg-gray-50 px-3 py-2 rounded-lg border border-gray-100">
-                        <i class="fas fa-barcode"></i>
-                        <span>Model: <span class="font-bold text-gray-800">HJ-20W</span></span>
-                    </div>
-
-                    <div class="prose prose-sm max-w-none text-gray-600 mb-8 leading-relaxed">
-                        Boaisen HJ-20W Hot Melt Glue Gun with 100-240V power support, perfect for DIY projects, crafts, school work, repairs, decorations, and home use. Fast heating, easy trigger control, and durable design for strong bonding on plastic, wood, fabric, and more. Ideal for hobbyists and professionals.
-                    </div>
-
-                    <div class="mt-auto flex flex-col sm:flex-row gap-4 no-mobile-bottom-bar">
-                        <button onclick="if(window.addToCart) addToCart('1772435873431', 1)" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-3 active:scale-95 min-h-[48px]">
-                            <i class="fas fa-cart-plus"></i> Add to Cart
-                        </button>
-                        <button onclick="if(window.addToCart) { addToCart('1772435873431', 1); if(window.toggleCart) toggleCart(true); }" class="flex-1 bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 rounded-lg shadow-lg shadow-green-200 transition-all flex items-center justify-center gap-3 active:scale-95 min-h-[48px]">
-                            <i class="fab fa-whatsapp"></i> Buy via WhatsApp
-                        </button>
+                    <div class="mb-6 flex flex-wrap items-end gap-6">
+                        <div class="flex flex-col gap-2">
+                            <span class="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Quantity</span>
+                            <div class="flex items-center border border-gray-200 rounded-lg overflow-hidden h-12 bg-white">
+                                <button onclick="if(window.changeQty) changeQty(-1)" class="w-10 h-full hover:bg-gray-50 transition-colors font-bold text-gray-500">-</button>
+                                <span id="qty-readout" class="w-12 text-center font-bold text-gray-900 border-x border-gray-100 flex items-center justify-center">1</span>
+                                <button onclick="if(window.changeQty) changeQty(1)" class="w-10 h-full hover:bg-gray-50 transition-colors font-bold text-gray-500">+</button>
+                            </div>
+                        </div>
+                        <div class="flex-1 min-w-[200px] flex flex-col gap-1">
+                            
+                            <div class="flex gap-3">
+                                <button onclick="if(window.addToCart) addToCart('1772435873431', getSelectedQty())" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold h-12 rounded-lg shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-2 active:scale-95">
+                                    <i class="fas fa-cart-plus"></i> Add to Cart
+                                </button>
+                            </div>
+                            <button onclick="if(window.addToCart) { addToCart('1772435873431', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="w-full mt-2 bg-green-500 hover:bg-green-600 text-white font-bold h-12 rounded-lg shadow-lg shadow-green-200 transition-all flex items-center justify-center gap-2 active:scale-95">
+                                <i class="fab fa-whatsapp"></i> Buy via WhatsApp
+                            </button>
+                            
+                        </div>
                     </div>
                 </div>
             </div>
@@ -251,20 +243,20 @@
                     <tbody>
                         
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
-            </tr>
-            <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Boaisen</td>
+            </tr>
+            <tr class="bg-gray-50">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Hot Glue Gun</td>
             </tr>
             <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">HJ-20W</td>
             </tr>
             <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Hot Glue Gun</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
             </tr>
                     </tbody>
                 </table>
@@ -283,12 +275,14 @@
 
 <!-- Mobile Sticky Bottom Bar -->
 <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 md:hidden flex gap-4 z-[2000] shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
-    <button class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
+    
+    <button onclick="if(window.addToCart) addToCart('1772435873431', getSelectedQty())" class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
         <i class="fas fa-cart-plus"></i> Cart
     </button>
-    <a href="https://wa.me/94789155130?text=I am interested in Boaisen%20HJ-20W%20Hot%20Melt%20Glue%20Gun%20100-240V%20%7C%20Electric%20Craft%20%26%20DIY%20Glue%20Gun" class="flex-1 bg-green-500 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
-        <i class="fab fa-whatsapp"></i> WhatsApp
-    </a>
+    <button onclick="if(window.addToCart) { addToCart('1772435873431', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="flex-1 bg-green-500 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
+        <i class="fab fa-whatsapp"></i> Buy
+    </button>
+    
 </div>
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Tool & Machine","item":"https://ichouse.lk/tool-machine/"},{"@type":"ListItem","position":3,"name":"Hot Glue Gun","item":"https://ichouse.lk/tool-machine/hot-glue-gun/"},{"@type":"ListItem","position":4,"name":"Boaisen HJ-20W Hot Melt Glue Gun 100-240V | Electric Craft & DIY Glue Gun","item":"https://ichouse.lk/tool-machine/hot-glue-gun/boaisen-hj20w-hot-melt-glue-gun-100240v-electric-craft-diy-glue-gun/"}]}</script>
@@ -450,9 +444,9 @@
                             <div class="flex flex-col gap-2">
                                 <span class="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Quantity</span>
                                 <div class="flex items-center border border-gray-200 rounded-lg overflow-hidden h-12">
-                                    <button class="w-10 h-full hover:bg-gray-50 transition-colors font-bold text-gray-500" id="modal-qty-minus">-</button>
-                                    <span id="modal-qty-value" class="w-12 text-center font-bold text-gray-900 border-x border-gray-100">1</span>
-                                    <button class="w-10 h-full hover:bg-gray-50 transition-colors font-bold text-gray-500" id="modal-qty-plus">+</button>
+                                    <button class="w-10 h-full hover:bg-gray-50 transition-colors font-bold text-gray-500" onclick="changeQty(-1)">-</button>
+                                    <span id="modal-qty-value" class="w-12 text-center font-bold text-gray-900 border-x border-gray-100 flex items-center justify-center">1</span>
+                                    <button class="w-10 h-full hover:bg-gray-50 transition-colors font-bold text-gray-500" onclick="changeQty(1)">+</button>
                                 </div>
                             </div>
                             <div class="flex-1 flex flex-col gap-1">

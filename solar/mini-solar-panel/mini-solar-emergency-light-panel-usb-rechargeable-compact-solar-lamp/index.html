@@ -207,31 +207,27 @@
 
                 <!-- Right: Info Col (60%) -->
                 <div class="md:w-3/5 p-8 flex flex-col">
-                    <div class="mb-2">
-                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-green-100 text-green-800">
-                            In Stock
-                        </span>
-                    </div>
-                    <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 mb-4 leading-tight">Mini Solar Emergency Light Panel | USB Rechargeable Compact Solar Lamp</h1>
-                    
-                    <div class="flex items-baseline gap-2 mb-6">
-                        <span class="text-3xl font-black text-[#D32F2F]">LKR 200</span>
-                        <span class="text-sm text-gray-500 line-through">LKR 220</span>
-                    </div>
-
-                    
-
-                    <div class="prose prose-sm max-w-none text-gray-600 mb-8 leading-relaxed">
-                        Mini Solar Emergency Light with built-in solar panel and USB charging support. Compact and portable design, ideal for power cuts, camping, outdoor use, and home backup lighting. Energy-saving, eco-friendly solar charging with durable body and easy installation. Perfect for emergency situations and off-grid lighting solutions.
-                    </div>
-
-                    <div class="mt-auto flex flex-col sm:flex-row gap-4 no-mobile-bottom-bar">
-                        <button onclick="if(window.addToCart) addToCart('1772436225862', 1)" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-3 active:scale-95 min-h-[48px]">
-                            <i class="fas fa-cart-plus"></i> Add to Cart
-                        </button>
-                        <button onclick="if(window.addToCart) { addToCart('1772436225862', 1); if(window.toggleCart) toggleCart(true); }" class="flex-1 bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 rounded-lg shadow-lg shadow-green-200 transition-all flex items-center justify-center gap-3 active:scale-95 min-h-[48px]">
-                            <i class="fab fa-whatsapp"></i> Buy via WhatsApp
-                        </button>
+                    <div class="mb-6 flex flex-wrap items-end gap-6">
+                        <div class="flex flex-col gap-2">
+                            <span class="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Quantity</span>
+                            <div class="flex items-center border border-gray-200 rounded-lg overflow-hidden h-12 bg-white">
+                                <button onclick="if(window.changeQty) changeQty(-1)" class="w-10 h-full hover:bg-gray-50 transition-colors font-bold text-gray-500">-</button>
+                                <span id="qty-readout" class="w-12 text-center font-bold text-gray-900 border-x border-gray-100 flex items-center justify-center">1</span>
+                                <button onclick="if(window.changeQty) changeQty(1)" class="w-10 h-full hover:bg-gray-50 transition-colors font-bold text-gray-500">+</button>
+                            </div>
+                        </div>
+                        <div class="flex-1 min-w-[200px] flex flex-col gap-1">
+                            
+                            <div class="flex gap-3">
+                                <button onclick="if(window.addToCart) addToCart('1772436225862', getSelectedQty())" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold h-12 rounded-lg shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-2 active:scale-95">
+                                    <i class="fas fa-cart-plus"></i> Add to Cart
+                                </button>
+                            </div>
+                            <button onclick="if(window.addToCart) { addToCart('1772436225862', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="w-full mt-2 bg-green-500 hover:bg-green-600 text-white font-bold h-12 rounded-lg shadow-lg shadow-green-200 transition-all flex items-center justify-center gap-2 active:scale-95">
+                                <i class="fab fa-whatsapp"></i> Buy via WhatsApp
+                            </button>
+                            
+                        </div>
                     </div>
                 </div>
             </div>
@@ -247,8 +243,8 @@
                     <tbody>
                         
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">N/A</td>
             </tr>
             <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
@@ -259,8 +255,8 @@
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Mini Solar Panel</td>
             </tr>
             <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">N/A</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
             </tr>
                     </tbody>
                 </table>
@@ -279,12 +275,14 @@
 
 <!-- Mobile Sticky Bottom Bar -->
 <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 md:hidden flex gap-4 z-[2000] shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
-    <button class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
+    
+    <button onclick="if(window.addToCart) addToCart('1772436225862', getSelectedQty())" class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
         <i class="fas fa-cart-plus"></i> Cart
     </button>
-    <a href="https://wa.me/94789155130?text=I am interested in Mini%20Solar%20Emergency%20Light%20Panel%20%7C%20USB%20Rechargeable%20Compact%20Solar%20Lamp" class="flex-1 bg-green-500 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
-        <i class="fab fa-whatsapp"></i> WhatsApp
-    </a>
+    <button onclick="if(window.addToCart) { addToCart('1772436225862', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="flex-1 bg-green-500 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
+        <i class="fab fa-whatsapp"></i> Buy
+    </button>
+    
 </div>
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Solar","item":"https://ichouse.lk/solar/"},{"@type":"ListItem","position":3,"name":"Mini Solar Panel","item":"https://ichouse.lk/solar/mini-solar-panel/"},{"@type":"ListItem","position":4,"name":"Mini Solar Emergency Light Panel | USB Rechargeable Compact Solar Lamp","item":"https://ichouse.lk/solar/mini-solar-panel/mini-solar-emergency-light-panel-usb-rechargeable-compact-solar-lamp/"}]}</script>
@@ -446,9 +444,9 @@
                             <div class="flex flex-col gap-2">
                                 <span class="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Quantity</span>
                                 <div class="flex items-center border border-gray-200 rounded-lg overflow-hidden h-12">
-                                    <button class="w-10 h-full hover:bg-gray-50 transition-colors font-bold text-gray-500" id="modal-qty-minus">-</button>
-                                    <span id="modal-qty-value" class="w-12 text-center font-bold text-gray-900 border-x border-gray-100">1</span>
-                                    <button class="w-10 h-full hover:bg-gray-50 transition-colors font-bold text-gray-500" id="modal-qty-plus">+</button>
+                                    <button class="w-10 h-full hover:bg-gray-50 transition-colors font-bold text-gray-500" onclick="changeQty(-1)">-</button>
+                                    <span id="modal-qty-value" class="w-12 text-center font-bold text-gray-900 border-x border-gray-100 flex items-center justify-center">1</span>
+                                    <button class="w-10 h-full hover:bg-gray-50 transition-colors font-bold text-gray-500" onclick="changeQty(1)">+</button>
                                 </div>
                             </div>
                             <div class="flex-1 flex flex-col gap-1">

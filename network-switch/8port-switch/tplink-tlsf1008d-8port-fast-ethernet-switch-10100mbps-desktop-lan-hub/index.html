@@ -209,35 +209,27 @@
 
                 <!-- Right: Info Col (60%) -->
                 <div class="md:w-3/5 p-8 flex flex-col">
-                    <div class="mb-2">
-                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-green-100 text-green-800">
-                            In Stock
-                        </span>
-                    </div>
-                    <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 mb-4 leading-tight">TP-Link TL-SF1008D 8-Port Fast Ethernet Switch | 10/100Mbps Desktop LAN Hub</h1>
-                    
-                    <div class="flex items-baseline gap-2 mb-6">
-                        <span class="text-3xl font-black text-[#D32F2F]">LKR 1,850</span>
-                        <span class="text-sm text-gray-500 line-through">LKR 2,035</span>
-                    </div>
-
-                    
-                    <div class="flex items-center gap-2 mb-6 text-sm text-gray-600 bg-gray-50 px-3 py-2 rounded-lg border border-gray-100">
-                        <i class="fas fa-barcode"></i>
-                        <span>Model: <span class="font-bold text-gray-800">TL-SF1008D</span></span>
-                    </div>
-
-                    <div class="prose prose-sm max-w-none text-gray-600 mb-8 leading-relaxed">
-                        The TL-SF1008D 8-Port Switch from TP-Link is a reliable and energy-efficient networking solution for home and office use. It features 8 auto-negotiation 10/100Mbps RJ45 ports for smooth data transfer, plug-and-play setup with no configuration needed, and compact desktop design. Ideal for expanding wired networks with stable and fast connectivity.
-                    </div>
-
-                    <div class="mt-auto flex flex-col sm:flex-row gap-4 no-mobile-bottom-bar">
-                        <button onclick="if(window.addToCart) addToCart('1775186418649', 1)" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-3 active:scale-95 min-h-[48px]">
-                            <i class="fas fa-cart-plus"></i> Add to Cart
-                        </button>
-                        <button onclick="if(window.addToCart) { addToCart('1775186418649', 1); if(window.toggleCart) toggleCart(true); }" class="flex-1 bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 rounded-lg shadow-lg shadow-green-200 transition-all flex items-center justify-center gap-3 active:scale-95 min-h-[48px]">
-                            <i class="fab fa-whatsapp"></i> Buy via WhatsApp
-                        </button>
+                    <div class="mb-6 flex flex-wrap items-end gap-6">
+                        <div class="flex flex-col gap-2">
+                            <span class="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Quantity</span>
+                            <div class="flex items-center border border-gray-200 rounded-lg overflow-hidden h-12 bg-white">
+                                <button onclick="if(window.changeQty) changeQty(-1)" class="w-10 h-full hover:bg-gray-50 transition-colors font-bold text-gray-500">-</button>
+                                <span id="qty-readout" class="w-12 text-center font-bold text-gray-900 border-x border-gray-100 flex items-center justify-center">1</span>
+                                <button onclick="if(window.changeQty) changeQty(1)" class="w-10 h-full hover:bg-gray-50 transition-colors font-bold text-gray-500">+</button>
+                            </div>
+                        </div>
+                        <div class="flex-1 min-w-[200px] flex flex-col gap-1">
+                            
+                            <div class="flex gap-3">
+                                <button onclick="if(window.addToCart) addToCart('1775186418649', getSelectedQty())" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold h-12 rounded-lg shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-2 active:scale-95">
+                                    <i class="fas fa-cart-plus"></i> Add to Cart
+                                </button>
+                            </div>
+                            <button onclick="if(window.addToCart) { addToCart('1775186418649', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="w-full mt-2 bg-green-500 hover:bg-green-600 text-white font-bold h-12 rounded-lg shadow-lg shadow-green-200 transition-all flex items-center justify-center gap-2 active:scale-95">
+                                <i class="fab fa-whatsapp"></i> Buy via WhatsApp
+                            </button>
+                            
+                        </div>
                     </div>
                 </div>
             </div>
@@ -253,20 +245,20 @@
                     <tbody>
                         
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">8-Port Switch</td>
-            </tr>
-            <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">TL-SF1008D</td>
+            </tr>
+            <tr class="bg-gray-50">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Used</td>
             </tr>
             <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">tp-link</td>
             </tr>
             <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Used</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">8-Port Switch</td>
             </tr>
                     </tbody>
                 </table>
@@ -285,12 +277,14 @@
 
 <!-- Mobile Sticky Bottom Bar -->
 <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 md:hidden flex gap-4 z-[2000] shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
-    <button class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
+    
+    <button onclick="if(window.addToCart) addToCart('1775186418649', getSelectedQty())" class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
         <i class="fas fa-cart-plus"></i> Cart
     </button>
-    <a href="https://wa.me/94789155130?text=I am interested in TP-Link%20TL-SF1008D%208-Port%20Fast%20Ethernet%20Switch%20%7C%2010%2F100Mbps%20Desktop%20LAN%20Hub" class="flex-1 bg-green-500 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
-        <i class="fab fa-whatsapp"></i> WhatsApp
-    </a>
+    <button onclick="if(window.addToCart) { addToCart('1775186418649', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="flex-1 bg-green-500 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
+        <i class="fab fa-whatsapp"></i> Buy
+    </button>
+    
 </div>
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Network  Switch","item":"https://ichouse.lk/network-switch/"},{"@type":"ListItem","position":3,"name":"8-Port Switch","item":"https://ichouse.lk/network-switch/8port-switch/"},{"@type":"ListItem","position":4,"name":"TP-Link TL-SF1008D 8-Port Fast Ethernet Switch | 10/100Mbps Desktop LAN Hub","item":"https://ichouse.lk/network-switch/8port-switch/tplink-tlsf1008d-8port-fast-ethernet-switch-10100mbps-desktop-lan-hub/"}]}</script>
@@ -452,9 +446,9 @@
                             <div class="flex flex-col gap-2">
                                 <span class="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Quantity</span>
                                 <div class="flex items-center border border-gray-200 rounded-lg overflow-hidden h-12">
-                                    <button class="w-10 h-full hover:bg-gray-50 transition-colors font-bold text-gray-500" id="modal-qty-minus">-</button>
-                                    <span id="modal-qty-value" class="w-12 text-center font-bold text-gray-900 border-x border-gray-100">1</span>
-                                    <button class="w-10 h-full hover:bg-gray-50 transition-colors font-bold text-gray-500" id="modal-qty-plus">+</button>
+                                    <button class="w-10 h-full hover:bg-gray-50 transition-colors font-bold text-gray-500" onclick="changeQty(-1)">-</button>
+                                    <span id="modal-qty-value" class="w-12 text-center font-bold text-gray-900 border-x border-gray-100 flex items-center justify-center">1</span>
+                                    <button class="w-10 h-full hover:bg-gray-50 transition-colors font-bold text-gray-500" onclick="changeQty(1)">+</button>
                                 </div>
                             </div>
                             <div class="flex-1 flex flex-col gap-1">

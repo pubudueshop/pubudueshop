@@ -495,6 +495,7 @@ function clearCart() {
 
 function updateCartUI() {
     const cartBadge = document.getElementById('cart-badge');
+    const cartBadgeMobile = document.getElementById('cart-badge-mobile');
     const cartItemsList = document.getElementById('cart-items');
     const cartTotalAmount = document.getElementById('cart-total-amount');
 
@@ -502,6 +503,7 @@ function updateCartUI() {
     const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
     if (cartBadge) cartBadge.textContent = totalQty;
+    if (cartBadgeMobile) cartBadgeMobile.textContent = totalQty;
     if (cartTotalAmount) cartTotalAmount.textContent = `LKR ${totalPrice.toLocaleString()}`;
 
     if (cartItemsList) {
@@ -1698,14 +1700,18 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Cart Drawer Listeners
         const cartBtn = document.getElementById('cart-btn');
+        const cartBtnTop = document.getElementById('cart-btn-top');
         const closeCartBtn = document.getElementById('close-cart');
         const cartOverlay = document.getElementById('cart-overlay');
         const cartDrawer = document.getElementById('cart-drawer');
 
-        if (cartBtn) cartBtn.addEventListener('click', () => {
+        const openCart = () => {
             updateCartUI();
             cartDrawer.classList.remove('hidden');
-        });
+        };
+
+        if (cartBtn) cartBtn.addEventListener('click', openCart);
+        if (cartBtnTop) cartBtnTop.addEventListener('click', openCart);
         if (closeCartBtn) closeCartBtn.addEventListener('click', () => cartDrawer.classList.add('hidden'));
         if (cartOverlay) cartOverlay.addEventListener('click', () => cartDrawer.classList.add('hidden'));
 

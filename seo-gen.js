@@ -272,8 +272,8 @@ function injectProductContent(page, product, pageUrl) {
 <script type="application/ld+json">${JSON.stringify(productJsonLd)}</script>
 `;
 
-    // Inject the SEO block right after <body ...>
-    page = page.replace(/(<body[^>]*>)/, `$1\n${seoBlock}`);
+    // Inject the SEO block after the navbar/search section
+    page = page.replace(/(<div class="sticky-search-mobile">.*?<\/div>)/s, `$1\n${seoBlock}`);
     return page;
 }
 
@@ -319,7 +319,8 @@ function injectCategoryContent(page, cat, subCat, products, catUrl) {
 </div>
 <!-- ===== END SSR CATEGORY CONTENT ===== -->
 `;
-    page = page.replace(/(<body[^>]*>)/, `$1\n${seoBlock}`);
+    // Inject category SEO block after search section
+    page = page.replace(/(<div class="sticky-search-mobile">.*?<\/div>)/s, `$1\n${seoBlock}`);
     return page;
 }
 

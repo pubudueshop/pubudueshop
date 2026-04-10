@@ -56,12 +56,10 @@ body {
     width: 100%;
 }
 
-/* Standalone Product Page Overrides */
 .standalone-product-page .hero,
 .standalone-product-page #home-featured,
 .standalone-product-page #products,
-.standalone-product-page #about,
-.standalone-product-page .home-button {
+.standalone-product-page #about {
     display: none !important;
 }
 

@@ -569,12 +569,47 @@ function openCart() {
     toggleCart(true);
 }
 
+function changeQty(delta) {
+    // Check both potential IDs for the quantity display
+    const qtyValue = document.getElementById('qty-readout') || document.getElementById('modal-qty-value');
+    if (!qtyValue) return;
+    
+    let current = parseInt(qtyValue.textContent) || 1;
+    current += delta;
+    
+    if (current < 1) current = 1;
+    
+    // Check stock limit
+    const bodyId = document.body.dataset.productId || currentModalProductId;
+    if (bodyId && typeof products !== 'undefined') {
+        const product = products.find(p => p.id == bodyId);
+        if (product && current > product.stock) {
+            showToast(`Only ${product.stock} items available in stock`, "error");
+            current = product.stock > 0 ? product.stock : 1;
+        }
+    }
+    
+    qtyValue.textContent = current;
+    // Keep internal modalQty in sync if we're in the modal
+    if (qtyValue.id === 'modal-qty-value') modalQty = current;
+}
+
+function getSelectedQty() {
+    const qtyValue = document.getElementById('qty-readout') || document.getElementById('modal-qty-value');
+    return qtyValue ? parseInt(qtyValue.textContent) || 1 : 1;
+}
+
+// Export functions to window
 window.updateQuantity = updateQuantity;
 window.removeFromCart = removeFromCart;
 window.addToCart = addToCart;
 window.toggleCart = toggleCart;
 window.openCart = openCart;
 window.openProductDetails = openProductDetails;
+window.changeQty = changeQty;
+window.getSelectedQty = getSelectedQty;
+
+// --- Invoice & Order Logic ---
 function openInvoice(customerData) {
     if (cart.length === 0) {
         alert("Your cart is empty.");

@@ -200,35 +200,31 @@ function injectProductContent(page, product, pageUrl) {
 
                 <!-- Right: Info Col (60%) -->
                 <div class="md:w-3/5 p-8 flex flex-col">
-                    <div class="mb-2">
-                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${stockColor}">
-                            ${stockStatus}
-                        </span>
-                    </div>
-                    <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 mb-4 leading-tight">${cleanTitle}</h1>
-                    
-                    <div class="flex items-baseline gap-2 mb-6">
-                        <span class="text-3xl font-black text-[#D32F2F]">LKR ${price.toLocaleString()}</span>
-                        <span class="text-sm text-gray-500 line-through">LKR ${(price * 1.1).toLocaleString()}</span>
-                    </div>
-
-                    ${product.modelNumber ? `
-                    <div class="flex items-center gap-2 mb-6 text-sm text-gray-600 bg-gray-50 px-3 py-2 rounded-lg border border-gray-100">
-                        <i class="fas fa-barcode"></i>
-                        <span>Model: <span class="font-bold text-gray-800">${product.modelNumber}</span></span>
-                    </div>` : ''}
-
-                    <div class="prose prose-sm max-w-none text-gray-600 mb-8 leading-relaxed">
-                        ${rawDesc}
-                    </div>
-
-                    <div class="mt-auto flex flex-col sm:flex-row gap-4 no-mobile-bottom-bar">
-                        <button onclick="if(window.addToCart) addToCart('${product.id}', 1)" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-3 active:scale-95 min-h-[48px]">
-                            <i class="fas fa-cart-plus"></i> Add to Cart
-                        </button>
-                        <button onclick="if(window.addToCart) { addToCart('${product.id}', 1); if(window.toggleCart) toggleCart(true); }" class="flex-1 bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 rounded-lg shadow-lg shadow-green-200 transition-all flex items-center justify-center gap-3 active:scale-95 min-h-[48px]">
-                            <i class="fab fa-whatsapp"></i> Buy via WhatsApp
-                        </button>
+                    <div class="mb-6 flex flex-wrap items-end gap-6">
+                        <div class="flex flex-col gap-2">
+                            <span class="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Quantity</span>
+                            <div class="flex items-center border border-gray-200 rounded-lg overflow-hidden h-12 bg-white">
+                                <button onclick="if(window.changeQty) changeQty(-1)" class="w-10 h-full hover:bg-gray-50 transition-colors font-bold text-gray-500">-</button>
+                                <span id="qty-readout" class="w-12 text-center font-bold text-gray-900 border-x border-gray-100 flex items-center justify-center">1</span>
+                                <button onclick="if(window.changeQty) changeQty(1)" class="w-10 h-full hover:bg-gray-50 transition-colors font-bold text-gray-500">+</button>
+                            </div>
+                        </div>
+                        <div class="flex-1 min-w-[200px] flex flex-col gap-1">
+                            ${product.stock > 0 ? `
+                            <div class="flex gap-3">
+                                <button onclick="if(window.addToCart) addToCart('${product.id}', getSelectedQty())" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold h-12 rounded-lg shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-2 active:scale-95">
+                                    <i class="fas fa-cart-plus"></i> Add to Cart
+                                </button>
+                            </div>
+                            <button onclick="if(window.addToCart) { addToCart('${product.id}', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="w-full mt-2 bg-green-500 hover:bg-green-600 text-white font-bold h-12 rounded-lg shadow-lg shadow-green-200 transition-all flex items-center justify-center gap-2 active:scale-95">
+                                <i class="fab fa-whatsapp"></i> Buy via WhatsApp
+                            </button>
+                            ` : `
+                            <button disabled class="w-full bg-gray-200 text-gray-500 font-bold h-12 rounded-lg cursor-not-allowed flex items-center justify-center gap-2">
+                                <i class="fas fa-ban"></i> Out of Stock
+                            </button>
+                            `}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -260,12 +256,18 @@ function injectProductContent(page, product, pageUrl) {
 
 <!-- Mobile Sticky Bottom Bar -->
 <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 md:hidden flex gap-4 z-[2000] shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
-    <button class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
+    ${product.stock > 0 ? `
+    <button onclick="if(window.addToCart) addToCart('${product.id}', getSelectedQty())" class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
         <i class="fas fa-cart-plus"></i> Cart
     </button>
-    <a href="https://wa.me/94789155130?text=I am interested in ${encodeURIComponent(product.title)}" class="flex-1 bg-green-500 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
-        <i class="fab fa-whatsapp"></i> WhatsApp
-    </a>
+    <button onclick="if(window.addToCart) { addToCart('${product.id}', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="flex-1 bg-green-500 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
+        <i class="fab fa-whatsapp"></i> Buy
+    </button>
+    ` : `
+    <button disabled class="flex-1 bg-gray-100 text-gray-400 font-bold py-3 rounded-lg flex items-center justify-center gap-2 cursor-not-allowed">
+        <i class="fas fa-ban"></i> Out of Stock
+    </button>
+    `}
 </div>
 
 <script type="application/ld+json">${JSON.stringify(breadcrumbJsonLd)}</script>

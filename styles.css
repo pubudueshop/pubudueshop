@@ -1001,6 +1001,20 @@ a {
     }
 }
 
+/* Disabled Buttons (Out of Stock) */
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed !important;
+    filter: grayscale(1);
+}
+
+.cart-btn:disabled, .primary-btn:disabled {
+    background: #e2e8f0 !important;
+    color: #94a3b8 !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
 /* Footer (Updated) */
 footer {
     background: #0f172a;

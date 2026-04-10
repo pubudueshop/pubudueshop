@@ -1978,6 +1978,45 @@ document.addEventListener('DOMContentLoaded', async () => {
             };
         }
 
+        const mobileSearchInput = document.getElementById('mobile-search-input');
+        const stickySearchMobile = document.querySelector('.sticky-search-mobile');
+
+        if (mobileSearchInput) {
+            mobileSearchInput.onkeypress = (e) => {
+                if (e.key === 'Enter') {
+                    const query = mobileSearchInput.value.trim();
+                    handleSearch(query, 'all');
+                }
+            };
+            
+            // Also search on input for quicker mobile experience
+            let searchTimeout;
+            mobileSearchInput.oninput = () => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    const query = mobileSearchInput.value.trim();
+                    if (query.length > 2 || query.length === 0) {
+                        handleSearch(query, 'all');
+                    }
+                }, 500);
+            };
+        }
+
+        // Show/Hide sticky search on scroll
+        window.onscroll = () => {
+            if (window.innerWidth <= 768) {
+                const hero = document.querySelector('.hero');
+                if (hero) {
+                    const heroBottom = hero.offsetTop + hero.offsetHeight;
+                    if (window.pageYOffset > heroBottom - 100) {
+                        stickySearchMobile.style.display = 'block';
+                    } else {
+                        stickySearchMobile.style.display = 'none';
+                    }
+                }
+            }
+        };
+
         function handleSearch(query, category) {
             // Show products section and hide hero/featured
             showAllProducts();

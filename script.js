@@ -993,13 +993,13 @@ function renderCategoryNavigator() {
     if (!nav || !mainSelect) return;
 
     const activeMain = mainSelect.value;
-    const activeSub = subSelect.value;
+    const activeSub = subSelect ? subSelect.value : 'all';
     
     let html = '';
     Object.keys(categoryData).forEach(cat => {
         const icon = categoryIcons[cat] || 'fas fa-th';
         const isActive = cat === activeMain;
-        const catSlug = generateSlug(cat, "");
+        const catSlug = createSEOSlug(cat);
         html += `
             <a href="${SITE_URL}category/${catSlug}/" class="category-card ${isActive ? 'active' : ''}" onclick="filterByCategory('${cat}', 'all', event)">
                 <i class="${icon}"></i>
@@ -1009,18 +1009,20 @@ function renderCategoryNavigator() {
     });
     nav.innerHTML = html;
 
-    if (activeMain !== 'all' && categoryData[activeMain]) {
-        subNav.classList.remove('hidden');
-        const catSlug = generateSlug(activeMain, "");
-        let subHtml = `<a href="${SITE_URL}category/${catSlug}/" class="subcategory-pill ${activeSub === 'all' ? 'active' : ''}" onclick="filterByCategory('${activeMain}', 'all', event)">All ${activeMain}</a>`;
-        categoryData[activeMain].forEach(sub => {
-            const isSubActive = sub === activeSub;
-            const subSlug = generateSlug(sub, "");
-            subHtml += `<a href="${SITE_URL}category/${catSlug}/${subSlug}/" class="subcategory-pill ${isSubActive ? 'active' : ''}" onclick="filterByCategory('${activeMain}', '${sub}', event)">${sub}</a>`;
-        });
-        subNav.innerHTML = subHtml;
-    } else {
-        subNav.classList.add('hidden');
+    if (subNav) {
+        if (activeMain !== 'all' && categoryData[activeMain]) {
+            subNav.classList.remove('hidden');
+            const catSlug = createSEOSlug(activeMain);
+            let subHtml = `<a href="${SITE_URL}category/${catSlug}/" class="subcategory-pill ${activeSub === 'all' ? 'active' : ''}" onclick="filterByCategory('${activeMain}', 'all', event)">All ${activeMain}</a>`;
+            categoryData[activeMain].forEach(sub => {
+                const isSubActive = sub === activeSub;
+                const subSlug = createSEOSlug(sub);
+                subHtml += `<a href="${SITE_URL}category/${catSlug}/${subSlug}/" class="subcategory-pill ${isSubActive ? 'active' : ''}" onclick="filterByCategory('${activeMain}', '${sub}', event)">${sub}</a>`;
+            });
+            subNav.innerHTML = subHtml;
+        } else {
+            subNav.classList.add('hidden');
+        }
     }
 }
 
@@ -1652,15 +1654,17 @@ function renderRelatedProducts(currentProduct) {
 
     const container = document.getElementById('related-products-list');
     if (container) {
-        container.innerHTML = related.map(p => `
-            <a href="${SITE_URL}products/${generateSlug(p.title, p.id)}/?product=${p.id}" class="related-item">
+        container.innerHTML = related.map(p => {
+            const relUrl = `${SITE_URL}${createSEOSlug(p.mainCategory)}/${p.subCategory ? createSEOSlug(p.subCategory) + '/' : ''}${createSEOSlug(p.title)}/`;
+            return `
+            <a href="${relUrl}" class="related-item">
                 <img src="${p.image}" alt="${p.title}" loading="lazy">
                 <div class="related-info">
                     <h4>${p.title}</h4>
                     <span>LKR ${p.price.toLocaleString()}</span>
                 </div>
             </a>
-        `).join('');
+        `}).join('');
     }
 }
 

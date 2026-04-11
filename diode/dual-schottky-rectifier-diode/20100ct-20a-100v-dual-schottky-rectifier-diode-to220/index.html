@@ -253,16 +253,16 @@
                     <tbody>
                         
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Dual Schottky Rectifier Diode</td>
             </tr>
             <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">20100CT</td>
             </tr>
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Dual Schottky Rectifier Diode</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
             </tr>
             <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
@@ -297,6 +297,24 @@
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Diode","item":"https://ichouse.lk/diode/"},{"@type":"ListItem","position":3,"name":"Dual Schottky Rectifier Diode","item":"https://ichouse.lk/diode/dual-schottky-rectifier-diode/"},{"@type":"ListItem","position":4,"name":"20100CT 20A 100V Dual Schottky Rectifier Diode TO-220","item":"https://ichouse.lk/diode/dual-schottky-rectifier-diode/20100ct-20a-100v-dual-schottky-rectifier-diode-to220/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"20100CT 20A 100V Dual Schottky Rectifier Diode TO-220","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1771653326/20100t_1_1_ysc1ej.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1771652715/3132_1_gtxhi3.png"],"description":"20100CT dual Schottky rectifier diode rated at 20A and 100V, ideal for SMPS power supplies, inverters, battery chargers, and DC-DC converters. TO-220 package ensures efficient heat dissipation, low forward voltage drop, and high switching efficiency.","sku":"20100CT","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/diode/dual-schottky-rectifier-diode/20100ct-20a-100v-dual-schottky-rectifier-diode-to220/","priceCurrency":"LKR","price":65,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script>
+// Pre-load product data so cart works instantly without waiting for Firebase
+window._currentModalProduct = {
+    id: '1771653546730',
+    title: "20100CT 20A 100V Dual Schottky Rectifier Diode TO-220",
+    price: 65,
+    stock: 10,
+    image: "https://res.cloudinary.com/dqwdov5ab/image/upload/v1771653326/20100t_1_1_ysc1ej.png",
+    mainCategory: "Diode",
+    subCategory: "Dual Schottky Rectifier Diode"
+};
+// Also push into products array once script.js loads
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+});
+</script>
 
     </div>
 
@@ -777,24 +795,7 @@
         </div>
     </div>
 
-    <script defer src="/script.js"></script>
-
-<script>
-window._currentModalProduct = {
-    id: '1771653546730',
-    title: '20100CT 20A 100V Dual Schottky Rectifier Diode TO-220',
-    price: 65,
-    stock: 99,
-    image: '',
-    mainCategory: '',
-    subCategory: ''
-};
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
-        products.push(window._currentModalProduct);
-    }
-});
-</script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

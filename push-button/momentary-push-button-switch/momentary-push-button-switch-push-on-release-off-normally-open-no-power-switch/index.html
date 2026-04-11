@@ -255,20 +255,20 @@
                     <tbody>
                         
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Momentary Push Button Switch</td>
-            </tr>
-            <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
+            </tr>
+            <tr class="bg-gray-50">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
             </tr>
             <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">N/A</td>
             </tr>
             <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Momentary Push Button Switch</td>
             </tr>
                     </tbody>
                 </table>
@@ -299,6 +299,24 @@
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Push Button","item":"https://ichouse.lk/push-button/"},{"@type":"ListItem","position":3,"name":"Momentary Push Button Switch","item":"https://ichouse.lk/push-button/momentary-push-button-switch/"},{"@type":"ListItem","position":4,"name":"Momentary Push Button Switch – Push ON Release OFF | Normally Open (NO) Power Switch","item":"https://ichouse.lk/push-button/momentary-push-button-switch/momentary-push-button-switch-push-on-release-off-normally-open-no-power-switch/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"Momentary Push Button Switch – Push ON Release OFF | Normally Open (NO) Power Switch","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1772080254/pushb1_1_sumpdf.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1772080253/pushb3_1_rm6anx.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1772080253/pushb2_1_qauvrf.png"],"description":"High-quality momentary push button switch designed for Push ON and Release OFF operation (Normally Open – NO). Power works only while the button is pressed and turns off when released. Ideal for electric bells, DIY projects, testing equipment, machinery control, and temporary power applications. Durable plastic body with secure screw terminals for easy wiring and reliable performance. Perfect for 12V, 24V, and low-voltage electrical circuits.","sku":"PE-1772080410128","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/push-button/momentary-push-button-switch/momentary-push-button-switch-push-on-release-off-normally-open-no-power-switch/","priceCurrency":"LKR","price":20,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script>
+// Pre-load product data so cart works instantly without waiting for Firebase
+window._currentModalProduct = {
+    id: '1772080410128',
+    title: "Momentary Push Button Switch – Push ON Release OFF | Normally Open (NO) Power Switch",
+    price: 20,
+    stock: 10,
+    image: "https://res.cloudinary.com/dqwdov5ab/image/upload/v1772080254/pushb1_1_sumpdf.png",
+    mainCategory: "Push Button",
+    subCategory: "Momentary Push Button Switch"
+};
+// Also push into products array once script.js loads
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+});
+</script>
 
     </div>
 
@@ -779,24 +797,7 @@
         </div>
     </div>
 
-    <script defer src="/script.js"></script>
-
-<script>
-window._currentModalProduct = {
-    id: '1772080410128',
-    title: 'Momentary Push Button Switch – Push ON Release OFF',
-    price: 20,
-    stock: 99,
-    image: '',
-    mainCategory: '',
-    subCategory: ''
-};
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
-        products.push(window._currentModalProduct);
-    }
-});
-</script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

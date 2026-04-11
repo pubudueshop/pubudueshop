@@ -253,16 +253,16 @@
                     <tbody>
                         
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
-            </tr>
-            <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">30100</td>
             </tr>
-            <tr class="bg-white">
+            <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand new</td>
+            </tr>
+            <tr class="bg-white">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
             </tr>
             <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
@@ -297,6 +297,24 @@
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Diode","item":"https://ichouse.lk/diode/"},{"@type":"ListItem","position":3,"name":"Dual Schottky Rectifier Diode","item":"https://ichouse.lk/diode/dual-schottky-rectifier-diode/"},{"@type":"ListItem","position":4,"name":"MBR30100PT Schottky Diode 100V 30A TO-247 | Dual Rectifier Sri Lanka","item":"https://ichouse.lk/diode/dual-schottky-rectifier-diode/mbr30100pt-schottky-diode-100v-30a-to247-dual-rectifier-sri-lanka/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"MBR30100PT Schottky Diode 100V 30A TO-247 | Dual Rectifier Sri Lanka","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/q_auto/f_auto/v1775797175/t2_1_uhmmyh.png","https://res.cloudinary.com/dqwdov5ab/image/upload/q_auto/f_auto/v1775797175/t1_1_yv7hds.png"],"description":"Buy MBR30100PT Schottky rectifier diode in Sri Lanka. High current 30A, 100V dual diode ideal for SMPS power supplies, inverters, solar systems, and high-efficiency circuits. Low forward voltage drop ensures better performance and heat efficiency. Perfect for repair and replacement. Best price in Sri Lanka.","sku":"30100","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/diode/dual-schottky-rectifier-diode/mbr30100pt-schottky-diode-100v-30a-to247-dual-rectifier-sri-lanka/","priceCurrency":"LKR","price":250,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script>
+// Pre-load product data so cart works instantly without waiting for Firebase
+window._currentModalProduct = {
+    id: '1775799841790',
+    title: "MBR30100PT Schottky Diode 100V 30A TO-247 | Dual Rectifier Sri Lanka",
+    price: 250,
+    stock: 30,
+    image: "https://res.cloudinary.com/dqwdov5ab/image/upload/q_auto/f_auto/v1775797175/t2_1_uhmmyh.png",
+    mainCategory: "Diode",
+    subCategory: "Dual Schottky Rectifier Diode"
+};
+// Also push into products array once script.js loads
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+});
+</script>
 
     </div>
 
@@ -777,24 +795,7 @@
         </div>
     </div>
 
-    <script defer src="/script.js"></script>
-
-<script>
-window._currentModalProduct = {
-    id: '1775799841790',
-    title: 'MBR30100PT Schottky Diode 100V 30A TO-247',
-    price: 250,
-    stock: 99,
-    image: '',
-    mainCategory: '',
-    subCategory: ''
-};
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
-        products.push(window._currentModalProduct);
-    }
-});
-</script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

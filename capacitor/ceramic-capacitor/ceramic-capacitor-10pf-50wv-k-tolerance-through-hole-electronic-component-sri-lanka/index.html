@@ -253,20 +253,20 @@
                     <tbody>
                         
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">N/A</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Ceramic Capacitor</td>
             </tr>
             <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
             </tr>
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Ceramic Capacitor</td>
-            </tr>
-            <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
+            </tr>
+            <tr class="bg-gray-50">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">N/A</td>
             </tr>
                     </tbody>
                 </table>
@@ -297,6 +297,24 @@
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Capacitor","item":"https://ichouse.lk/capacitor/"},{"@type":"ListItem","position":3,"name":"Ceramic Capacitor","item":"https://ichouse.lk/capacitor/ceramic-capacitor/"},{"@type":"ListItem","position":4,"name":"Ceramic Capacitor 10pF 50WV (K Tolerance) Through Hole | Electronic Component Sri Lanka","item":"https://ichouse.lk/capacitor/ceramic-capacitor/ceramic-capacitor-10pf-50wv-k-tolerance-through-hole-electronic-component-sri-lanka/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"Ceramic Capacitor 10pF 50WV (K Tolerance) Through Hole | Electronic Component Sri Lanka","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/q_auto/f_auto/v1775117868/10_pf_1_1_d7f1sp.png","https://res.cloudinary.com/dqwdov5ab/image/upload/q_auto/f_auto/v1775117868/10pf_2_1_mdofe0.png"],"description":"High-quality 10pF ceramic capacitor (50WV) with K tolerance (±10%), ideal for electronic circuits, RF applications, and DIY projects. This through-hole (THT) ceramic condenser ensures stable performance and reliability. Perfect for repair, hobby, and professional electronics use in Sri Lanka.","sku":"PE-1775118178991","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/capacitor/ceramic-capacitor/ceramic-capacitor-10pf-50wv-k-tolerance-through-hole-electronic-component-sri-lanka/","priceCurrency":"LKR","price":2,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script>
+// Pre-load product data so cart works instantly without waiting for Firebase
+window._currentModalProduct = {
+    id: '1775118178991',
+    title: "Ceramic Capacitor 10pF 50WV (K Tolerance) Through Hole | Electronic Component Sri Lanka",
+    price: 2,
+    stock: 300,
+    image: "https://res.cloudinary.com/dqwdov5ab/image/upload/q_auto/f_auto/v1775117868/10_pf_1_1_d7f1sp.png",
+    mainCategory: "Capacitor",
+    subCategory: "Ceramic Capacitor"
+};
+// Also push into products array once script.js loads
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+});
+</script>
 
     </div>
 
@@ -777,24 +795,7 @@
         </div>
     </div>
 
-    <script defer src="/script.js"></script>
-
-<script>
-window._currentModalProduct = {
-    id: '1775118178991',
-    title: 'Ceramic Capacitor 10pF 50WV (K Tolerance) Through Hole',
-    price: 2,
-    stock: 99,
-    image: '',
-    mainCategory: '',
-    subCategory: ''
-};
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
-        products.push(window._currentModalProduct);
-    }
-});
-</script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

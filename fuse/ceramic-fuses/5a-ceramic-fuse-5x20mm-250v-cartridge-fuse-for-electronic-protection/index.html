@@ -253,20 +253,20 @@
                     <tbody>
                         
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">N/A</td>
             </tr>
             <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Ceramic fuses</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
             </tr>
             <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
             </tr>
             <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">N/A</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Ceramic fuses</td>
             </tr>
                     </tbody>
                 </table>
@@ -297,6 +297,24 @@
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Fuse","item":"https://ichouse.lk/fuse/"},{"@type":"ListItem","position":3,"name":"Ceramic fuses","item":"https://ichouse.lk/fuse/ceramic-fuses/"},{"@type":"ListItem","position":4,"name":"5A Ceramic Fuse 5x20mm 250V Cartridge Fuse for Electronic Protection","item":"https://ichouse.lk/fuse/ceramic-fuses/5a-ceramic-fuse-5x20mm-250v-cartridge-fuse-for-electronic-protection/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"5A Ceramic Fuse 5x20mm 250V Cartridge Fuse for Electronic Protection","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1771652004/5a2_1_gdk37i.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1771652004/5a1_1_v5eqmd.png"],"description":"5A ceramic cartridge fuse designed for safe and reliable overcurrent protection in electronic devices, power supplies, and appliances. Durable ceramic body offers high temperature resistance and improved safety compared to glass fuses.","sku":"PE-1771652046370","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/fuse/ceramic-fuses/5a-ceramic-fuse-5x20mm-250v-cartridge-fuse-for-electronic-protection/","priceCurrency":"LKR","price":4,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script>
+// Pre-load product data so cart works instantly without waiting for Firebase
+window._currentModalProduct = {
+    id: '1771652046370',
+    title: "5A Ceramic Fuse 5x20mm 250V Cartridge Fuse for Electronic Protection",
+    price: 4,
+    stock: 500,
+    image: "https://res.cloudinary.com/dqwdov5ab/image/upload/v1771652004/5a2_1_gdk37i.png",
+    mainCategory: "Fuse",
+    subCategory: "Ceramic fuses"
+};
+// Also push into products array once script.js loads
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+});
+</script>
 
     </div>
 
@@ -777,24 +795,7 @@
         </div>
     </div>
 
-    <script defer src="/script.js"></script>
-
-<script>
-window._currentModalProduct = {
-    id: '1771652046370',
-    title: '5A Ceramic Fuse 5x20mm 250V Cartridge Fuse for Electronic Protection',
-    price: 4,
-    stock: 99,
-    image: '',
-    mainCategory: '',
-    subCategory: ''
-};
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
-        products.push(window._currentModalProduct);
-    }
-});
-</script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

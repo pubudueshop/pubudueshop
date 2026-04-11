@@ -483,6 +483,8 @@ async function run() {
 
             // Fix Firebase defer issue - SDKs must load before script.js
             page = page.replace(/<script defer src="https:\/\/www\.gstatic\.com\/firebasejs/g, '<script src="https://www.gstatic.com/firebasejs');
+            // Fix script.js defer - must be synchronous on product pages so buttons work immediately
+            page = page.replace('<script defer src="/script.js">', '<script src="/script.js">');
 
             // Fix asset & footer links
             page = fixLinks(page);

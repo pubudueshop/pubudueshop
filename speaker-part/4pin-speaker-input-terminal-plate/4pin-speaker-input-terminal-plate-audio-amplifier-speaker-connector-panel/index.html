@@ -253,20 +253,20 @@
                     <tbody>
                         
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">N/A</td>
-            </tr>
-            <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
             </tr>
-            <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">4-Pin Speaker Input Terminal Plate</td>
-            </tr>
             <tr class="bg-gray-50">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">N/A</td>
+            </tr>
+            <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
+            </tr>
+            <tr class="bg-gray-50">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">4-Pin Speaker Input Terminal Plate</td>
             </tr>
                     </tbody>
                 </table>
@@ -297,6 +297,24 @@
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Speaker Part","item":"https://ichouse.lk/speaker-part/"},{"@type":"ListItem","position":3,"name":"4-Pin Speaker Input Terminal Plate","item":"https://ichouse.lk/speaker-part/4pin-speaker-input-terminal-plate/"},{"@type":"ListItem","position":4,"name":"4-Pin Speaker Input Terminal Plate – Audio Amplifier Speaker Connector Panel","item":"https://ichouse.lk/speaker-part/4pin-speaker-input-terminal-plate/4pin-speaker-input-terminal-plate-audio-amplifier-speaker-connector-panel/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"4-Pin Speaker Input Terminal Plate – Audio Amplifier Speaker Connector Panel","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1772080776/spin1_1_yjegjg.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1772080776/spin2_1_nrkvcf.png"],"description":"Durable 4-pin speaker input terminal plate designed for secure connection of speaker wires to audio amplifiers, speaker boxes, and DIY sound systems. Features color-coded terminals for easy polarity identification and strong internal metal contacts for reliable audio signal transfer. Panel-mount design with screw holes allows quick installation on speaker cabinets, subwoofers, and audio projects. Ideal for home theater, PA systems, and custom speaker builds.","sku":"PE-1772080941638","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/speaker-part/4pin-speaker-input-terminal-plate/4pin-speaker-input-terminal-plate-audio-amplifier-speaker-connector-panel/","priceCurrency":"LKR","price":30,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script>
+// Pre-load product data so cart works instantly without waiting for Firebase
+window._currentModalProduct = {
+    id: '1772080941638',
+    title: "4-Pin Speaker Input Terminal Plate – Audio Amplifier Speaker Connector Panel",
+    price: 30,
+    stock: 10,
+    image: "https://res.cloudinary.com/dqwdov5ab/image/upload/v1772080776/spin1_1_yjegjg.png",
+    mainCategory: "Speaker Part",
+    subCategory: "4-Pin Speaker Input Terminal Plate"
+};
+// Also push into products array once script.js loads
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+});
+</script>
 
     </div>
 
@@ -777,24 +795,7 @@
         </div>
     </div>
 
-    <script defer src="/script.js"></script>
-
-<script>
-window._currentModalProduct = {
-    id: '1772080941638',
-    title: '4-Pin Speaker Input Terminal Plate – Audio Amplifier Speaker Connector Panel',
-    price: 30,
-    stock: 99,
-    image: '',
-    mainCategory: '',
-    subCategory: ''
-};
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
-        products.push(window._currentModalProduct);
-    }
-});
-</script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

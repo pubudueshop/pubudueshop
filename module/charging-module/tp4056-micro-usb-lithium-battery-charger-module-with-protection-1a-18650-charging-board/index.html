@@ -255,16 +255,16 @@
                     <tbody>
                         
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">New</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
             </tr>
             <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">N/A</td>
             </tr>
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">New</td>
             </tr>
             <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
@@ -299,6 +299,24 @@
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Module","item":"https://ichouse.lk/module/"},{"@type":"ListItem","position":3,"name":"Charging Module","item":"https://ichouse.lk/module/charging-module/"},{"@type":"ListItem","position":4,"name":"TP4056 Micro USB Lithium Battery Charger Module with Protection (1A 18650 Charging Board)","item":"https://ichouse.lk/module/charging-module/tp4056-micro-usb-lithium-battery-charger-module-with-protection-1a-18650-charging-board/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"TP4056 Micro USB Lithium Battery Charger Module with Protection (1A 18650 Charging Board)","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1771489262/4056_micro_2_1_rweh1m.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1771489262/4056_micro_3_1_c4vyiv.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1771489262/4056_micro_1_1_tzr7fo.png"],"description":"TP4056 Micro USB charging module for 3.7V lithium-ion and 18650 batteries with built-in protection circuit. Provides stable 1A charging with over-charge, over-discharge, and short-circuit protection. Perfect for DIY power banks, battery packs, and electronics projects.","sku":"PE-1771489391010","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/module/charging-module/tp4056-micro-usb-lithium-battery-charger-module-with-protection-1a-18650-charging-board/","priceCurrency":"LKR","price":80,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script>
+// Pre-load product data so cart works instantly without waiting for Firebase
+window._currentModalProduct = {
+    id: '1771489391010',
+    title: "TP4056 Micro USB Lithium Battery Charger Module with Protection (1A 18650 Charging Board)",
+    price: 80,
+    stock: 10,
+    image: "https://res.cloudinary.com/dqwdov5ab/image/upload/v1771489262/4056_micro_2_1_rweh1m.png",
+    mainCategory: "Module",
+    subCategory: "Charging Module"
+};
+// Also push into products array once script.js loads
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+});
+</script>
 
     </div>
 
@@ -779,24 +797,7 @@
         </div>
     </div>
 
-    <script defer src="/script.js"></script>
-
-<script>
-window._currentModalProduct = {
-    id: '1771489391010',
-    title: 'TP4056 Micro USB Lithium Battery Charger Module with Protection (1A 18650 Charging Board)',
-    price: 80,
-    stock: 99,
-    image: '',
-    mainCategory: '',
-    subCategory: ''
-};
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
-        products.push(window._currentModalProduct);
-    }
-});
-</script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

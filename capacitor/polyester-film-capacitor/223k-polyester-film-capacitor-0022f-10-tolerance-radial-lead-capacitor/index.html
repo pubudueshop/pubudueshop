@@ -297,6 +297,24 @@
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Capacitor","item":"https://ichouse.lk/capacitor/"},{"@type":"ListItem","position":3,"name":"polyester film capacitor","item":"https://ichouse.lk/capacitor/polyester-film-capacitor/"},{"@type":"ListItem","position":4,"name":"223K Polyester Film Capacitor 0.022µF 10% Tolerance Radial Lead Capacitor","item":"https://ichouse.lk/capacitor/polyester-film-capacitor/223k-polyester-film-capacitor-0022f-10-tolerance-radial-lead-capacitor/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"223K Polyester Film Capacitor 0.022µF 10% Tolerance Radial Lead Capacitor","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1772186854/223k1_1_yb64lm.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1772186854/223k2_1_dnmtnq.png"],"description":"High-quality 223K polyester film capacitor (0.022µF / 22nF) with ±10% tolerance and stable electrical performance. Designed with radial leads for easy PCB mounting and a durable epoxy body for long-term reliability. Ideal for audio circuits, filtering, coupling, timing applications, power supplies, and general electronics repair projects.","sku":"223k","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/capacitor/polyester-film-capacitor/223k-polyester-film-capacitor-0022f-10-tolerance-radial-lead-capacitor/","priceCurrency":"LKR","price":15,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script>
+// Pre-load product data so cart works instantly without waiting for Firebase
+window._currentModalProduct = {
+    id: '1772186937229',
+    title: "223K Polyester Film Capacitor 0.022µF 10% Tolerance Radial Lead Capacitor",
+    price: 15,
+    stock: 10,
+    image: "https://res.cloudinary.com/dqwdov5ab/image/upload/v1772186854/223k1_1_yb64lm.png",
+    mainCategory: "Capacitor",
+    subCategory: "polyester film capacitor"
+};
+// Also push into products array once script.js loads
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+});
+</script>
 
     </div>
 
@@ -777,24 +795,7 @@
         </div>
     </div>
 
-    <script defer src="/script.js"></script>
-
-<script>
-window._currentModalProduct = {
-    id: '1772186937229',
-    title: '223K Polyester Film Capacitor 0.022µF 10% Tolerance Radial Lead Capacitor',
-    price: 15,
-    stock: 99,
-    image: '',
-    mainCategory: '',
-    subCategory: ''
-};
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
-        products.push(window._currentModalProduct);
-    }
-});
-</script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

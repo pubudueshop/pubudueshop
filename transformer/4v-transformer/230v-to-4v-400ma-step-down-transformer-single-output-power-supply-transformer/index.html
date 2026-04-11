@@ -253,20 +253,20 @@
                     <tbody>
                         
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">N/A</td>
-            </tr>
-            <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Used</td>
-            </tr>
-            <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">4v Transformer</td>
             </tr>
             <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
+            </tr>
+            <tr class="bg-white">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">N/A</td>
+            </tr>
+            <tr class="bg-gray-50">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Used</td>
             </tr>
                     </tbody>
                 </table>
@@ -297,6 +297,24 @@
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Transformer","item":"https://ichouse.lk/transformer/"},{"@type":"ListItem","position":3,"name":"4v Transformer","item":"https://ichouse.lk/transformer/4v-transformer/"},{"@type":"ListItem","position":4,"name":"230V to 4V 400mA Step Down Transformer – Single Output Power Supply Transformer","item":"https://ichouse.lk/transformer/4v-transformer/230v-to-4v-400ma-step-down-transformer-single-output-power-supply-transformer/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"230V to 4V 400mA Step Down Transformer – Single Output Power Supply Transformer","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1772341657/4v2_1_hjqkgz.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1772341657/4v_1_1_zrluo9.png"],"description":"Compact 230V AC to 4V AC 400mA step-down transformer designed for small electronic circuits, DIY projects, LED applications, toys, and repair work. Features durable laminated core construction for stable voltage output and reliable long-term performance. Ideal for low-power power supply applications.","sku":"PE-1772341934544","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/transformer/4v-transformer/230v-to-4v-400ma-step-down-transformer-single-output-power-supply-transformer/","priceCurrency":"LKR","price":350,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script>
+// Pre-load product data so cart works instantly without waiting for Firebase
+window._currentModalProduct = {
+    id: '1772341934544',
+    title: "230V to 4V 400mA Step Down Transformer – Single Output Power Supply Transformer",
+    price: 350,
+    stock: 1,
+    image: "https://res.cloudinary.com/dqwdov5ab/image/upload/v1772341657/4v2_1_hjqkgz.png",
+    mainCategory: "Transformer",
+    subCategory: "4v Transformer"
+};
+// Also push into products array once script.js loads
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+});
+</script>
 
     </div>
 
@@ -777,24 +795,7 @@
         </div>
     </div>
 
-    <script defer src="/script.js"></script>
-
-<script>
-window._currentModalProduct = {
-    id: '1772341934544',
-    title: '230V to 4V 400mA Step Down Transformer – Single Output Power Supply Transformer',
-    price: 350,
-    stock: 99,
-    image: '',
-    mainCategory: '',
-    subCategory: ''
-};
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
-        products.push(window._currentModalProduct);
-    }
-});
-</script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

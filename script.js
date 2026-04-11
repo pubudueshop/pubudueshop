@@ -1976,10 +1976,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Initialize Image Zoom
         initZoom();
 
-        // If on a product page (MPA), ensure the correct product ID is set for interactivity
+        // If on a product page (MPA), wire up buttons immediately using _currentModalProduct
         const bodyProductId = document.body.dataset.productId;
-        if (bodyProductId) {
-             openProductDetails(parseInt(bodyProductId));
+        if (bodyProductId && window._currentModalProduct) {
+            // Wire detail-add-cart-btn and mobile-add-cart-btn immediately (no Firebase needed)
+            const pid = window._currentModalProduct.id;
+            const detailAddCartBtn = document.getElementById('detail-add-cart-btn');
+            const mobileAddCartBtn = document.getElementById('mobile-add-cart-btn');
+            const detailBuyBtn = document.getElementById('detail-buy-btn');
+            const mobileBuyBtn = document.getElementById('mobile-buy-btn');
+            if (detailAddCartBtn) detailAddCartBtn.onclick = () => addToCart(pid, getSelectedQty());
+            if (mobileAddCartBtn) mobileAddCartBtn.onclick = () => addToCart(pid, getSelectedQty());
+            if (detailBuyBtn) detailBuyBtn.onclick = () => { addToCart(pid, getSelectedQty()); toggleCart(true); };
+            if (mobileBuyBtn) mobileBuyBtn.onclick = () => { addToCart(pid, getSelectedQty()); toggleCart(true); };
+            // Also try openProductDetails after Firebase loads (for full modal data)
+            openProductDetails(parseInt(bodyProductId));
+        } else if (bodyProductId) {
+            openProductDetails(parseInt(bodyProductId));
         } else if (window.location.pathname.includes('/products/')) {
             const pathParts = window.location.pathname.split('/').filter(p => p);
             const slug = pathParts[pathParts.indexOf('products') + 1];

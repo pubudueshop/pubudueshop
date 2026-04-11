@@ -293,6 +293,24 @@ Perfect for use with smartphones, laptops, MP3 players, car stereos, home audio 
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Cable","item":"https://ichouse.lk/cable/"},{"@type":"ListItem","position":3,"name":"Audio Extension Cable","item":"https://ichouse.lk/cable/audio-extension-cable/"},{"@type":"ListItem","position":4,"name":"3.5mm AUX Male to Female Audio Extension Cable – Red Color – High Quality Stereo Jack","item":"https://ichouse.lk/cable/audio-extension-cable/35mm-aux-male-to-female-audio-extension-cable-red-color-high-quality-stereo-jack/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"3.5mm AUX Male to Female Audio Extension Cable – Red Color – High Quality Stereo Jack","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1770971779/j2_mu0eyk.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1770966979/WhatsApp_Image_2026-02-13_at_12.36.47_nom5t5.jpg","https://res.cloudinary.com/dqwdov5ab/image/upload/v1770971779/j1_iiwctn.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1770971779/j4_rqp3mp.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1770971779/j3_ghjxu8.png"],"description":"Upgrade your audio experience with this 3.5mm AUX Male to Female Extension Cable. Designed for clear and stable sound transmission, this cable allows you to extend your headphone, speaker, or car audio connection easily.\n\nPerfect for use with smartphones, laptops, MP3 players, car stereos, home audio systems, and more.","sku":"PE-1770968262318","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/cable/audio-extension-cable/35mm-aux-male-to-female-audio-extension-cable-red-color-high-quality-stereo-jack/","priceCurrency":"LKR","price":450,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script>
+// Pre-load product data so cart works instantly without waiting for Firebase
+window._currentModalProduct = {
+    id: '1770968262318',
+    title: "3.5mm AUX Male to Female Audio Extension Cable – Red Color – High Quality Stereo Jack",
+    price: 450,
+    stock: 5,
+    image: "https://res.cloudinary.com/dqwdov5ab/image/upload/v1770971779/j2_mu0eyk.png",
+    mainCategory: "Cable",
+    subCategory: "Audio Extension Cable"
+};
+// Also push into products array once script.js loads
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+});
+</script>
 
     </div>
 
@@ -773,24 +791,7 @@ Perfect for use with smartphones, laptops, MP3 players, car stereos, home audio 
         </div>
     </div>
 
-    <script defer src="/script.js"></script>
-
-<script>
-window._currentModalProduct = {
-    id: '1770968262318',
-    title: '3.5mm AUX Male to Female Audio Extension Cable – Red Color – High Quality Stereo Jack',
-    price: 450,
-    stock: 99,
-    image: '',
-    mainCategory: '',
-    subCategory: ''
-};
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
-        products.push(window._currentModalProduct);
-    }
-});
-</script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

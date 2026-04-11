@@ -255,16 +255,16 @@
                     <tbody>
                         
             <tr class="bg-white">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
+            </tr>
+            <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
             </tr>
-            <tr class="bg-gray-50">
+            <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">SM-101A</td>
-            </tr>
-            <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
             </tr>
             <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
@@ -299,6 +299,24 @@
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Charger","item":"https://ichouse.lk/charger/"},{"@type":"ListItem","position":3,"name":"18650 Charger","item":"https://ichouse.lk/charger/18650-charger/"},{"@type":"ListItem","position":4,"name":"18650 Single Battery Charger 4.2V 1A Li-ion Universal Smart Charger (100-240V AC)","item":"https://ichouse.lk/charger/18650-charger/18650-single-battery-charger-42v-1a-liion-universal-smart-charger-100240v-ac/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"18650 Single Battery Charger 4.2V 1A Li-ion Universal Smart Charger (100-240V AC)","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1772185830/1char3_1_qbc2nd.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1772185829/1cha1_1_ttlatn.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1772185829/1char2_1_wrzosz.png"],"description":"Compact and reliable single-slot 18650 Li-ion battery charger with universal AC 100-240V input and 4.2V 1000mA output for fast and safe charging. Built-in protection ensures overcharge and short-circuit safety, making it ideal for flashlights, DIY electronics, and rechargeable battery devices.","sku":"SM-101A","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/charger/18650-charger/18650-single-battery-charger-42v-1a-liion-universal-smart-charger-100240v-ac/","priceCurrency":"LKR","price":350,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script>
+// Pre-load product data so cart works instantly without waiting for Firebase
+window._currentModalProduct = {
+    id: '1772186103775',
+    title: "18650 Single Battery Charger 4.2V 1A Li-ion Universal Smart Charger (100-240V AC)",
+    price: 350,
+    stock: 10,
+    image: "https://res.cloudinary.com/dqwdov5ab/image/upload/v1772185830/1char3_1_qbc2nd.png",
+    mainCategory: "Charger",
+    subCategory: "18650 Charger"
+};
+// Also push into products array once script.js loads
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+});
+</script>
 
     </div>
 
@@ -779,24 +797,7 @@
         </div>
     </div>
 
-    <script defer src="/script.js"></script>
-
-<script>
-window._currentModalProduct = {
-    id: '1772186103775',
-    title: '18650 Single Battery Charger 4.2V 1A Li-ion Universal Smart Charger (100-240V AC)',
-    price: 350,
-    stock: 99,
-    image: '',
-    mainCategory: '',
-    subCategory: ''
-};
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
-        products.push(window._currentModalProduct);
-    }
-});
-</script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

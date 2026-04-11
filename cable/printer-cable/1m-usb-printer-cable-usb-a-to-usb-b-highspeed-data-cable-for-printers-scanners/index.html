@@ -257,12 +257,12 @@
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">N/A</td>
             </tr>
             <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
-            </tr>
-            <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
+            </tr>
+            <tr class="bg-white">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
             </tr>
             <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
@@ -297,6 +297,24 @@
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Cable","item":"https://ichouse.lk/cable/"},{"@type":"ListItem","position":3,"name":"Printer cable","item":"https://ichouse.lk/cable/printer-cable/"},{"@type":"ListItem","position":4,"name":"1m USB Printer Cable (USB A to USB B) High-Speed Data Cable for Printers & Scanners","item":"https://ichouse.lk/cable/printer-cable/1m-usb-printer-cable-usb-a-to-usb-b-highspeed-data-cable-for-printers-scanners/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"1m USB Printer Cable (USB A to USB B) High-Speed Data Cable for Printers & Scanners","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/q_auto/f_auto/v1775118690/c11_1_zdiqv5.png","https://res.cloudinary.com/dqwdov5ab/image/upload/q_auto/f_auto/v1775118690/c22_1_vvqhlh.png"],"description":"Reliable 1m USB printer cable with USB A to USB B connection, ideal for connecting printers, scanners, and other USB devices. Supports fast data transfer, durable build quality, and stable performance. Perfect for home, office, and professional use.","sku":"PE-1775118951288","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/cable/printer-cable/1m-usb-printer-cable-usb-a-to-usb-b-highspeed-data-cable-for-printers-scanners/","priceCurrency":"LKR","price":150,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script>
+// Pre-load product data so cart works instantly without waiting for Firebase
+window._currentModalProduct = {
+    id: '1775118951288',
+    title: "1m USB Printer Cable (USB A to USB B) High-Speed Data Cable for Printers & Scanners",
+    price: 150,
+    stock: 1,
+    image: "https://res.cloudinary.com/dqwdov5ab/image/upload/q_auto/f_auto/v1775118690/c11_1_zdiqv5.png",
+    mainCategory: "Cable",
+    subCategory: "Printer cable"
+};
+// Also push into products array once script.js loads
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+});
+</script>
 
     </div>
 
@@ -777,24 +795,7 @@
         </div>
     </div>
 
-    <script defer src="/script.js"></script>
-
-<script>
-window._currentModalProduct = {
-    id: '1775118951288',
-    title: '1m USB Printer Cable (USB A to USB B) High-Speed Data Cable for Printers & Scanners',
-    price: 150,
-    stock: 99,
-    image: '',
-    mainCategory: '',
-    subCategory: ''
-};
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
-        products.push(window._currentModalProduct);
-    }
-});
-</script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

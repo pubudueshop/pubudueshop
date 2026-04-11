@@ -257,20 +257,20 @@
                     <tbody>
                         
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Buck Converter</td>
             </tr>
             <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">HW-920</td>
-            </tr>
-            <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
             </tr>
+            <tr class="bg-white">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">HW-920</td>
+            </tr>
             <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Buck Converter</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
             </tr>
                     </tbody>
                 </table>
@@ -301,6 +301,24 @@
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Module","item":"https://ichouse.lk/module/"},{"@type":"ListItem","position":3,"name":"Buck Converter","item":"https://ichouse.lk/module/buck-converter/"},{"@type":"ListItem","position":4,"name":"HW-920 DC-DC Buck Converter Adjustable Step-Down Power Supply Module","item":"https://ichouse.lk/module/buck-converter/hw920-dcdc-buck-converter-adjustable-stepdown-power-supply-module/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"HW-920 DC-DC Buck Converter Adjustable Step-Down Power Supply Module","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1771569355/buck3_1_sjhbov.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1771569406/buck4_1_npp0jo.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1771569354/buck2_1_gb1lvo.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1771569354/buck1_1_nz976f.png"],"description":"The HW-920 buck converter module is a high-efficiency DC-DC step-down power supply designed to convert higher input voltage to stable adjustable lower output. Featuring large heatsinks, high-current design, and efficient switching control, it is ideal for battery charging, DIY power supplies, LED drivers, motor control, and electronics projects.","sku":"HW-920","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/module/buck-converter/hw920-dcdc-buck-converter-adjustable-stepdown-power-supply-module/","priceCurrency":"LKR","price":1100,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script>
+// Pre-load product data so cart works instantly without waiting for Firebase
+window._currentModalProduct = {
+    id: '1771569700976',
+    title: "HW-920 DC-DC Buck Converter Adjustable Step-Down Power Supply Module",
+    price: 1100,
+    stock: 10,
+    image: "https://res.cloudinary.com/dqwdov5ab/image/upload/v1771569355/buck3_1_sjhbov.png",
+    mainCategory: "Module",
+    subCategory: "Buck Converter"
+};
+// Also push into products array once script.js loads
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+});
+</script>
 
     </div>
 
@@ -781,24 +799,7 @@
         </div>
     </div>
 
-    <script defer src="/script.js"></script>
-
-<script>
-window._currentModalProduct = {
-    id: '1771569700976',
-    title: 'HW-920 DC-DC Buck Converter Adjustable Step-Down Power Supply Module',
-    price: 1100,
-    stock: 99,
-    image: '',
-    mainCategory: '',
-    subCategory: ''
-};
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
-        products.push(window._currentModalProduct);
-    }
-});
-</script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

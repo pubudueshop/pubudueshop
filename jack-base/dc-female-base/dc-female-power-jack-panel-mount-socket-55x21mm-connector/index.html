@@ -257,20 +257,20 @@
                     <tbody>
                         
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Dc Female Base</td>
-            </tr>
-            <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
-            </tr>
-            <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">N/A</td>
             </tr>
             <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
+            </tr>
+            <tr class="bg-white">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
+            </tr>
+            <tr class="bg-gray-50">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Dc Female Base</td>
             </tr>
                     </tbody>
                 </table>
@@ -301,6 +301,24 @@
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Jack Base","item":"https://ichouse.lk/jack-base/"},{"@type":"ListItem","position":3,"name":"Dc Female Base","item":"https://ichouse.lk/jack-base/dc-female-base/"},{"@type":"ListItem","position":4,"name":"DC Female Power Jack Panel Mount Socket 5.5x2.1mm Connector","item":"https://ichouse.lk/jack-base/dc-female-base/dc-female-power-jack-panel-mount-socket-55x21mm-connector/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"DC Female Power Jack Panel Mount Socket 5.5x2.1mm Connector","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1771653658/dc_base_3_1_jxwj4x.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1771653786/dc_base_4_1_ia72e1.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1771653615/dc_base1_1_xn8024.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1771653613/dc_base_2_1_oyuucp.png"],"description":"DC female panel mount power jack designed for secure DC power input in electronic projects, DIY power supplies, CCTV systems, and devices. Durable construction with easy panel installation ensures reliable and stable power connection.","sku":"PE-1771653839306","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/jack-base/dc-female-base/dc-female-power-jack-panel-mount-socket-55x21mm-connector/","priceCurrency":"LKR","price":20,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script>
+// Pre-load product data so cart works instantly without waiting for Firebase
+window._currentModalProduct = {
+    id: '1771653839306',
+    title: "DC Female Power Jack Panel Mount Socket 5.5x2.1mm Connector",
+    price: 20,
+    stock: 50,
+    image: "https://res.cloudinary.com/dqwdov5ab/image/upload/v1771653658/dc_base_3_1_jxwj4x.png",
+    mainCategory: "Jack Base",
+    subCategory: "Dc Female Base"
+};
+// Also push into products array once script.js loads
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+});
+</script>
 
     </div>
 
@@ -781,24 +799,7 @@
         </div>
     </div>
 
-    <script defer src="/script.js"></script>
-
-<script>
-window._currentModalProduct = {
-    id: '1771653839306',
-    title: 'DC Female Power Jack Panel Mount Socket 5.5x2.1mm Connector',
-    price: 20,
-    stock: 99,
-    image: '',
-    mainCategory: '',
-    subCategory: ''
-};
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
-        products.push(window._currentModalProduct);
-    }
-});
-</script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

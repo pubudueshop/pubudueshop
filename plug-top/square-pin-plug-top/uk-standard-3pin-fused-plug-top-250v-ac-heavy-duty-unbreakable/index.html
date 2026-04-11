@@ -253,20 +253,20 @@
                     <tbody>
                         
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Square Pin Plug Top</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
             </tr>
             <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
-            </tr>
-            <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">N/A</td>
             </tr>
+            <tr class="bg-white">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
+            </tr>
             <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Square Pin Plug Top</td>
             </tr>
                     </tbody>
                 </table>
@@ -297,6 +297,24 @@
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Plug Top","item":"https://ichouse.lk/plug-top/"},{"@type":"ListItem","position":3,"name":"Square Pin Plug Top","item":"https://ichouse.lk/plug-top/square-pin-plug-top/"},{"@type":"ListItem","position":4,"name":"UK Standard 3-Pin Fused Plug Top 250V AC Heavy Duty Unbreakable","item":"https://ichouse.lk/plug-top/square-pin-plug-top/uk-standard-3pin-fused-plug-top-250v-ac-heavy-duty-unbreakable/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"UK Standard 3-Pin Fused Plug Top 250V AC Heavy Duty Unbreakable","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1772079963/plug2_1_ypyijc.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1772079963/plug1_1_eoxfeb.png"],"description":"Durable UK standard 3-pin fused plug top rated for 250V AC, made with strong unbreakable plastic housing. Ideal for replacing damaged plugs on household appliances, extension cords, and DIY electrical projects. Easy cable entry with secure screw terminals for safe and reliable connection.","sku":"PE-1772080003953","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/plug-top/square-pin-plug-top/uk-standard-3pin-fused-plug-top-250v-ac-heavy-duty-unbreakable/","priceCurrency":"LKR","price":65,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script>
+// Pre-load product data so cart works instantly without waiting for Firebase
+window._currentModalProduct = {
+    id: '1772080003953',
+    title: "UK Standard 3-Pin Fused Plug Top 250V AC Heavy Duty Unbreakable",
+    price: 65,
+    stock: 5,
+    image: "https://res.cloudinary.com/dqwdov5ab/image/upload/v1772079963/plug2_1_ypyijc.png",
+    mainCategory: "Plug Top",
+    subCategory: "Square Pin Plug Top"
+};
+// Also push into products array once script.js loads
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+});
+</script>
 
     </div>
 
@@ -777,24 +795,7 @@
         </div>
     </div>
 
-    <script defer src="/script.js"></script>
-
-<script>
-window._currentModalProduct = {
-    id: '1772080003953',
-    title: 'UK Standard 3-Pin Fused Plug Top 250V AC Heavy Duty Unbreakable',
-    price: 65,
-    stock: 99,
-    image: '',
-    mainCategory: '',
-    subCategory: ''
-};
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
-        products.push(window._currentModalProduct);
-    }
-});
-</script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

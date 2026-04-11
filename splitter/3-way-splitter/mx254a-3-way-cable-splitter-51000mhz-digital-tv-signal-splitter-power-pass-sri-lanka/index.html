@@ -255,20 +255,20 @@
                     <tbody>
                         
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">3 way Splitter</td>
             </tr>
             <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">MX-254A</td>
-            </tr>
-            <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
             </tr>
+            <tr class="bg-white">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">MX-254A</td>
+            </tr>
             <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">3 way Splitter</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
             </tr>
                     </tbody>
                 </table>
@@ -299,6 +299,24 @@
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Splitter","item":"https://ichouse.lk/splitter/"},{"@type":"ListItem","position":3,"name":"3 way Splitter","item":"https://ichouse.lk/splitter/3-way-splitter/"},{"@type":"ListItem","position":4,"name":"MX-254A 3 Way Cable Splitter 5-1000MHz Digital TV Signal Splitter Power Pass Sri Lanka","item":"https://ichouse.lk/splitter/3-way-splitter/mx254a-3-way-cable-splitter-51000mhz-digital-tv-signal-splitter-power-pass-sri-lanka/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"MX-254A 3 Way Cable Splitter 5-1000MHz Digital TV Signal Splitter Power Pass Sri Lanka","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/q_auto/f_auto/v1775115624/sp1_1_gc2ypo.png","https://res.cloudinary.com/dqwdov5ab/image/upload/q_auto/f_auto/v1775115624/sp2_1_ktbhgy.png","https://res.cloudinary.com/dqwdov5ab/image/upload/q_auto/f_auto/v1775115624/sp3_1_ae1xng.png"],"description":"MX-254A 3-way digital cable splitter designed for TV and antenna signal distribution. Supports 5-1000MHz frequency range with power pass feature for stable signal transmission. Ideal for dividing one cable connection into three outputs with minimal signal loss (6dB). Perfect for home TV setups, satellite systems, and CCTV installations in Sri Lanka.","sku":"MX-254A","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/splitter/3-way-splitter/mx254a-3-way-cable-splitter-51000mhz-digital-tv-signal-splitter-power-pass-sri-lanka/","priceCurrency":"LKR","price":750,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script>
+// Pre-load product data so cart works instantly without waiting for Firebase
+window._currentModalProduct = {
+    id: '1775115888266',
+    title: "MX-254A 3 Way Cable Splitter 5-1000MHz Digital TV Signal Splitter Power Pass Sri Lanka",
+    price: 750,
+    stock: 4,
+    image: "https://res.cloudinary.com/dqwdov5ab/image/upload/q_auto/f_auto/v1775115624/sp1_1_gc2ypo.png",
+    mainCategory: "Splitter",
+    subCategory: "3 way Splitter"
+};
+// Also push into products array once script.js loads
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+});
+</script>
 
     </div>
 
@@ -779,24 +797,7 @@
         </div>
     </div>
 
-    <script defer src="/script.js"></script>
-
-<script>
-window._currentModalProduct = {
-    id: '1775115888266',
-    title: 'MX-254A 3 Way Cable Splitter 5-1000MHz Digital TV Signal Splitter Power Pass Sri Lanka',
-    price: 750,
-    stock: 99,
-    image: '',
-    mainCategory: '',
-    subCategory: ''
-};
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
-        products.push(window._currentModalProduct);
-    }
-});
-</script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

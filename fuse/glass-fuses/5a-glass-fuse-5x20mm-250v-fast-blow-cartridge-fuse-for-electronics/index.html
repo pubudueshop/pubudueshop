@@ -297,6 +297,24 @@
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Fuse","item":"https://ichouse.lk/fuse/"},{"@type":"ListItem","position":3,"name":"Glass fuses","item":"https://ichouse.lk/fuse/glass-fuses/"},{"@type":"ListItem","position":4,"name":"5A Glass Fuse 5x20mm 250V Fast Blow Cartridge Fuse for Electronics","item":"https://ichouse.lk/fuse/glass-fuses/5a-glass-fuse-5x20mm-250v-fast-blow-cartridge-fuse-for-electronics/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"5A Glass Fuse 5x20mm 250V Fast Blow Cartridge Fuse for Electronics","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1771651664/gfuse2_1_w7byw3.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1771651664/gfuse1_1_yo9s9o.png"],"description":"5A glass cartridge fuse designed for reliable overcurrent protection in electronic circuits, power supplies, appliances, and DIY projects. Features a clear glass body for easy inspection and durable metal end caps for secure connection.","sku":"PE-1771651706034","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/fuse/glass-fuses/5a-glass-fuse-5x20mm-250v-fast-blow-cartridge-fuse-for-electronics/","priceCurrency":"LKR","price":4,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script>
+// Pre-load product data so cart works instantly without waiting for Firebase
+window._currentModalProduct = {
+    id: '1771651706034',
+    title: "5A Glass Fuse 5x20mm 250V Fast Blow Cartridge Fuse for Electronics",
+    price: 4,
+    stock: 500,
+    image: "https://res.cloudinary.com/dqwdov5ab/image/upload/v1771651664/gfuse2_1_w7byw3.png",
+    mainCategory: "Fuse",
+    subCategory: "Glass fuses"
+};
+// Also push into products array once script.js loads
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+});
+</script>
 
     </div>
 
@@ -777,24 +795,7 @@
         </div>
     </div>
 
-    <script defer src="/script.js"></script>
-
-<script>
-window._currentModalProduct = {
-    id: '1771651706034',
-    title: '5A Glass Fuse 5x20mm 250V Fast Blow Cartridge Fuse for Electronics',
-    price: 4,
-    stock: 99,
-    image: '',
-    mainCategory: '',
-    subCategory: ''
-};
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
-        products.push(window._currentModalProduct);
-    }
-});
-</script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

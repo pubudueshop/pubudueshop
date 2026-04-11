@@ -253,20 +253,20 @@
                     <tbody>
                         
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Plastic Project Box</td>
-            </tr>
-            <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
+            </tr>
+            <tr class="bg-gray-50">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">N/A</td>
             </tr>
             <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
             </tr>
             <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">N/A</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Plastic Project Box</td>
             </tr>
                     </tbody>
                 </table>
@@ -297,6 +297,24 @@
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Project Box","item":"https://ichouse.lk/project-box/"},{"@type":"ListItem","position":3,"name":"Plastic Project Box","item":"https://ichouse.lk/project-box/plastic-project-box/"},{"@type":"ListItem","position":4,"name":"Plastic Project Box 4 cm × 8.5 cm × 7 cm Enclosure Case","item":"https://ichouse.lk/project-box/plastic-project-box/plastic-project-box-4-cm-85-cm-7-cm-enclosure-case/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"Plastic Project Box 4 cm × 8.5 cm × 7 cm Enclosure Case","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1772015432/green2_1_bjtxyz.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1772015430/green_1_1_ps2f4f.png"],"description":"Compact plastic project box ideal for electronic DIY projects and circuit protection. Durable lightweight enclosure with dimensions 4 cm height, 8.5 cm length, and 7 cm width, suitable for small PCB boards, power modules, and hobby electronics. Easy to drill and customize for switches, LEDs, and connectors.","sku":"PE-1772015529599","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/project-box/plastic-project-box/plastic-project-box-4-cm-85-cm-7-cm-enclosure-case/","priceCurrency":"LKR","price":100,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script>
+// Pre-load product data so cart works instantly without waiting for Firebase
+window._currentModalProduct = {
+    id: '1772015529599',
+    title: "Plastic Project Box 4 cm × 8.5 cm × 7 cm Enclosure Case",
+    price: 100,
+    stock: 10,
+    image: "https://res.cloudinary.com/dqwdov5ab/image/upload/v1772015432/green2_1_bjtxyz.png",
+    mainCategory: "Project Box",
+    subCategory: "Plastic Project Box"
+};
+// Also push into products array once script.js loads
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+});
+</script>
 
     </div>
 
@@ -777,24 +795,7 @@
         </div>
     </div>
 
-    <script defer src="/script.js"></script>
-
-<script>
-window._currentModalProduct = {
-    id: '1772015529599',
-    title: 'Plastic Project Box 4 cm × 8.5 cm × 7 cm Enclosure Case',
-    price: 100,
-    stock: 99,
-    image: '',
-    mainCategory: '',
-    subCategory: ''
-};
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
-        products.push(window._currentModalProduct);
-    }
-});
-</script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

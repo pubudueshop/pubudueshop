@@ -248,20 +248,20 @@
                     <tbody>
                         
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">JG-8025</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">12v Fan</td>
             </tr>
             <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
             </tr>
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">12v Fan</td>
-            </tr>
-            <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">JIGO</td>
+            </tr>
+            <tr class="bg-gray-50">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">JG-8025</td>
             </tr>
                     </tbody>
                 </table>
@@ -289,6 +289,24 @@
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Fan","item":"https://ichouse.lk/fan/"},{"@type":"ListItem","position":3,"name":"12v Fan","item":"https://ichouse.lk/fan/12v-fan/"},{"@type":"ListItem","position":4,"name":"IGO JG-8025 12V DC Cooling Fan 80x80x25mm | Panel / Cabinet Exhaust Fan","item":"https://ichouse.lk/fan/12v-fan/igo-jg8025-12v-dc-cooling-fan-80x80x25mm-panel-cabinet-exhaust-fan/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"IGO JG-8025 12V DC Cooling Fan 80x80x25mm | Panel / Cabinet Exhaust Fan","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1772435971/dfan1_1_kxqojc.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1772435971/dfan2_1_mhxr2h.png"],"description":"JIGO JG-8025 12V DC Panel Cooling Fan (80x80x25mm) designed for electrical panels, control boxes, amplifiers, power supplies, and DIY electronics projects. Low noise, high airflow performance with 0.28A current rating and impedance protection for safe, long-lasting operation. Ideal for cooling cabinets, inverters, and computer systems.","sku":"JG-8025","brand":{"@type":"Brand","name":"JIGO"},"offers":{"@type":"Offer","url":"https://ichouse.lk/fan/12v-fan/igo-jg8025-12v-dc-cooling-fan-80x80x25mm-panel-cabinet-exhaust-fan/","priceCurrency":"LKR","price":200,"availability":"https://schema.org/OutOfStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script>
+// Pre-load product data so cart works instantly without waiting for Firebase
+window._currentModalProduct = {
+    id: '1772436064911',
+    title: "IGO JG-8025 12V DC Cooling Fan 80x80x25mm | Panel / Cabinet Exhaust Fan",
+    price: 200,
+    stock: 99,
+    image: "https://res.cloudinary.com/dqwdov5ab/image/upload/v1772435971/dfan1_1_kxqojc.png",
+    mainCategory: "Fan",
+    subCategory: "12v Fan"
+};
+// Also push into products array once script.js loads
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+});
+</script>
 
     </div>
 
@@ -769,24 +787,7 @@
         </div>
     </div>
 
-    <script defer src="/script.js"></script>
-
-<script>
-window._currentModalProduct = {
-    id: '1772436064911',
-    title: 'IGO JG-8025 12V DC Cooling Fan 80x80x25mm',
-    price: 200,
-    stock: 0,
-    image: '',
-    mainCategory: '',
-    subCategory: ''
-};
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
-        products.push(window._currentModalProduct);
-    }
-});
-</script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

@@ -255,20 +255,20 @@
                     <tbody>
                         
             <tr class="bg-white">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Printer cable</td>
+            </tr>
+            <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">N/A</td>
             </tr>
-            <tr class="bg-gray-50">
+            <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
             </tr>
-            <tr class="bg-white">
+            <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
-            </tr>
-            <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Printer cable</td>
             </tr>
                     </tbody>
                 </table>
@@ -299,6 +299,24 @@
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Cable","item":"https://ichouse.lk/cable/"},{"@type":"ListItem","position":3,"name":"Printer cable","item":"https://ichouse.lk/cable/printer-cable/"},{"@type":"ListItem","position":4,"name":"3M Printer Cable – High-Speed Data Transfer Cord","item":"https://ichouse.lk/cable/printer-cable/3m-printer-cable-highspeed-data-transfer-cord/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"3M Printer Cable – High-Speed Data Transfer Cord","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1773742095/c1_1_amqbti.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1773742095/c3_1_wtqhvr.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1773742095/c2_1_cfgl1n.png"],"description":"Reliable and durable 3-meter printer cable designed for fast and stable data transfer between your printer and computer. Features sturdy connectors and flexible insulation for long-lasting performance, making it ideal for home or office use.","sku":"PE-1773742263239","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/cable/printer-cable/3m-printer-cable-highspeed-data-transfer-cord/","priceCurrency":"LKR","price":450,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script>
+// Pre-load product data so cart works instantly without waiting for Firebase
+window._currentModalProduct = {
+    id: '1773742263239',
+    title: "3M Printer Cable – High-Speed Data Transfer Cord",
+    price: 450,
+    stock: 1,
+    image: "https://res.cloudinary.com/dqwdov5ab/image/upload/v1773742095/c1_1_amqbti.png",
+    mainCategory: "Cable",
+    subCategory: "Printer cable"
+};
+// Also push into products array once script.js loads
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+});
+</script>
 
     </div>
 
@@ -779,24 +797,7 @@
         </div>
     </div>
 
-    <script defer src="/script.js"></script>
-
-<script>
-window._currentModalProduct = {
-    id: '1773742263239',
-    title: '3M Printer Cable – High-Speed Data Transfer Cord',
-    price: 450,
-    stock: 99,
-    image: '',
-    mainCategory: '',
-    subCategory: ''
-};
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
-        products.push(window._currentModalProduct);
-    }
-});
-</script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

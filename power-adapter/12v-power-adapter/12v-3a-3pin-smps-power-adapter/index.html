@@ -255,12 +255,12 @@
                     <tbody>
                         
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
-            </tr>
-            <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">12v Power Adapter</td>
+            </tr>
+            <tr class="bg-gray-50">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
             </tr>
             <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
@@ -299,6 +299,24 @@
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Power Adapter","item":"https://ichouse.lk/power-adapter/"},{"@type":"ListItem","position":3,"name":"12v Power Adapter","item":"https://ichouse.lk/power-adapter/12v-power-adapter/"},{"@type":"ListItem","position":4,"name":"12V 3A 3-Pin SMPS Power Adapter","item":"https://ichouse.lk/power-adapter/12v-power-adapter/12v-3a-3pin-smps-power-adapter/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"12V 3A 3-Pin SMPS Power Adapter","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1771473555/12v3a_smps_2_1_hemcyk.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1771473555/24v_eee_1_x0qikw.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1771474596/24v_eee_2_ruqvek.png"],"description":"High-quality 12V 3A SMPS power adapter with 3-pin AC plug, delivering stable and efficient DC output for electronic devices. Features built-in protection against over-voltage, over-current, and short circuit for safe operation. Ideal for routers, CCTV cameras, LED strips, and DIY electronics projects.","sku":"DC12030012A","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/power-adapter/12v-power-adapter/12v-3a-3pin-smps-power-adapter/","priceCurrency":"LKR","price":950,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script>
+// Pre-load product data so cart works instantly without waiting for Firebase
+window._currentModalProduct = {
+    id: '1771474769411',
+    title: "12V 3A 3-Pin SMPS Power Adapter",
+    price: 950,
+    stock: 10,
+    image: "https://res.cloudinary.com/dqwdov5ab/image/upload/v1771473555/12v3a_smps_2_1_hemcyk.png",
+    mainCategory: "Power Adapter",
+    subCategory: "12v Power Adapter"
+};
+// Also push into products array once script.js loads
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+});
+</script>
 
     </div>
 
@@ -779,24 +797,7 @@
         </div>
     </div>
 
-    <script defer src="/script.js"></script>
-
-<script>
-window._currentModalProduct = {
-    id: '1771474769411',
-    title: '12V 3A 3-Pin SMPS Power Adapter',
-    price: 950,
-    stock: 99,
-    image: '',
-    mainCategory: '',
-    subCategory: ''
-};
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
-        products.push(window._currentModalProduct);
-    }
-});
-</script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

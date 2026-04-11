@@ -253,20 +253,20 @@
                     <tbody>
                         
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">IRF740</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">N-Channel</td>
             </tr>
             <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
             </tr>
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">N-Channel</td>
-            </tr>
-            <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
+            </tr>
+            <tr class="bg-gray-50">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">IRF740</td>
             </tr>
                     </tbody>
                 </table>
@@ -297,6 +297,24 @@
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"MOSFET","item":"https://ichouse.lk/mosfet/"},{"@type":"ListItem","position":3,"name":"N-Channel","item":"https://ichouse.lk/mosfet/nchannel/"},{"@type":"ListItem","position":4,"name":"IRF740 N-Channel Power MOSFET TO-220 400V High Voltage Switching Transistor","item":"https://ichouse.lk/mosfet/nchannel/irf740-nchannel-power-mosfet-to220-400v-high-voltage-switching-transistor/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"IRF740 N-Channel Power MOSFET TO-220 400V High Voltage Switching Transistor","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1771653209/7401_1_bnoucn.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1771653210/740201002_1_f8hwi5.png"],"description":"IRF740 N-channel power MOSFET designed for high-voltage switching, SMPS power supplies, motor control, and inverter circuits. TO-220 package offers efficient heat dissipation, low gate drive requirement, and reliable performance for repair and DIY electronics projects.","sku":"IRF740","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/mosfet/nchannel/irf740-nchannel-power-mosfet-to220-400v-high-voltage-switching-transistor/","priceCurrency":"LKR","price":50,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script>
+// Pre-load product data so cart works instantly without waiting for Firebase
+window._currentModalProduct = {
+    id: '1771653252329',
+    title: "IRF740 N-Channel Power MOSFET TO-220 400V High Voltage Switching Transistor",
+    price: 50,
+    stock: 10,
+    image: "https://res.cloudinary.com/dqwdov5ab/image/upload/v1771653209/7401_1_bnoucn.png",
+    mainCategory: "MOSFET",
+    subCategory: "N-Channel"
+};
+// Also push into products array once script.js loads
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+});
+</script>
 
     </div>
 
@@ -777,24 +795,7 @@
         </div>
     </div>
 
-    <script defer src="/script.js"></script>
-
-<script>
-window._currentModalProduct = {
-    id: '1771653252329',
-    title: 'IRF740 N-Channel Power MOSFET TO-220 400V High Voltage Switching Transistor',
-    price: 50,
-    stock: 99,
-    image: '',
-    mainCategory: '',
-    subCategory: ''
-};
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
-        products.push(window._currentModalProduct);
-    }
-});
-</script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

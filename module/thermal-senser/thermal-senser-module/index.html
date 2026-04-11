@@ -295,6 +295,24 @@
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Module","item":"https://ichouse.lk/module/"},{"@type":"ListItem","position":3,"name":"Thermal Senser","item":"https://ichouse.lk/module/thermal-senser/"},{"@type":"ListItem","position":4,"name":"thermal senser module","item":"https://ichouse.lk/module/thermal-senser/thermal-senser-module/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"thermal senser module","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1770872153/3001_3_cyvyxl.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1770872153/3001_2_vcnff6.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1770872153/3001_1_nqvsrd.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1770872152/3001_6_uexgjl.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1770872153/3001_2_vcnff6.png"],"description":"thermal sensor module","sku":"hw-1223dd","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/module/thermal-senser/thermal-senser-module/","priceCurrency":"LKR","price":750,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script>
+// Pre-load product data so cart works instantly without waiting for Firebase
+window._currentModalProduct = {
+    id: '1771044518678',
+    title: "thermal senser module",
+    price: 750,
+    stock: 10,
+    image: "https://res.cloudinary.com/dqwdov5ab/image/upload/v1770872153/3001_3_cyvyxl.png",
+    mainCategory: "Module",
+    subCategory: "Thermal Senser"
+};
+// Also push into products array once script.js loads
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+});
+</script>
 
     </div>
 
@@ -775,24 +793,7 @@
         </div>
     </div>
 
-    <script defer src="/script.js"></script>
-
-<script>
-window._currentModalProduct = {
-    id: '1771044518678',
-    title: 'thermal senser module',
-    price: 750,
-    stock: 99,
-    image: '',
-    mainCategory: '',
-    subCategory: ''
-};
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
-        products.push(window._currentModalProduct);
-    }
-});
-</script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

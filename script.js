@@ -847,10 +847,11 @@ function initFilters(skipInitialRender = false) {
     if (existingMain) existingMain.remove();
     if (existingSub) existingSub.remove();
 
-    // Get URL Params or Pre-rendered Window Globals or Path Slugs
+    // Get URL Params or Pre-rendered Window Globals or Path Slugs or History State
     const urlParams = new URLSearchParams(window.location.search);
-    let initialMain = window.initialCategory || urlParams.get('category') || 'all';
-    let initialSub = window.initialSubCategory || urlParams.get('subcategory') || 'all';
+    const historyState = window.history.state || {};
+    let initialMain = historyState.category || window.initialCategory || urlParams.get('category') || 'all';
+    let initialSub = historyState.subcategory || window.initialSubCategory || urlParams.get('subcategory') || 'all';
     const initialSearch = urlParams.get('search') || '';
     const viewMode = urlParams.get('view');
 

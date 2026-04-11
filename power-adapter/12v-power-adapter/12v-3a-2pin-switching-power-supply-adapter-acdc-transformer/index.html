@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -229,9 +229,12 @@
                     </div>
                 </div>
 
-                <!-- Right: Info Col (60%) -->
+                                <!-- Right: Info Col (60%) -->
                 <div class="md:w-3/5 p-8 flex flex-col">
-                    <div class="mb-6 flex flex-wrap items-end gap-6">
+                    <div class="mb-3"><span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-green-100 text-green-800">In Stock</span></div>
+                    <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 mb-3 leading-tight">12V 3A 2-Pin Switching Power Supply Adapter (AC-DC Transformer)</h1>
+                    <div class="text-3xl font-black text-red-600 mb-6">LKR 950</div>
+                    <div class="mt-auto flex flex-wrap items-end gap-4">
                         <div class="flex flex-col gap-2">
                             <span class="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Quantity</span>
                             <div class="flex items-center border border-gray-200 rounded-lg overflow-hidden h-12 bg-white">
@@ -240,6 +243,8 @@
                                 <button onclick="if(window.changeQty) changeQty(1)" class="w-10 h-full hover:bg-gray-50 transition-colors font-bold text-gray-500">+</button>
                             </div>
                         </div>
+                        <div class="flex-1 min-w-[200px] flex flex-col gap-2"><button onclick="if(window.addToCart) addToCart('1771476684779', getSelectedQty())" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold h-12 rounded-lg shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-2 active:scale-95"><i class="fas fa-cart-plus"></i> Add to Cart</button><button onclick="if(window.addToCart) { addToCart('1771476684779', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold h-12 rounded-lg shadow-lg shadow-green-200 transition-all flex items-center justify-center gap-2 active:scale-95"><i class="fab fa-whatsapp"></i> Buy via WhatsApp</button></div>
+                    </div>
                         <div class="flex-1 min-w-[200px] flex flex-col gap-1">
                             
                             <div class="flex gap-3">
@@ -294,9 +299,20 @@
                 </div>
             </div>
         </div>
+        <!-- Similar Products -->
+        <div class="mt-8 mb-24" id="similar-products-section">
+            <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+                <i class="fas fa-th-large text-blue-500"></i> Similar Products
+            </h2>
+            <div id="similar-products-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-white rounded-xl border border-gray-100 h-48 animate-pulse"></div>
+                <div class="bg-white rounded-xl border border-gray-100 h-48 animate-pulse"></div>
+                <div class="bg-white rounded-xl border border-gray-100 h-48 animate-pulse"></div>
+                <div class="bg-white rounded-xl border border-gray-100 h-48 animate-pulse"></div>
+            </div>
+        </div>
     </div>
 </div>
-
 <!-- Mobile Sticky Bottom Bar -->
 <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 md:hidden flex gap-4 z-[2000] shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
     

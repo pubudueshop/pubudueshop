@@ -2,6 +2,16 @@
 <html lang="en">
 
 <head>
+<style>
+    /* This makes sure the cart is on top of everything */
+    .cart-drawer { z-index: 9999 !important; }
+    .cart-overlay { z-index: 9998 !important; }
+    #product-modal-root { z-index: 5000 !important; }
+    .hidden { display: none !important; }
+    
+    /* Makes the mobile cart button look clickable */
+    #cart-btn-top { cursor: pointer; position: relative; }
+</style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HW-920 DC-DC Buck Converter Adjustable Step-Down Power Supply Module | Pubudu Electronics</title>
@@ -83,9 +93,9 @@
     <script type="application/ld+json" id="product-structured-data"></script>
 
     <!-- Firebase SDKs - Loaded with defer for speed -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-0JRB1XSXJG"></script>
@@ -247,20 +257,20 @@
                     <tbody>
                         
             <tr class="bg-white">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">HW-920</td>
+            </tr>
+            <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
             </tr>
-            <tr class="bg-gray-50">
+            <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
             </tr>
-            <tr class="bg-white">
+            <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Buck Converter</td>
-            </tr>
-            <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">HW-920</td>
             </tr>
                     </tbody>
                 </table>
@@ -751,7 +761,7 @@
                         arrivals.</p>
                     <a href="https://www.facebook.com/pubuduu1/" target="_blank"><i
                             class="fab fa-facebook"></i> Facebook Page</a>
-                    <a href="https://wa.me/94789155130" target="_blank"><i class="fab fa-whatsapp"></i> Chat on
+                    <a href="https://wa.me/94789155130?text=Hello%20I%20want%20to%20order" target="_blank"><i class="fab fa-whatsapp"></i> Chat on
                         WhatsApp</a>
                     <a href="https://www.youtube.com/@ichouse2026" target="_blank"><i class="fab fa-youtube"></i>
                         YouTube Channel</a>
@@ -761,20 +771,7 @@
                 <p>&copy; <span id="current-year">2026</span> Pubudu Electronics. All rights reserved.</p>
             </div>
         </div>
-    </footer>
-
-
-
-                            <p class="text-[9px] font-bold text-slate-400 uppercase leading-none mb-1">Support</p>
-                            <p class="text-[10px] font-black text-slate-900">pubudueshop@gmail.com</p>
-                        </div>
-                        <div class="text-left">
-                            <p class="text-[9px] font-bold text-slate-400 uppercase leading-none mb-1">WhatsApp</p>
-                            <p class="text-[10px] font-black text-slate-900">+94 78 915 5130</p>
-                        </div>
-                        <div class="text-left">
-                            <p class="text-[9px] font-bold text-slate-400 uppercase leading-none mb-1">Official Site</p>
-                            <p class="text-[10px] font-black text-slate-900">ichouse.lk</p>
+    </footer>      
                         </div>
                     </div>
                 </div>

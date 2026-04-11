@@ -570,13 +570,18 @@ function showToast(msg) {
 
 // Export functions to window
 function toggleCart(show) {
-    const cartDrawer = document.getElementById('cart-drawer');
+    let cartDrawer = document.getElementById('cart-drawer');
     if (!cartDrawer) return;
-    
+
+    // Always ensure cart-drawer is a direct child of body
+    // so it's never trapped inside a hidden parent element
+    if (cartDrawer.parentElement !== document.body) {
+        document.body.appendChild(cartDrawer);
+    }
+
     if (show) {
         updateCartUI();
         cartDrawer.classList.remove('hidden');
-        // Back to main cart view if it was on checkout
         const cartMainView = document.getElementById('cart-main-view');
         const checkoutStep = document.getElementById('checkout-step');
         if (cartMainView) cartMainView.classList.remove('hidden');
@@ -1763,6 +1768,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Update Copyright Year
     const yearEl = document.getElementById('current-year');
     if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+    // Move cart-drawer and invoice-modal to body so they're never trapped inside hidden parents
+    ['cart-drawer', 'invoice-modal'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el && el.parentElement !== document.body) {
+            document.body.appendChild(el);
+        }
+    });
 
     // Initialize Firebase FIRST before anything else
     initFirebase();

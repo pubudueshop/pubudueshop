@@ -782,6 +782,23 @@
     </div>
 
     <script defer src="/script.js"></script>
+
+<script>
+window._currentModalProduct = {
+    id: '1771570083216',
+    title: 'M609 Battery Low Voltage Cutoff Protection Module with Digital Display',
+    price: 520,
+    stock: 99,
+    image: '',
+    mainCategory: '',
+    subCategory: ''
+};
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+});
+</script>
 </body>
 
 </html>

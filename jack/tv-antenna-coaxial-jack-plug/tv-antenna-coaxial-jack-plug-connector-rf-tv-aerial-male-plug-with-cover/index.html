@@ -780,6 +780,23 @@
     </div>
 
     <script defer src="/script.js"></script>
+
+<script>
+window._currentModalProduct = {
+    id: '1772080691183',
+    title: 'TV Antenna Coaxial Jack Plug Connector – RF TV Aerial Male Plug with Cover',
+    price: 30,
+    stock: 99,
+    image: '',
+    mainCategory: '',
+    subCategory: ''
+};
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+});
+</script>
 </body>
 
 </html>

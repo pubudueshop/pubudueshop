@@ -780,6 +780,23 @@
     </div>
 
     <script defer src="/script.js"></script>
+
+<script>
+window._currentModalProduct = {
+    id: '1772080410128',
+    title: 'Momentary Push Button Switch – Push ON Release OFF',
+    price: 20,
+    stock: 99,
+    image: '',
+    mainCategory: '',
+    subCategory: ''
+};
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+});
+</script>
 </body>
 
 </html>

@@ -778,6 +778,23 @@
     </div>
 
     <script defer src="/script.js"></script>
+
+<script>
+window._currentModalProduct = {
+    id: '1772080003953',
+    title: 'UK Standard 3-Pin Fused Plug Top 250V AC Heavy Duty Unbreakable',
+    price: 65,
+    stock: 99,
+    image: '',
+    mainCategory: '',
+    subCategory: ''
+};
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+});
+</script>
 </body>
 
 </html>

@@ -778,6 +778,23 @@
     </div>
 
     <script defer src="/script.js"></script>
+
+<script>
+window._currentModalProduct = {
+    id: '1775799841790',
+    title: 'MBR30100PT Schottky Diode 100V 30A TO-247',
+    price: 250,
+    stock: 99,
+    image: '',
+    mainCategory: '',
+    subCategory: ''
+};
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+});
+</script>
 </body>
 
 </html>

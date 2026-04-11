@@ -272,6 +272,24 @@ function injectProductContent(page, product, pageUrl) {
 
 <script type="application/ld+json">${JSON.stringify(breadcrumbJsonLd)}</script>
 <script type="application/ld+json">${JSON.stringify(productJsonLd)}</script>
+<script>
+// Pre-load product data so cart works instantly without waiting for Firebase
+window._currentModalProduct = {
+    id: '${product.id}',
+    title: ${JSON.stringify(product.title)},
+    price: ${parseInt(product.price) || 0},
+    stock: ${parseInt(product.stock) || 99},
+    image: ${JSON.stringify(product.image || '')},
+    mainCategory: ${JSON.stringify(product.mainCategory || '')},
+    subCategory: ${JSON.stringify(product.subCategory || '')}
+};
+// Also push into products array once script.js loads
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+});
+</script>
 `;
 
     // Inject the SEO block after the navbar/search section

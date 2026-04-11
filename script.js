@@ -372,19 +372,21 @@ function toggleFavorite(productId) {
 function addToCart(productId, quantity = 1) {
     let product = products.find(p => p.id == productId);
     
-    // Fallback for standalone pages: if products array isn't loaded yet,
-    // try to get product data from the already-hydrated modal
+    // Fallback: use pre-loaded product data from standalone product pages
     if (!product && window._currentModalProduct && window._currentModalProduct.id == productId) {
         product = window._currentModalProduct;
+        // Also push into products array so future calls work
+        if (!products.find(p => p.id == productId)) products.push(product);
+    }
+
+    // Last fallback: check all _currentModalProduct regardless of id match (single product pages)
+    if (!product && window._currentModalProduct) {
+        product = window._currentModalProduct;
+        if (!products.find(p => p.id == product.id)) products.push(product);
     }
     
     if (!product) {
-        // Last resort: show loading message and retry once
-        showToast("Loading product data, please try again...");
-        setTimeout(() => {
-            const retryProduct = products.find(p => p.id == productId);
-            if (retryProduct) addToCart(productId, quantity);
-        }, 1500);
+        showToast("Product data not ready. Please wait a moment and try again.");
         return;
     }
 

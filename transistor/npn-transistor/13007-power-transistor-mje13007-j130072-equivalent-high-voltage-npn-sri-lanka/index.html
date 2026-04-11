@@ -793,6 +793,23 @@ Application: SMPS, inverter, charger, CFL ballast
     </div>
 
     <script defer src="/script.js"></script>
+
+<script>
+window._currentModalProduct = {
+    id: '1774668940516',
+    title: '13007 Power Transistor (MJE13007 / J13007-2 Equivalent) – High Voltage NPN',
+    price: 45,
+    stock: 99,
+    image: '',
+    mainCategory: '',
+    subCategory: ''
+};
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+});
+</script>
 </body>
 
 </html>

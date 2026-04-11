@@ -20,6 +20,7 @@
     --radius-sm: 8px;
     --radius-md: 12px;
     --radius-lg: 20px;
+    --gradient: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
 }
 
 .skeleton {

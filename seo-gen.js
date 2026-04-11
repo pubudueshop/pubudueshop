@@ -167,6 +167,11 @@ function injectProductContent(page, product, pageUrl) {
         : `<tr class="bg-white"><td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td><td class="px-4 py-3 text-sm text-gray-600 border-b">${subCat || mainCat}</td></tr>`;
 
     const seoBlock = `
+<!-- ===== PRODUCT PAGE: hide homepage-only sections ===== -->
+<style>
+  .hero, #home-featured, #products, #product-modal-root, .sticky-search-mobile { display: none !important; }
+  body.standalone-product-page .about-section { display: none !important; }
+</style>
 <!-- ===== NEW PREMIUM PRODUCT LAYOUT ===== -->
 <div class="bg-gray-50 min-h-screen font-['Inter',sans-serif] text-gray-900 pb-20 md:pb-0">
     <!-- Breadcrumbs -->
@@ -292,13 +297,14 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 `;
 
-    // Inject the SEO block after the navbar/search section
-    // Using a more robust regex that handles potential whitespace and newlines
-    const searchDivRegex = /<div class="sticky-search-mobile">[\s\S]*?<\/div>/;
-    if (page.match(searchDivRegex)) {
-        page = page.replace(searchDivRegex, (match) => match + `\n${seoBlock}`);
+    // Inject the SEO block after the navbar - use </nav> as the injection point
+    const navEndRegex = /<\/nav>\s*<div class="sticky-search-mobile">[\s\S]*?<\/div>\s*<\/div>/;
+    const navSimpleRegex = /<\/nav>/;
+    if (page.match(navEndRegex)) {
+        page = page.replace(navEndRegex, `</nav>\n${seoBlock}`);
+    } else if (page.match(navSimpleRegex)) {
+        page = page.replace(navSimpleRegex, `</nav>\n${seoBlock}`);
     } else {
-        // Fallback to body start if search div not found
         page = page.replace(/(<body[^>]*>)/, `$1\n${seoBlock}`);
     }
     return page;
@@ -346,10 +352,13 @@ function injectCategoryContent(page, cat, subCat, products, catUrl) {
 </div>
 <!-- ===== END SSR CATEGORY CONTENT ===== -->
 `;
-    // Inject category SEO block after search section
-    const searchDivRegex = /<div class="sticky-search-mobile">[\s\S]*?<\/div>/;
-    if (page.match(searchDivRegex)) {
-        page = page.replace(searchDivRegex, (match) => match + `\n${seoBlock}`);
+    // Inject category SEO block after nav
+    const navEndRegex2 = /<\/nav>\s*<div class="sticky-search-mobile">[\s\S]*?<\/div>\s*<\/div>/;
+    const navSimpleRegex2 = /<\/nav>/;
+    if (page.match(navEndRegex2)) {
+        page = page.replace(navEndRegex2, `</nav>\n${seoBlock}`);
+    } else if (page.match(navSimpleRegex2)) {
+        page = page.replace(navSimpleRegex2, `</nav>\n${seoBlock}`);
     } else {
         page = page.replace(/(<body[^>]*>)/, `$1\n${seoBlock}`);
     }
@@ -471,6 +480,9 @@ async function run() {
             page = page.replace(/name="twitter:title" id="tw-title" content=".*?"/g, `name="twitter:title" id="tw-title" content="${cleanTitle} | Pubudu Electronics"`);
             page = page.replace(/name="twitter:description" id="tw-desc" content=".*?"/g, `name="twitter:description" id="tw-desc" content="${seoDesc}"`);
             page = page.replace(/name="twitter:image" id="tw-image" content=".*?"/g, `name="twitter:image" id="tw-image" content="${p.image}"`);
+
+            // Fix Firebase defer issue - SDKs must load before script.js
+            page = page.replace(/<script defer src="https:\/\/www\.gstatic\.com\/firebasejs/g, '<script src="https://www.gstatic.com/firebasejs');
 
             // Fix asset & footer links
             page = fixLinks(page);

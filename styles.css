@@ -2008,6 +2008,7 @@ body.modal-open {
     height: 100%;
     background: rgba(15, 23, 42, 0.4);
     backdrop-filter: blur(4px);
+    z-index: 1;
 }
 
 .cart-content {
@@ -2022,6 +2023,7 @@ body.modal-open {
     display: flex;
     flex-direction: column;
     animation: slideInRight 0.3s ease-out;
+    z-index: 2;
 }
 
 @keyframes slideInRight {

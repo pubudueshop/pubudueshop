@@ -110,23 +110,17 @@ const SITE_URL = "https://ichouse.lk/";
 
 // Initialize Firebase if configure
 function initFirebase() {
-    if (firebaseConfig.apiKey !== "YOUR_API_KEY" && typeof firebase !== 'undefined') {
-        try {
-            if (firebase.apps.length === 0) {
-                firebase.initializeApp(firebaseConfig);
-            }
-            db = firebase.firestore();
-            customerAuth = firebase.auth();
-            console.log("Firebase & Auth Initialized");
-            return true;
-        } catch (e) {
-            console.error("Firebase Init Error:", e);
-            return false;
+    try {
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
         }
+        // IMPORTANT: Assign to the global 'db' variable defined at the top of the script
+        db = firebase.firestore(); 
+        console.log("Firebase Initialized Successfully");
+    } catch (error) {
+        console.error("Firebase Initialization Error:", error);
     }
-    return false;
 }
-
 // Load products - UPDATED for speed (Local First, then Cloud)
 function createSEOSlug(name) {
     if (!name) return "";
@@ -140,19 +134,46 @@ function createSEOSlug(name) {
 let initialRenderDone = false;
 
 async function loadProducts() {
-    // 1. Try to load from LocalStorage immediately for instant UI
+    // 1. Try to load from LocalStorage immediately for speed
     const storedProducts = localStorage.getItem('eshop_products');
     if (storedProducts) {
         const localProducts = JSON.parse(storedProducts);
         products.length = 0;
         products.push(...localProducts);
-        console.log("Instant Load: LocalStorage", products.length);
         renderHomeGrid();
         renderProducts();
         if (window.renderAdminList) window.renderAdminList();
-        initialRenderDone = true; // Mark first paint as complete
+        initialRenderDone = true;
     }
 
+    // 2. Real-time Sync from Firebase
+    if (db) {
+        // Use the collection name "shop" and document "inventory" as per your setup
+        db.collection("shop").doc("inventory").onSnapshot((doc) => {
+            if (doc.exists) {
+                const cloudProducts = doc.data().products || [];
+                
+                // Update local array and storage
+                products.length = 0;
+                products.push(...cloudProducts);
+                localStorage.setItem('eshop_products', JSON.stringify(products));
+
+                // Refresh UI
+                renderHomeGrid();
+                renderProducts();
+                if (window.renderAdminList) window.renderAdminList();
+                initialRenderDone = true;
+                console.log("Products synced from Firebase:", products.length);
+            } else {
+                console.warn("No inventory document found in Firestore!");
+            }
+        }, (err) => {
+            console.error("Firestore Sync Error:", err);
+        });
+    } else {
+        console.error("Database (db) is not initialized. Cannot load products.");
+    }
+}
     // 2. Real-time Sync from Cloud
     if (db) {
         db.collection("shop").doc("inventory").onSnapshot((doc) => {

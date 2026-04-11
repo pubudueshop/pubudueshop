@@ -1167,33 +1167,36 @@ function renderHomeGrid() {
             usedIds.add(p.id);
         }
 
-        homeGridSelectedProducts = homeGridSelectedProducts.slice(0, 8);
+        homeGridSelectedProducts = homeGridSelectedProducts.slice(0, 12);
         homeGridRendered = true;
     }
 
     const html = homeGridSelectedProducts.map(product => {
         const isOutOfStock = product.stock <= 0;
         const isFav = favorites.some(id => id == product.id);
-        const stockStatusClass = isOutOfStock ? 'stock-out' : 'stock-available';
-        const stockStatusText = isOutOfStock ? 'Out of Stock' : 'In Stock';
+        const productUrl = `${SITE_URL}${createSEOSlug(product.mainCategory)}/${product.subCategory ? createSEOSlug(product.subCategory) + '/' : ''}${createSEOSlug(product.title)}/`;
 
         return `
             <div class="product-card">
-                <button class="btn-fav ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${product.id}')" title="${isFav ? 'Remove' : 'Add to Favorites'}">
+                <button class="btn-fav ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${product.id}')" title="${isFav ? 'Remove from Favorites' : 'Add to Favorites'}">
                     <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
                 </button>
-                <a href="${SITE_URL}${createSEOSlug(product.mainCategory)}/${product.subCategory ? createSEOSlug(product.subCategory) + '/' : ''}${createSEOSlug(product.title)}/" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                ${isOutOfStock ? '<span class="card-badge-out">Out of Stock</span>' : '<span class="card-badge-in">In Stock</span>'}
+                <a href="${productUrl}" style="text-decoration:none;color:inherit;display:flex;flex-direction:column;flex:1;">
                     <div class="product-image-container">
                         <img src="${product.image}" alt="${product.title}" class="product-image" loading="lazy">
                     </div>
                     <div class="product-info">
                         <h3 class="product-title">${product.title}</h3>
                         <div class="product-price">LKR ${product.price.toLocaleString()}</div>
-                        <button class="btn-details">
-                            View Details <i class="fas fa-arrow-right" style="font-size: 0.8rem;"></i>
-                        </button>
                     </div>
                 </a>
+                <div style="padding:0 0.85rem 0.85rem;">
+                    ${isOutOfStock
+                        ? `<button class="btn-details" style="background:#94a3b8;cursor:not-allowed;" disabled><i class="fas fa-ban"></i> Out of Stock</button>`
+                        : `<button class="btn-details" onclick="event.stopPropagation(); addToCart('${product.id}', 1)"><i class="fas fa-cart-plus"></i> Add to Cart</button>`
+                    }
+                </div>
             </div>
         `;
     }).join('');
@@ -1211,9 +1214,9 @@ function trackRecentProduct(id) {
 }
 
 // Pagination state
-let currentLimit = 8;
-const DEFAULT_LIMIT_DESKTOP = 8;
-const DEFAULT_LIMIT_MOBILE = 6;
+let currentLimit = 12;
+const DEFAULT_LIMIT_DESKTOP = 12;
+const DEFAULT_LIMIT_MOBILE = 8;
 
 // Optimized Render Products
 function renderProducts(mainCat = 'all', subCat = 'all', searchQuery = '', resetLimit = true) {
@@ -1271,30 +1274,32 @@ function renderProducts(mainCat = 'all', subCat = 'all', searchQuery = '', reset
     }
 
 
-    // Build entire HTML string once to minimize Reflows/Repaints
     const html = displayedProducts.map(product => {
         const isOutOfStock = product.stock <= 0;
         const isFav = favorites.some(id => id == product.id);
-        const stockStatusClass = isOutOfStock ? 'stock-out' : 'stock-available';
-        const stockStatusText = isOutOfStock ? 'Out of Stock' : 'In Stock';
+        const productUrl = `${SITE_URL}${createSEOSlug(product.mainCategory)}/${product.subCategory ? createSEOSlug(product.subCategory) + '/' : ''}${createSEOSlug(product.title)}/`;
 
         return `
             <div class="product-card">
-                <button class="btn-fav ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${product.id}')" title="${isFav ? 'Remove' : 'Add to Favorites'}">
+                <button class="btn-fav ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${product.id}')" title="${isFav ? 'Remove from Favorites' : 'Add to Favorites'}">
                     <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
                 </button>
-                <a href="${SITE_URL}${createSEOSlug(product.mainCategory)}/${product.subCategory ? createSEOSlug(product.subCategory) + '/' : ''}${createSEOSlug(product.title)}/" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                ${isOutOfStock ? '<span class="card-badge-out">Out of Stock</span>' : '<span class="card-badge-in">In Stock</span>'}
+                <a href="${productUrl}" style="text-decoration:none;color:inherit;display:flex;flex-direction:column;flex:1;">
                     <div class="product-image-container">
                         <img src="${product.image}" alt="${product.title}" class="product-image" loading="lazy" onerror="this.src='https://via.placeholder.com/300x300?text=Parts'">
                     </div>
                     <div class="product-info">
                         <h3 class="product-title">${product.title}</h3>
                         <div class="product-price">LKR ${product.price.toLocaleString()}</div>
-                        <button class="btn-details">
-                            View Details <i class="fas fa-arrow-right" style="font-size: 0.8rem;"></i>
-                        </button>
                     </div>
                 </a>
+                <div style="padding:0 0.85rem 0.85rem;">
+                    ${isOutOfStock
+                        ? `<button class="btn-details" style="background:#94a3b8;cursor:not-allowed;" disabled><i class="fas fa-ban"></i> Out of Stock</button>`
+                        : `<button class="btn-details" onclick="event.stopPropagation(); addToCart('${product.id}', 1)"><i class="fas fa-cart-plus"></i> Add to Cart</button>`
+                    }
+                </div>
             </div>
         `;
     }).join('');

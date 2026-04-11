@@ -174,102 +174,6 @@ async function loadProducts() {
         console.error("Database (db) is not initialized. Cannot load products.");
     }
 }
-    // 2. Real-time Sync from Cloud
-    if (db) {
-        db.collection("shop").doc("inventory").onSnapshot((doc) => {
-            if (doc.exists) {
-                const cloudProducts = doc.data().products || [];
-
-                // Compare with current state - only update if different
-                if (JSON.stringify(cloudProducts) !== JSON.stringify(products)) {
-                    products.length = 0;
-                    products.push(...cloudProducts);
-                    console.log("Inventory Update: Synchronized (Live)", products.length);
-                    
-                    localStorage.setItem('eshop_products', JSON.stringify(products));
-
-                    // Only re-render UI after the initial paint is done
-                    if (initialRenderDone) {
-                        renderHomeGrid();
-                        renderProducts();
-                        if (window.renderAdminList) window.renderAdminList();
-                    } else {
-                        renderHomeGrid();
-                        renderProducts();
-                        if (window.renderAdminList) window.renderAdminList();
-                        initialRenderDone = true;
-                    }
-                }
-            }
-        }, (err) => {
-            console.error("Cloud Sync Error:", err);
-        });
-    } else if (!initialRenderDone) {
-        initialRenderDone = true;
-    }
-}
-// ✅ 2. UPDATE the top of your bottom initialization block:
-document.addEventListener('DOMContentLoaded', async () => {
-    // Update Copyright Year
-    const yearEl = document.getElementById('current-year');
-    if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-    // Initialize Firebase FIRST
-    initFirebase();
-
-    // Load Categories BEFORE products
-    await loadCategories();
-
-    // If we are on the admin page, skip the customer-facing initializations
-    if (document.getElementById('admin-page')) {
-        await loadProducts();
-        return;
-    }
-
-    // 1. Add Event Listeners Immediately (Non-Firebase)
-    try {
-        // Modal Close Events
-        if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeProductModal);
-        
-// ... (leave the rest of the code below this exactly as it is) ...
-    // 3. Real-time Sync from Cloud
-    if (db) {
-        db.collection("shop").doc("inventory").onSnapshot((doc) => {
-            if (doc.exists) {
-                const cloudProducts = doc.data().products || [];
-
-                // Compare with current state - only update if different
-                // JSON stringify is a quick way for deep comparison of plain objects
-                if (JSON.stringify(cloudProducts) !== JSON.stringify(products)) {
-                    products.length = 0;
-                    products.push(...cloudProducts);
-                    console.log("Inventory Update: Synchronized (Live)", products.length);
-                    
-                    localStorage.setItem('eshop_products', JSON.stringify(products));
-
-                    // Only re-render UI after the initial paint is done to prevent duplicate renders
-                    if (initialRenderDone) {
-                        renderHomeGrid();
-                        renderProducts();
-                        if (window.renderAdminList) window.renderAdminList();
-                    } else {
-                        // First-ever load (no LocalStorage cache). Render now and mark done.
-                        renderHomeGrid();
-                        renderProducts();
-                        if (window.renderAdminList) window.renderAdminList();
-                        initialRenderDone = true;
-                    }
-                }
-            }
-        }, (err) => {
-            console.error("Cloud Sync Error:", err);
-        });
-    } else if (!initialRenderDone) {
-        // No Firebase, no LocalStorage: mark done to unblock initFilters
-        initialRenderDone = true;
-    }
-
-}
 
 // Save products to Cloud and Local
 async function saveProducts() {
@@ -306,17 +210,8 @@ const cartBtnTop = document.getElementById("cart-btn-top");
 if (cartBtn) cartBtn.addEventListener("click", () => toggleCart(true));
 if (cartBtnTop) cartBtnTop.addEventListener("click", () => toggleCart(true));
 
-// Initialize - loadProducts is called in the DOMContentLoaded listener at the bottom of file
-
-const modalOverlay = document.getElementById('modal-overlay');
-
-if (modalOverlay) {
-    modalOverlay.addEventListener('click', closeProductModal);
-}
-
 // DOM Elements
 const productGrid = document.getElementById('product-grid');
-if (!productGrid) return;
 const filterContainer = document.querySelector('.filter-controls');
 const productModalRoot = document.getElementById('product-modal-root');
 const modalCloseBtn = document.getElementById('modal-close');
@@ -1867,11 +1762,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     const yearEl = document.getElementById('current-year');
     if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+    // Initialize Firebase FIRST before anything else
+    initFirebase();
+
     // If we are on the admin page, skip the customer-facing initializations
     if (document.getElementById('admin-page')) {
+        await loadCategories();
         await loadProducts();
         return;
     }
+
+    // Load categories
+    await loadCategories();
 
     // 1. Add Event Listeners Immediately (Non-Firebase)
     try {

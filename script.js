@@ -153,15 +153,20 @@ async function loadProducts() {
         initialRenderDone = true; // Mark first paint as complete
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
+   document.addEventListener('DOMContentLoaded', async () => {
+    // Update Copyright Year
+    const yearEl = document.getElementById('current-year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+    // Initialize Firebase FIRST
     initFirebase();
-});
-    
+
+    // If we are on the admin page...
     // Load Categories (now with onSnapshot)
     await loadCategories();
 
     // 3. Real-time Sync from Cloud
-    if (isCloud && db) {
+    if (db) {
         db.collection("shop").doc("inventory").onSnapshot((doc) => {
             if (doc.exists) {
                 const cloudProducts = doc.data().products || [];

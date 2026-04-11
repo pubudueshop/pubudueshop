@@ -190,15 +190,15 @@ function injectProductContent(page, product, pageUrl) {
                 <!-- Left: Image Col (40%) -->
                 <div class="md:w-2/5 p-6 border-b md:border-b-0 md:border-r border-gray-100 flex flex-col items-center">
                     <div class="w-full aspect-square relative bg-white border border-gray-100 rounded-lg overflow-hidden group">
-                        <img src="${product.image}" alt="${cleanTitle}" class="w-full h-full object-contain p-4 transition-transform duration-500 group-hover:scale-110" id="main-product-img" loading="eager">
+                        <img src="${product.image}" alt="${cleanTitle} - Buy in Sri Lanka | Pubudu Electronics" class="w-full h-full object-contain p-4 transition-transform duration-500 group-hover:scale-110" id="main-product-img" loading="eager">
                         <div class="absolute bottom-4 right-4 bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium text-gray-600 shadow-sm border border-gray-200 md:block hidden">
                             <i class="fas fa-search-plus mr-1"></i> Hover to Zoom
                         </div>
                     </div>
                     ${product.images && product.images.length > 1 ? `
                     <div class="flex gap-2 mt-4 overflow-x-auto pb-2 w-full scrollbar-hide">
-                        ${product.images.map(img => `
-                            <img src="${img}" class="w-20 h-20 object-contain p-1 border-2 border-gray-100 rounded-md cursor-pointer hover:border-blue-500 transition-colors bg-white flex-shrink-0" loading="lazy">
+                        ${product.images.map((img, idx) => `
+                            <img src="${img}" alt="${cleanTitle} image ${idx + 1} - Pubudu Electronics Sri Lanka" class="w-20 h-20 object-contain p-1 border-2 border-gray-100 rounded-md cursor-pointer hover:border-blue-500 transition-colors bg-white flex-shrink-0" loading="lazy">
                         `).join('')}
                     </div>` : ''}
                 </div>
@@ -325,7 +325,7 @@ function injectCategoryContent(page, cat, subCat, products, catUrl) {
         const price = parseInt(p.price) || 0;
         return `
         <div style="border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;background:white;">
-            ${p.image ? `<a href="${pUrlStr}"><img src="${p.image}" alt="${cleanTitle}" style="width:100%;height:180px;object-fit:contain;background:#f8fafc;" loading="lazy"></a>` : ''}
+            ${p.image ? `<a href="${pUrlStr}"><img src="${p.image}" alt="${cleanTitle} - Buy in Sri Lanka" style="width:100%;height:180px;object-fit:contain;background:#f8fafc;" loading="lazy"></a>` : ''}
             <div style="padding:0.75rem;">
                 <a href="${pUrlStr}" style="font-weight:600;color:#0f172a;text-decoration:none;font-size:0.95rem;display:block;margin-bottom:0.25rem;">${cleanTitle}</a>
                 <div style="color:#3b82f6;font-weight:700;">LKR ${price.toLocaleString()}</div>
@@ -468,6 +468,10 @@ async function run() {
             page = page.replace(/<title>.*?<\/title>/s, `<title>${cleanTitle} | Pubudu Electronics</title>`);
             page = page.replace(/<meta name="description" content=".*?"/s, `<meta name="description" content="${seoDesc}"`);
             page = page.replace(/<link rel="canonical" href=".*?"/s, `<link rel="canonical" href="${pUrl}"`);
+            
+            // Keywords meta - product specific
+            const productKeywords = [cleanTitle, p.mainCategory, p.subCategory, p.brand, p.modelNumber, 'Sri Lanka', 'buy Sri Lanka', 'Pubudu Electronics', 'electronic components Sri Lanka'].filter(Boolean).join(', ');
+            page = page.replace(/<meta name="keywords" content=".*?"/s, `<meta name="keywords" content="${productKeywords}"`);
             
             // OG Tags
             page = page.replace(/property="og:url" content=".*?"/g, `property="og:url" content="${pUrl}"`);

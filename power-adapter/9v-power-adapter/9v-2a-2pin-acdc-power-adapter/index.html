@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -229,11 +229,30 @@
                     </div>
                 </div>
 
-                                <!-- Right: Info Col (60%) -->
+                <!-- Right: Info Col (60%) -->
                 <div class="md:w-3/5 p-8 flex flex-col">
-                    <div class="mb-3"><span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-green-100 text-green-800">In Stock</span></div>
+                    <!-- Stock Badge -->
+                    <div class="mb-3">
+                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-green-100 text-green-800">In Stock</span>
+                        <span class="ml-2 px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">9v Power Adapter</span>
+                    </div>
+
+                    <!-- Title -->
                     <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 mb-3 leading-tight">9V 2A 2-Pin AC/DC Power Adapter</h1>
-                    <div class="text-3xl font-black text-red-600 mb-6">LKR 450</div>
+
+                    <!-- Price -->
+                    <div class="text-3xl font-black text-red-600 mb-4">LKR 450</div>
+
+                    <!-- Short Description -->
+                    <p class="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-3">Reliable 9V 2A power adapter with 2-pin AC input, converting 100-240V AC to stable 9V DC output. Suitable for routers, CCTV devices, small electronics, and DIY projects. Built with safety protection a</p>
+
+                    <!-- Model / Brand -->
+                    <div class="flex flex-wrap gap-3 mb-6 text-xs text-gray-500">
+                        
+                        <span class="bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-full"><i class="fas fa-barcode mr-1"></i> 0920</span>
+                    </div>
+
+                    <!-- Quantity + Buttons -->
                     <div class="mt-auto flex flex-wrap items-end gap-4">
                         <div class="flex flex-col gap-2">
                             <span class="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Quantity</span>
@@ -243,16 +262,12 @@
                                 <button onclick="if(window.changeQty) changeQty(1)" class="w-10 h-full hover:bg-gray-50 transition-colors font-bold text-gray-500">+</button>
                             </div>
                         </div>
-                        <div class="flex-1 min-w-[200px] flex flex-col gap-2"><button onclick="if(window.addToCart) addToCart('1771476854251', getSelectedQty())" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold h-12 rounded-lg shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-2 active:scale-95"><i class="fas fa-cart-plus"></i> Add to Cart</button><button onclick="if(window.addToCart) { addToCart('1771476854251', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold h-12 rounded-lg shadow-lg shadow-green-200 transition-all flex items-center justify-center gap-2 active:scale-95"><i class="fab fa-whatsapp"></i> Buy via WhatsApp</button></div>
-                    </div>
-                        <div class="flex-1 min-w-[200px] flex flex-col gap-1">
+                        <div class="flex-1 min-w-[200px] flex flex-col gap-2">
                             
-                            <div class="flex gap-3">
-                                <button onclick="if(window.addToCart) addToCart('1771476854251', getSelectedQty())" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold h-12 rounded-lg shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-2 active:scale-95">
-                                    <i class="fas fa-cart-plus"></i> Add to Cart
-                                </button>
-                            </div>
-                            <button onclick="if(window.addToCart) { addToCart('1771476854251', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="w-full mt-2 bg-green-500 hover:bg-green-600 text-white font-bold h-12 rounded-lg shadow-lg shadow-green-200 transition-all flex items-center justify-center gap-2 active:scale-95">
+                            <button onclick="if(window.addToCart) addToCart('1771476854251', getSelectedQty())" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold h-12 rounded-lg shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-2 active:scale-95">
+                                <i class="fas fa-cart-plus"></i> Add to Cart
+                            </button>
+                            <button onclick="if(window.addToCart) { addToCart('1771476854251', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold h-12 rounded-lg shadow-lg shadow-green-200 transition-all flex items-center justify-center gap-2 active:scale-95">
                                 <i class="fab fa-whatsapp"></i> Buy via WhatsApp
                             </button>
                             
@@ -262,44 +277,43 @@
             </div>
         </div>
 
-        <!-- Secondary Info (Specs) -->
-        <div class="mt-12 mb-20 grid grid-cols-1 md:grid-cols-2 gap-12">
+        <!-- Specs + Description -->
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
             <div class="bg-white p-8 rounded-xl border border-gray-200 shadow-sm">
                 <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
                     <i class="fas fa-list-ul text-blue-500"></i> Specifications
                 </h2>
                 <table class="w-full text-left">
                     <tbody>
-                        
             <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">New</td>
             </tr>
             <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">0920</td>
-            </tr>
-            <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
             </tr>
-            <tr class="bg-gray-50">
+            <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">9v Power Adapter</td>
             </tr>
-                    </tbody>
+            <tr class="bg-gray-50">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">0920</td>
+            </tr></tbody>
                 </table>
             </div>
             <div class="bg-white p-8 rounded-xl border border-gray-200 shadow-sm">
                 <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
                     <i class="fas fa-star text-blue-500"></i> Product Description
                 </h2>
-                <div class="text-gray-600 leading-relaxed space-y-4">
+                <div class="text-gray-600 leading-relaxed">
                     Reliable 9V 2A power adapter with 2-pin AC input, converting 100-240V AC to stable 9V DC output. Suitable for routers, CCTV devices, small electronics, and DIY projects. Built with safety protection against overload and short circuit for dependable performance.
                 </div>
             </div>
         </div>
-        <!-- Similar Products -->
+
+        <!-- Similar Products (injected by JS at runtime) -->
         <div class="mt-8 mb-24" id="similar-products-section">
             <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
                 <i class="fas fa-th-large text-blue-500"></i> Similar Products
@@ -313,6 +327,7 @@
         </div>
     </div>
 </div>
+
 <!-- Mobile Sticky Bottom Bar -->
 <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 md:hidden flex gap-4 z-[2000] shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
     
@@ -343,7 +358,59 @@ document.addEventListener('DOMContentLoaded', function() {
     if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
         products.push(window._currentModalProduct);
     }
+    // Load similar products from same category
+    loadSimilarProducts();
 });
+
+function getSelectedQty() {
+    var el = document.getElementById('qty-readout');
+    return el ? parseInt(el.textContent) || 1 : 1;
+}
+
+function loadSimilarProducts() {
+    var grid = document.getElementById('similar-products-grid');
+    if (!grid) return;
+    var currentId = '1771476854251';
+    var currentCat = "Power Adapter";
+    var currentSubCat = "9v Power Adapter";
+
+    // Wait for products to load from Firebase/cache
+    var attempts = 0;
+    var interval = setInterval(function() {
+        attempts++;
+        var allProducts = window.allProducts || (typeof products !== 'undefined' ? products : []);
+        var similar = allProducts.filter(function(p) {
+            return String(p.id) !== String(currentId) && 
+                   (p.subCategory === currentSubCat || p.mainCategory === currentCat);
+        }).slice(0, 4);
+
+        if (similar.length > 0 || attempts > 20) {
+            clearInterval(interval);
+            if (similar.length === 0) {
+                document.getElementById('similar-products-section').style.display = 'none';
+                return;
+            }
+            grid.innerHTML = similar.map(function(p) {
+                var slug = p.title.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
+                var mainSlug = (p.mainCategory||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
+                var subSlug = (p.subCategory||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
+                var url = subSlug ? '/' + mainSlug + '/' + subSlug + '/' + slug + '/' : '/' + mainSlug + '/' + slug + '/';
+                var inStock = (parseInt(p.stock) || 0) > 0;
+                return '<div class="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">' +
+                    '<a href="' + url + '">' +
+                    '<div class="aspect-square bg-gray-50 p-3 flex items-center justify-center">' +
+                    '<img src="' + (p.image||'') + '" alt="' + (p.title||'').replace(/"/g,"'") + '" class="w-full h-full object-contain" loading="lazy">' +
+                    '</div></a>' +
+                    '<div class="p-3">' +
+                    '<a href="' + url + '" class="text-sm font-semibold text-gray-800 hover:text-blue-600 line-clamp-2 block mb-1">' + (p.title||'') + '</a>' +
+                    '<div class="text-red-600 font-bold text-sm mb-2">LKR ' + (parseInt(p.price)||0).toLocaleString() + '</div>' +
+                    (inStock ? '<button onclick="if(window.addToCart) addToCart('' + p.id + '', 1)" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 rounded-lg transition-colors">Add to Cart</button>' :
+                    '<span class="text-xs text-red-400 font-medium">Out of Stock</span>') +
+                    '</div></div>';
+            }).join('');
+        }
+    }, 500);
+}
 </script>
 
 

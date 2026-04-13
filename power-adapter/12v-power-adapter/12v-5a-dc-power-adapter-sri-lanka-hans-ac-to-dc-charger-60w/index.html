@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -291,16 +291,16 @@
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">12v Power Adapter</td>
             </tr>
             <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">HI-1205A-DV</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Used</td>
             </tr>
             <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">HAING</td>
             </tr>
             <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Used</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">HI-1205A-DV</td>
             </tr></tbody>
                 </table>
             </div>
@@ -314,10 +314,17 @@
             </div>
         </div>
 
-                <div class="mt-8 border-t pt-6" id="similar-products-section">
-            <h3 class="text-lg font-bold mb-4">Similar Products</h3>
-            <div id="similar-products-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
-        </div>
+        <!-- Similar Products (injected by JS at runtime) -->
+        <div class="mt-8 mb-24" id="similar-products-section">
+            <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+                <i class="fas fa-th-large text-blue-500"></i> Similar Products
+            </h2>
+            <div id="similar-products-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-white rounded-xl border border-gray-100 h-48 animate-pulse"></div>
+                <div class="bg-white rounded-xl border border-gray-100 h-48 animate-pulse"></div>
+                <div class="bg-white rounded-xl border border-gray-100 h-48 animate-pulse"></div>
+                <div class="bg-white rounded-xl border border-gray-100 h-48 animate-pulse"></div>
+            </div>
         </div>
     </div>
 </div>
@@ -337,6 +344,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Power Adapter","item":"https://ichouse.lk/power-adapter/"},{"@type":"ListItem","position":3,"name":"12v Power Adapter","item":"https://ichouse.lk/power-adapter/12v-power-adapter/"},{"@type":"ListItem","position":4,"name":"12V 5A DC Power Adapter Sri Lanka | HANS AC to DC Charger 60W","item":"https://ichouse.lk/power-adapter/12v-power-adapter/12v-5a-dc-power-adapter-sri-lanka-hans-ac-to-dc-charger-60w/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"12V 5A DC Power Adapter Sri Lanka | HANS AC to DC Charger 60W","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/q_auto/f_auto/v1775797176/12_5a_1_1_x8nvqd.png","https://res.cloudinary.com/dqwdov5ab/image/upload/q_auto/f_auto/v1775797176/125a2_1_pvnyaq.png"],"description":"Buy high-quality 12V 5A DC power adapter in Sri Lanka. This HAING 60W AC to DC adapter is ideal for LED strips, CCTV cameras, routers, and electronic devices. Stable output, durable build, and reliable performance. Perfect replacement charger with standard DC pin. Available in Sri Lanka at best price.","sku":"HI-1205A-DV","brand":{"@type":"Brand","name":"HAING"},"offers":{"@type":"Offer","url":"https://ichouse.lk/power-adapter/12v-power-adapter/12v-5a-dc-power-adapter-sri-lanka-hans-ac-to-dc-charger-60w/","priceCurrency":"LKR","price":750,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
 <script>
+// Pre-load product data so cart works instantly without waiting for Firebase
 window._currentModalProduct = {
     id: '1775797478200',
     title: "12V 5A DC Power Adapter Sri Lanka | HANS AC to DC Charger 60W",
@@ -346,10 +354,63 @@ window._currentModalProduct = {
     mainCategory: "Power Adapter",
     subCategory: "12v Power Adapter"
 };
+// Also push into products array once script.js loads
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+    // Load similar products from same category
+    loadSimilarProducts();
+});
 
 function getSelectedQty() {
     var el = document.getElementById('qty-readout');
     return el ? parseInt(el.textContent) || 1 : 1;
+}
+
+function loadSimilarProducts() {
+    var grid = document.getElementById('similar-products-grid');
+    if (!grid) return;
+    var currentId = '1775797478200';
+    var currentCat = "Power Adapter";
+    var currentSubCat = "12v Power Adapter";
+
+    // Wait for products to load from Firebase/cache
+    var attempts = 0;
+    var interval = setInterval(function() {
+        attempts++;
+        var allProducts = window.allProducts || (typeof products !== 'undefined' ? products : []);
+        var similar = allProducts.filter(function(p) {
+            return String(p.id) !== String(currentId) && 
+                   (p.subCategory === currentSubCat || p.mainCategory === currentCat);
+        }).slice(0, 4);
+
+        if (similar.length > 0 || attempts > 20) {
+            clearInterval(interval);
+            if (similar.length === 0) {
+                document.getElementById('similar-products-section').style.display = 'none';
+                return;
+            }
+            grid.innerHTML = similar.map(function(p) {
+                var slug = p.title.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
+                var mainSlug = (p.mainCategory||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
+                var subSlug = (p.subCategory||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
+                var url = subSlug ? '/' + mainSlug + '/' + subSlug + '/' + slug + '/' : '/' + mainSlug + '/' + slug + '/';
+                var inStock = (parseInt(p.stock) || 0) > 0;
+                return '<div class="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">' +
+                    '<a href="' + url + '">' +
+                    '<div class="aspect-square bg-gray-50 p-3 flex items-center justify-center">' +
+                    '<img src="' + (p.image||'') + '" alt="' + (p.title||'').replace(/"/g,"'") + '" class="w-full h-full object-contain" loading="lazy">' +
+                    '</div></a>' +
+                    '<div class="p-3">' +
+                    '<a href="' + url + '" class="text-sm font-semibold text-gray-800 hover:text-blue-600 line-clamp-2 block mb-1">' + (p.title||'') + '</a>' +
+                    '<div class="text-red-600 font-bold text-sm mb-2">LKR ' + (parseInt(p.price)||0).toLocaleString() + '</div>' +
+                    (inStock ? '<button onclick="if(window.addToCart) addToCart('' + p.id + '', 1)" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 rounded-lg transition-colors">Add to Cart</button>' :
+                    '<span class="text-xs text-red-400 font-medium">Out of Stock</span>') +
+                    '</div></div>';
+            }).join('');
+        }
+    }, 500);
 }
 </script>
 

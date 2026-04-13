@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -316,17 +316,10 @@
             </div>
         </div>
 
-        <!-- Similar Products (injected by JS at runtime) -->
-        <div class="mt-8 mb-24" id="similar-products-section">
-            <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
-                <i class="fas fa-th-large text-blue-500"></i> Similar Products
-            </h2>
-            <div id="similar-products-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="bg-white rounded-xl border border-gray-100 h-48 animate-pulse"></div>
-                <div class="bg-white rounded-xl border border-gray-100 h-48 animate-pulse"></div>
-                <div class="bg-white rounded-xl border border-gray-100 h-48 animate-pulse"></div>
-                <div class="bg-white rounded-xl border border-gray-100 h-48 animate-pulse"></div>
-            </div>
+                <div class="mt-8 border-t pt-6" id="similar-products-section">
+            <h3 class="text-lg font-bold mb-4">Similar Products</h3>
+            <div id="similar-products-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+        </div>
         </div>
     </div>
 </div>
@@ -346,7 +339,6 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Push Button","item":"https://ichouse.lk/push-button/"},{"@type":"ListItem","position":3,"name":"Momentary Push Button Switch","item":"https://ichouse.lk/push-button/momentary-push-button-switch/"},{"@type":"ListItem","position":4,"name":"Momentary Push Button Switch – Push ON Release OFF | Normally Open (NO) Power Switch","item":"https://ichouse.lk/push-button/momentary-push-button-switch/momentary-push-button-switch-push-on-release-off-normally-open-no-power-switch/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"Momentary Push Button Switch – Push ON Release OFF | Normally Open (NO) Power Switch","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1772080254/pushb1_1_sumpdf.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1772080253/pushb3_1_rm6anx.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1772080253/pushb2_1_qauvrf.png"],"description":"High-quality momentary push button switch designed for Push ON and Release OFF operation (Normally Open – NO). Power works only while the button is pressed and turns off when released. Ideal for electric bells, DIY projects, testing equipment, machinery control, and temporary power applications. Durable plastic body with secure screw terminals for easy wiring and reliable performance. Perfect for 12V, 24V, and low-voltage electrical circuits.","sku":"PE-1772080410128","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/push-button/momentary-push-button-switch/momentary-push-button-switch-push-on-release-off-normally-open-no-power-switch/","priceCurrency":"LKR","price":20,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
 <script>
-// Pre-load product data so cart works instantly without waiting for Firebase
 window._currentModalProduct = {
     id: '1772080410128',
     title: "Momentary Push Button Switch – Push ON Release OFF | Normally Open (NO) Power Switch",
@@ -356,63 +348,10 @@ window._currentModalProduct = {
     mainCategory: "Push Button",
     subCategory: "Momentary Push Button Switch"
 };
-// Also push into products array once script.js loads
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
-        products.push(window._currentModalProduct);
-    }
-    // Load similar products from same category
-    loadSimilarProducts();
-});
 
 function getSelectedQty() {
     var el = document.getElementById('qty-readout');
     return el ? parseInt(el.textContent) || 1 : 1;
-}
-
-function loadSimilarProducts() {
-    var grid = document.getElementById('similar-products-grid');
-    if (!grid) return;
-    var currentId = '1772080410128';
-    var currentCat = "Push Button";
-    var currentSubCat = "Momentary Push Button Switch";
-
-    // Wait for products to load from Firebase/cache
-    var attempts = 0;
-    var interval = setInterval(function() {
-        attempts++;
-        var allProducts = window.allProducts || (typeof products !== 'undefined' ? products : []);
-        var similar = allProducts.filter(function(p) {
-            return String(p.id) !== String(currentId) && 
-                   (p.subCategory === currentSubCat || p.mainCategory === currentCat);
-        }).slice(0, 4);
-
-        if (similar.length > 0 || attempts > 20) {
-            clearInterval(interval);
-            if (similar.length === 0) {
-                document.getElementById('similar-products-section').style.display = 'none';
-                return;
-            }
-            grid.innerHTML = similar.map(function(p) {
-                var slug = p.title.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
-                var mainSlug = (p.mainCategory||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
-                var subSlug = (p.subCategory||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
-                var url = subSlug ? '/' + mainSlug + '/' + subSlug + '/' + slug + '/' : '/' + mainSlug + '/' + slug + '/';
-                var inStock = (parseInt(p.stock) || 0) > 0;
-                return '<div class="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">' +
-                    '<a href="' + url + '">' +
-                    '<div class="aspect-square bg-gray-50 p-3 flex items-center justify-center">' +
-                    '<img src="' + (p.image||'') + '" alt="' + (p.title||'').replace(/"/g,"'") + '" class="w-full h-full object-contain" loading="lazy">' +
-                    '</div></a>' +
-                    '<div class="p-3">' +
-                    '<a href="' + url + '" class="text-sm font-semibold text-gray-800 hover:text-blue-600 line-clamp-2 block mb-1">' + (p.title||'') + '</a>' +
-                    '<div class="text-red-600 font-bold text-sm mb-2">LKR ' + (parseInt(p.price)||0).toLocaleString() + '</div>' +
-                    (inStock ? '<button onclick="if(window.addToCart) addToCart('' + p.id + '', 1)" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 rounded-lg transition-colors">Add to Cart</button>' :
-                    '<span class="text-xs text-red-400 font-medium">Out of Stock</span>') +
-                    '</div></div>';
-            }).join('');
-        }
-    }, 500);
 }
 </script>
 

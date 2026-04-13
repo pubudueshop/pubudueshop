@@ -144,11 +144,11 @@ async function loadProducts() {
         renderProducts();
         if (window.renderAdminList) window.renderAdminList();
         initialRenderDone = true;
+        renderSimilarProducts(); // ← render similar products from cache
     }
 
     // 2. Real-time Sync from Firebase
     if (db) {
-        // Use the collection name "shop" and document "inventory" as per your setup
         db.collection("shop").doc("inventory").onSnapshot((doc) => {
             if (doc.exists) {
                 const cloudProducts = doc.data().products || [];
@@ -163,6 +163,7 @@ async function loadProducts() {
                 renderProducts();
                 if (window.renderAdminList) window.renderAdminList();
                 initialRenderDone = true;
+                renderSimilarProducts(); // ← render similar products from Firebase
                 console.log("Products synced from Firebase:", products.length);
             } else {
                 console.warn("No inventory document found in Firestore!");
@@ -1282,6 +1283,62 @@ function showStatus(msg, isError = false) {
 let homeGridRendered = false;
 let homeGridSelectedProducts = [];
 
+// ── Similar Products renderer (called after products load) ──
+function renderSimilarProducts() {
+    const grid = document.getElementById('similar-products-grid');
+    if (!grid || !window._currentModalProduct) return;
+    if (grid.querySelector('.product-card')) return; // already rendered
+
+    const cur = window._currentModalProduct;
+
+    function _rand(arr, n) { return arr.sort(() => 0.5 - Math.random()).slice(0, n); }
+
+    const needed = 4;
+    let result = [];
+
+    // Step 1: same subcategory
+    result = _rand(products.filter(p => String(p.id) !== String(cur.id) && p.subCategory === cur.subCategory), needed);
+
+    // Step 2: fill from main category
+    if (result.length < needed) {
+        const ids = new Set(result.map(p => String(p.id)));
+        result = result.concat(_rand(products.filter(p => String(p.id) !== String(cur.id) && p.mainCategory === cur.mainCategory && !ids.has(String(p.id))), needed - result.length));
+    }
+
+    // Step 3: random fill
+    if (result.length < needed) {
+        const ids = new Set(result.map(p => String(p.id)));
+        result = result.concat(_rand(products.filter(p => String(p.id) !== String(cur.id) && !ids.has(String(p.id))), needed - result.length));
+    }
+
+    if (result.length === 0) {
+        const sec = document.getElementById('similar-products-section');
+        if (sec) sec.style.display = 'none';
+        return;
+    }
+
+    grid.innerHTML = result.map(p => {
+        const s = (p.title||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
+        const m = (p.mainCategory||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
+        const c = (p.subCategory||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
+        const url = c ? `/${m}/${c}/${s}/` : `/${m}/${s}/`;
+        const inStock = (parseInt(p.stock)||0) > 0;
+        return `<div class="product-card" style="background:#fff;border-radius:12px;border:1px solid #e2e8f0;overflow:hidden;display:flex;flex-direction:column;">
+            <a href="${url}"><div style="aspect-ratio:1;background:#f8fafc;padding:12px;display:flex;align-items:center;justify-content:center;">
+            <img src="${p.image||''}" alt="${(p.title||'').replace(/"/g,"'")}" style="width:100%;height:100%;object-fit:contain;" loading="lazy">
+            </div></a>
+            <div style="padding:10px;display:flex;flex-direction:column;flex:1;">
+            <h3 style="font-size:13px;font-weight:600;color:#1e293b;margin:0 0 6px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">${p.title||''}</h3>
+            <p style="color:#dc2626;font-weight:700;font-size:13px;margin:0 0 8px;">LKR ${(parseInt(p.price)||0).toLocaleString()}</p>
+            <div style="margin-top:auto;display:flex;gap:6px;">
+                <a href="${url}" style="flex:1;text-align:center;background:#f1f5f9;color:#1e293b;border-radius:8px;padding:6px;font-size:12px;font-weight:600;text-decoration:none;">View Item</a>
+                ${inStock ? `<button onclick="if(window.addToCart)addToCart('${p.id}',1)" style="flex:1;background:#2563eb;color:#fff;border:none;border-radius:8px;padding:6px;font-size:12px;font-weight:700;cursor:pointer;">Add to Cart</button>` : `<span style="flex:1;text-align:center;font-size:12px;color:#ef4444;padding:6px;">Out of Stock</span>`}
+            </div></div></div>`;
+    }).join('');
+}
+window.renderSimilarProducts = renderSimilarProducts;
+// ── End Similar Products renderer ──────────────────────────
+
 function renderHomeGrid() {
     const homeGrid = document.getElementById('home-product-grid');
     if (!homeGrid) return;
@@ -2120,82 +2177,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         // 2. Load Data and Firebase (Async)
         await loadProducts(); // Load from Cloud or Local first
         if (filterContainer) {
-            // Pass skipInitialRender=true to avoid renderProducts() being called a 3rd time
-            // right after loadProducts() has already rendered via LocalStorage + Firebase
             initFilters(true);
         }
-
-        // ── Similar Products (product pages only) ──────────────
-        const _simGrid = document.getElementById('similar-products-grid');
-        if (_simGrid && window._currentModalProduct) {
-            const _cur = window._currentModalProduct;
-
-            function _getRandomItems(arr, count) {
-                return arr.sort(() => 0.5 - Math.random()).slice(0, count);
-            }
-
-            const neededCount = 4;
-            let similarProducts = [];
-
-            // STEP 1: Same sub-category
-            let subCatItems = products.filter(p =>
-                String(p.id) !== String(_cur.id) &&
-                p.subCategory === _cur.subCategory
-            );
-            similarProducts = _getRandomItems(subCatItems, neededCount);
-
-            // STEP 2: Fill from same main category
-            if (similarProducts.length < neededCount) {
-                const deficit = neededCount - similarProducts.length;
-                const existingIds = new Set(similarProducts.map(p => String(p.id)));
-                let mainCatItems = products.filter(p =>
-                    String(p.id) !== String(_cur.id) &&
-                    p.mainCategory === _cur.mainCategory &&
-                    !existingIds.has(String(p.id))
-                );
-                similarProducts = similarProducts.concat(_getRandomItems(mainCatItems, deficit));
-            }
-
-            // STEP 3: Random fill from all products
-            if (similarProducts.length < neededCount) {
-                const deficit = neededCount - similarProducts.length;
-                const existingIds = new Set(similarProducts.map(p => String(p.id)));
-                let otherItems = products.filter(p =>
-                    String(p.id) !== String(_cur.id) &&
-                    !existingIds.has(String(p.id))
-                );
-                similarProducts = similarProducts.concat(_getRandomItems(otherItems, deficit));
-            }
-
-            if (similarProducts.length > 0) {
-                _simGrid.innerHTML = similarProducts.map(p => {
-                    const s = (p.title||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
-                    const m = (p.mainCategory||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
-                    const c = (p.subCategory||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
-                    const url = c ? `/${m}/${c}/${s}/` : `/${m}/${s}/`;
-                    const inStock = (parseInt(p.stock)||0) > 0;
-                    return `<div class="product-card" style="background:#fff;border-radius:12px;border:1px solid #e2e8f0;overflow:hidden;display:flex;flex-direction:column;">
-                        <a href="${url}">
-                            <div style="aspect-ratio:1;background:#f8fafc;padding:12px;display:flex;align-items:center;justify-content:center;">
-                                <img src="${p.image||''}" alt="${(p.title||'').replace(/"/g,"'")}" style="width:100%;height:100%;object-fit:contain;" loading="lazy">
-                            </div>
-                        </a>
-                        <div style="padding:10px;display:flex;flex-direction:column;flex:1;">
-                            <h3 style="font-size:13px;font-weight:600;color:#1e293b;margin:0 0 6px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">${p.title||''}</h3>
-                            <p style="color:#dc2626;font-weight:700;font-size:13px;margin:0 0 8px;">LKR ${(parseInt(p.price)||0).toLocaleString()}</p>
-                            <div style="margin-top:auto;display:flex;gap:6px;">
-                                <a href="${url}" style="flex:1;text-align:center;background:#f1f5f9;color:#1e293b;border-radius:8px;padding:6px;font-size:12px;font-weight:600;text-decoration:none;">View Item</a>
-                                ${inStock ? `<button onclick="if(window.addToCart)addToCart('${p.id}',1)" style="flex:1;background:#2563eb;color:#fff;border:none;border-radius:8px;padding:6px;font-size:12px;font-weight:700;cursor:pointer;">Add to Cart</button>` : `<span style="flex:1;text-align:center;font-size:12px;color:#ef4444;font-weight:500;padding:6px;">Out of Stock</span>`}
-                            </div>
-                        </div>
-                    </div>`;
-                }).join('');
-            } else {
-                const sec = document.getElementById('similar-products-section');
-                if (sec) sec.style.display = 'none';
-            }
-        }
-        // ── End Similar Products ────────────────────────────────
 
 
         // Sync hero search with URL on load

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -316,17 +316,10 @@
             </div>
         </div>
 
-        <!-- Similar Products (injected by JS at runtime) -->
-        <div class="mt-8 mb-24" id="similar-products-section">
-            <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
-                <i class="fas fa-th-large text-blue-500"></i> Similar Products
-            </h2>
-            <div id="similar-products-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="bg-white rounded-xl border border-gray-100 h-48 animate-pulse"></div>
-                <div class="bg-white rounded-xl border border-gray-100 h-48 animate-pulse"></div>
-                <div class="bg-white rounded-xl border border-gray-100 h-48 animate-pulse"></div>
-                <div class="bg-white rounded-xl border border-gray-100 h-48 animate-pulse"></div>
-            </div>
+                <div class="mt-8 border-t pt-6" id="similar-products-section">
+            <h3 class="text-lg font-bold mb-4">Similar Products</h3>
+            <div id="similar-products-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+        </div>
         </div>
     </div>
 </div>
@@ -346,7 +339,6 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Power Adapter","item":"https://ichouse.lk/power-adapter/"},{"@type":"ListItem","position":3,"name":"9v Power Adapter","item":"https://ichouse.lk/power-adapter/9v-power-adapter/"},{"@type":"ListItem","position":4,"name":"9V 2A 2-Pin AC/DC Power Adapter","item":"https://ichouse.lk/power-adapter/9v-power-adapter/9v-2a-2pin-acdc-power-adapter/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"9V 2A 2-Pin AC/DC Power Adapter","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1771473555/9v2a_1_fsjesc.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1771473555/9v2a_2_1_zhy4tr.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1771473555/9v2a_1_fsjesc.png"],"description":"Reliable 9V 2A power adapter with 2-pin AC input, converting 100-240V AC to stable 9V DC output. Suitable for routers, CCTV devices, small electronics, and DIY projects. Built with safety protection against overload and short circuit for dependable performance.","sku":"0920","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/power-adapter/9v-power-adapter/9v-2a-2pin-acdc-power-adapter/","priceCurrency":"LKR","price":450,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
 <script>
-// Pre-load product data so cart works instantly without waiting for Firebase
 window._currentModalProduct = {
     id: '1771476854251',
     title: "9V 2A 2-Pin AC/DC Power Adapter",
@@ -356,63 +348,10 @@ window._currentModalProduct = {
     mainCategory: "Power Adapter",
     subCategory: "9v Power Adapter"
 };
-// Also push into products array once script.js loads
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
-        products.push(window._currentModalProduct);
-    }
-    // Load similar products from same category
-    loadSimilarProducts();
-});
 
 function getSelectedQty() {
     var el = document.getElementById('qty-readout');
     return el ? parseInt(el.textContent) || 1 : 1;
-}
-
-function loadSimilarProducts() {
-    var grid = document.getElementById('similar-products-grid');
-    if (!grid) return;
-    var currentId = '1771476854251';
-    var currentCat = "Power Adapter";
-    var currentSubCat = "9v Power Adapter";
-
-    // Wait for products to load from Firebase/cache
-    var attempts = 0;
-    var interval = setInterval(function() {
-        attempts++;
-        var allProducts = window.allProducts || (typeof products !== 'undefined' ? products : []);
-        var similar = allProducts.filter(function(p) {
-            return String(p.id) !== String(currentId) && 
-                   (p.subCategory === currentSubCat || p.mainCategory === currentCat);
-        }).slice(0, 4);
-
-        if (similar.length > 0 || attempts > 20) {
-            clearInterval(interval);
-            if (similar.length === 0) {
-                document.getElementById('similar-products-section').style.display = 'none';
-                return;
-            }
-            grid.innerHTML = similar.map(function(p) {
-                var slug = p.title.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
-                var mainSlug = (p.mainCategory||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
-                var subSlug = (p.subCategory||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
-                var url = subSlug ? '/' + mainSlug + '/' + subSlug + '/' + slug + '/' : '/' + mainSlug + '/' + slug + '/';
-                var inStock = (parseInt(p.stock) || 0) > 0;
-                return '<div class="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">' +
-                    '<a href="' + url + '">' +
-                    '<div class="aspect-square bg-gray-50 p-3 flex items-center justify-center">' +
-                    '<img src="' + (p.image||'') + '" alt="' + (p.title||'').replace(/"/g,"'") + '" class="w-full h-full object-contain" loading="lazy">' +
-                    '</div></a>' +
-                    '<div class="p-3">' +
-                    '<a href="' + url + '" class="text-sm font-semibold text-gray-800 hover:text-blue-600 line-clamp-2 block mb-1">' + (p.title||'') + '</a>' +
-                    '<div class="text-red-600 font-bold text-sm mb-2">LKR ' + (parseInt(p.price)||0).toLocaleString() + '</div>' +
-                    (inStock ? '<button onclick="if(window.addToCart) addToCart('' + p.id + '', 1)" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 rounded-lg transition-colors">Add to Cart</button>' :
-                    '<span class="text-xs text-red-400 font-medium">Out of Stock</span>') +
-                    '</div></div>';
-            }).join('');
-        }
-    }, 500);
 }
 </script>
 

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -287,20 +287,20 @@
                 <table class="w-full text-left">
                     <tbody>
             <tr class="bg-white">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">30100</td>
+            </tr>
+            <tr class="bg-gray-50">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand new</td>
+            </tr>
+            <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
             </tr>
             <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Dual Schottky Rectifier Diode</td>
-            </tr>
-            <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand new</td>
-            </tr>
-            <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">30100</td>
             </tr></tbody>
                 </table>
             </div>
@@ -314,9 +314,17 @@
             </div>
         </div>
 
-        <div class="mt-8 border-t pt-6" id="similar-products-section">
-            <h3 class="text-lg font-bold mb-4">Similar Products</h3>
-            <div id="similar-products-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+        <!-- Similar Products (injected by JS at runtime) -->
+        <div class="mt-8 mb-24" id="similar-products-section">
+            <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+                <i class="fas fa-th-large text-blue-500"></i> Similar Products
+            </h2>
+            <div id="similar-products-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-white rounded-xl border border-gray-100 h-48 animate-pulse"></div>
+                <div class="bg-white rounded-xl border border-gray-100 h-48 animate-pulse"></div>
+                <div class="bg-white rounded-xl border border-gray-100 h-48 animate-pulse"></div>
+                <div class="bg-white rounded-xl border border-gray-100 h-48 animate-pulse"></div>
+            </div>
         </div>
     </div>
 </div>
@@ -336,6 +344,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Diode","item":"https://ichouse.lk/diode/"},{"@type":"ListItem","position":3,"name":"Dual Schottky Rectifier Diode","item":"https://ichouse.lk/diode/dual-schottky-rectifier-diode/"},{"@type":"ListItem","position":4,"name":"MBR30100PT Schottky Diode 100V 30A TO-247 | Dual Rectifier Sri Lanka","item":"https://ichouse.lk/diode/dual-schottky-rectifier-diode/mbr30100pt-schottky-diode-100v-30a-to247-dual-rectifier-sri-lanka/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"MBR30100PT Schottky Diode 100V 30A TO-247 | Dual Rectifier Sri Lanka","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/q_auto/f_auto/v1775797175/t2_1_uhmmyh.png","https://res.cloudinary.com/dqwdov5ab/image/upload/q_auto/f_auto/v1775797175/t1_1_yv7hds.png"],"description":"Buy MBR30100PT Schottky rectifier diode in Sri Lanka. High current 30A, 100V dual diode ideal for SMPS power supplies, inverters, solar systems, and high-efficiency circuits. Low forward voltage drop ensures better performance and heat efficiency. Perfect for repair and replacement. Best price in Sri Lanka.","sku":"30100","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/diode/dual-schottky-rectifier-diode/mbr30100pt-schottky-diode-100v-30a-to247-dual-rectifier-sri-lanka/","priceCurrency":"LKR","price":250,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
 <script>
+// Pre-load product data so cart works instantly without waiting for Firebase
 window._currentModalProduct = {
     id: '1775799841790',
     title: "MBR30100PT Schottky Diode 100V 30A TO-247 | Dual Rectifier Sri Lanka",
@@ -345,10 +354,63 @@ window._currentModalProduct = {
     mainCategory: "Diode",
     subCategory: "Dual Schottky Rectifier Diode"
 };
+// Also push into products array once script.js loads
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+    // Load similar products from same category
+    loadSimilarProducts();
+});
 
 function getSelectedQty() {
     var el = document.getElementById('qty-readout');
     return el ? parseInt(el.textContent) || 1 : 1;
+}
+
+function loadSimilarProducts() {
+    var grid = document.getElementById('similar-products-grid');
+    if (!grid) return;
+    var currentId = '1775799841790';
+    var currentCat = "Diode";
+    var currentSubCat = "Dual Schottky Rectifier Diode";
+
+    // Wait for products to load from Firebase/cache
+    var attempts = 0;
+    var interval = setInterval(function() {
+        attempts++;
+        var allProducts = window.allProducts || (typeof products !== 'undefined' ? products : []);
+        var similar = allProducts.filter(function(p) {
+            return String(p.id) !== String(currentId) && 
+                   (p.subCategory === currentSubCat || p.mainCategory === currentCat);
+        }).slice(0, 4);
+
+        if (similar.length > 0 || attempts > 20) {
+            clearInterval(interval);
+            if (similar.length === 0) {
+                document.getElementById('similar-products-section').style.display = 'none';
+                return;
+            }
+            grid.innerHTML = similar.map(function(p) {
+                var slug = p.title.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
+                var mainSlug = (p.mainCategory||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
+                var subSlug = (p.subCategory||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
+                var url = subSlug ? '/' + mainSlug + '/' + subSlug + '/' + slug + '/' : '/' + mainSlug + '/' + slug + '/';
+                var inStock = (parseInt(p.stock) || 0) > 0;
+                return '<div class="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">' +
+                    '<a href="' + url + '">' +
+                    '<div class="aspect-square bg-gray-50 p-3 flex items-center justify-center">' +
+                    '<img src="' + (p.image||'') + '" alt="' + (p.title||'').replace(/"/g,"'") + '" class="w-full h-full object-contain" loading="lazy">' +
+                    '</div></a>' +
+                    '<div class="p-3">' +
+                    '<a href="' + url + '" class="text-sm font-semibold text-gray-800 hover:text-blue-600 line-clamp-2 block mb-1">' + (p.title||'') + '</a>' +
+                    '<div class="text-red-600 font-bold text-sm mb-2">LKR ' + (parseInt(p.price)||0).toLocaleString() + '</div>' +
+                    (inStock ? '<button onclick="if(window.addToCart) addToCart('' + p.id + '', 1)" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 rounded-lg transition-colors">Add to Cart</button>' :
+                    '<span class="text-xs text-red-400 font-medium">Out of Stock</span>') +
+                    '</div></div>';
+            }).join('');
+        }
+    }, 500);
 }
 </script>
 

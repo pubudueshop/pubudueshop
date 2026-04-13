@@ -2129,12 +2129,46 @@ document.addEventListener('DOMContentLoaded', async () => {
         const _simGrid = document.getElementById('similar-products-grid');
         if (_simGrid && window._currentModalProduct) {
             const _cur = window._currentModalProduct;
-            const _similar = products.filter(p =>
+
+            function _getRandomItems(arr, count) {
+                return arr.sort(() => 0.5 - Math.random()).slice(0, count);
+            }
+
+            const neededCount = 4;
+            let similarProducts = [];
+
+            // STEP 1: Same sub-category
+            let subCatItems = products.filter(p =>
                 String(p.id) !== String(_cur.id) &&
-                (p.subCategory === _cur.subCategory || p.mainCategory === _cur.mainCategory)
-            ).slice(0, 4);
-            if (_similar.length > 0) {
-                _simGrid.innerHTML = _similar.map(p => {
+                p.subCategory === _cur.subCategory
+            );
+            similarProducts = _getRandomItems(subCatItems, neededCount);
+
+            // STEP 2: Fill from same main category
+            if (similarProducts.length < neededCount) {
+                const deficit = neededCount - similarProducts.length;
+                const existingIds = new Set(similarProducts.map(p => String(p.id)));
+                let mainCatItems = products.filter(p =>
+                    String(p.id) !== String(_cur.id) &&
+                    p.mainCategory === _cur.mainCategory &&
+                    !existingIds.has(String(p.id))
+                );
+                similarProducts = similarProducts.concat(_getRandomItems(mainCatItems, deficit));
+            }
+
+            // STEP 3: Random fill from all products
+            if (similarProducts.length < neededCount) {
+                const deficit = neededCount - similarProducts.length;
+                const existingIds = new Set(similarProducts.map(p => String(p.id)));
+                let otherItems = products.filter(p =>
+                    String(p.id) !== String(_cur.id) &&
+                    !existingIds.has(String(p.id))
+                );
+                similarProducts = similarProducts.concat(_getRandomItems(otherItems, deficit));
+            }
+
+            if (similarProducts.length > 0) {
+                _simGrid.innerHTML = similarProducts.map(p => {
                     const s = (p.title||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
                     const m = (p.mainCategory||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
                     const c = (p.subCategory||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');

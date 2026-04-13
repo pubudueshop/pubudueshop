@@ -344,7 +344,6 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Speaker Part","item":"https://ichouse.lk/speaker-part/"},{"@type":"ListItem","position":3,"name":"4-Pin Speaker Input Terminal Plate","item":"https://ichouse.lk/speaker-part/4pin-speaker-input-terminal-plate/"},{"@type":"ListItem","position":4,"name":"4-Pin Speaker Input Terminal Plate – Audio Amplifier Speaker Connector Panel","item":"https://ichouse.lk/speaker-part/4pin-speaker-input-terminal-plate/4pin-speaker-input-terminal-plate-audio-amplifier-speaker-connector-panel/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"4-Pin Speaker Input Terminal Plate – Audio Amplifier Speaker Connector Panel","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1772080776/spin1_1_yjegjg.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1772080776/spin2_1_nrkvcf.png"],"description":"Durable 4-pin speaker input terminal plate designed for secure connection of speaker wires to audio amplifiers, speaker boxes, and DIY sound systems. Features color-coded terminals for easy polarity identification and strong internal metal contacts for reliable audio signal transfer. Panel-mount design with screw holes allows quick installation on speaker cabinets, subwoofers, and audio projects. Ideal for home theater, PA systems, and custom speaker builds.","sku":"PE-1772080941638","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/speaker-part/4pin-speaker-input-terminal-plate/4pin-speaker-input-terminal-plate-audio-amplifier-speaker-connector-panel/","priceCurrency":"LKR","price":30,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
 <script>
-// Pre-load product data so cart works instantly without waiting for Firebase
 window._currentModalProduct = {
     id: '1772080941638',
     title: "4-Pin Speaker Input Terminal Plate – Audio Amplifier Speaker Connector Panel",
@@ -354,63 +353,10 @@ window._currentModalProduct = {
     mainCategory: "Speaker Part",
     subCategory: "4-Pin Speaker Input Terminal Plate"
 };
-// Also push into products array once script.js loads
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
-        products.push(window._currentModalProduct);
-    }
-    // Load similar products from same category
-    loadSimilarProducts();
-});
 
 function getSelectedQty() {
     var el = document.getElementById('qty-readout');
     return el ? parseInt(el.textContent) || 1 : 1;
-}
-
-function loadSimilarProducts() {
-    var grid = document.getElementById('similar-products-grid');
-    if (!grid) return;
-    var currentId = '1772080941638';
-    var currentCat = "Speaker Part";
-    var currentSubCat = "4-Pin Speaker Input Terminal Plate";
-
-    // Wait for products to load from Firebase/cache
-    var attempts = 0;
-    var interval = setInterval(function() {
-        attempts++;
-        var allProducts = window.allProducts || (typeof products !== 'undefined' ? products : []);
-        var similar = allProducts.filter(function(p) {
-            return String(p.id) !== String(currentId) && 
-                   (p.subCategory === currentSubCat || p.mainCategory === currentCat);
-        }).slice(0, 4);
-
-        if (similar.length > 0 || attempts > 20) {
-            clearInterval(interval);
-            if (similar.length === 0) {
-                document.getElementById('similar-products-section').style.display = 'none';
-                return;
-            }
-            grid.innerHTML = similar.map(function(p) {
-                var slug = p.title.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
-                var mainSlug = (p.mainCategory||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
-                var subSlug = (p.subCategory||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
-                var url = subSlug ? '/' + mainSlug + '/' + subSlug + '/' + slug + '/' : '/' + mainSlug + '/' + slug + '/';
-                var inStock = (parseInt(p.stock) || 0) > 0;
-                return '<div class="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">' +
-                    '<a href="' + url + '">' +
-                    '<div class="aspect-square bg-gray-50 p-3 flex items-center justify-center">' +
-                    '<img src="' + (p.image||'') + '" alt="' + (p.title||'').replace(/"/g,"'") + '" class="w-full h-full object-contain" loading="lazy">' +
-                    '</div></a>' +
-                    '<div class="p-3">' +
-                    '<a href="' + url + '" class="text-sm font-semibold text-gray-800 hover:text-blue-600 line-clamp-2 block mb-1">' + (p.title||'') + '</a>' +
-                    '<div class="text-red-600 font-bold text-sm mb-2">LKR ' + (parseInt(p.price)||0).toLocaleString() + '</div>' +
-                    (inStock ? '<button onclick="if(window.addToCart) addToCart('+p.id+',1)" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 rounded-lg transition-colors">Add to Cart</button>' :
-                    '<span class="text-xs text-red-400 font-medium">Out of Stock</span>') +
-                    '</div></div>';
-            }).join('');
-        }
-    }, 500);
 }
 </script>
 

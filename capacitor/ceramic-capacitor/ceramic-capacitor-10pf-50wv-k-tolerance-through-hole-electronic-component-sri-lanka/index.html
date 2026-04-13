@@ -344,7 +344,6 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Capacitor","item":"https://ichouse.lk/capacitor/"},{"@type":"ListItem","position":3,"name":"Ceramic Capacitor","item":"https://ichouse.lk/capacitor/ceramic-capacitor/"},{"@type":"ListItem","position":4,"name":"Ceramic Capacitor 10pF 50WV (K Tolerance) Through Hole | Electronic Component Sri Lanka","item":"https://ichouse.lk/capacitor/ceramic-capacitor/ceramic-capacitor-10pf-50wv-k-tolerance-through-hole-electronic-component-sri-lanka/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"Ceramic Capacitor 10pF 50WV (K Tolerance) Through Hole | Electronic Component Sri Lanka","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/q_auto/f_auto/v1775117868/10_pf_1_1_d7f1sp.png","https://res.cloudinary.com/dqwdov5ab/image/upload/q_auto/f_auto/v1775117868/10pf_2_1_mdofe0.png"],"description":"High-quality 10pF ceramic capacitor (50WV) with K tolerance (±10%), ideal for electronic circuits, RF applications, and DIY projects. This through-hole (THT) ceramic condenser ensures stable performance and reliability. Perfect for repair, hobby, and professional electronics use in Sri Lanka.","sku":"PE-1775118178991","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/capacitor/ceramic-capacitor/ceramic-capacitor-10pf-50wv-k-tolerance-through-hole-electronic-component-sri-lanka/","priceCurrency":"LKR","price":2,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
 <script>
-// Pre-load product data so cart works instantly without waiting for Firebase
 window._currentModalProduct = {
     id: '1775118178991',
     title: "Ceramic Capacitor 10pF 50WV (K Tolerance) Through Hole | Electronic Component Sri Lanka",
@@ -354,63 +353,10 @@ window._currentModalProduct = {
     mainCategory: "Capacitor",
     subCategory: "Ceramic Capacitor"
 };
-// Also push into products array once script.js loads
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
-        products.push(window._currentModalProduct);
-    }
-    // Load similar products from same category
-    loadSimilarProducts();
-});
 
 function getSelectedQty() {
     var el = document.getElementById('qty-readout');
     return el ? parseInt(el.textContent) || 1 : 1;
-}
-
-function loadSimilarProducts() {
-    var grid = document.getElementById('similar-products-grid');
-    if (!grid) return;
-    var currentId = '1775118178991';
-    var currentCat = "Capacitor";
-    var currentSubCat = "Ceramic Capacitor";
-
-    // Wait for products to load from Firebase/cache
-    var attempts = 0;
-    var interval = setInterval(function() {
-        attempts++;
-        var allProducts = window.allProducts || (typeof products !== 'undefined' ? products : []);
-        var similar = allProducts.filter(function(p) {
-            return String(p.id) !== String(currentId) && 
-                   (p.subCategory === currentSubCat || p.mainCategory === currentCat);
-        }).slice(0, 4);
-
-        if (similar.length > 0 || attempts > 20) {
-            clearInterval(interval);
-            if (similar.length === 0) {
-                document.getElementById('similar-products-section').style.display = 'none';
-                return;
-            }
-            grid.innerHTML = similar.map(function(p) {
-                var slug = p.title.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
-                var mainSlug = (p.mainCategory||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
-                var subSlug = (p.subCategory||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
-                var url = subSlug ? '/' + mainSlug + '/' + subSlug + '/' + slug + '/' : '/' + mainSlug + '/' + slug + '/';
-                var inStock = (parseInt(p.stock) || 0) > 0;
-                return '<div class="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">' +
-                    '<a href="' + url + '">' +
-                    '<div class="aspect-square bg-gray-50 p-3 flex items-center justify-center">' +
-                    '<img src="' + (p.image||'') + '" alt="' + (p.title||'').replace(/"/g,"'") + '" class="w-full h-full object-contain" loading="lazy">' +
-                    '</div></a>' +
-                    '<div class="p-3">' +
-                    '<a href="' + url + '" class="text-sm font-semibold text-gray-800 hover:text-blue-600 line-clamp-2 block mb-1">' + (p.title||'') + '</a>' +
-                    '<div class="text-red-600 font-bold text-sm mb-2">LKR ' + (parseInt(p.price)||0).toLocaleString() + '</div>' +
-                    (inStock ? '<button onclick="if(window.addToCart) addToCart(\''+p.id+'\',1)" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 rounded-lg transition-colors">Add to Cart</button>' :
-                    '<span class="text-xs text-red-400 font-medium">Out of Stock</span>') +
-                    '</div></div>';
-            }).join('');
-        }
-    }, 500);
 }
 </script>
 

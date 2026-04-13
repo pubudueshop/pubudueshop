@@ -730,110 +730,212 @@ function downloadInvoicePDF() {
     const data = window.currentCheckoutData;
 
     if (!data) { alert("No invoice data found."); return; }
-    if (typeof html2pdf === 'undefined') {
-        alert("The PDF library is still loading. Please wait or refresh the page.");
-        return;
-    }
 
     const originalText = btn.innerHTML;
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
     btn.disabled = true;
 
-    const date = new Date().toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
-    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    try {
+        // A4: 210mm x 297mm
+        const doc = new window.jspdf.jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+        const W = 210, H = 297;
+        const ml = 15, mr = 15, mt = 15; // margins
+        const cw = W - ml - mr; // content width = 180mm
+        const date = new Date().toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+        const subtotal = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
 
-    const rowsHtml = cart.map((item, i) => `
-        <tr style="background:${i % 2 === 0 ? '#ffffff' : '#f8fafc'}">
-            <td style="padding:8px 10px;border-bottom:1px solid #e2e8f0;color:#64748b;font-size:11px;">${i+1}</td>
-            <td style="padding:8px 10px;border-bottom:1px solid #e2e8f0;font-weight:600;font-size:12px;">${item.title}</td>
-            <td style="padding:8px 10px;border-bottom:1px solid #e2e8f0;text-align:center;font-size:12px;">${item.quantity}</td>
-            <td style="padding:8px 10px;border-bottom:1px solid #e2e8f0;text-align:right;font-size:12px;">LKR ${item.price.toLocaleString()}</td>
-            <td style="padding:8px 10px;border-bottom:1px solid #e2e8f0;text-align:right;font-weight:700;font-size:12px;">LKR ${(item.price * item.quantity).toLocaleString()}</td>
-        </tr>`).join('');
+        let y = mt;
 
-    const html = `
-    <div style="width:170mm;font-family:Arial,sans-serif;color:#1e293b;padding:0;margin:0 auto;">
+        // ── HEADER ──────────────────────────────────────────────
+        // Company name
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(18);
+        doc.setTextColor(37, 99, 235);
+        doc.text('Pubudu Electronics', ml, y);
 
-        <!-- Header -->
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #2563eb;padding-bottom:16px;margin-bottom:16px;">
-            <div>
-                <div style="font-size:22px;font-weight:900;color:#2563eb;letter-spacing:-0.5px;">Pubudu Electronics</div>
-                <div style="font-size:11px;color:#64748b;margin-top:3px;">Premium Electronic Components</div>
-                <div style="font-size:11px;color:#64748b;">Weliweriya, Gampaha, Sri Lanka</div>
-                <div style="font-size:11px;color:#64748b;">Tel: +94 78 915 5130 &nbsp;|&nbsp; ichouse.lk</div>
-            </div>
-            <div style="text-align:right;">
-                <div style="font-size:26px;font-weight:900;color:#2563eb;letter-spacing:4px;">INVOICE</div>
-                <div style="font-size:12px;font-weight:700;margin-top:4px;">Invoice ID: #${invId}</div>
-                <div style="font-size:11px;color:#64748b;margin-top:2px;">Date: ${date}</div>
-            </div>
-        </div>
+        // INVOICE title (right)
+        doc.setFontSize(22);
+        doc.setFont('helvetica', 'bold');
+        doc.text('INVOICE', W - mr, y, { align: 'right' });
 
-        <!-- Bill To -->
-        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px 16px;margin-bottom:16px;">
-            <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#94a3b8;margin-bottom:8px;">Bill To</div>
-            <div style="font-size:15px;font-weight:800;margin-bottom:4px;">${data.name}</div>
-            <div style="font-size:12px;color:#475569;">${data.address}</div>
-            <div style="font-size:12px;color:#475569;">${data.city}, ${data.district}</div>
-            <div style="font-size:12px;color:#475569;margin-top:4px;">Phone: ${data.phone1}${data.phone2 ? ' / ' + data.phone2 : ''}</div>
-        </div>
+        y += 6;
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(9);
+        doc.setTextColor(100, 116, 139);
+        doc.text('Premium Electronic Components', ml, y);
+        doc.setFontSize(10);
+        doc.setTextColor(30, 41, 59);
+        doc.setFont('helvetica', 'bold');
+        doc.text(`Invoice ID: #${invId}`, W - mr, y, { align: 'right' });
 
-        <!-- Items Table -->
-        <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
-            <thead>
-                <tr style="background:#2563eb;color:#ffffff;">
-                    <th style="padding:10px;text-align:left;font-size:11px;width:30px;">#</th>
-                    <th style="padding:10px;text-align:left;font-size:11px;">Item Description</th>
-                    <th style="padding:10px;text-align:center;font-size:11px;width:50px;">Qty</th>
-                    <th style="padding:10px;text-align:right;font-size:11px;width:90px;">Unit Price</th>
-                    <th style="padding:10px;text-align:right;font-size:11px;width:90px;">Total</th>
-                </tr>
-            </thead>
-            <tbody>${rowsHtml}</tbody>
-        </table>
+        y += 5;
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(9);
+        doc.setTextColor(100, 116, 139);
+        doc.text('Weliweriya, Gampaha, Sri Lanka', ml, y);
+        doc.setFontSize(9);
+        doc.setTextColor(100, 116, 139);
+        doc.text(`Date: ${date}`, W - mr, y, { align: 'right' });
 
-        <!-- Summary -->
-        <div style="display:flex;justify-content:flex-end;margin-bottom:24px;">
-            <div style="width:220px;">
-                <div style="display:flex;justify-content:space-between;padding:10px 14px;background:#2563eb;color:#fff;border-radius:6px;">
-                    <span style="font-size:13px;font-weight:800;">TOTAL</span>
-                    <span style="font-size:15px;font-weight:900;">LKR ${subtotal.toLocaleString()}</span>
-                </div>
-            </div>
-        </div>
+        y += 4;
+        doc.text('Tel: +94 78 915 5130  |  ichouse.lk', ml, y);
 
-        <!-- Footer -->
-        <div style="border-top:1px solid #e2e8f0;padding-top:14px;text-align:center;color:#94a3b8;font-size:10px;">
-            <div style="font-weight:700;color:#2563eb;font-size:12px;margin-bottom:4px;">Thank you for choosing Pubudu Electronics!</div>
-            <div>Weliweriya, Gampaha, Sri Lanka &nbsp;|&nbsp; +94 78 915 5130 &nbsp;|&nbsp; ichouse.lk</div>
-            <div style="margin-top:4px;">This is a computer-generated invoice. No signature required.</div>
-        </div>
-    </div>`;
+        y += 5;
+        // Blue divider line
+        doc.setDrawColor(37, 99, 235);
+        doc.setLineWidth(0.8);
+        doc.line(ml, y, W - mr, y);
 
-    const container = document.createElement('div');
-    container.innerHTML = html;
-    document.body.appendChild(container);
+        y += 8;
 
-    const opt = {
-        margin: [12, 15, 12, 15],
-        filename: `Pubudu_Electronics_Invoice_${invId}.pdf`,
-        image: { type: 'jpeg', quality: 1.0 },
-        html2canvas: { scale: 2, useCORS: true, letterRendering: true },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-        pagebreak: { mode: ['avoid-all'] }
-    };
+        // ── BILL TO ──────────────────────────────────────────────
+        doc.setFillColor(248, 250, 252);
+        doc.setDrawColor(226, 232, 240);
+        doc.setLineWidth(0.3);
+        doc.roundedRect(ml, y, cw, 30, 2, 2, 'FD');
 
-    html2pdf().set(opt).from(container).save().then(() => {
-        document.body.removeChild(container);
-        btn.innerHTML = originalText;
-        btn.disabled = false;
-    }).catch(err => {
-        document.body.removeChild(container);
+        y += 6;
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(7.5);
+        doc.setTextColor(148, 163, 184);
+        doc.text('BILL TO', ml + 5, y);
+
+        y += 6;
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(13);
+        doc.setTextColor(15, 23, 42);
+        doc.text(data.name || '', ml + 5, y);
+
+        y += 5;
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(10);
+        doc.setTextColor(71, 85, 105);
+        doc.text(data.address || '', ml + 5, y);
+
+        y += 4.5;
+        doc.text(`${data.city || ''}, ${data.district || ''}`, ml + 5, y);
+
+        y += 4.5;
+        doc.text(`Phone: ${data.phone1 || ''}${data.phone2 ? ' / ' + data.phone2 : ''}`, ml + 5, y);
+
+        y += 10;
+
+        // ── TABLE ────────────────────────────────────────────────
+        const colW = [10, 95, 15, 30, 30]; // #, Description, Qty, Unit Price, Total
+        const colX = [ml, ml+10, ml+105, ml+120, ml+150];
+        const rowH = 8;
+
+        // Table header
+        doc.setFillColor(37, 99, 235);
+        doc.rect(ml, y, cw, 9, 'F');
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9);
+        doc.setTextColor(255, 255, 255);
+        doc.text('#', colX[0] + 2, y + 6);
+        doc.text('Item Description', colX[1], y + 6);
+        doc.text('Qty', colX[2] + 7, y + 6, { align: 'center' });
+        doc.text('Unit Price', colX[3] + 15, y + 6, { align: 'right' });
+        doc.text('Total', colX[4] + 15, y + 6, { align: 'right' });
+
+        y += 9;
+
+        // Table rows
+        cart.forEach((item, i) => {
+            // Auto page break
+            if (y + rowH > H - 40) {
+                doc.addPage();
+                y = mt;
+                // Repeat header on new page
+                doc.setFillColor(37, 99, 235);
+                doc.rect(ml, y, cw, 9, 'F');
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(9);
+                doc.setTextColor(255, 255, 255);
+                doc.text('#', colX[0] + 2, y + 6);
+                doc.text('Item Description', colX[1], y + 6);
+                doc.text('Qty', colX[2] + 7, y + 6, { align: 'center' });
+                doc.text('Unit Price', colX[3] + 15, y + 6, { align: 'right' });
+                doc.text('Total', colX[4] + 15, y + 6, { align: 'right' });
+                y += 9;
+            }
+
+            // Row background
+            doc.setFillColor(i % 2 === 0 ? 255 : 248, i % 2 === 0 ? 255 : 250, i % 2 === 0 ? 255 : 252);
+            doc.rect(ml, y, cw, rowH, 'F');
+
+            // Row border
+            doc.setDrawColor(226, 232, 240);
+            doc.setLineWidth(0.2);
+            doc.line(ml, y + rowH, W - mr, y + rowH);
+
+            // Row text
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(9);
+            doc.setTextColor(100, 116, 139);
+            doc.text(String(i + 1), colX[0] + 2, y + 5.5);
+
+            // Title - truncate if too long
+            doc.setTextColor(15, 23, 42);
+            doc.setFont('helvetica', 'bold');
+            const titleMaxW = 90;
+            const titleLines = doc.splitTextToSize(item.title || '', titleMaxW);
+            doc.text(titleLines[0], colX[1], y + 5.5); // only first line to keep row height fixed
+
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(71, 85, 105);
+            doc.text(String(item.quantity), colX[2] + 7, y + 5.5, { align: 'center' });
+            doc.text(`LKR ${item.price.toLocaleString()}`, colX[3] + 15, y + 5.5, { align: 'right' });
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(15, 23, 42);
+            doc.text(`LKR ${(item.price * item.quantity).toLocaleString()}`, colX[4] + 15, y + 5.5, { align: 'right' });
+
+            y += rowH;
+        });
+
+        y += 6;
+
+        // ── TOTAL ────────────────────────────────────────────────
+        if (y + 14 > H - 35) { doc.addPage(); y = mt; }
+
+        const totalBoxX = W - mr - 65;
+        doc.setFillColor(37, 99, 235);
+        doc.roundedRect(totalBoxX, y, 65, 12, 2, 2, 'F');
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(11);
+        doc.setTextColor(255, 255, 255);
+        doc.text('TOTAL', totalBoxX + 5, y + 8);
+        doc.setFontSize(12);
+        doc.text(`LKR ${subtotal.toLocaleString()}`, totalBoxX + 63, y + 8, { align: 'right' });
+
+        y += 18;
+
+        // ── FOOTER ───────────────────────────────────────────────
+        if (y + 16 > H - 10) { doc.addPage(); y = mt; }
+        doc.setDrawColor(226, 232, 240);
+        doc.setLineWidth(0.3);
+        doc.line(ml, y, W - mr, y);
+        y += 6;
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(10);
+        doc.setTextColor(37, 99, 235);
+        doc.text('Thank you for choosing Pubudu Electronics!', W / 2, y, { align: 'center' });
+        y += 5;
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8.5);
+        doc.setTextColor(148, 163, 184);
+        doc.text('Weliweriya, Gampaha, Sri Lanka  |  +94 78 915 5130  |  ichouse.lk', W / 2, y, { align: 'center' });
+        y += 4;
+        doc.text('This is a computer-generated invoice. No signature required.', W / 2, y, { align: 'center' });
+
+        doc.save(`Pubudu_Electronics_Invoice_${invId}.pdf`);
+
+    } catch(err) {
         console.error("PDF Error:", err);
-        btn.innerHTML = originalText;
-        btn.disabled = false;
         alert("Could not generate PDF. Please try again.");
-    });
+    }
+
+    btn.innerHTML = originalText;
+    btn.disabled = false;
 }
 
 

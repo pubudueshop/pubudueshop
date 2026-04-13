@@ -795,15 +795,7 @@ function downloadInvoicePDF() {
         <!-- Summary -->
         <div style="display:flex;justify-content:flex-end;margin-bottom:24px;">
             <div style="width:220px;">
-                <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e2e8f0;font-size:12px;">
-                    <span style="color:#64748b;">Subtotal</span>
-                    <span style="font-weight:600;">LKR ${subtotal.toLocaleString()}</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e2e8f0;font-size:12px;">
-                    <span style="color:#64748b;">Delivery</span>
-                    <span style="color:#16a34a;font-weight:600;">Calculated at delivery</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;padding:10px 14px;background:#2563eb;color:#fff;border-radius:6px;margin-top:6px;">
+                <div style="display:flex;justify-content:space-between;padding:10px 14px;background:#2563eb;color:#fff;border-radius:6px;">
                     <span style="font-size:13px;font-weight:800;">TOTAL</span>
                     <span style="font-size:15px;font-weight:900;">LKR ${subtotal.toLocaleString()}</span>
                 </div>

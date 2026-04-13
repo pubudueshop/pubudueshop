@@ -725,11 +725,11 @@ function sendOrderViaWhatsApp() {
 }
 
 function downloadInvoicePDF() {
-    const element = document.getElementById('invoice-paper');
     const invId = window.currentInvoiceId || 'inv';
     const btn = document.getElementById('download-pdf');
+    const data = window.currentCheckoutData;
 
-    if (!element) return;
+    if (!data) { alert("No invoice data found."); return; }
     if (typeof html2pdf === 'undefined') {
         alert("The PDF library is still loading. Please wait or refresh the page.");
         return;
@@ -739,45 +739,108 @@ function downloadInvoicePDF() {
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
     btn.disabled = true;
 
-    // Temporarily remove overflow so html2canvas captures the FULL content, not just what's visible
-    const originalOverflow = element.style.overflow;
-    const originalMaxHeight = element.style.maxHeight;
-    const originalHeight = element.style.height;
-    element.style.overflow = 'visible';
-    element.style.maxHeight = 'none';
-    element.style.height = 'auto';
+    const date = new Date().toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+    const rowsHtml = cart.map((item, i) => `
+        <tr style="background:${i % 2 === 0 ? '#ffffff' : '#f8fafc'}">
+            <td style="padding:8px 10px;border-bottom:1px solid #e2e8f0;color:#64748b;font-size:11px;">${i+1}</td>
+            <td style="padding:8px 10px;border-bottom:1px solid #e2e8f0;font-weight:600;font-size:12px;">${item.title}</td>
+            <td style="padding:8px 10px;border-bottom:1px solid #e2e8f0;text-align:center;font-size:12px;">${item.quantity}</td>
+            <td style="padding:8px 10px;border-bottom:1px solid #e2e8f0;text-align:right;font-size:12px;">LKR ${item.price.toLocaleString()}</td>
+            <td style="padding:8px 10px;border-bottom:1px solid #e2e8f0;text-align:right;font-weight:700;font-size:12px;">LKR ${(item.price * item.quantity).toLocaleString()}</td>
+        </tr>`).join('');
+
+    const html = `
+    <div style="width:190mm;font-family:Arial,sans-serif;color:#1e293b;padding:0;margin:0;">
+
+        <!-- Header -->
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #2563eb;padding-bottom:16px;margin-bottom:16px;">
+            <div>
+                <div style="font-size:22px;font-weight:900;color:#2563eb;letter-spacing:-0.5px;">Pubudu Electronics</div>
+                <div style="font-size:11px;color:#64748b;margin-top:3px;">Premium Electronic Components</div>
+                <div style="font-size:11px;color:#64748b;">Weliweriya, Gampaha, Sri Lanka</div>
+                <div style="font-size:11px;color:#64748b;">Tel: +94 78 915 5130 &nbsp;|&nbsp; ichouse.lk</div>
+            </div>
+            <div style="text-align:right;">
+                <div style="font-size:26px;font-weight:900;color:#2563eb;letter-spacing:4px;">INVOICE</div>
+                <div style="font-size:12px;font-weight:700;margin-top:4px;">Invoice ID: #${invId}</div>
+                <div style="font-size:11px;color:#64748b;margin-top:2px;">Date: ${date}</div>
+            </div>
+        </div>
+
+        <!-- Bill To -->
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px 16px;margin-bottom:16px;">
+            <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#94a3b8;margin-bottom:8px;">Bill To</div>
+            <div style="font-size:15px;font-weight:800;margin-bottom:4px;">${data.name}</div>
+            <div style="font-size:12px;color:#475569;">${data.address}</div>
+            <div style="font-size:12px;color:#475569;">${data.city}, ${data.district}</div>
+            <div style="font-size:12px;color:#475569;margin-top:4px;">Phone: ${data.phone1}${data.phone2 ? ' / ' + data.phone2 : ''}</div>
+        </div>
+
+        <!-- Items Table -->
+        <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+            <thead>
+                <tr style="background:#2563eb;color:#ffffff;">
+                    <th style="padding:10px;text-align:left;font-size:11px;width:30px;">#</th>
+                    <th style="padding:10px;text-align:left;font-size:11px;">Item Description</th>
+                    <th style="padding:10px;text-align:center;font-size:11px;width:50px;">Qty</th>
+                    <th style="padding:10px;text-align:right;font-size:11px;width:90px;">Unit Price</th>
+                    <th style="padding:10px;text-align:right;font-size:11px;width:90px;">Total</th>
+                </tr>
+            </thead>
+            <tbody>${rowsHtml}</tbody>
+        </table>
+
+        <!-- Summary -->
+        <div style="display:flex;justify-content:flex-end;margin-bottom:24px;">
+            <div style="width:220px;">
+                <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e2e8f0;font-size:12px;">
+                    <span style="color:#64748b;">Subtotal</span>
+                    <span style="font-weight:600;">LKR ${subtotal.toLocaleString()}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e2e8f0;font-size:12px;">
+                    <span style="color:#64748b;">Delivery</span>
+                    <span style="color:#16a34a;font-weight:600;">Calculated at delivery</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;padding:10px 14px;background:#2563eb;color:#fff;border-radius:6px;margin-top:6px;">
+                    <span style="font-size:13px;font-weight:800;">TOTAL</span>
+                    <span style="font-size:15px;font-weight:900;">LKR ${subtotal.toLocaleString()}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div style="border-top:1px solid #e2e8f0;padding-top:14px;text-align:center;color:#94a3b8;font-size:10px;">
+            <div style="font-weight:700;color:#2563eb;font-size:12px;margin-bottom:4px;">Thank you for choosing Pubudu Electronics!</div>
+            <div>Weliweriya, Gampaha, Sri Lanka &nbsp;|&nbsp; +94 78 915 5130 &nbsp;|&nbsp; ichouse.lk</div>
+            <div style="margin-top:4px;">This is a computer-generated invoice. No signature required.</div>
+        </div>
+    </div>`;
+
+    const container = document.createElement('div');
+    container.innerHTML = html;
+    document.body.appendChild(container);
 
     const opt = {
-        margin: [10, 10, 10, 10], // mm
+        margin: [10, 10, 10, 10],
         filename: `Pubudu_Electronics_Invoice_${invId}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: {
-            scale: 2,
-            useCORS: true,
-            letterRendering: true,
-            scrollY: 0,
-            windowWidth: element.scrollWidth,
-            windowHeight: element.scrollHeight
-        },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        image: { type: 'jpeg', quality: 1.0 },
+        html2canvas: { scale: 2, useCORS: true, letterRendering: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: ['avoid-all'] }
     };
 
-    html2pdf().set(opt).from(element).save().then(() => {
-        // Restore original styles
-        element.style.overflow = originalOverflow;
-        element.style.maxHeight = originalMaxHeight;
-        element.style.height = originalHeight;
+    html2pdf().set(opt).from(container).save().then(() => {
+        document.body.removeChild(container);
         btn.innerHTML = originalText;
         btn.disabled = false;
     }).catch(err => {
-        // Restore original styles even on error
-        element.style.overflow = originalOverflow;
-        element.style.maxHeight = originalMaxHeight;
-        element.style.height = originalHeight;
+        document.body.removeChild(container);
         console.error("PDF Error:", err);
         btn.innerHTML = originalText;
         btn.disabled = false;
-        alert("Could not generate PDF. Please use the Print option instead.");
+        alert("Could not generate PDF. Please try again.");
     });
 }
 

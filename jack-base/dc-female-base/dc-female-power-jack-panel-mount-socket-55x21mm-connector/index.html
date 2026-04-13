@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -291,20 +291,20 @@
                 <table class="w-full text-left">
                     <tbody>
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
-            </tr>
-            <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
-            </tr>
-            <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">N/A</td>
             </tr>
             <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Dc Female Base</td>
+            </tr>
+            <tr class="bg-white">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
+            </tr>
+            <tr class="bg-gray-50">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
             </tr></tbody>
                 </table>
             </div>
@@ -348,6 +348,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Jack Base","item":"https://ichouse.lk/jack-base/"},{"@type":"ListItem","position":3,"name":"Dc Female Base","item":"https://ichouse.lk/jack-base/dc-female-base/"},{"@type":"ListItem","position":4,"name":"DC Female Power Jack Panel Mount Socket 5.5x2.1mm Connector","item":"https://ichouse.lk/jack-base/dc-female-base/dc-female-power-jack-panel-mount-socket-55x21mm-connector/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"DC Female Power Jack Panel Mount Socket 5.5x2.1mm Connector","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1771653658/dc_base_3_1_jxwj4x.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1771653786/dc_base_4_1_ia72e1.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1771653615/dc_base1_1_xn8024.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1771653613/dc_base_2_1_oyuucp.png"],"description":"DC female panel mount power jack designed for secure DC power input in electronic projects, DIY power supplies, CCTV systems, and devices. Durable construction with easy panel installation ensures reliable and stable power connection.","sku":"PE-1771653839306","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/jack-base/dc-female-base/dc-female-power-jack-panel-mount-socket-55x21mm-connector/","priceCurrency":"LKR","price":20,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
 <script>
+// Pre-load product data so cart works instantly without waiting for Firebase
 window._currentModalProduct = {
     id: '1771653839306',
     title: "DC Female Power Jack Panel Mount Socket 5.5x2.1mm Connector",
@@ -357,10 +358,63 @@ window._currentModalProduct = {
     mainCategory: "Jack Base",
     subCategory: "Dc Female Base"
 };
+// Also push into products array once script.js loads
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+    // Load similar products from same category
+    loadSimilarProducts();
+});
 
 function getSelectedQty() {
     var el = document.getElementById('qty-readout');
     return el ? parseInt(el.textContent) || 1 : 1;
+}
+
+function loadSimilarProducts() {
+    var grid = document.getElementById('similar-products-grid');
+    if (!grid) return;
+    var currentId = '1771653839306';
+    var currentCat = "Jack Base";
+    var currentSubCat = "Dc Female Base";
+
+    // Wait for products to load from Firebase/cache
+    var attempts = 0;
+    var interval = setInterval(function() {
+        attempts++;
+        var allProducts = window.allProducts || (typeof products !== 'undefined' ? products : []);
+        var similar = allProducts.filter(function(p) {
+            return String(p.id) !== String(currentId) && 
+                   (p.subCategory === currentSubCat || p.mainCategory === currentCat);
+        }).slice(0, 4);
+
+        if (similar.length > 0 || attempts > 20) {
+            clearInterval(interval);
+            if (similar.length === 0) {
+                document.getElementById('similar-products-section').style.display = 'none';
+                return;
+            }
+            grid.innerHTML = similar.map(function(p) {
+                var slug = p.title.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
+                var mainSlug = (p.mainCategory||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
+                var subSlug = (p.subCategory||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
+                var url = subSlug ? '/' + mainSlug + '/' + subSlug + '/' + slug + '/' : '/' + mainSlug + '/' + slug + '/';
+                var inStock = (parseInt(p.stock) || 0) > 0;
+                return '<div class="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">' +
+                    '<a href="' + url + '">' +
+                    '<div class="aspect-square bg-gray-50 p-3 flex items-center justify-center">' +
+                    '<img src="' + (p.image||'') + '" alt="' + (p.title||'').replace(/"/g,"'") + '" class="w-full h-full object-contain" loading="lazy">' +
+                    '</div></a>' +
+                    '<div class="p-3">' +
+                    '<a href="' + url + '" class="text-sm font-semibold text-gray-800 hover:text-blue-600 line-clamp-2 block mb-1">' + (p.title||'') + '</a>' +
+                    '<div class="text-red-600 font-bold text-sm mb-2">LKR ' + (parseInt(p.price)||0).toLocaleString() + '</div>' +
+                    (inStock ? '<button onclick="if(window.addToCart) addToCart('' + p.id + '', 1)" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 rounded-lg transition-colors">Add to Cart</button>' :
+                    '<span class="text-xs text-red-400 font-medium">Out of Stock</span>') +
+                    '</div></div>';
+            }).join('');
+        }
+    }, 500);
 }
 </script>
 
@@ -465,7 +519,7 @@ function getSelectedQty() {
             <button id="modal-close" class="modal-close-btn">
                 <i class="fas fa-times"></i>
             </button>
-            <div id="product-details-view" class="product-details-content bg-gray-50">
+            <div id="product-details-view" class="product-details-content bg-gray-50 overflow-y-auto max-h-[90vh]">
                 <!-- Breadcrumbs (Dynamic) -->
                 <div class="px-6 py-3 border-b border-gray-100 md:block hidden">
                     <nav class="flex" aria-label="Breadcrumb">
@@ -577,6 +631,17 @@ function getSelectedQty() {
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Related/Similar Products Section (ADDED CONTAINER) -->
+                        <div id="related-products-section" class="mt-8 border-t border-gray-100 pt-8 hidden">
+                            <h3 class="text-sm font-black uppercase tracking-widest text-gray-400 mb-4 flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 bg-purple-500 rounded-full"></span> Similar Components
+                            </h3>
+                            <div id="related-products-list" class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                                <!-- Related items injected here -->
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -833,16 +898,8 @@ function getSelectedQty() {
             </div>
         </div>
     </footer>      
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-
-        </div>
-    </div>
-
-    <script defer src="/script.js"></script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

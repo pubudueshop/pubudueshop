@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -289,20 +289,20 @@
                 <table class="w-full text-left">
                     <tbody>
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Printer cable</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">N/A</td>
             </tr>
             <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Printer cable</td>
             </tr>
             <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
             </tr>
             <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">N/A</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
             </tr></tbody>
                 </table>
             </div>
@@ -346,6 +346,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Cable","item":"https://ichouse.lk/cable/"},{"@type":"ListItem","position":3,"name":"Printer cable","item":"https://ichouse.lk/cable/printer-cable/"},{"@type":"ListItem","position":4,"name":"3M Printer Cable – High-Speed Data Transfer Cord","item":"https://ichouse.lk/cable/printer-cable/3m-printer-cable-highspeed-data-transfer-cord/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"3M Printer Cable – High-Speed Data Transfer Cord","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1773742095/c1_1_amqbti.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1773742095/c3_1_wtqhvr.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1773742095/c2_1_cfgl1n.png"],"description":"Reliable and durable 3-meter printer cable designed for fast and stable data transfer between your printer and computer. Features sturdy connectors and flexible insulation for long-lasting performance, making it ideal for home or office use.","sku":"PE-1773742263239","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/cable/printer-cable/3m-printer-cable-highspeed-data-transfer-cord/","priceCurrency":"LKR","price":450,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
 <script>
+// Pre-load product data so cart works instantly without waiting for Firebase
 window._currentModalProduct = {
     id: '1773742263239',
     title: "3M Printer Cable – High-Speed Data Transfer Cord",
@@ -355,10 +356,63 @@ window._currentModalProduct = {
     mainCategory: "Cable",
     subCategory: "Printer cable"
 };
+// Also push into products array once script.js loads
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+    // Load similar products from same category
+    loadSimilarProducts();
+});
 
 function getSelectedQty() {
     var el = document.getElementById('qty-readout');
     return el ? parseInt(el.textContent) || 1 : 1;
+}
+
+function loadSimilarProducts() {
+    var grid = document.getElementById('similar-products-grid');
+    if (!grid) return;
+    var currentId = '1773742263239';
+    var currentCat = "Cable";
+    var currentSubCat = "Printer cable";
+
+    // Wait for products to load from Firebase/cache
+    var attempts = 0;
+    var interval = setInterval(function() {
+        attempts++;
+        var allProducts = window.allProducts || (typeof products !== 'undefined' ? products : []);
+        var similar = allProducts.filter(function(p) {
+            return String(p.id) !== String(currentId) && 
+                   (p.subCategory === currentSubCat || p.mainCategory === currentCat);
+        }).slice(0, 4);
+
+        if (similar.length > 0 || attempts > 20) {
+            clearInterval(interval);
+            if (similar.length === 0) {
+                document.getElementById('similar-products-section').style.display = 'none';
+                return;
+            }
+            grid.innerHTML = similar.map(function(p) {
+                var slug = p.title.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
+                var mainSlug = (p.mainCategory||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
+                var subSlug = (p.subCategory||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
+                var url = subSlug ? '/' + mainSlug + '/' + subSlug + '/' + slug + '/' : '/' + mainSlug + '/' + slug + '/';
+                var inStock = (parseInt(p.stock) || 0) > 0;
+                return '<div class="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">' +
+                    '<a href="' + url + '">' +
+                    '<div class="aspect-square bg-gray-50 p-3 flex items-center justify-center">' +
+                    '<img src="' + (p.image||'') + '" alt="' + (p.title||'').replace(/"/g,"'") + '" class="w-full h-full object-contain" loading="lazy">' +
+                    '</div></a>' +
+                    '<div class="p-3">' +
+                    '<a href="' + url + '" class="text-sm font-semibold text-gray-800 hover:text-blue-600 line-clamp-2 block mb-1">' + (p.title||'') + '</a>' +
+                    '<div class="text-red-600 font-bold text-sm mb-2">LKR ' + (parseInt(p.price)||0).toLocaleString() + '</div>' +
+                    (inStock ? '<button onclick="if(window.addToCart) addToCart('' + p.id + '', 1)" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 rounded-lg transition-colors">Add to Cart</button>' :
+                    '<span class="text-xs text-red-400 font-medium">Out of Stock</span>') +
+                    '</div></div>';
+            }).join('');
+        }
+    }, 500);
 }
 </script>
 
@@ -463,7 +517,7 @@ function getSelectedQty() {
             <button id="modal-close" class="modal-close-btn">
                 <i class="fas fa-times"></i>
             </button>
-            <div id="product-details-view" class="product-details-content bg-gray-50">
+            <div id="product-details-view" class="product-details-content bg-gray-50 overflow-y-auto max-h-[90vh]">
                 <!-- Breadcrumbs (Dynamic) -->
                 <div class="px-6 py-3 border-b border-gray-100 md:block hidden">
                     <nav class="flex" aria-label="Breadcrumb">
@@ -575,6 +629,17 @@ function getSelectedQty() {
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Related/Similar Products Section (ADDED CONTAINER) -->
+                        <div id="related-products-section" class="mt-8 border-t border-gray-100 pt-8 hidden">
+                            <h3 class="text-sm font-black uppercase tracking-widest text-gray-400 mb-4 flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 bg-purple-500 rounded-full"></span> Similar Components
+                            </h3>
+                            <div id="related-products-list" class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                                <!-- Related items injected here -->
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -831,16 +896,8 @@ function getSelectedQty() {
             </div>
         </div>
     </footer>      
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-
-        </div>
-    </div>
-
-    <script defer src="/script.js"></script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

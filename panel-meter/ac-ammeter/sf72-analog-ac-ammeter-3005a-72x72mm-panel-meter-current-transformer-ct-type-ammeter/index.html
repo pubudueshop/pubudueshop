@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -293,12 +293,12 @@
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">SF-72</td>
             </tr>
             <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
-            </tr>
-            <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
+            </tr>
+            <tr class="bg-white">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
             </tr>
             <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
@@ -368,6 +368,7 @@ Ensure precise current measurement and reliable performance with the SF-72 300/5
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Panel Meter","item":"https://ichouse.lk/panel-meter/"},{"@type":"ListItem","position":3,"name":"AC Ammeter","item":"https://ichouse.lk/panel-meter/ac-ammeter/"},{"@type":"ListItem","position":4,"name":"SF-72 Analog AC Ammeter 300/5A | 72x72mm Panel Meter | Current Transformer (CT) Type Ammeter","item":"https://ichouse.lk/panel-meter/ac-ammeter/sf72-analog-ac-ammeter-3005a-72x72mm-panel-meter-current-transformer-ct-type-ammeter/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"SF-72 Analog AC Ammeter 300/5A | 72x72mm Panel Meter | Current Transformer (CT) Type Ammeter","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/q_auto/f_auto/v1775108056/a_m_1_1_cjktg6.png","https://res.cloudinary.com/dqwdov5ab/image/upload/q_auto/f_auto/v1775108056/am3_1_u7g2mw.png","https://res.cloudinary.com/dqwdov5ab/image/upload/q_auto/f_auto/v1775108056/am2_1_o62ir3.png"],"description":"The SF-72 Analog AC Ammeter (300/5A) is a high-quality panel-mounted current measuring device designed for accurate monitoring of AC current in electrical systems. Built for use with a current transformer (CT), this 72x72mm square meter ensures safe and reliable operation in industrial and commercial applications.\n\nThis ammeter features a clear analog display with a 0–600A scale, making it easy to read current levels at a glance. It is ideal for switchboards, control panels, generators, and power distribution systems.\n\nKey Features:\n\nModel: SF-72\nType: AC Ammeter (CT Operated)\nRatio: 300/5A\nSize: 72mm x 72mm panel mount\nDisplay: Analog pointer type\nEasy installation with screw terminals\nDurable and long-lasting design\nSuitable for industrial and electrical panel use\n\nApplications:\n\nElectrical control panels\nGenerator monitoring systems\nIndustrial machinery\nPower distribution boards\n\nEnsure precise current measurement and reliable performance with the SF-72 300/5A analog ammeter — perfect for professional electrical installations.","sku":"SF-72","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/panel-meter/ac-ammeter/sf72-analog-ac-ammeter-3005a-72x72mm-panel-meter-current-transformer-ct-type-ammeter/","priceCurrency":"LKR","price":1100,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
 <script>
+// Pre-load product data so cart works instantly without waiting for Firebase
 window._currentModalProduct = {
     id: '1775108279227',
     title: "SF-72 Analog AC Ammeter 300/5A | 72x72mm Panel Meter | Current Transformer (CT) Type Ammeter",
@@ -377,10 +378,63 @@ window._currentModalProduct = {
     mainCategory: "Panel Meter",
     subCategory: "AC Ammeter"
 };
+// Also push into products array once script.js loads
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof products !== 'undefined' && !products.find(function(p){ return p.id == window._currentModalProduct.id; })) {
+        products.push(window._currentModalProduct);
+    }
+    // Load similar products from same category
+    loadSimilarProducts();
+});
 
 function getSelectedQty() {
     var el = document.getElementById('qty-readout');
     return el ? parseInt(el.textContent) || 1 : 1;
+}
+
+function loadSimilarProducts() {
+    var grid = document.getElementById('similar-products-grid');
+    if (!grid) return;
+    var currentId = '1775108279227';
+    var currentCat = "Panel Meter";
+    var currentSubCat = "AC Ammeter";
+
+    // Wait for products to load from Firebase/cache
+    var attempts = 0;
+    var interval = setInterval(function() {
+        attempts++;
+        var allProducts = window.allProducts || (typeof products !== 'undefined' ? products : []);
+        var similar = allProducts.filter(function(p) {
+            return String(p.id) !== String(currentId) && 
+                   (p.subCategory === currentSubCat || p.mainCategory === currentCat);
+        }).slice(0, 4);
+
+        if (similar.length > 0 || attempts > 20) {
+            clearInterval(interval);
+            if (similar.length === 0) {
+                document.getElementById('similar-products-section').style.display = 'none';
+                return;
+            }
+            grid.innerHTML = similar.map(function(p) {
+                var slug = p.title.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
+                var mainSlug = (p.mainCategory||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
+                var subSlug = (p.subCategory||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
+                var url = subSlug ? '/' + mainSlug + '/' + subSlug + '/' + slug + '/' : '/' + mainSlug + '/' + slug + '/';
+                var inStock = (parseInt(p.stock) || 0) > 0;
+                return '<div class="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">' +
+                    '<a href="' + url + '">' +
+                    '<div class="aspect-square bg-gray-50 p-3 flex items-center justify-center">' +
+                    '<img src="' + (p.image||'') + '" alt="' + (p.title||'').replace(/"/g,"'") + '" class="w-full h-full object-contain" loading="lazy">' +
+                    '</div></a>' +
+                    '<div class="p-3">' +
+                    '<a href="' + url + '" class="text-sm font-semibold text-gray-800 hover:text-blue-600 line-clamp-2 block mb-1">' + (p.title||'') + '</a>' +
+                    '<div class="text-red-600 font-bold text-sm mb-2">LKR ' + (parseInt(p.price)||0).toLocaleString() + '</div>' +
+                    (inStock ? '<button onclick="if(window.addToCart) addToCart('' + p.id + '', 1)" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 rounded-lg transition-colors">Add to Cart</button>' :
+                    '<span class="text-xs text-red-400 font-medium">Out of Stock</span>') +
+                    '</div></div>';
+            }).join('');
+        }
+    }, 500);
 }
 </script>
 
@@ -485,7 +539,7 @@ function getSelectedQty() {
             <button id="modal-close" class="modal-close-btn">
                 <i class="fas fa-times"></i>
             </button>
-            <div id="product-details-view" class="product-details-content bg-gray-50">
+            <div id="product-details-view" class="product-details-content bg-gray-50 overflow-y-auto max-h-[90vh]">
                 <!-- Breadcrumbs (Dynamic) -->
                 <div class="px-6 py-3 border-b border-gray-100 md:block hidden">
                     <nav class="flex" aria-label="Breadcrumb">
@@ -597,6 +651,17 @@ function getSelectedQty() {
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Related/Similar Products Section (ADDED CONTAINER) -->
+                        <div id="related-products-section" class="mt-8 border-t border-gray-100 pt-8 hidden">
+                            <h3 class="text-sm font-black uppercase tracking-widest text-gray-400 mb-4 flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 bg-purple-500 rounded-full"></span> Similar Components
+                            </h3>
+                            <div id="related-products-list" class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                                <!-- Related items injected here -->
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -853,16 +918,8 @@ function getSelectedQty() {
             </div>
         </div>
     </footer>      
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-
-        </div>
-    </div>
-
-    <script defer src="/script.js"></script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

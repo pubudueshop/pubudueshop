@@ -2125,6 +2125,40 @@ document.addEventListener('DOMContentLoaded', async () => {
             initFilters(true);
         }
 
+        // ── Similar Products (product pages only) ──────────────
+        const _simGrid = document.getElementById('similar-products-grid');
+        if (_simGrid && window._currentModalProduct) {
+            const _cur = window._currentModalProduct;
+            const _similar = products.filter(p =>
+                String(p.id) !== String(_cur.id) &&
+                (p.subCategory === _cur.subCategory || p.mainCategory === _cur.mainCategory)
+            ).slice(0, 4);
+            if (_similar.length > 0) {
+                _simGrid.innerHTML = _similar.map(p => {
+                    const s = (p.title||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
+                    const m = (p.mainCategory||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
+                    const c = (p.subCategory||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
+                    const url = c ? `/${m}/${c}/${s}/` : `/${m}/${s}/`;
+                    const inStock = (parseInt(p.stock)||0) > 0;
+                    return `<div style="background:#fff;border-radius:12px;border:1px solid #e2e8f0;overflow:hidden;">
+                        <a href="${url}"><div style="aspect-ratio:1;background:#f8fafc;padding:12px;display:flex;align-items:center;justify-content:center;">
+                        <img src="${p.image||''}" alt="${(p.title||'').replace(/"/g,"'")}" style="width:100%;height:100%;object-fit:contain;" loading="lazy">
+                        </div></a>
+                        <div style="padding:10px;">
+                        <a href="${url}" style="font-size:13px;font-weight:600;color:#1e293b;text-decoration:none;display:block;margin-bottom:6px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">${p.title||''}</a>
+                        <div style="color:#dc2626;font-weight:700;font-size:13px;margin-bottom:8px;">LKR ${(parseInt(p.price)||0).toLocaleString()}</div>
+                        ${inStock
+                            ? `<button onclick="if(window.addToCart)addToCart('${p.id}',1)" style="width:100%;background:#2563eb;color:#fff;border:none;border-radius:8px;padding:7px;font-size:12px;font-weight:700;cursor:pointer;">Add to Cart</button>`
+                            : `<span style="font-size:12px;color:#ef4444;font-weight:500;">Out of Stock</span>`}
+                        </div></div>`;
+                }).join('');
+            } else {
+                const sec = document.getElementById('similar-products-section');
+                if (sec) sec.style.display = 'none';
+            }
+        }
+        // ── End Similar Products ────────────────────────────────
+
 
         // Sync hero search with URL on load
         const urlParams = new URLSearchParams(window.location.search);

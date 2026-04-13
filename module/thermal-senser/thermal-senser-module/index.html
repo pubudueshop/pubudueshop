@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -403,7 +403,7 @@ function loadSimilarProducts() {
                     '<div class="p-3">' +
                     '<a href="' + url + '" class="text-sm font-semibold text-gray-800 hover:text-blue-600 line-clamp-2 block mb-1">' + (p.title||'') + '</a>' +
                     '<div class="text-red-600 font-bold text-sm mb-2">LKR ' + (parseInt(p.price)||0).toLocaleString() + '</div>' +
-                    (inStock ? '<button onclick="if(window.addToCart) addToCart('' + p.id + '', 1)" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 rounded-lg transition-colors">Add to Cart</button>' :
+                    (inStock ? '<button onclick="if(window.addToCart) addToCart('+p.id+',1)" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 rounded-lg transition-colors">Add to Cart</button>' :
                     '<span class="text-xs text-red-400 font-medium">Out of Stock</span>') +
                     '</div></div>';
             }).join('');

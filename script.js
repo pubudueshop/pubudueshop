@@ -752,7 +752,7 @@ function downloadInvoicePDF() {
         </tr>`).join('');
 
     const html = `
-    <div style="width:190mm;font-family:Arial,sans-serif;color:#1e293b;padding:0;margin:0;">
+    <div style="width:170mm;font-family:Arial,sans-serif;color:#1e293b;padding:0;margin:0 auto;">
 
         <!-- Header -->
         <div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #2563eb;padding-bottom:16px;margin-bottom:16px;">
@@ -815,7 +815,7 @@ function downloadInvoicePDF() {
     document.body.appendChild(container);
 
     const opt = {
-        margin: [10, 10, 10, 10],
+        margin: [12, 15, 12, 15],
         filename: `Pubudu_Electronics_Invoice_${invId}.pdf`,
         image: { type: 'jpeg', quality: 1.0 },
         html2canvas: { scale: 2, useCORS: true, letterRendering: true },

@@ -1740,6 +1740,9 @@ function openProductDetails(id) {
 
     // Update URL
     updateURL(product.mainCategory, product.subCategory, product.id);
+    
+    // 🔥 NEW: Trigger rendering the similar products feature inside the modal 
+    renderRelatedProducts(product);
 
     // Show Modal
     productModalRoot.classList.remove('hidden');
@@ -1788,42 +1791,43 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Function to render related products for internal linking
+// Function to render related products dynamically inside the Modal
 function renderRelatedProducts(currentProduct) {
-    const relatedContainer = document.getElementById('related-products-list');
-    if (!relatedContainer) {
-        // Create container if it doesn't exist (optional, or assuming it's in HTML)
-        const specsContainer = document.querySelector('.detail-specs-container');
-        if (specsContainer) {
-            const heading = document.createElement('h3');
-            heading.textContent = "Related Components";
-            heading.style.marginTop = "2rem";
-            const list = document.createElement('div');
-            list.id = "related-products-list";
-            list.className = "related-products-grid";
-            specsContainer.appendChild(heading);
-            specsContainer.appendChild(list);
-        }
-    }
+    const section = document.getElementById('related-products-section');
+    const list = document.getElementById('related-products-list');
 
+    if (!section || !list) return;
+
+    // Find up to 4 products in the same category, excluding the current one
     const related = products
-        .filter(p => p.id !== currentProduct.id && p.mainCategory === currentProduct.mainCategory)
+        .filter(p => p.id !== currentProduct.id && (p.mainCategory === currentProduct.mainCategory || p.subCategory === currentProduct.subCategory))
+        .sort(() => 0.5 - Math.random()) // Randomize for variety
         .slice(0, 4);
 
-    const container = document.getElementById('related-products-list');
-    if (container) {
-        container.innerHTML = related.map(p => {
-            const relUrl = `${SITE_URL}${createSEOSlug(p.mainCategory)}/${p.subCategory ? createSEOSlug(p.subCategory) + '/' : ''}${createSEOSlug(p.title)}/`;
-            return `
-            <a href="${relUrl}" class="related-item">
-                <img src="${p.image}" alt="${p.title}" loading="lazy">
-                <div class="related-info">
-                    <h4>${p.title}</h4>
-                    <span>LKR ${p.price.toLocaleString()}</span>
-                </div>
-            </a>
-        `}).join('');
+    // If no related products, hide the section
+    if (related.length === 0) {
+        section.classList.add('hidden');
+        return;
     }
+
+    section.classList.remove('hidden');
+
+    list.innerHTML = related.map(p => {
+        const productUrl = `${SITE_URL}${createSEOSlug(p.mainCategory)}/${p.subCategory ? createSEOSlug(p.subCategory) + '/' : ''}${createSEOSlug(p.title)}/`;
+        // Since we are inside the modal, clicking a similar item should just reload the modal cleanly
+        return `
+            <div class="border border-gray-100 rounded-lg p-3 hover:shadow-lg transition-all cursor-pointer flex flex-col items-center bg-white group"
+                 onclick="event.preventDefault(); openProductDetails('${p.id}'); document.getElementById('product-details-view').scrollTo({top: 0, behavior: 'smooth'});">
+                <a href="${productUrl}" class="w-full aspect-square mb-3 block relative overflow-hidden rounded bg-gray-50 flex items-center justify-center p-2" onclick="event.preventDefault();">
+                    <img src="${p.image}" alt="${p.title}" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Parts'">
+                </a>
+                <div class="text-left w-full">
+                    <h4 class="text-xs font-semibold text-gray-800 line-clamp-2 leading-snug w-full mb-1" title="${p.title}">${p.title}</h4>
+                    <span class="text-sm font-black text-[#D32F2F]">LKR ${p.price.toLocaleString()}</span>
+                </div>
+            </div>
+        `;
+    }).join('');
 }
 
 // Close Modal
@@ -1853,6 +1857,7 @@ function closeProductModal() {
     if (zoomImg) zoomImg.style.transformOrigin = 'center center';
 
     // Reset WhatsApp Message
+    updateURL(urlParams.get('category'), urlParams.get('subcategory'), null);
     updateWhatsAppMessage();
 
     // Stop video playing by clearing the iframe
@@ -2119,40 +2124,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             // right after loadProducts() has already rendered via LocalStorage + Firebase
             initFilters(true);
         }
-
-        // ── Similar Products (product pages only) ──────────────
-        const _simGrid = document.getElementById('similar-products-grid');
-        if (_simGrid && window._currentModalProduct) {
-            const _cur = window._currentModalProduct;
-            const _similar = products.filter(p =>
-                String(p.id) !== String(_cur.id) &&
-                (p.subCategory === _cur.subCategory || p.mainCategory === _cur.mainCategory)
-            ).slice(0, 4);
-            if (_similar.length > 0) {
-                _simGrid.innerHTML = _similar.map(p => {
-                    const s = (p.title||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
-                    const m = (p.mainCategory||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
-                    const c = (p.subCategory||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
-                    const url = c ? `/${m}/${c}/${s}/` : `/${m}/${s}/`;
-                    const inStock = (parseInt(p.stock)||0) > 0;
-                    return `<div style="background:#fff;border-radius:12px;border:1px solid #e2e8f0;overflow:hidden;transition:box-shadow 0.2s" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.08)'" onmouseout="this.style.boxShadow='none'">
-                        <a href="${url}"><div style="aspect-ratio:1;background:#f8fafc;padding:12px;display:flex;align-items:center;justify-content:center;">
-                        <img src="${p.image||''}" alt="${(p.title||'').replace(/"/g,"'")}" style="width:100%;height:100%;object-fit:contain;" loading="lazy">
-                        </div></a>
-                        <div style="padding:10px;">
-                        <a href="${url}" style="font-size:13px;font-weight:600;color:#1e293b;text-decoration:none;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:6px;display:block;">${p.title||''}</a>
-                        <div style="color:#dc2626;font-weight:700;font-size:13px;margin-bottom:8px;">LKR ${(parseInt(p.price)||0).toLocaleString()}</div>
-                        ${inStock
-                            ? `<button onclick="if(window.addToCart)addToCart('${p.id}',1)" style="width:100%;background:#2563eb;color:#fff;border:none;border-radius:8px;padding:7px;font-size:12px;font-weight:700;cursor:pointer;">Add to Cart</button>`
-                            : `<span style="font-size:12px;color:#ef4444;font-weight:500;">Out of Stock</span>`}
-                        </div></div>`;
-                }).join('');
-            } else {
-                const sec = document.getElementById('similar-products-section');
-                if (sec) sec.style.display = 'none';
-            }
-        }
-        // ── End Similar Products ────────────────────────────────
 
 
         // Sync hero search with URL on load

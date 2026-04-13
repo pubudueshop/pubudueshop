@@ -2174,17 +2174,21 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const c = (p.subCategory||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
                     const url = c ? `/${m}/${c}/${s}/` : `/${m}/${s}/`;
                     const inStock = (parseInt(p.stock)||0) > 0;
-                    return `<div style="background:#fff;border-radius:12px;border:1px solid #e2e8f0;overflow:hidden;">
-                        <a href="${url}"><div style="aspect-ratio:1;background:#f8fafc;padding:12px;display:flex;align-items:center;justify-content:center;">
-                        <img src="${p.image||''}" alt="${(p.title||'').replace(/"/g,"'")}" style="width:100%;height:100%;object-fit:contain;" loading="lazy">
-                        </div></a>
-                        <div style="padding:10px;">
-                        <a href="${url}" style="font-size:13px;font-weight:600;color:#1e293b;text-decoration:none;display:block;margin-bottom:6px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">${p.title||''}</a>
-                        <div style="color:#dc2626;font-weight:700;font-size:13px;margin-bottom:8px;">LKR ${(parseInt(p.price)||0).toLocaleString()}</div>
-                        ${inStock
-                            ? `<button onclick="if(window.addToCart)addToCart('${p.id}',1)" style="width:100%;background:#2563eb;color:#fff;border:none;border-radius:8px;padding:7px;font-size:12px;font-weight:700;cursor:pointer;">Add to Cart</button>`
-                            : `<span style="font-size:12px;color:#ef4444;font-weight:500;">Out of Stock</span>`}
-                        </div></div>`;
+                    return `<div class="product-card" style="background:#fff;border-radius:12px;border:1px solid #e2e8f0;overflow:hidden;display:flex;flex-direction:column;">
+                        <a href="${url}">
+                            <div style="aspect-ratio:1;background:#f8fafc;padding:12px;display:flex;align-items:center;justify-content:center;">
+                                <img src="${p.image||''}" alt="${(p.title||'').replace(/"/g,"'")}" style="width:100%;height:100%;object-fit:contain;" loading="lazy">
+                            </div>
+                        </a>
+                        <div style="padding:10px;display:flex;flex-direction:column;flex:1;">
+                            <h3 style="font-size:13px;font-weight:600;color:#1e293b;margin:0 0 6px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">${p.title||''}</h3>
+                            <p style="color:#dc2626;font-weight:700;font-size:13px;margin:0 0 8px;">LKR ${(parseInt(p.price)||0).toLocaleString()}</p>
+                            <div style="margin-top:auto;display:flex;gap:6px;">
+                                <a href="${url}" style="flex:1;text-align:center;background:#f1f5f9;color:#1e293b;border-radius:8px;padding:6px;font-size:12px;font-weight:600;text-decoration:none;">View Item</a>
+                                ${inStock ? `<button onclick="if(window.addToCart)addToCart('${p.id}',1)" style="flex:1;background:#2563eb;color:#fff;border:none;border-radius:8px;padding:6px;font-size:12px;font-weight:700;cursor:pointer;">Add to Cart</button>` : `<span style="flex:1;text-align:center;font-size:12px;color:#ef4444;font-weight:500;padding:6px;">Out of Stock</span>`}
+                            </div>
+                        </div>
+                    </div>`;
                 }).join('');
             } else {
                 const sec = document.getElementById('similar-products-section');

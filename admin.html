@@ -624,16 +624,23 @@
 
             // Initialize Firebase Auth
             function initAuth() {
-                if (typeof firebase !== 'undefined' && firebase.apps.length > 0) {
+                try {
+                    // Firebase is already initialized by script.js
                     auth = firebase.auth();
 
-                    // Listen for auth state changes
+                    // Handle redirect result (after Google sign-in redirect)
+                    auth.getRedirectResult().then((result) => {
+                        if (result && result.user) {
+                            console.log("Redirect login success:", result.user.email);
+                        }
+                    }).catch((error) => {
+                        if (error.code !== 'auth/no-auth-event') {
+                            showError("Sign-in error: " + error.message);
+                        }
+                    });
+
                     auth.onAuthStateChanged((user) => {
                         if (user) {
-                            // SECURITY NOTE: Client-side validation is NOT sufficient for sensitive data.
-                            // In a production environment, you MUST use Firebase Security Rules (firestore.rules)
-                            // to restrict write access to the 'shop' collection to only specific user UIDs/emails.
-                            // This JS check is only for UI convenience to redirect unauthorized users.
                             if (ALLOWED_ADMINS.includes(user.email.toLowerCase())) {
                                 showAdmin(user);
                             } else {
@@ -644,31 +651,9 @@
                             showLogin();
                         }
                     });
-                } else {
-                    // Firebase not initialized, try initializing
-                    if (typeof firebase !== 'undefined' && firebaseConfig.apiKey !== "YOUR_API_KEY") {
-                        try {
-                            firebase.initializeApp(firebaseConfig);
-                            auth = firebase.auth();
-                            auth.onAuthStateChanged((user) => {
-                                if (user) {
-                                    if (ALLOWED_ADMINS.includes(user.email.toLowerCase())) {
-                                        showAdmin(user);
-                                    } else {
-                                        auth.signOut();
-                                        showError("Access Denied. Your email is not on the admin list.");
-                                    }
-                                } else {
-                                    showLogin();
-                                }
-                            });
-                        } catch (e) {
-                            console.error("Auth init error:", e);
-                            showLogin();
-                        }
-                    } else {
-                        showLogin();
-                    }
+                } catch (e) {
+                    console.error("Auth init error:", e);
+                    showError("Firebase not ready: " + e.message);
                 }
             }
 
@@ -685,19 +670,20 @@
 
             async function loginWithGoogle() {
                 if (!auth) {
-                    showError('Firebase Auth not initialized. Check your Firebase config.');
+                    showError('Firebase not ready. Please refresh the page.');
                     return;
                 }
                 googleBtn.disabled = true;
+                googleBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting...';
                 loginError.classList.remove('show');
                 try {
                     const provider = new firebase.auth.GoogleAuthProvider();
-                    await auth.signInWithPopup(provider);
-                    // onAuthStateChanged will handle the redirect and admin check
+                    // Use redirect instead of popup - works on all browsers/mobile
+                    await auth.signInWithRedirect(provider);
                 } catch (error) {
                     showError("Google Sign-In failed: " + error.message);
-                } finally {
                     googleBtn.disabled = false;
+                    googleBtn.innerHTML = '<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18"> Continue with Google';
                 }
             }
 

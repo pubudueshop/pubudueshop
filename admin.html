@@ -374,6 +374,13 @@
                 </button>
             </form>
 
+            <div class="divider">OR</div>
+
+            <button onclick="loginWithGoogle()" class="btn-google" id="google-btn">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18">
+                Continue with Google
+            </button>
+
             <div id="login-error" class="login-error"></div>
         </div>
     </div>
@@ -603,9 +610,12 @@
             const loginForm = document.getElementById('login-form');
             const loginError = document.getElementById('login-error');
             const loginBtn = document.getElementById('login-btn');
+            const googleBtn = document.getElementById('google-btn');
             const userEmailBadge = document.getElementById('user-email');
 
-            // Only Firebase Auth users can log in - no hardcoded email list needed
+            // ONLY this email can access admin
+            const ADMIN_EMAIL = 'pubudurox530@gmail.com';
+
             let auth = null;
 
             function initAuth() {
@@ -613,7 +623,12 @@
                     auth = firebase.auth();
                     auth.onAuthStateChanged((user) => {
                         if (user) {
-                            showAdmin(user);
+                            if (user.email.toLowerCase() === ADMIN_EMAIL) {
+                                showAdmin(user);
+                            } else {
+                                auth.signOut();
+                                showError('Access Denied. Only the authorized admin can log in.');
+                            }
                         } else {
                             showLogin();
                         }
@@ -643,36 +658,44 @@
                 initAdmin();
             }
 
+            // Google Login
+            async function loginWithGoogle() {
+                if (!auth) { showError('Firebase not ready. Please refresh.'); return; }
+                googleBtn.disabled = true;
+                googleBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting...';
+                loginError.classList.remove('show');
+                try {
+                    const provider = new firebase.auth.GoogleAuthProvider();
+                    provider.setCustomParameters({ login_hint: ADMIN_EMAIL });
+                    await auth.signInWithPopup(provider);
+                } catch (error) {
+                    showError('Google Sign-In failed: ' + error.message);
+                } finally {
+                    googleBtn.disabled = false;
+                    googleBtn.innerHTML = '<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18"> Continue with Google';
+                }
+            }
+
             // Email/Password Login
             loginForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 loginBtn.disabled = true;
                 loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
                 loginError.classList.remove('show');
-
                 const email = document.getElementById('login-email').value.trim();
                 const password = document.getElementById('login-password').value;
-
                 try {
                     if (!auth) throw new Error('Firebase not ready. Please refresh.');
                     await auth.signInWithEmailAndPassword(email, password);
-                    // onAuthStateChanged handles the rest
                 } catch (error) {
                     let msg = '';
                     switch (error.code) {
                         case 'auth/user-not-found':
                         case 'auth/wrong-password':
-                        case 'auth/invalid-credential':
-                            msg = 'Incorrect email or password.';
-                            break;
-                        case 'auth/invalid-email':
-                            msg = 'Invalid email format.';
-                            break;
-                        case 'auth/too-many-requests':
-                            msg = 'Too many attempts. Try again later.';
-                            break;
-                        default:
-                            msg = error.message;
+                        case 'auth/invalid-credential': msg = 'Incorrect email or password.'; break;
+                        case 'auth/invalid-email': msg = 'Invalid email format.'; break;
+                        case 'auth/too-many-requests': msg = 'Too many attempts. Try again later.'; break;
+                        default: msg = error.message;
                     }
                     showError(msg);
                 } finally {

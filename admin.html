@@ -17,16 +17,15 @@
 
     <!-- Initialize Firebase immediately - no race condition -->
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyDl9N6YmDJI9bhhdkeUQPUxWKxIhZhryus",
-            authDomain: "pubudueshop-cde28.firebaseapp.com",
-            projectId: "pubudueshop-cde28",
-            storageBucket: "pubudueshop-cde28.firebasestorage.app",
-            messagingSenderId: "12742630809",
-            appId: "1:12742630809:web:68eab94d5c8b4257784708"
-        };
         if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
+            firebase.initializeApp({
+                apiKey: "AIzaSyDl9N6YmDJI9bhhdkeUQPUxWKxIhZhryus",
+                authDomain: "pubudueshop-cde28.firebaseapp.com",
+                projectId: "pubudueshop-cde28",
+                storageBucket: "pubudueshop-cde28.firebasestorage.app",
+                messagingSenderId: "12742630809",
+                appId: "1:12742630809:web:68eab94d5c8b4257784708"
+            });
         }
     </script>
     <style>

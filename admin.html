@@ -1065,8 +1065,11 @@
 
             // Initialize
             document.addEventListener('DOMContentLoaded', async () => {
-                if (window.loadProducts) {
-                    await window.loadProducts();
+                // Wait for Firebase to be initialized by script.js
+                let waited = 0;
+                while ((typeof firebase === 'undefined' || firebase.apps.length === 0) && waited < 5000) {
+                    await new Promise(r => setTimeout(r, 100));
+                    waited += 100;
                 }
                 initAuth();
             });

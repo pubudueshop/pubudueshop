@@ -1041,6 +1041,19 @@
                     products.push(newProduct);
                 }
 
+                // Auto-add new main category / subcategory to categoryData if not exists
+                const mc = newProduct.mainCategory;
+                const sc = newProduct.subCategory;
+                if (mc) {
+                    if (!categoryData[mc]) {
+                        categoryData[mc] = [];
+                    }
+                    if (sc && !categoryData[mc].includes(sc)) {
+                        categoryData[mc].push(sc);
+                        await saveCategories(); // save updated categories to Firebase
+                    }
+                }
+
                 saveProducts();
                 renderAdminList();
                 closeModal();

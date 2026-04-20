@@ -79,6 +79,8 @@ async function loadCategories() {
                     
                     // Refresh UI components that use category data
                     if (typeof initFilters === 'function') initFilters();
+                    if (typeof renderProducts === 'function') renderProducts();
+                    if (typeof renderHomeGrid === 'function') renderHomeGrid();
                     if (window.populateCategoryUI) window.populateCategoryUI();
                 }
             }

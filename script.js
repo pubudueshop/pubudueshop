@@ -116,8 +116,8 @@ function initFirebase() {
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
-        // IMPORTANT: Assign to the global 'db' variable defined at the top of the script
-        db = firebase.firestore(); 
+        db = firebase.firestore();
+        customerAuth = firebase.auth(); // ← assign auth
         console.log("Firebase Initialized Successfully");
     } catch (error) {
         console.error("Firebase Initialization Error:", error);

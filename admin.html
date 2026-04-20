@@ -14,6 +14,21 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+    <!-- Initialize Firebase immediately - no race condition -->
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDl9N6YmDJI9bhhdkeUQPUxWKxIhZhryus",
+            authDomain: "pubudueshop-cde28.firebaseapp.com",
+            projectId: "pubudueshop-cde28",
+            storageBucket: "pubudueshop-cde28.firebasestorage.app",
+            messagingSenderId: "12742630809",
+            appId: "1:12742630809:web:68eab94d5c8b4257784708"
+        };
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+    </script>
     <style>
         body {
             padding-top: 0;
@@ -1013,13 +1028,7 @@
             window.renderAdminList = renderAdminList;
 
             // Initialize
-            document.addEventListener('DOMContentLoaded', async () => {
-                // Wait for Firebase to be initialized by script.js
-                let waited = 0;
-                while ((typeof firebase === 'undefined' || firebase.apps.length === 0) && waited < 5000) {
-                    await new Promise(r => setTimeout(r, 100));
-                    waited += 100;
-                }
+            document.addEventListener('DOMContentLoaded', () => {
                 initAuth();
             });
         </script>

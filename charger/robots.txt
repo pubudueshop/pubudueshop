@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Sitemap: https://ichouse.lk/sitemap.xml
+Crawl-delay: 1

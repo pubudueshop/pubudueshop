@@ -129,7 +129,11 @@ function createSEOSlug(name) {
     return name
         .toLowerCase()
         .replace(/[^\w ]+/g, '')
-        .replace(/ +/g, '-');
+        .replace(/ +/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '')
+        .substring(0, 60)
+        .replace(/-$/g, '');
 }
 
 // Guard flag: prevents double-render from LocalStorage + Firebase firing simultaneously
@@ -1797,8 +1801,10 @@ function openProductDetails(id) {
         if (tag) tag.setAttribute('content', content);
     }
 
-    // Update URL
-    updateURL(product.mainCategory, product.subCategory, product.id);
+    // Update URL — only on home/category pages, not on standalone product pages
+    if (!document.body.classList.contains('standalone-product-page')) {
+        updateURL(product.mainCategory, product.subCategory, product.id);
+    }
     
     // 🔥 NEW: Trigger rendering the similar products feature inside the modal 
     renderRelatedProducts(product);

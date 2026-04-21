@@ -19,7 +19,11 @@ function createSEOSlug(name) {
     return name
         .toLowerCase()
         .replace(/[^\w ]+/g, '')
-        .replace(/ +/g, '-');
+        .replace(/ +/g, '-')
+        .replace(/-+/g, '-')        // collapse multiple dashes
+        .replace(/^-|-$/g, '')      // trim leading/trailing dashes
+        .substring(0, 60)           // max 60 chars for clean URLs
+        .replace(/-$/g, '');        // trim trailing dash after cut
 }
 
 // Render markdown-style description to HTML

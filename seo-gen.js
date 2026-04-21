@@ -238,10 +238,22 @@ function injectProductContent(page, product, pageUrl) {
                     <div class="text-3xl font-black text-red-600 mb-4">LKR ${price.toLocaleString()}</div>
 
                     <!-- Model / Brand -->
-                    <div class="flex flex-wrap gap-3 mb-6 text-xs text-gray-500">
+                    <div class="flex flex-wrap gap-3 mb-4 text-xs text-gray-500">
                         ${product.brand ? `<span class="bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-full"><i class="fas fa-tag mr-1"></i> ${product.brand}</span>` : ''}
                         ${product.modelNumber ? `<span class="bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-full"><i class="fas fa-barcode mr-1"></i> ${product.modelNumber}</span>` : ''}
                     </div>
+
+                    <!-- SEO Keyword Tags -->
+                    ${product.keywords && product.keywords.length > 0 ? `
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        ${product.keywords.slice(0, 6).map(kw => `
+                            <a href="/?search=${encodeURIComponent(kw)}" 
+                               style="font-size:0.75rem;font-weight:600;color:#2563eb;background:#eff6ff;border:1px solid #bfdbfe;padding:4px 10px;border-radius:20px;text-decoration:none;transition:all 0.2s;"
+                               onmouseover="this.style.background='#2563eb';this.style.color='white'"
+                               onmouseout="this.style.background='#eff6ff';this.style.color='#2563eb'">
+                                ${kw}
+                            </a>`).join('')}
+                    </div>` : ''}
 
                     <!-- Quantity + Buttons -->
                     <div class="mt-auto flex flex-wrap items-end gap-4">

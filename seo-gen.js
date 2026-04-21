@@ -27,12 +27,12 @@ async function fetchProducts() {
     console.log("📡 Fetching inventory from Firebase...");
     
     return new Promise((resolve, reject) => {
-        const req = https.get(url, { timeout: 15000 }, (res) => {
+        const req = https.get(url, { timeout: 30000 }, (res) => {
             let data = '';
             res.on('data', (chunk) => data += chunk);
             res.on('end', () => {
                 if (res.statusCode !== 200) {
-                    console.error("❌ Firebase Error:", data);
+                    console.error("❌ Firebase Error:", res.statusCode, data.substring(0, 200));
                     resolve([]);
                     return;
                 }
@@ -40,6 +40,7 @@ async function fetchProducts() {
                     const json = JSON.parse(data);
                     if (json.fields && json.fields.products && json.fields.products.arrayValue) {
                         const rawProducts = json.fields.products.arrayValue.values || [];
+                        console.log(`📦 Raw products in Firebase: ${rawProducts.length}`);
                         const products = rawProducts.map(p => {
                             const f = p.mapValue.fields;
                             // Parse images array
@@ -83,10 +84,14 @@ async function fetchProducts() {
                                 specs: specs,
                                 videoUrl: (f.videoUrl ? f.videoUrl.stringValue : '')
                             };
-                        });
-                        console.log(`✅ Extracted ${products.length} products.`);
+                        }).filter(p => p.id && p.title); // filter out empty entries
+                        console.log(`✅ Extracted ${products.length} valid products.`);
+                        // Log last 5 products to verify new ones are included
+                        console.log("📋 Last 5 products:", products.slice(-5).map(p => `${p.id}: ${p.title.substring(0,40)}`).join('\n'));
                         resolve(products);
                     } else {
+                        console.error("❌ No products array found in Firebase response");
+                        console.log("Response keys:", Object.keys(json.fields || {}));
                         resolve([]);
                     }
                 } catch (e) {
@@ -95,7 +100,8 @@ async function fetchProducts() {
                 }
             });
         });
-        req.on('error', (err) => reject(err));
+        req.on('timeout', () => { req.destroy(); console.error("❌ Request timeout"); resolve([]); });
+        req.on('error', (err) => { console.error("❌ Request error:", err.message); resolve([]); });
     });
 }
 

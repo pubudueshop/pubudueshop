@@ -22,6 +22,20 @@ function createSEOSlug(name) {
         .replace(/ +/g, '-');
 }
 
+// Render markdown-style description to HTML
+function renderDesc(text) {
+    if (!text) return '<p style="color:#94a3b8;">No description available.</p>';
+    return '<p style="margin:0;">' + text
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/^## (.+)$/gm, '</p><h3 style="font-size:1.05rem;font-weight:700;color:#1e293b;margin:14px 0 6px;">$1</h3><p style="margin:0;">')
+        .replace(/^# (.+)$/gm, '</p><h2 style="font-size:1.2rem;font-weight:800;color:#1e293b;margin:16px 0 8px;">$1</h2><p style="margin:0;">')
+        .replace(/\*\*(.+?)\*\*/g, '<strong style="font-weight:700;color:#1e293b;">$1</strong>')
+        .replace(/^---$/gm, '</p><hr style="border:none;border-top:1px solid #e2e8f0;margin:12px 0;"><p style="margin:0;">')
+        .replace(/^• (.+)$/gm, '</p><div style="display:flex;gap:8px;margin:4px 0;"><span style="color:#2563eb;font-weight:700;flex-shrink:0;">•</span><span>$1</span></div><p style="margin:0;">')
+        .replace(/\n\n/g, '</p><p style="margin:8px 0;">')
+        .replace(/\n/g, '<br>') + '</p>';
+}
+
 async function fetchProducts() {
     const url = `https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents/shop/inventory?key=${API_KEY}`;
     console.log("📡 Fetching inventory from Firebase...");
@@ -272,8 +286,8 @@ function injectProductContent(page, product, pageUrl) {
                 <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
                     <i class="fas fa-star text-blue-500"></i> Product Description
                 </h2>
-                <div class="text-gray-600 leading-relaxed">
-                    ${product.longDescription || product.description || 'No description available.'}
+                <div class="text-gray-600 leading-relaxed" style="line-height:1.8;">
+                    ${renderDesc(product.longDescription || product.description || '')}
                 </div>
             </div>
         </div>

@@ -223,9 +223,6 @@ function injectProductContent(page, product, pageUrl) {
                     <!-- Price -->
                     <div class="text-3xl font-black text-red-600 mb-4">LKR ${price.toLocaleString()}</div>
 
-                    <!-- Short Description -->
-                    ${rawDesc ? `<p class="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-3">${rawDesc.substring(0, 200)}</p>` : ''}
-
                     <!-- Model / Brand -->
                     <div class="flex flex-wrap gap-3 mb-6 text-xs text-gray-500">
                         ${product.brand ? `<span class="bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-full"><i class="fas fa-tag mr-1"></i> ${product.brand}</span>` : ''}

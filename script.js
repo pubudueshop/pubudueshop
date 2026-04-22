@@ -2333,14 +2333,20 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Update URL to reflect search
             updateURL(category, 'all', null, query);
             
-            // Scroll to products section
-            const productsSection = document.getElementById('products');
-            if (productsSection) {
-                window.scrollTo({ 
-                    top: productsSection.offsetTop - 80, 
-                    behavior: 'smooth' 
-                });
-            }
+            // On mobile: scroll to product grid directly (skip sidebar)
+            // On desktop: scroll to products section
+            setTimeout(() => {
+                const isMobile = window.innerWidth <= 992;
+                const target = isMobile
+                    ? document.getElementById('product-grid')
+                    : document.getElementById('products');
+                if (target) {
+                    window.scrollTo({
+                        top: target.getBoundingClientRect().top + window.scrollY - 70,
+                        behavior: 'smooth'
+                    });
+                }
+            }, 100);
         }
 
     } catch (err) {

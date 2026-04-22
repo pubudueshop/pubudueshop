@@ -683,6 +683,11 @@ a {
         position: static;
         max-height: none;
         margin-bottom: 2rem;
+        order: 2; /* sidebar goes below products on mobile */
+    }
+
+    .shop-main {
+        order: 1; /* products show first on mobile */
     }
     
     .sidebar-nav {

@@ -1210,8 +1210,8 @@ function showAllProducts(query = null) {
     
     // If we're not on the homepage (where #products exists), navigate there with query
     if (!prodSection) {
-        let redirectUrl = '/?view=products';
-        if (query) redirectUrl += `&search=${encodeURIComponent(query)}`;
+        let redirectUrl = '/';
+        if (query) redirectUrl += `?search=${encodeURIComponent(query)}`;
         window.location.href = redirectUrl;
         return;
     }
@@ -1223,18 +1223,16 @@ function showAllProducts(query = null) {
     const about = document.getElementById('about');
     if (hero) hero.style.display = 'none';
     if (featured) featured.style.display = 'none';
-    if (about) about.style.display = 'block'; // Ensure about is visible if we're manually showing products
+    if (about) about.style.display = 'none'; // hide about section when showing products
     
     // Reset filters to show everything including categories
     if (window.renderProducts) {
         renderProducts('all', 'all');
-        
-        // Update URL state
         const SITE_URL = window.SITE_URL || '/';
         window.history.pushState({ category: 'all', subcategory: 'all' }, '', SITE_URL);
     }
     
-    // Also scroll to results
+    // Scroll to products section
     setTimeout(() => {
         const productsSection = document.getElementById('products');
         if (productsSection) window.scrollTo({ top: productsSection.offsetTop - 80, behavior: 'smooth' });
@@ -2324,6 +2322,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         };
 
         function handleSearch(query, category) {
+            // If empty query — just show all products with categories, scroll to products
+            if (!query || query.trim() === '') {
+                showAllProducts(null);
+                return;
+            }
+
             // Show products section and hide hero/featured
             showAllProducts(query);
             

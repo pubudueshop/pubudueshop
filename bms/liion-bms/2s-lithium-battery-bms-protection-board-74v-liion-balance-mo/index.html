@@ -214,20 +214,29 @@
             <div class="flex flex-col md:flex-row">
                 <!-- Left: Image Col (40%) -->
                 <div class="md:w-2/5 p-6 border-b md:border-b-0 md:border-r border-gray-100 flex flex-col items-center">
-                    <div class="w-full aspect-square relative bg-white border border-gray-100 rounded-lg overflow-hidden group">
-                        <img src="https://res.cloudinary.com/dqwdov5ab/image/upload/v1771568749/2s_bms1_1_xddtns.png" alt="2S Lithium Battery BMS Protection Board (7.4V Li-ion Balance Module) - Buy in Sri Lanka | Pubudu Electronics" class="w-full h-full object-contain p-4 transition-transform duration-500 group-hover:scale-110" id="main-product-img" loading="eager">
+                    <div class="w-full aspect-square relative bg-white border border-gray-100 rounded-lg overflow-hidden group" style="cursor:zoom-in;">
+                        <img src="https://res.cloudinary.com/dqwdov5ab/image/upload/v1771568749/2s_bms1_1_xddtns.png" alt="2S Lithium Battery BMS Protection Board (7.4V Li-ion Balance Module) - Buy in Sri Lanka | Pubudu Electronics" class="w-full h-full object-contain p-4 transition-transform duration-500 group-hover:scale-110" id="main-product-img" loading="eager" onclick="openZoom(this.src)">
                         <div class="absolute bottom-4 right-4 bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium text-gray-600 shadow-sm border border-gray-200 md:block hidden">
-                            <i class="fas fa-search-plus mr-1"></i> Hover to Zoom
+                            <i class="fas fa-search-plus mr-1"></i> Click to Zoom
                         </div>
                     </div>
                     
                     <div class="flex gap-2 mt-4 overflow-x-auto pb-2 w-full scrollbar-hide">
                         
-                            <img src="https://res.cloudinary.com/dqwdov5ab/image/upload/v1771568749/2s_bms1_1_xddtns.png" alt="2S Lithium Battery BMS Protection Board (7.4V Li-ion Balance Module) image 1 - Pubudu Electronics Sri Lanka" class="w-20 h-20 object-contain p-1 border-2 border-gray-100 rounded-md cursor-pointer hover:border-blue-500 transition-colors bg-white flex-shrink-0" loading="lazy">
+                            <img src="https://res.cloudinary.com/dqwdov5ab/image/upload/v1771568749/2s_bms1_1_xddtns.png" alt="2S Lithium Battery BMS Protection Board (7.4V Li-ion Balance Module) image 1 - Pubudu Electronics Sri Lanka"
+                                class="w-20 h-20 object-contain p-1 border-2 border-blue-500 rounded-md cursor-pointer hover:border-blue-500 transition-colors bg-white flex-shrink-0"
+                                onclick="switchProductImage(this, 'https://res.cloudinary.com/dqwdov5ab/image/upload/v1771568749/2s_bms1_1_xddtns.png')"
+                                loading="lazy">
                         
-                            <img src="https://res.cloudinary.com/dqwdov5ab/image/upload/v1771568748/2s_bms2_1_wrtbfy.png" alt="2S Lithium Battery BMS Protection Board (7.4V Li-ion Balance Module) image 2 - Pubudu Electronics Sri Lanka" class="w-20 h-20 object-contain p-1 border-2 border-gray-100 rounded-md cursor-pointer hover:border-blue-500 transition-colors bg-white flex-shrink-0" loading="lazy">
+                            <img src="https://res.cloudinary.com/dqwdov5ab/image/upload/v1771568748/2s_bms2_1_wrtbfy.png" alt="2S Lithium Battery BMS Protection Board (7.4V Li-ion Balance Module) image 2 - Pubudu Electronics Sri Lanka"
+                                class="w-20 h-20 object-contain p-1 border-2 border-gray-100 rounded-md cursor-pointer hover:border-blue-500 transition-colors bg-white flex-shrink-0"
+                                onclick="switchProductImage(this, 'https://res.cloudinary.com/dqwdov5ab/image/upload/v1771568748/2s_bms2_1_wrtbfy.png')"
+                                loading="lazy">
                         
-                            <img src="https://res.cloudinary.com/dqwdov5ab/image/upload/v1771568748/2sbms3_1_cnzf0g.png" alt="2S Lithium Battery BMS Protection Board (7.4V Li-ion Balance Module) image 3 - Pubudu Electronics Sri Lanka" class="w-20 h-20 object-contain p-1 border-2 border-gray-100 rounded-md cursor-pointer hover:border-blue-500 transition-colors bg-white flex-shrink-0" loading="lazy">
+                            <img src="https://res.cloudinary.com/dqwdov5ab/image/upload/v1771568748/2sbms3_1_cnzf0g.png" alt="2S Lithium Battery BMS Protection Board (7.4V Li-ion Balance Module) image 3 - Pubudu Electronics Sri Lanka"
+                                class="w-20 h-20 object-contain p-1 border-2 border-gray-100 rounded-md cursor-pointer hover:border-blue-500 transition-colors bg-white flex-shrink-0"
+                                onclick="switchProductImage(this, 'https://res.cloudinary.com/dqwdov5ab/image/upload/v1771568748/2sbms3_1_cnzf0g.png')"
+                                loading="lazy">
                         
                     </div>
                 </div>
@@ -336,12 +345,12 @@
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">N/A</td>
             </tr>
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
-            </tr>
-            <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
+            </tr>
+            <tr class="bg-gray-50">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
             </tr></tbody>
                 </table>
             </div>
@@ -408,6 +417,54 @@ function getSelectedQty() {
     var el = document.getElementById('qty-readout');
     return el ? parseInt(el.textContent) || 1 : 1;
 }
+
+// ── Image Switch & Zoom ──────────────────────────────
+function switchProductImage(thumb, src) {
+    // Update main image
+    var main = document.getElementById('main-product-img');
+    if (main) main.src = src;
+    // Update active thumbnail border
+    var thumbs = thumb.parentElement.querySelectorAll('img');
+    thumbs.forEach(function(t) {
+        t.classList.remove('border-blue-500');
+        t.classList.add('border-gray-100');
+    });
+    thumb.classList.remove('border-gray-100');
+    thumb.classList.add('border-blue-500');
+}
+
+function openZoom(src) {
+    var overlay = document.getElementById('zoom-overlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'zoom-overlay';
+        overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.92);z-index:99999;display:flex;align-items:center;justify-content:center;cursor:zoom-out;';
+        overlay.innerHTML = '<img id="zoom-img" style="max-width:92vw;max-height:92vh;object-fit:contain;border-radius:8px;box-shadow:0 25px 60px rgba(0,0,0,0.5);transition:transform 0.2s;" src=""><button onclick="closeZoom()" style="position:absolute;top:16px;right:20px;background:rgba(255,255,255,0.15);border:none;color:white;font-size:1.8rem;cursor:pointer;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;">✕</button><div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,0.6);font-size:0.8rem;">Scroll to zoom • Click to close</div>';
+        overlay.addEventListener('click', function(e) { if (e.target === overlay) closeZoom(); });
+        document.body.appendChild(overlay);
+        // Scroll to zoom
+        overlay.addEventListener('wheel', function(e) {
+            e.preventDefault();
+            var img = document.getElementById('zoom-img');
+            var scale = parseFloat(img.dataset.scale || 1);
+            scale = Math.min(4, Math.max(1, scale + (e.deltaY < 0 ? 0.2 : -0.2)));
+            img.dataset.scale = scale;
+            img.style.transform = 'scale(' + scale + ')';
+        });
+    }
+    document.getElementById('zoom-img').src = src;
+    document.getElementById('zoom-img').dataset.scale = 1;
+    document.getElementById('zoom-img').style.transform = 'scale(1)';
+    overlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeZoom() {
+    var overlay = document.getElementById('zoom-overlay');
+    if (overlay) overlay.style.display = 'none';
+    document.body.style.overflow = '';
+}
+// ── End Image Switch & Zoom ──────────────────────────
 
 function loadSimilarProducts() {
     var grid = document.getElementById('similar-products-grid');

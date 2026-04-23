@@ -144,7 +144,7 @@ function injectProductContent(page, product, pageUrl) {
     if (subCat) {
         breadcrumbItems.push({ name: subCat, item: `${SITE_URL}${mainCatSlug}/${subCatSlug}/` });
     }
-    breadcrumbItems.push({ name: product.title, item: pageUrl });
+    breadcrumbItems.push({ name: product.title.length > 40 ? product.title.substring(0, 40) + '…' : product.title, item: pageUrl });
 
     const breadcrumbsHtml = breadcrumbItems.map((b, i) => `
         <li class="flex items-center">

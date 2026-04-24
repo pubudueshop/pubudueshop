@@ -240,7 +240,7 @@
                 <div class="md:w-3/5 p-8 flex flex-col">
                     <!-- Stock Badge -->
                     <div class="mb-3">
-                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-green-100 text-green-800">In Stock</span>
+                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-red-100 text-red-800">Out of Stock</span>
                         <span class="ml-2 px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">Single Phase Digital</span>
                     </div>
 
@@ -310,11 +310,8 @@
                         </div>
                         <div class="flex-1 min-w-[200px] flex flex-col gap-2">
                             
-                            <button onclick="if(window.addToCart) addToCart('1776917446872', getSelectedQty())" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold h-12 rounded-lg shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-2 active:scale-95">
-                                <i class="fas fa-cart-plus"></i> Add to Cart
-                            </button>
-                            <button onclick="if(window.addToCart) { addToCart('1776917446872', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold h-12 rounded-lg shadow-lg shadow-green-200 transition-all flex items-center justify-center gap-2 active:scale-95">
-                                <i class="fab fa-whatsapp"></i> Buy via WhatsApp
+                            <button disabled class="w-full bg-gray-200 text-gray-500 font-bold h-12 rounded-lg cursor-not-allowed flex items-center justify-center gap-2">
+                                <i class="fas fa-ban"></i> Out of Stock
                             </button>
                             
                         </div>
@@ -332,20 +329,20 @@
                 <table class="w-full text-left">
                     <tbody>
             <tr class="bg-white">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Legend</td>
+            </tr>
+            <tr class="bg-gray-50">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand new</td>
+            </tr>
+            <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Single Phase Digital</td>
             </tr>
             <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">LSG-121L</td>
-            </tr>
-            <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand new</td>
-            </tr>
-            <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Legend</td>
             </tr></tbody>
                 </table>
             </div>
@@ -377,24 +374,21 @@
 <!-- Mobile Sticky Bottom Bar -->
 <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 md:hidden flex gap-4 z-[2000] shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
     
-    <button onclick="if(window.addToCart) addToCart('1776917446872', getSelectedQty())" class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
-        <i class="fas fa-cart-plus"></i> Cart
-    </button>
-    <button onclick="if(window.addToCart) { addToCart('1776917446872', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="flex-1 bg-green-500 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
-        <i class="fab fa-whatsapp"></i> Buy
+    <button disabled class="flex-1 bg-gray-100 text-gray-400 font-bold py-3 rounded-lg flex items-center justify-center gap-2 cursor-not-allowed">
+        <i class="fas fa-ban"></i> Out of Stock
     </button>
     
 </div>
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Watt Hour Meter","item":"https://ichouse.lk/watt-hour-meter/"},{"@type":"ListItem","position":3,"name":"Single Phase Digital","item":"https://ichouse.lk/watt-hour-meter/single-phase-digital/"},{"@type":"ListItem","position":4,"name":"Single Phase Digital Watt Hour Meter LSG…","item":"https://ichouse.lk/watt-hour-meter/single-phase-digital/single-phase-digital-watt-hour-meter-lsg121l-220v-560a-kwh-m/"}]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"Single Phase Digital Watt Hour Meter LSG-121L 220V 5(60)A kWh Meter Sri Lanka","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1776917049/watt-hour-meter_za6gjs.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1776917049/watt_hour_meter_2_dwjve5.png"],"description":"High-quality Single Phase Electrical Watt-Hour Meter (Model: LSG-121L) designed for accurate energy measurement in homes, shops, and industrial use in Sri Lanka. Supports 220V, 5(60)A, 50Hz with 1600 imp/kWh pulse output for precise readings. Built to IEC standards (IEC 62052-11, IEC 62053-21) ensuring reliability and long-term performance. Ideal for electricity monitoring, billing systems, and power management.\n\n✔ Digital kWh display\n✔ Durable transparent cover\n✔ Easy installation (single phase)\n✔ Suitable for residential & commercial use in Sri Lanka","sku":"LSG-121L","brand":{"@type":"Brand","name":"Legend"},"offers":{"@type":"Offer","url":"https://ichouse.lk/watt-hour-meter/single-phase-digital/single-phase-digital-watt-hour-meter-lsg121l-220v-560a-kwh-m/","priceCurrency":"LKR","price":2500,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"Single Phase Digital Watt Hour Meter LSG-121L 220V 5(60)A kWh Meter Sri Lanka","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1776917049/watt-hour-meter_za6gjs.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1776917049/watt_hour_meter_2_dwjve5.png"],"description":"High-quality Single Phase Electrical Watt-Hour Meter (Model: LSG-121L) designed for accurate energy measurement in homes, shops, and industrial use in Sri Lanka. Supports 220V, 5(60)A, 50Hz with 1600 imp/kWh pulse output for precise readings. Built to IEC standards (IEC 62052-11, IEC 62053-21) ensuring reliability and long-term performance. Ideal for electricity monitoring, billing systems, and power management.\n\n✔ Digital kWh display\n✔ Durable transparent cover\n✔ Easy installation (single phase)\n✔ Suitable for residential & commercial use in Sri Lanka","sku":"LSG-121L","brand":{"@type":"Brand","name":"Legend"},"offers":{"@type":"Offer","url":"https://ichouse.lk/watt-hour-meter/single-phase-digital/single-phase-digital-watt-hour-meter-lsg121l-220v-560a-kwh-m/","priceCurrency":"LKR","price":2500,"availability":"https://schema.org/OutOfStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
 <script>
 // Pre-load product data so cart works instantly without waiting for Firebase
 window._currentModalProduct = {
     id: '1776917446872',
     title: "Single Phase Digital Watt Hour Meter LSG-121L 220V 5(60)A kWh Meter Sri Lanka",
     price: 2500,
-    stock: 1,
+    stock: 99,
     image: "https://res.cloudinary.com/dqwdov5ab/image/upload/v1776917049/watt-hour-meter_za6gjs.png",
     mainCategory: "Watt Hour Meter",
     subCategory: "Single Phase Digital"

@@ -136,6 +136,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ichouse.lk/ic/darlington-driver/</loc>
+    <lastmod>2026-04-26</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ichouse.lk/transistor/</loc>
     <lastmod>2026-04-26</lastmod>
     <priority>0.8</priority>
@@ -687,6 +692,11 @@
   </url>
   <url>
     <loc>https://ichouse.lk/watt-hour-meter/single-phase-digital/single-phase-digital-watt-hour-meter-lsg121l-220v-560a-kwh-m/</loc>
+    <lastmod>2026-04-26</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/ic/darlington-driver/uln2004apg-darlington-transistor-array-ic-7-channel-relay-dr/</loc>
     <lastmod>2026-04-26</lastmod>
     <priority>0.9</priority>
   </url>

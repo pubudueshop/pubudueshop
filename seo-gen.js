@@ -193,7 +193,6 @@ function injectProductContent(page, product, pageUrl) {
     const seoBlock = `
 <!-- ===== PRODUCT PAGE: hide homepage-only sections ===== -->
 <style>
-  .hero, #home-featured, #products, #product-modal-root, .sticky-search-mobile { display: none !important; }
   body.standalone-product-page .about-section { display: none !important; }
 </style>
 <!-- ===== NEW PREMIUM PRODUCT LAYOUT ===== -->
@@ -545,10 +544,9 @@ function generateRobots() {
     const content = `User-agent: *
 Allow: /
 Sitemap: ${SITE_URL}sitemap.xml
-Crawl-delay: 1
 `;
     fs.writeFileSync('robots.txt', content);
-    console.log('✅ robots.txt saved! (Crawl-delay reduced to 1)');
+    console.log('✅ robots.txt saved!');
 }
 
 async function run() {
@@ -557,6 +555,7 @@ async function run() {
         generateRobots();
 
         const baseHtml = fs.readFileSync('index.html', 'utf8');
+        const generatedBaseHtml = baseHtml.replace(/<!-- HOMEPAGE_CONTENT_START -->[\s\S]*?<!-- HOMEPAGE_CONTENT_END -->/, '');
         const urls = [];
 
         // Clean up old directories
@@ -582,7 +581,7 @@ async function run() {
             const shortDesc = rawDesc.substring(0, 130).replace(/"/g, '&quot;');
             const seoDesc = `Buy ${cleanTitle} in Sri Lanka at Pubudu Electronics. ${shortDesc}`.substring(0, 160);
             
-            let page = baseHtml;
+            let page = generatedBaseHtml;
 
             // Meta SEO
             page = page.replace(/<title>.*?<\/title>/s, `<title>${cleanTitle} | Pubudu Electronics</title>`);
@@ -638,7 +637,7 @@ async function run() {
             fs.mkdirSync(catDir, { recursive: true });
             urls.push(catUrl);
 
-            let catPage = baseHtml;
+            let catPage = generatedBaseHtml;
             const catSeoTitle = `${cat} | Electronic Components Sri Lanka | Pubudu Electronics`;
             const catSeoDesc = `Shop original ${cat} in Sri Lanka at Pubudu Electronics. Best prices on premium electronic components. Island-wide delivery.`;
             catPage = catPage.replace(/<title>.*?<\/title>/s, `<title>${catSeoTitle}</title>`);
@@ -659,7 +658,7 @@ async function run() {
                 fs.mkdirSync(subDir, { recursive: true });
                 urls.push(subUrl);
 
-                let subPage = baseHtml;
+                let subPage = generatedBaseHtml;
                 const subSeoTitle = `${sub} - ${cat} | Pubudu Electronics Sri Lanka`;
                 const subSeoDesc = `Buy ${sub} (${cat}) in Sri Lanka. Premium quality electronic components with fast delivery. Trusted by engineers.`;
                 subPage = subPage.replace(/<title>.*?<\/title>/s, `<title>${subSeoTitle}</title>`);
@@ -674,6 +673,11 @@ async function run() {
                 fs.writeFileSync(path.join(subDir, 'index.html'), subPage);
             });
         });
+
+        // Update index.html with static category links
+        const staticLinksHtml = Object.keys(categoryMap).map(cat => `<a href="/${createSEOSlug(cat)}/">${cat}</a>`).join('\n');
+        let newIndexHtml = baseHtml.replace(/<div id="seo-category-links"[^>]*>[\s\S]*?<\/div>/, `<div id="seo-category-links" style="display:none;">\n${staticLinksHtml}\n</div>`);
+        fs.writeFileSync('index.html', newIndexHtml);
 
         generateSitemap(products, urls);
         console.log("✨ All tasks completed successfully!");

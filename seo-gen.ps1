@@ -24,7 +24,7 @@ try {
     Write-Host ('✅ Extracted ' + $products.Count + ' products.')
 
     # Generate Robots.txt
-    $robots = 'User-agent: *' + "`r`n" + 'Allow: /' + "`r`n" + 'Sitemap: ' + $SITE_URL + 'sitemap.xml' + "`r`n" + 'Crawl-delay: 10'
+    $robots = 'User-agent: *' + "`r`n" + 'Allow: /' + "`r`n" + 'Sitemap: ' + $SITE_URL + 'sitemap.xml'
     $robots | Out-File -FilePath 'robots.txt' -Encoding utf8
 
     # Generate Sitemap.xml (Line by Line)

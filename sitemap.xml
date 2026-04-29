@@ -371,6 +371,16 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ichouse.lk/relays/</loc>
+    <lastmod>2026-04-29</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/relays/solid-state-relays-ssr/</loc>
+    <lastmod>2026-04-29</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ichouse.lk/cable/audio-extension-cable/35mm-aux-male-to-female-audio-extension-cable-red-color-high/</loc>
     <lastmod>2026-04-29</lastmod>
     <priority>0.9</priority>
@@ -697,6 +707,11 @@
   </url>
   <url>
     <loc>https://ichouse.lk/ic/darlington-driver/uln2004apg-darlington-transistor-array-ic-7-channel-relay-dr/</loc>
+    <lastmod>2026-04-29</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/relays/solid-state-relays-ssr/ssr80da-solid-state-relay-80a-332v-dc-to-24380v-ac-high-powe/</loc>
     <lastmod>2026-04-29</lastmod>
     <priority>0.9</priority>
   </url>

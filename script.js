@@ -529,10 +529,14 @@ function updateCartUI() {
 
     const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
     const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const SHIPPING_FEE = 500;
+    const grandTotal = totalPrice + SHIPPING_FEE;
 
     if (cartBadge) cartBadge.textContent = totalQty;
     if (cartBadgeMobile) cartBadgeMobile.textContent = totalQty;
-    if (cartTotalAmount) cartTotalAmount.textContent = `LKR ${totalPrice.toLocaleString()}`;
+    if (cartTotalAmount) cartTotalAmount.textContent = `LKR ${grandTotal.toLocaleString()}`;
+    const cartSubtotal = document.getElementById('cart-subtotal-amount');
+    if (cartSubtotal) cartSubtotal.textContent = `LKR ${totalPrice.toLocaleString()}`;
 
     if (cartItemsList) {
         cartItemsList.innerHTML = cart.length === 0
@@ -682,8 +686,17 @@ function openInvoice(customerData) {
     `).join('');
 
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const SHIPPING_FEE = 500;
+    const grandTotal = subtotal + SHIPPING_FEE;
     invoiceSubtotal.textContent = `LKR ${subtotal.toLocaleString()}`;
-    invoiceTotal.textContent = `LKR ${subtotal.toLocaleString()}`;
+    // Add shipping row to invoice table
+    const shippingRow = `
+        <tr style="background:#f8fafc;">
+            <td colspan="3" style="padding:8px 10px;font-size:11px;color:#64748b;border-bottom:1px solid #e2e8f0;">Shipping & Handling Fee</td>
+            <td style="padding:8px 10px;font-size:11px;font-weight:600;border-bottom:1px solid #e2e8f0;text-align:right;">LKR 500</td>
+        </tr>`;
+    document.getElementById('invoice-items').innerHTML += shippingRow;
+    invoiceTotal.textContent = `LKR ${grandTotal.toLocaleString()}`;
 
     // Store current customer data for WhatsApp
     window.currentCheckoutData = customerData;
@@ -722,8 +735,12 @@ function sendOrderViaWhatsApp() {
     });
 
     const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const shipping = 500;
     message += `----------------------------\n`;
-    message += `*TOTAL AMOUNT: LKR ${total.toLocaleString()}*\n`;
+    message += `🛒 *Subtotal: LKR ${total.toLocaleString()}*\n`;
+    message += `🚚 *Shipping & Handling: LKR ${shipping.toLocaleString()}*\n`;
+    message += `----------------------------\n`;
+    message += `💰 *TOTAL AMOUNT: LKR ${(total + shipping).toLocaleString()}*\n`;
     message += `----------------------------\n`;
     message += `Please confirm my order. Thank you!`;
 
@@ -750,6 +767,8 @@ function downloadInvoicePDF() {
         const cw = W - ml - mr; // content width = 180mm
         const date = new Date().toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
         const subtotal = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+        const SHIPPING = 500;
+        const grandTotal = subtotal + SHIPPING;
 
         let y = mt;
 
@@ -901,6 +920,24 @@ function downloadInvoicePDF() {
 
         y += 6;
 
+        // ── SHIPPING ROW ─────────────────────────────────────────
+        if (y + rowH > H - 40) { doc.addPage(); y = mt; }
+        doc.setFillColor(248, 250, 252);
+        doc.rect(ml, y, cw, rowH, 'F');
+        doc.setDrawColor(226, 232, 240);
+        doc.setLineWidth(0.2);
+        doc.line(ml, y + rowH, W - mr, y + rowH);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(9);
+        doc.setTextColor(100, 116, 139);
+        doc.text('', colX[0] + 2, y + 5.5);
+        doc.setTextColor(71, 85, 105);
+        doc.text('Shipping & Handling Fee', colX[1], y + 5.5);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(15, 23, 42);
+        doc.text(`LKR ${SHIPPING.toLocaleString()}`, colX[4] + 15, y + 5.5, { align: 'right' });
+        y += rowH + 6;
+
         // ── TOTAL ────────────────────────────────────────────────
         if (y + 14 > H - 35) { doc.addPage(); y = mt; }
 
@@ -912,7 +949,7 @@ function downloadInvoicePDF() {
         doc.setTextColor(255, 255, 255);
         doc.text('TOTAL', totalBoxX + 5, y + 8);
         doc.setFontSize(12);
-        doc.text(`LKR ${subtotal.toLocaleString()}`, totalBoxX + 63, y + 8, { align: 'right' });
+        doc.text(`LKR ${grandTotal.toLocaleString()}`, totalBoxX + 63, y + 8, { align: 'right' });
 
         y += 18;
 

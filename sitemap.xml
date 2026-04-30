@@ -151,6 +151,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ichouse.lk/transistor/pnp-transistor/</loc>
+    <lastmod>2026-04-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ichouse.lk/mosfet/</loc>
     <lastmod>2026-04-30</lastmod>
     <priority>0.8</priority>
@@ -377,6 +382,21 @@
   </url>
   <url>
     <loc>https://ichouse.lk/relays/solid-state-relays-ssr/</loc>
+    <lastmod>2026-04-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/relays/4-pin-relay/</loc>
+    <lastmod>2026-04-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/thyristors/</loc>
+    <lastmod>2026-04-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/thyristors/triac/</loc>
     <lastmod>2026-04-30</lastmod>
     <priority>0.8</priority>
   </url>
@@ -712,6 +732,26 @@
   </url>
   <url>
     <loc>https://ichouse.lk/relays/solid-state-relays-ssr/ssr80da-solid-state-relay-80a-332v-dc-to-24380v-ac-high-powe/</loc>
+    <lastmod>2026-04-30</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/relays/4-pin-relay/jd1912-12v-80a-4-pin-relay-heavy-duty-automotive-power-relay/</loc>
+    <lastmod>2026-04-30</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/thyristors/triac/bt136-triac-600v-4a-to220-ac-power-control-switch-for-dimmer/</loc>
+    <lastmod>2026-04-30</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/transistor/npn-transistor/d2058-npn-power-transistor-60v-5a-40w-to220-2sd2058-amplifie/</loc>
+    <lastmod>2026-04-30</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/transistor/pnp-transistor/buy-2sb1366-b1366-pnp-power-transistor-to220f-in-sri-lanka-o/</loc>
     <lastmod>2026-04-30</lastmod>
     <priority>0.9</priority>
   </url>

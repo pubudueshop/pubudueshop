@@ -331,12 +331,12 @@
                 <table class="w-full text-left">
                     <tbody>
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
-            </tr>
-            <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
+            </tr>
+            <tr class="bg-gray-50">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
             </tr>
             <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
@@ -474,9 +474,19 @@ function closeZoom() {
                     <!-- Items injected by JS -->
                 </div>
                 <div class="cart-footer">
-                    <div class="cart-total">
-                        <span>Total:</span>
-                        <span id="cart-total-amount">LKR 0</span>
+                    <div class="cart-total" style="flex-direction:column;gap:4px;">
+                        <div style="display:flex;justify-content:space-between;font-size:0.85rem;color:var(--text-light);">
+                            <span>Subtotal:</span>
+                            <span id="cart-subtotal-amount">LKR 0</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;font-size:0.85rem;color:var(--text-light);">
+                            <span>Shipping & Handling:</span>
+                            <span>LKR 500</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;font-weight:700;font-size:1rem;border-top:1px solid var(--border);padding-top:6px;margin-top:2px;">
+                            <span>Total:</span>
+                            <span id="cart-total-amount">LKR 0</span>
+                        </div>
                     </div>
                     <button id="checkout-btn" class="btn-checkout">Continue to Checkout</button>
                     <p class="cart-note">Proceed to add delivery details</p>

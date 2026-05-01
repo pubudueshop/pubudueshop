@@ -584,7 +584,12 @@ async function run() {
             let page = generatedBaseHtml;
 
             // Meta SEO
-            page = page.replace(/<title>.*?<\/title>/s, `<title>${cleanTitle} | Pubudu Electronics</title>`);
+            const titleSuffix = " | Pubudu Electronics";
+            const maxTitleLen = 60 - titleSuffix.length;
+            const displayTitle = cleanTitle.length > maxTitleLen ? cleanTitle.substring(0, maxTitleLen - 1) + '…' : cleanTitle;
+            const fullTitle = displayTitle + titleSuffix;
+
+            page = page.replace(/<title>.*?<\/title>/s, `<title>${fullTitle}</title>`);
             page = page.replace(/<meta name="description" content=".*?"/s, `<meta name="description" content="${seoDesc}"`);
             page = page.replace(/<link rel="canonical" href=".*?"/s, `<link rel="canonical" href="${pUrl}"`);
             
@@ -594,13 +599,13 @@ async function run() {
             
             // OG Tags
             page = page.replace(/property="og:url" content=".*?"/g, `property="og:url" content="${pUrl}"`);
-            page = page.replace(/property="og:title" id="og-title" content=".*?"/g, `property="og:title" id="og-title" content="${cleanTitle} | Pubudu Electronics"`);
+            page = page.replace(/property="og:title" id="og-title" content=".*?"/g, `property="og:title" id="og-title" content="${fullTitle}"`);
             page = page.replace(/property="og:description" id="og-desc" content=".*?"/g, `property="og:description" id="og-desc" content="${seoDesc}"`);
             page = page.replace(/property="og:image" id="og-image" content=".*?"/g, `property="og:image" id="og-image" content="${p.image}"`);
             
             // Twitter Tags
             page = page.replace(/name="twitter:url" content=".*?"/g, `name="twitter:url" content="${pUrl}"`);
-            page = page.replace(/name="twitter:title" id="tw-title" content=".*?"/g, `name="twitter:title" id="tw-title" content="${cleanTitle} | Pubudu Electronics"`);
+            page = page.replace(/name="twitter:title" id="tw-title" content=".*?"/g, `name="twitter:title" id="tw-title" content="${fullTitle}"`);
             page = page.replace(/name="twitter:description" id="tw-desc" content=".*?"/g, `name="twitter:description" id="tw-desc" content="${seoDesc}"`);
             page = page.replace(/name="twitter:image" id="tw-image" content=".*?"/g, `name="twitter:image" id="tw-image" content="${p.image}"`);
 
@@ -638,7 +643,7 @@ async function run() {
             urls.push(catUrl);
 
             let catPage = generatedBaseHtml;
-            const catSeoTitle = `${cat} | Electronic Components Sri Lanka | Pubudu Electronics`;
+            const catSeoTitle = `${cat} | Pubudu Electronics Sri Lanka`.substring(0, 60);
             const catSeoDesc = `Shop original ${cat} in Sri Lanka at Pubudu Electronics. Best prices on premium electronic components. Island-wide delivery.`;
             catPage = catPage.replace(/<title>.*?<\/title>/s, `<title>${catSeoTitle}</title>`);
             catPage = catPage.replace(/<meta name="description" content=".*?"/s, `<meta name="description" content="${catSeoDesc}"`);
@@ -659,7 +664,7 @@ async function run() {
                 urls.push(subUrl);
 
                 let subPage = generatedBaseHtml;
-                const subSeoTitle = `${sub} - ${cat} | Pubudu Electronics Sri Lanka`;
+                const subSeoTitle = `${sub} | ${cat} | Pubudu Electronics`.substring(0, 60);
                 const subSeoDesc = `Buy ${sub} (${cat}) in Sri Lanka. Premium quality electronic components with fast delivery. Trusted by engineers.`;
                 subPage = subPage.replace(/<title>.*?<\/title>/s, `<title>${subSeoTitle}</title>`);
                 subPage = subPage.replace(/<meta name="description" content=".*?"/s, `<meta name="description" content="${subSeoDesc}"`);

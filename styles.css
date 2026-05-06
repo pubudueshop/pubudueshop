@@ -995,10 +995,18 @@ a {
     border-radius: 20px;
     overflow: hidden;
     box-shadow: var(--shadow-hover);
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    min-height: 400px;
 }
 
 .about-image img {
-    width: 100%;
+    max-width: 90%;
+    max-height: 350px;
+    width: auto;
     height: auto;
     display: block;
     transition: transform 0.5s ease;

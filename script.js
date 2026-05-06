@@ -418,12 +418,20 @@ function addToCart(productId, quantity = 1) {
     if (existingItem) {
         existingItem.quantity += quantity;
     } else {
+        // Collect selected variations if we're in the modal
+        const selectedVariations = {};
+        const varSelectors = document.querySelectorAll('.variation-select');
+        varSelectors.forEach(select => {
+            selectedVariations[select.dataset.name] = select.value;
+        });
+
         cart.push({
             id: product.id,
             title: product.title,
             price: product.price,
             image: product.image,
-            quantity: quantity
+            quantity: quantity,
+            selectedVariations: Object.keys(selectedVariations).length > 0 ? selectedVariations : null
         });
     }
 
@@ -546,6 +554,13 @@ function updateCartUI() {
                     <img src="${item.image}" alt="${item.title}" class="cart-item-img">
                     <div class="cart-item-info">
                         <h4 class="cart-item-title">${item.title}</h4>
+                        ${item.selectedVariations ? `
+                            <div class="cart-item-variations">
+                                ${Object.entries(item.selectedVariations).map(([name, val]) => `
+                                    <span><strong>${name}:</strong> ${val}</span>
+                                `).join('')}
+                            </div>
+                        ` : ''}
                         <div class="cart-item-price">LKR ${item.price.toLocaleString()}</div>
                         <div class="cart-item-controls">
                             <button class="qty-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
@@ -678,7 +693,14 @@ function openInvoice(customerData) {
 
     invoiceItems.innerHTML = cart.map(item => `
         <tr>
-            <td>${item.title}</td>
+            <td>
+                ${item.title}
+                ${item.selectedVariations ? `
+                    <div style="font-size: 10px; color: #64748b; margin-top: 2px;">
+                        ${Object.entries(item.selectedVariations).map(([name, val]) => `${name}: ${val}`).join(' | ')}
+                    </div>
+                ` : ''}
+            </td>
             <td>${item.quantity}</td>
             <td>LKR ${item.price.toLocaleString()}</td>
             <td>LKR ${(item.price * item.quantity).toLocaleString()}</td>
@@ -731,7 +753,12 @@ function sendOrderViaWhatsApp() {
     message += `*ORDER ITEMS:*\n`;
 
     cart.forEach(item => {
-        message += `• ${item.title} x ${item.quantity} = LKR ${(item.price * item.quantity).toLocaleString()}\n`;
+        let itemLabel = item.title;
+        if (item.selectedVariations) {
+            const varString = Object.entries(item.selectedVariations).map(([name, val]) => `${name}: ${val}`).join(', ');
+            itemLabel += ` (${varString})`;
+        }
+        message += `• ${itemLabel} x ${item.quantity} = LKR ${(item.price * item.quantity).toLocaleString()}\n`;
     });
 
     const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
@@ -900,13 +927,23 @@ function downloadInvoicePDF() {
             doc.setTextColor(100, 116, 139);
             doc.text(String(i + 1), colX[0] + 2, y + 5.5);
 
-            // Title - truncate if too long
+            // Title & Variations
             doc.setTextColor(15, 23, 42);
             doc.setFont('helvetica', 'bold');
             const titleMaxW = 90;
-            const titleLines = doc.splitTextToSize(item.title || '', titleMaxW);
-            doc.text(titleLines[0], colX[1], y + 5.5); // only first line to keep row height fixed
+            let itemTitle = item.title || '';
+            const titleLines = doc.splitTextToSize(itemTitle, titleMaxW);
+            doc.text(titleLines[0], colX[1], y + 4.5);
 
+            if (item.selectedVariations) {
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(7.5);
+                doc.setTextColor(100, 116, 139);
+                const varString = Object.entries(item.selectedVariations).map(([name, val]) => `${name}: ${val}`).join(' | ');
+                doc.text(varString, colX[1], y + 7.5);
+            }
+
+            doc.setFontSize(9);
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(71, 85, 105);
             doc.text(String(item.quantity), colX[2] + 7, y + 5.5, { align: 'center' });
@@ -1683,6 +1720,29 @@ function openProductDetails(id) {
     // Description
     if (detailDescription) {
         detailDescription.innerHTML = product.longDescription || product.description;
+    }
+
+    // Variations
+    let variationsContainer = document.getElementById('detail-variations');
+    if (!variationsContainer) {
+        variationsContainer = document.createElement('div');
+        variationsContainer.id = 'detail-variations';
+        variationsContainer.className = 'flex flex-col gap-4 mb-6';
+        if (detailDescription) {
+            detailDescription.parentNode.insertBefore(variationsContainer, detailDescription.nextSibling);
+        }
+    }
+    variationsContainer.innerHTML = '';
+
+    if (product.variations && product.variations.length > 0) {
+        variationsContainer.innerHTML = product.variations.map(v => `
+            <div class="variation-group flex flex-col gap-1.5">
+                <label class="text-[10px] uppercase font-bold text-gray-400 tracking-wider">${v.name}</label>
+                <select class="variation-select w-full h-11 px-4 bg-gray-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-sm font-medium text-gray-700" data-name="${v.name}">
+                    ${v.options.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+                </select>
+            </div>
+        `).join('');
     }
 
     // Features

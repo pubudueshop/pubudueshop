@@ -14,9 +14,9 @@ console.log(`Project: ${PROJECT_ID}`);
 console.log(`Date: ${LAST_MOD}`);
 console.log("----------------------------");
 
-function createSEOSlug(name) {
-    if (!name) return "";
-    return name
+function createSEOSlug(name, fallback = "item") {
+    if (!name) return fallback;
+    let slug = name
         .toLowerCase()
         .replace(/[^\w ]+/g, '')
         .replace(/ +/g, '-')
@@ -24,6 +24,8 @@ function createSEOSlug(name) {
         .replace(/^-|-$/g, '')      // trim leading/trailing dashes
         .substring(0, 60)           // max 60 chars for clean URLs
         .replace(/-$/g, '');        // trim trailing dash after cut
+    
+    return slug || fallback;
 }
 
 // Render markdown-style description to HTML
@@ -417,7 +419,7 @@ function closeZoom() {
 `;
 
     // Inject the SEO block after the navbar - use </nav> as the injection point
-    const navEndRegex = /<\/nav>\s*<div class="sticky-search-mobile">[\s\S]*?<\/div>\s*<\/div>/;
+    const navEndRegex = /<\/nav>(?:\s*<!--[\s\S]*?-->)*\s*<div class="sticky-search-mobile">[\s\S]*?<\/div>\s*<\/div>/;
     const navSimpleRegex = /<\/nav>/;
     if (page.match(navEndRegex)) {
         page = page.replace(navEndRegex, `</nav>\n${seoBlock}`);
@@ -472,7 +474,7 @@ function injectCategoryContent(page, cat, subCat, products, catUrl) {
 <!-- ===== END SSR CATEGORY CONTENT ===== -->
 `;
     // Inject category SEO block after nav
-    const navEndRegex2 = /<\/nav>\s*<div class="sticky-search-mobile">[\s\S]*?<\/div>\s*<\/div>/;
+    const navEndRegex2 = /<\/nav>(?:\s*<!--[\s\S]*?-->)*\s*<div class="sticky-search-mobile">[\s\S]*?<\/div>\s*<\/div>/;
     const navSimpleRegex2 = /<\/nav>/;
     if (page.match(navEndRegex2)) {
         page = page.replace(navEndRegex2, `</nav>\n${seoBlock}`);
@@ -559,8 +561,15 @@ async function run() {
         const urls = [];
 
         // Clean up old directories
-        if (fs.existsSync('products')) fs.rmSync('products', { recursive: true, force: true });
-        if (fs.existsSync('category')) fs.rmSync('category', { recursive: true, force: true });
+        console.log("🧹 Cleaning up old generated folders...");
+        if (fs.existsSync('products')) {
+            console.log("  - Removing old products/ folder");
+            fs.rmSync('products', { recursive: true, force: true });
+        }
+        if (fs.existsSync('category')) {
+            console.log("  - Removing old category/ folder");
+            fs.rmSync('category', { recursive: true, force: true });
+        }
 
         // 1. Generate Product Pages
         console.log("📁 Generating Product Pages with real content...");
@@ -609,10 +618,10 @@ async function run() {
             page = page.replace(/name="twitter:description" id="tw-desc" content=".*?"/g, `name="twitter:description" id="tw-desc" content="${seoDesc}"`);
             page = page.replace(/name="twitter:image" id="tw-image" content=".*?"/g, `name="twitter:image" id="tw-image" content="${p.image}"`);
 
-            // Fix Firebase defer issue - SDKs must load before script.js
-            page = page.replace(/<script defer src="https:\/\/www\.gstatic\.com\/firebasejs/g, '<script src="https://www.gstatic.com/firebasejs');
-            // Fix script.js defer - must be synchronous on product pages so buttons work immediately
-            page = page.replace('<script defer src="/script.js">', '<script src="/script.js">');
+            // Fix Firebase SDKs - ensure they are NOT deferred on product pages for instant load
+            page = page.replace(/<script\s+(defer\s+)?src="https:\/\/www\.gstatic\.com\/firebasejs/g, '<script src="https://www.gstatic.com/firebasejs');
+            // Fix script.js - ensure it is NOT deferred on product pages so buttons work immediately
+            page = page.replace(/<script\s+(defer\s+)?src="(\/)?script\.js">/g, '<script src="/script.js">');
 
             // Fix asset & footer links
             page = fixLinks(page);
@@ -621,9 +630,13 @@ async function run() {
             page = page.replace('<body', `<body class="standalone-product-page" data-product-id="${p.id}"`);
 
             // === INJECT REAL PRODUCT CONTENT (the key fix!) ===
-            page = injectProductContent(page, p, pUrl);
-
-            fs.writeFileSync(path.join(pDir, 'index.html'), page);
+            try {
+                page = injectProductContent(page, p, pUrl);
+                fs.writeFileSync(path.join(pDir, 'index.html'), page);
+            } catch (err) {
+                console.error(`❌ Error generating page for product ${p.id} (${p.title}):`, err.message);
+                // Continue to next product instead of crashing the whole process
+            }
         });
         console.log(`✅ ${products.length} product pages generated with real content!`);
 

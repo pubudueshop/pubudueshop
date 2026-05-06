@@ -244,7 +244,7 @@
                 <div class="md:w-3/5 p-8 flex flex-col">
                     <!-- Stock Badge -->
                     <div class="mb-3">
-                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-green-100 text-green-800">In Stock</span>
+                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-red-100 text-red-800">Out of Stock</span>
                         <span class="ml-2 px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">Solid State Relays (SSR)</span>
                     </div>
 
@@ -314,11 +314,8 @@
                         </div>
                         <div class="flex-1 min-w-[200px] flex flex-col gap-2">
                             
-                            <button onclick="if(window.addToCart) addToCart('1777434155379', getSelectedQty())" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold h-12 rounded-lg shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-2 active:scale-95">
-                                <i class="fas fa-cart-plus"></i> Add to Cart
-                            </button>
-                            <button onclick="if(window.addToCart) { addToCart('1777434155379', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold h-12 rounded-lg shadow-lg shadow-green-200 transition-all flex items-center justify-center gap-2 active:scale-95">
-                                <i class="fab fa-whatsapp"></i> Buy via WhatsApp
+                            <button disabled class="w-full bg-gray-200 text-gray-500 font-bold h-12 rounded-lg cursor-not-allowed flex items-center justify-center gap-2">
+                                <i class="fas fa-ban"></i> Out of Stock
                             </button>
                             
                         </div>
@@ -336,20 +333,20 @@
                 <table class="w-full text-left">
                     <tbody>
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Solid State Relays (SSR)</td>
-            </tr>
-            <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">FQFER</td>
-            </tr>
-            <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">SSR-80DA</td>
             </tr>
             <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand new</td>
+            </tr>
+            <tr class="bg-white">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Solid State Relays (SSR)</td>
+            </tr>
+            <tr class="bg-gray-50">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">FQFER</td>
             </tr></tbody>
                 </table>
             </div>
@@ -381,24 +378,21 @@
 <!-- Mobile Sticky Bottom Bar -->
 <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 md:hidden flex gap-4 z-[2000] shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
     
-    <button onclick="if(window.addToCart) addToCart('1777434155379', getSelectedQty())" class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
-        <i class="fas fa-cart-plus"></i> Cart
-    </button>
-    <button onclick="if(window.addToCart) { addToCart('1777434155379', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="flex-1 bg-green-500 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
-        <i class="fab fa-whatsapp"></i> Buy
+    <button disabled class="flex-1 bg-gray-100 text-gray-400 font-bold py-3 rounded-lg flex items-center justify-center gap-2 cursor-not-allowed">
+        <i class="fas fa-ban"></i> Out of Stock
     </button>
     
 </div>
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Relays","item":"https://ichouse.lk/relays/"},{"@type":"ListItem","position":3,"name":"Solid State Relays (SSR)","item":"https://ichouse.lk/relays/solid-state-relays-ssr/"},{"@type":"ListItem","position":4,"name":"SSR-80DA Solid State Relay 80A 3-32V DC …","item":"https://ichouse.lk/relays/solid-state-relays-ssr/ssr80da-solid-state-relay-80a-332v-dc-to-24380v-ac-high-powe/"}]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"SSR-80DA Solid State Relay 80A 3-32V DC to 24-380V AC | High Power SSR Sri Lanka","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1777433437/ssr1_1_yxnqg9.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1777433437/ssr3_1_vrh9pv.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1777433437/ssr2_1_fghaoy.png"],"description":"**High-quality SSR-80DA Solid State Relay designed for reliable switching of high-power AC loads using low DC control** voltage (3–32V). Supports up to 80A load current and 24–380V AC output. Ideal for automation, heaters, motor control, and industrial applications in Sri Lanka.","sku":"SSR-80DA","brand":{"@type":"Brand","name":"FQFER"},"offers":{"@type":"Offer","url":"https://ichouse.lk/relays/solid-state-relays-ssr/ssr80da-solid-state-relay-80a-332v-dc-to-24380v-ac-high-powe/","priceCurrency":"LKR","price":1750,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"SSR-80DA Solid State Relay 80A 3-32V DC to 24-380V AC | High Power SSR Sri Lanka","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1777433437/ssr1_1_yxnqg9.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1777433437/ssr3_1_vrh9pv.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1777433437/ssr2_1_fghaoy.png"],"description":"**High-quality SSR-80DA Solid State Relay designed for reliable switching of high-power AC loads using low DC control** voltage (3–32V). Supports up to 80A load current and 24–380V AC output. Ideal for automation, heaters, motor control, and industrial applications in Sri Lanka.","sku":"SSR-80DA","brand":{"@type":"Brand","name":"FQFER"},"offers":{"@type":"Offer","url":"https://ichouse.lk/relays/solid-state-relays-ssr/ssr80da-solid-state-relay-80a-332v-dc-to-24380v-ac-high-powe/","priceCurrency":"LKR","price":1750,"availability":"https://schema.org/OutOfStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
 <script>
 // Pre-load product data so cart works instantly without waiting for Firebase
 window._currentModalProduct = {
     id: '1777434155379',
     title: "SSR-80DA Solid State Relay 80A 3-32V DC to 24-380V AC | High Power SSR Sri Lanka",
     price: 1750,
-    stock: 1,
+    stock: 99,
     image: "https://res.cloudinary.com/dqwdov5ab/image/upload/v1777433437/ssr1_1_yxnqg9.png",
     mainCategory: "Relays",
     subCategory: "Solid State Relays (SSR)"
@@ -663,8 +657,8 @@ function closeZoom() {
                         </ul>
                     </div>
                     <div class="about-image">
-                        <img src="https://images.unsplash.com/photo-1550009158-9ebf69173e03?q=80&w=1200&auto=format&fit=crop"
-                            alt="Pubudu Electronics Showcase">
+                        <img src="/logo.png"
+                            alt="Pubudu Electronics Logo">
                     </div>
                 </div>
             </div>

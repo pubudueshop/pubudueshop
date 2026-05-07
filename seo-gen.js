@@ -20,12 +20,15 @@ function createSEOSlug(name, fallback = "item") {
         .toLowerCase()
         .replace(/[^\w ]+/g, '')
         .replace(/ +/g, '-')
-        .replace(/-+/g, '-')        // collapse multiple dashes
-        .replace(/^-|-$/g, '')      // trim leading/trailing dashes
-        .substring(0, 60)           // max 60 chars for clean URLs
-        .replace(/-$/g, '');        // trim trailing dash after cut
-    
-    return slug || fallback;
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
+    // Cut at word boundary (last dash before 60 chars)
+    if (slug.length > 60) {
+        const cut = slug.substring(0, 60);
+        const lastDash = cut.lastIndexOf('-');
+        slug = lastDash > 30 ? cut.substring(0, lastDash) : cut;
+    }
+    return (slug.replace(/-$/g, '')) || fallback;
 }
 
 // Render markdown-style description to HTML

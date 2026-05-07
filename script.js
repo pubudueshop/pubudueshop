@@ -126,14 +126,18 @@ function initFirebase() {
 // Load products - UPDATED for speed (Local First, then Cloud)
 function createSEOSlug(name) {
     if (!name) return "";
-    return name
+    let slug = name
         .toLowerCase()
         .replace(/[^\w ]+/g, '')
         .replace(/ +/g, '-')
         .replace(/-+/g, '-')
-        .replace(/^-|-$/g, '')
-        .substring(0, 60)
-        .replace(/-$/g, '');
+        .replace(/^-|-$/g, '');
+    if (slug.length > 60) {
+        const cut = slug.substring(0, 60);
+        const lastDash = cut.lastIndexOf('-');
+        slug = lastDash > 30 ? cut.substring(0, lastDash) : cut;
+    }
+    return slug.replace(/-$/g, '');
 }
 
 // Guard flag: prevents double-render from LocalStorage + Firebase firing simultaneously

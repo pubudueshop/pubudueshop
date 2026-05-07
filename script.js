@@ -107,6 +107,7 @@ const firebaseConfig = {
     messagingSenderId: "12742630809",
     appId: "1:12742630809:web:68eab94d5c8b4257784708"
 };
+window.firebaseConfig = firebaseConfig; // Export for other scripts
 
 const SITE_URL = "https://ichouse.lk/";
 

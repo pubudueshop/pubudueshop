@@ -697,8 +697,8 @@
                         showLogin();
                     }
                 } else {
-                    console.warn("Firebase not ready, retrying in 500ms...");
-                    setTimeout(initAuth, 500);
+                    console.warn("Firebase Auth Waiting: firebase=" + (typeof firebase !== 'undefined') + ", config=" + (config ? "found" : "missing"));
+                    setTimeout(initAuth, 1000);
                 }
             }
 

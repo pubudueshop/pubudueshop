@@ -2539,6 +2539,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     } catch (err) {
         console.error("App Crash:", err);
-        showStatus("Website error. Please contact admin.", true);
+        if (typeof showToast === 'function') {
+            showToast("Website error. Please check console.", "error");
+        }
     }
 });

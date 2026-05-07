@@ -1,14 +1,3 @@
-// ✅ Firebase Configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyDl9N6YmDJI9bhhdkeUQPUxWKxIhZhryus",
-    authDomain: "pubudueshop-cde28.firebaseapp.com",
-    projectId: "pubudueshop-cde28",
-    storageBucket: "pubudueshop-cde28.firebasestorage.app",
-    messagingSenderId: "12742630809",
-    appId: "1:12742630809:web:68eab94d5c8b4257784708"
-};
-window.firebaseConfig = firebaseConfig; // Export for other scripts
-
 // ✅ FIX: missing function
 function downloadInvoice() {
     window.print();
@@ -104,6 +93,20 @@ let products = [];
 let db = null;
 const defaultDocumentTitle = "Pubudu Electronics | Premium Electronic Components in Sri Lanka";
 const defaultMetaDescription = "Premium electronic components in Sri Lanka. Shop Arduino, sensors, and modules at the best prices. Fast island-wide delivery. Trusted by makers and engineers.";
+
+// FIREBASE CONFIGURATION (REPLACE WITH YOUR OWN FROM FIREBASE CONSOLE)
+// 1. Go to console.firebase.google.com
+// 2. Create a project
+// 3. Register a web app
+// 4. Copy the "firebaseConfig" object here
+const firebaseConfig = {
+    apiKey: "AIzaSyDl9N6YmDJI9bhhdkeUQPUxWKxIhZhryus",
+    authDomain: "pubudueshop-cde28.firebaseapp.com",
+    projectId: "pubudueshop-cde28",
+    storageBucket: "pubudueshop-cde28.firebasestorage.app",
+    messagingSenderId: "12742630809",
+    appId: "1:12742630809:web:68eab94d5c8b4257784708"
+};
 
 const SITE_URL = "https://ichouse.lk/";
 
@@ -376,53 +379,38 @@ function toggleFavorite(productId) {
 function addToCart(productId, quantity = 1) {
     let product = products.find(p => p.id == productId);
     
-    // Fallback logic
+    // Fallback: use pre-loaded product data from standalone product pages
     if (!product && window._currentModalProduct && window._currentModalProduct.id == productId) {
         product = window._currentModalProduct;
+        // Also push into products array so future calls work
         if (!products.find(p => p.id == productId)) products.push(product);
     }
+
+    // Last fallback: check all _currentModalProduct regardless of id match (single product pages)
     if (!product && window._currentModalProduct) {
         product = window._currentModalProduct;
         if (!products.find(p => p.id == product.id)) products.push(product);
     }
     
     if (!product) {
-        showToast("Product data not ready.");
+        showToast("Product data not ready. Please wait a moment and try again.");
         return;
     }
 
-    // Get selected variations from UI if available
-    const selectedVariations = {};
-    const varSelectors = document.querySelectorAll('.variation-select');
-    varSelectors.forEach(select => {
-        selectedVariations[select.dataset.name] = select.value;
-    });
-    
-    const comboId = Object.keys(selectedVariations).length > 0 
-        ? Object.entries(selectedVariations).map(([k, v]) => `${k}:${v}`).join('|')
-        : '';
-        
-    const cartItemId = comboId ? `${product.id}_${comboId}` : String(product.id);
-    
-    // Determine variation-specific price and stock
-    const details = (product.variationDetails && comboId) ? product.variationDetails[comboId] : null;
-    const itemPrice = (details && details.price !== undefined) ? details.price : product.price;
-    const itemStock = (details && details.stock !== undefined) ? details.stock : product.stock;
-
-    if (itemStock <= 0) {
-        showToast("Sorry, this variation is out of stock", "error");
+    if (product.stock <= 0) {
+        showToast("Sorry, this item is currently out of stock", "error");
         return;
     }
 
-    const existingItem = cart.find(item => (item.cartItemId || item.id) == cartItemId);
+    const existingItem = cart.find(item => item.id == productId);
     const cartQty = existingItem ? existingItem.quantity : 0;
     
-    if (cartQty + quantity > itemStock) {
-        const available = itemStock - cartQty;
+    if (cartQty + quantity > product.stock) {
+        const available = product.stock - cartQty;
         if (available > 0) {
-            showToast(`You can only add ${available} more (Stock: ${itemStock})`, "error");
+            showToast(`You can only add ${available} more of this item (Stock: ${product.stock})`, "error");
         } else {
-            showToast(`Maximum stock reached for this variation`, "error");
+            showToast(`Maximum stock limit (${product.stock}) reached for this item`, "error");
         }
         return;
     }
@@ -432,42 +420,36 @@ function addToCart(productId, quantity = 1) {
     } else {
         cart.push({
             id: product.id,
-            cartItemId: cartItemId,
             title: product.title,
-            price: itemPrice,
+            price: product.price,
             image: product.image,
-            quantity: quantity,
-            selectedVariations: Object.keys(selectedVariations).length > 0 ? selectedVariations : null,
-            comboId: comboId
+            quantity: quantity
         });
     }
 
     saveCart();
     updateCartUI();
     showToast(`Added ${quantity} x ${product.title} to cart`);
+    
+    // Auto-open the cart drawer so user sees the item was added
     toggleCart(true);
 }
 
 function updateModalQty(delta) {
-    if (!currentModalProductId) return;
+    if (!currentModalProductId) {
+        modalQty += delta;
+        if (modalQty < 1) modalQty = 1;
+        const qtyValueDisplay = document.getElementById('modal-qty-value');
+        if (qtyValueDisplay) qtyValueDisplay.textContent = modalQty;
+        return;
+    }
 
     const product = products.find(p => p.id == currentModalProductId);
     if (!product) return;
-
-    // Get current variation stock
-    const selectedVariations = {};
-    const varSelectors = document.querySelectorAll('.variation-select');
-    varSelectors.forEach(select => {
-        selectedVariations[select.dataset.name] = select.value;
-    });
-    const comboId = Object.entries(selectedVariations).map(([k, v]) => `${k}:${v}`).join('|');
-    const details = product.variationDetails ? product.variationDetails[comboId] : null;
-    const currentStock = (details && details.stock !== undefined) ? details.stock : product.stock;
-
-    const cartItemId = comboId ? `${product.id}_${comboId}` : String(product.id);
-    const existingItem = cart.find(item => (item.cartItemId || item.id) == cartItemId);
+    
+    const existingItem = cart.find(item => item.id == currentModalProductId);
     const cartQty = existingItem ? existingItem.quantity : 0;
-    const maxAllowed = currentStock - cartQty;
+    const maxAllowed = product.stock - cartQty;
     
     modalQty += delta;
     if (modalQty < 1) modalQty = 1;
@@ -477,7 +459,7 @@ function updateModalQty(delta) {
         if (maxAllowed > 0 && delta > 0) {
             showToast(`You can only select up to ${maxAllowed} units based on stock.`);
         } else if (maxAllowed <= 0 && delta > 0) {
-            showToast(`All available stock (${currentStock}) is already in your cart.`);
+            showToast(`You already have all available stock (${product.stock}) in your cart.`);
         }
     }
     
@@ -505,29 +487,23 @@ function quickShare(productId, btnElement) {
     });
 }
 
-function removeFromCart(cartItemId) {
-    cart = cart.filter(item => (item.cartItemId || item.id) != cartItemId);
+function removeFromCart(productId) {
+    cart = cart.filter(item => item.id != productId);
     saveCart();
     updateCartUI();
 }
 
-function updateQuantity(cartItemId, delta) {
-    const item = cart.find(i => (i.cartItemId || i.id) == cartItemId);
-    if (!item) return;
-
-    const product = products.find(p => p.id == item.id);
+function updateQuantity(productId, delta) {
+    const item = cart.find(i => i.id == productId);
+    const product = products.find(p => p.id == productId);
     if (item) {
-        // Determine stock for this variation
-        const details = (product && product.variationDetails && item.comboId) ? product.variationDetails[item.comboId] : null;
-        const itemStock = (details && details.stock !== undefined) ? details.stock : (product ? product.stock : 999);
-
-        if (delta > 0 && item.quantity + delta > itemStock) {
-            showToast(`Maximum stock reached for this variation`, "error");
+        if (product && delta > 0 && item.quantity + delta > product.stock) {
+            showToast(`Maximum stock limit (${product.stock}) reached for this item`, "error");
             return;
         }
         item.quantity += delta;
         if (item.quantity <= 0) {
-            removeFromCart(cartItemId);
+            removeFromCart(productId);
         } else {
             saveCart();
             updateCartUI();
@@ -570,19 +546,12 @@ function updateCartUI() {
                     <img src="${item.image}" alt="${item.title}" class="cart-item-img">
                     <div class="cart-item-info">
                         <h4 class="cart-item-title">${item.title}</h4>
-                        ${item.selectedVariations ? `
-                            <div class="cart-item-variations">
-                                ${Object.entries(item.selectedVariations).map(([name, val]) => `
-                                    <span><strong>${name}:</strong> ${val}</span>
-                                `).join('')}
-                            </div>
-                        ` : ''}
                         <div class="cart-item-price">LKR ${item.price.toLocaleString()}</div>
                         <div class="cart-item-controls">
-                            <button class="qty-btn" onclick="updateQuantity('${item.cartItemId || item.id}', -1)">-</button>
+                            <button class="qty-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
                             <span>${item.quantity}</span>
-                            <button class="qty-btn" onclick="updateQuantity('${item.cartItemId || item.id}', 1)">+</button>
-                            <button class="qty-btn" style="margin-left: auto; color: #ef4444;" onclick="removeFromCart('${item.cartItemId || item.id}')">
+                            <button class="qty-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+                            <button class="qty-btn" style="margin-left: auto; color: #ef4444;" onclick="removeFromCart(${item.id})">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
                         </div>
@@ -638,36 +607,27 @@ function openCart() {
 }
 
 function changeQty(delta) {
+    // Check both potential IDs for the quantity display
     const qtyValue = document.getElementById('qty-readout') || document.getElementById('modal-qty-value');
     if (!qtyValue) return;
     
     let current = parseInt(qtyValue.textContent) || 1;
     current += delta;
+    
     if (current < 1) current = 1;
     
+    // Check stock limit
     const bodyId = document.body.dataset.productId || currentModalProductId;
     if (bodyId && typeof products !== 'undefined') {
         const product = products.find(p => p.id == bodyId);
-        if (product) {
-            // Get variation stock if in modal
-            let stock = product.stock;
-            const varSelectors = document.querySelectorAll('.variation-select');
-            if (varSelectors.length > 0) {
-                const selectedVariations = {};
-                varSelectors.forEach(select => { selectedVariations[select.dataset.name] = select.value; });
-                const comboId = Object.entries(selectedVariations).map(([k, v]) => `${k}:${v}`).join('|');
-                const details = product.variationDetails ? product.variationDetails[comboId] : null;
-                if (details && details.stock !== undefined) stock = details.stock;
-            }
-
-            if (current > stock) {
-                showToast(`Only ${stock} items available`, "error");
-                current = stock > 0 ? stock : 1;
-            }
+        if (product && current > product.stock) {
+            showToast(`Only ${product.stock} items available in stock`, "error");
+            current = product.stock > 0 ? product.stock : 1;
         }
     }
     
     qtyValue.textContent = current;
+    // Keep internal modalQty in sync if we're in the modal
     if (qtyValue.id === 'modal-qty-value') modalQty = current;
 }
 
@@ -718,14 +678,7 @@ function openInvoice(customerData) {
 
     invoiceItems.innerHTML = cart.map(item => `
         <tr>
-            <td>
-                ${item.title}
-                ${item.selectedVariations ? `
-                    <div style="font-size: 10px; color: #64748b; margin-top: 2px;">
-                        ${Object.entries(item.selectedVariations).map(([name, val]) => `${name}: ${val}`).join(' | ')}
-                    </div>
-                ` : ''}
-            </td>
+            <td>${item.title}</td>
             <td>${item.quantity}</td>
             <td>LKR ${item.price.toLocaleString()}</td>
             <td>LKR ${(item.price * item.quantity).toLocaleString()}</td>
@@ -778,12 +731,7 @@ function sendOrderViaWhatsApp() {
     message += `*ORDER ITEMS:*\n`;
 
     cart.forEach(item => {
-        let itemLabel = item.title;
-        if (item.selectedVariations) {
-            const varString = Object.entries(item.selectedVariations).map(([name, val]) => `${name}: ${val}`).join(', ');
-            itemLabel += ` (${varString})`;
-        }
-        message += `• ${itemLabel} x ${item.quantity} = LKR ${(item.price * item.quantity).toLocaleString()}\n`;
+        message += `• ${item.title} x ${item.quantity} = LKR ${(item.price * item.quantity).toLocaleString()}\n`;
     });
 
     const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
@@ -952,23 +900,13 @@ function downloadInvoicePDF() {
             doc.setTextColor(100, 116, 139);
             doc.text(String(i + 1), colX[0] + 2, y + 5.5);
 
-            // Title & Variations
+            // Title - truncate if too long
             doc.setTextColor(15, 23, 42);
             doc.setFont('helvetica', 'bold');
             const titleMaxW = 90;
-            let itemTitle = item.title || '';
-            const titleLines = doc.splitTextToSize(itemTitle, titleMaxW);
-            doc.text(titleLines[0], colX[1], y + 4.5);
+            const titleLines = doc.splitTextToSize(item.title || '', titleMaxW);
+            doc.text(titleLines[0], colX[1], y + 5.5); // only first line to keep row height fixed
 
-            if (item.selectedVariations) {
-                doc.setFont('helvetica', 'normal');
-                doc.setFontSize(7.5);
-                doc.setTextColor(100, 116, 139);
-                const varString = Object.entries(item.selectedVariations).map(([name, val]) => `${name}: ${val}`).join(' | ');
-                doc.text(varString, colX[1], y + 7.5);
-            }
-
-            doc.setFontSize(9);
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(71, 85, 105);
             doc.text(String(item.quantity), colX[2] + 7, y + 5.5, { align: 'center' });
@@ -1747,32 +1685,6 @@ function openProductDetails(id) {
         detailDescription.innerHTML = product.longDescription || product.description;
     }
 
-    // Variations
-    let variationsContainer = document.getElementById('detail-variations');
-    if (!variationsContainer) {
-        variationsContainer = document.createElement('div');
-        variationsContainer.id = 'detail-variations';
-        variationsContainer.className = 'flex flex-col gap-4 mb-6';
-        if (detailDescription) {
-            detailDescription.parentNode.insertBefore(variationsContainer, detailDescription.nextSibling);
-        }
-    }
-    variationsContainer.innerHTML = '';
-
-    if (product.variations && product.variations.length > 0) {
-        variationsContainer.innerHTML = product.variations.map(v => `
-            <div class="variation-group flex flex-col gap-1.5">
-                <label class="text-[10px] uppercase font-bold text-gray-400 tracking-wider">${v.name}</label>
-                <select class="variation-select w-full h-11 px-4 bg-gray-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-sm font-medium text-gray-700" data-name="${v.name}" onchange="updateVariationInfo()">
-                    ${v.options.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
-                </select>
-            </div>
-        `).join('');
-        
-        // Update price/stock based on first variation selection
-        setTimeout(() => updateVariationInfo(), 10);
-    }
-
     // Features
     if (detailFeatures) {
         if (product.features && product.features.length > 0) {
@@ -1936,61 +1848,6 @@ function openProductDetails(id) {
     productModalRoot.classList.remove('hidden');
     document.body.classList.add('modal-open');
 }
-
-function updateVariationInfo() {
-    if (!currentModalProductId) return;
-    const product = products.find(p => p.id == currentModalProductId);
-    if (!product) return;
-
-    const selectedVariations = {};
-    const varSelectors = document.querySelectorAll('.variation-select');
-    varSelectors.forEach(select => {
-        selectedVariations[select.dataset.name] = select.value;
-    });
-
-    const comboId = Object.entries(selectedVariations).map(([k, v]) => `${k}:${v}`).join('|');
-    const details = product.variationDetails ? product.variationDetails[comboId] : null;
-
-    const currentPrice = (details && details.price !== undefined) ? details.price : product.price;
-    const currentStock = (details && details.stock !== undefined) ? details.stock : product.stock;
-
-    // Update Price Display
-    if (detailPrice) detailPrice.textContent = `LKR ${currentPrice.toLocaleString()}`;
-    const detailPriceOld = document.getElementById('detail-price-old');
-    if (detailPriceOld) {
-        detailPriceOld.textContent = `LKR ${(currentPrice * 1.15).toLocaleString()}`;
-    }
-
-    // Update Stock Badge
-    const stockBadge = document.getElementById('detail-stock-badge');
-    if (stockBadge) {
-        const isOutOfStock = currentStock <= 0;
-        stockBadge.textContent = isOutOfStock ? 'Out of Stock' : 'In Stock';
-        stockBadge.className = isOutOfStock 
-            ? 'px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-red-100 text-red-700'
-            : 'px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-blue-100 text-blue-700';
-    }
-
-    // Update Button States
-    const isOutOfStock = currentStock <= 0;
-    if (isOutOfStock) {
-        detailAddCartBtn.classList.add('opacity-50', 'cursor-not-allowed', 'grayscale');
-        detailAddCartBtn.innerHTML = '<i class="fas fa-times-circle"></i> Out of Stock';
-        detailBuyBtn.classList.add('hidden');
-    } else {
-        detailAddCartBtn.classList.remove('opacity-50', 'cursor-not-allowed', 'grayscale');
-        detailAddCartBtn.innerHTML = '<i class="fas fa-cart-plus"></i> Add to Cart';
-        detailBuyBtn.classList.remove('hidden');
-    }
-
-    // Update modalQty if it exceeds current stock
-    if (modalQty > currentStock && currentStock > 0) {
-        modalQty = currentStock;
-        const qtyValueDisplay = document.getElementById('modal-qty-value');
-        if (qtyValueDisplay) qtyValueDisplay.textContent = modalQty;
-    }
-}
-window.updateVariationInfo = updateVariationInfo;
 
 // Global helper for modal image changes
 function changeModalImage(thumb, url) {
@@ -2180,33 +2037,33 @@ function updateWhatsAppMessage(productTitle = null) {
 
 // Initial Render
 document.addEventListener('DOMContentLoaded', async () => {
-    try {
-        // Update Copyright Year
-        const yearEl = document.getElementById('current-year');
-        if (yearEl) yearEl.textContent = new Date().getFullYear();
+    // Update Copyright Year
+    const yearEl = document.getElementById('current-year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-        // Move cart-drawer and invoice-modal to body so they're never trapped inside hidden parents
-        ['cart-drawer', 'invoice-modal'].forEach(id => {
-            const el = document.getElementById(id);
-            if (el && el.parentElement !== document.body) {
-                document.body.appendChild(el);
-            }
-        });
-
-        // Initialize Firebase FIRST before anything else
-        initFirebase();
-
-        // If we are on the admin page, skip the customer-facing initializations
-        if (document.getElementById('admin-page')) {
-            await loadCategories();
-            await loadProducts();
-            return;
+    // Move cart-drawer and invoice-modal to body so they're never trapped inside hidden parents
+    ['cart-drawer', 'invoice-modal'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el && el.parentElement !== document.body) {
+            document.body.appendChild(el);
         }
+    });
 
-        // Load categories
+    // Initialize Firebase FIRST before anything else
+    initFirebase();
+
+    // If we are on the admin page, skip the customer-facing initializations
+    if (document.getElementById('admin-page')) {
         await loadCategories();
+        await loadProducts();
+        return;
+    }
 
-        // 1. Add Event Listeners Immediately (Non-Firebase)
+    // Load categories
+    await loadCategories();
+
+    // 1. Add Event Listeners Immediately (Non-Firebase)
+    try {
         // Modal Close Events
         if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeProductModal);
         if (modalOverlay) modalOverlay.addEventListener('click', closeProductModal);
@@ -2535,8 +2392,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     } catch (err) {
         console.error("App Crash:", err);
-        if (typeof showToast === 'function') {
-            showToast("Website error. Please check console.", "error");
-        }
+        showStatus("Website error. Please contact admin.", true);
     }
 });

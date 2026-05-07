@@ -2142,22 +2142,6 @@ body.modal-open {
     flex: 1;
 }
 
-.cart-item-variations {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
-}
-
-.cart-item-variations span {
-    font-size: 0.75rem;
-    color: var(--text-light);
-    background: var(--background);
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
-    border: 1px solid var(--border);
-}
-
 .cart-item-title {
     font-weight: 600;
     font-size: 0.95rem;

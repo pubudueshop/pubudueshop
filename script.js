@@ -379,38 +379,53 @@ function toggleFavorite(productId) {
 function addToCart(productId, quantity = 1) {
     let product = products.find(p => p.id == productId);
     
-    // Fallback: use pre-loaded product data from standalone product pages
+    // Fallback logic
     if (!product && window._currentModalProduct && window._currentModalProduct.id == productId) {
         product = window._currentModalProduct;
-        // Also push into products array so future calls work
         if (!products.find(p => p.id == productId)) products.push(product);
     }
-
-    // Last fallback: check all _currentModalProduct regardless of id match (single product pages)
     if (!product && window._currentModalProduct) {
         product = window._currentModalProduct;
         if (!products.find(p => p.id == product.id)) products.push(product);
     }
     
     if (!product) {
-        showToast("Product data not ready. Please wait a moment and try again.");
+        showToast("Product data not ready.");
         return;
     }
 
-    if (product.stock <= 0) {
-        showToast("Sorry, this item is currently out of stock", "error");
+    // Get selected variations from UI if available
+    const selectedVariations = {};
+    const varSelectors = document.querySelectorAll('.variation-select');
+    varSelectors.forEach(select => {
+        selectedVariations[select.dataset.name] = select.value;
+    });
+    
+    const comboId = Object.keys(selectedVariations).length > 0 
+        ? Object.entries(selectedVariations).map(([k, v]) => `${k}:${v}`).join('|')
+        : '';
+        
+    const cartItemId = comboId ? `${product.id}_${comboId}` : String(product.id);
+    
+    // Determine variation-specific price and stock
+    const details = (product.variationDetails && comboId) ? product.variationDetails[comboId] : null;
+    const itemPrice = (details && details.price !== undefined) ? details.price : product.price;
+    const itemStock = (details && details.stock !== undefined) ? details.stock : product.stock;
+
+    if (itemStock <= 0) {
+        showToast("Sorry, this variation is out of stock", "error");
         return;
     }
 
-    const existingItem = cart.find(item => item.id == productId);
+    const existingItem = cart.find(item => (item.cartItemId || item.id) == cartItemId);
     const cartQty = existingItem ? existingItem.quantity : 0;
     
-    if (cartQty + quantity > product.stock) {
-        const available = product.stock - cartQty;
+    if (cartQty + quantity > itemStock) {
+        const available = itemStock - cartQty;
         if (available > 0) {
-            showToast(`You can only add ${available} more of this item (Stock: ${product.stock})`, "error");
+            showToast(`You can only add ${available} more (Stock: ${itemStock})`, "error");
         } else {
-            showToast(`Maximum stock limit (${product.stock}) reached for this item`, "error");
+            showToast(`Maximum stock reached for this variation`, "error");
         }
         return;
     }
@@ -418,46 +433,44 @@ function addToCart(productId, quantity = 1) {
     if (existingItem) {
         existingItem.quantity += quantity;
     } else {
-        // Collect selected variations if we're in the modal
-        const selectedVariations = {};
-        const varSelectors = document.querySelectorAll('.variation-select');
-        varSelectors.forEach(select => {
-            selectedVariations[select.dataset.name] = select.value;
-        });
-
         cart.push({
             id: product.id,
+            cartItemId: cartItemId,
             title: product.title,
-            price: product.price,
+            price: itemPrice,
             image: product.image,
             quantity: quantity,
-            selectedVariations: Object.keys(selectedVariations).length > 0 ? selectedVariations : null
+            selectedVariations: Object.keys(selectedVariations).length > 0 ? selectedVariations : null,
+            comboId: comboId
         });
     }
 
     saveCart();
     updateCartUI();
     showToast(`Added ${quantity} x ${product.title} to cart`);
-    
-    // Auto-open the cart drawer so user sees the item was added
     toggleCart(true);
 }
 
 function updateModalQty(delta) {
-    if (!currentModalProductId) {
-        modalQty += delta;
-        if (modalQty < 1) modalQty = 1;
-        const qtyValueDisplay = document.getElementById('modal-qty-value');
-        if (qtyValueDisplay) qtyValueDisplay.textContent = modalQty;
-        return;
-    }
+    if (!currentModalProductId) return;
 
     const product = products.find(p => p.id == currentModalProductId);
     if (!product) return;
-    
-    const existingItem = cart.find(item => item.id == currentModalProductId);
+
+    // Get current variation stock
+    const selectedVariations = {};
+    const varSelectors = document.querySelectorAll('.variation-select');
+    varSelectors.forEach(select => {
+        selectedVariations[select.dataset.name] = select.value;
+    });
+    const comboId = Object.entries(selectedVariations).map(([k, v]) => `${k}:${v}`).join('|');
+    const details = product.variationDetails ? product.variationDetails[comboId] : null;
+    const currentStock = (details && details.stock !== undefined) ? details.stock : product.stock;
+
+    const cartItemId = comboId ? `${product.id}_${comboId}` : String(product.id);
+    const existingItem = cart.find(item => (item.cartItemId || item.id) == cartItemId);
     const cartQty = existingItem ? existingItem.quantity : 0;
-    const maxAllowed = product.stock - cartQty;
+    const maxAllowed = currentStock - cartQty;
     
     modalQty += delta;
     if (modalQty < 1) modalQty = 1;
@@ -467,7 +480,7 @@ function updateModalQty(delta) {
         if (maxAllowed > 0 && delta > 0) {
             showToast(`You can only select up to ${maxAllowed} units based on stock.`);
         } else if (maxAllowed <= 0 && delta > 0) {
-            showToast(`You already have all available stock (${product.stock}) in your cart.`);
+            showToast(`All available stock (${currentStock}) is already in your cart.`);
         }
     }
     
@@ -495,23 +508,29 @@ function quickShare(productId, btnElement) {
     });
 }
 
-function removeFromCart(productId) {
-    cart = cart.filter(item => item.id != productId);
+function removeFromCart(cartItemId) {
+    cart = cart.filter(item => (item.cartItemId || item.id) != cartItemId);
     saveCart();
     updateCartUI();
 }
 
-function updateQuantity(productId, delta) {
-    const item = cart.find(i => i.id == productId);
-    const product = products.find(p => p.id == productId);
+function updateQuantity(cartItemId, delta) {
+    const item = cart.find(i => (i.cartItemId || i.id) == cartItemId);
+    if (!item) return;
+
+    const product = products.find(p => p.id == item.id);
     if (item) {
-        if (product && delta > 0 && item.quantity + delta > product.stock) {
-            showToast(`Maximum stock limit (${product.stock}) reached for this item`, "error");
+        // Determine stock for this variation
+        const details = (product && product.variationDetails && item.comboId) ? product.variationDetails[item.comboId] : null;
+        const itemStock = (details && details.stock !== undefined) ? details.stock : (product ? product.stock : 999);
+
+        if (delta > 0 && item.quantity + delta > itemStock) {
+            showToast(`Maximum stock reached for this variation`, "error");
             return;
         }
         item.quantity += delta;
         if (item.quantity <= 0) {
-            removeFromCart(productId);
+            removeFromCart(cartItemId);
         } else {
             saveCart();
             updateCartUI();
@@ -563,10 +582,10 @@ function updateCartUI() {
                         ` : ''}
                         <div class="cart-item-price">LKR ${item.price.toLocaleString()}</div>
                         <div class="cart-item-controls">
-                            <button class="qty-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
+                            <button class="qty-btn" onclick="updateQuantity('${item.cartItemId || item.id}', -1)">-</button>
                             <span>${item.quantity}</span>
-                            <button class="qty-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
-                            <button class="qty-btn" style="margin-left: auto; color: #ef4444;" onclick="removeFromCart(${item.id})">
+                            <button class="qty-btn" onclick="updateQuantity('${item.cartItemId || item.id}', 1)">+</button>
+                            <button class="qty-btn" style="margin-left: auto; color: #ef4444;" onclick="removeFromCart('${item.cartItemId || item.id}')">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
                         </div>
@@ -622,27 +641,36 @@ function openCart() {
 }
 
 function changeQty(delta) {
-    // Check both potential IDs for the quantity display
     const qtyValue = document.getElementById('qty-readout') || document.getElementById('modal-qty-value');
     if (!qtyValue) return;
     
     let current = parseInt(qtyValue.textContent) || 1;
     current += delta;
-    
     if (current < 1) current = 1;
     
-    // Check stock limit
     const bodyId = document.body.dataset.productId || currentModalProductId;
     if (bodyId && typeof products !== 'undefined') {
         const product = products.find(p => p.id == bodyId);
-        if (product && current > product.stock) {
-            showToast(`Only ${product.stock} items available in stock`, "error");
-            current = product.stock > 0 ? product.stock : 1;
+        if (product) {
+            // Get variation stock if in modal
+            let stock = product.stock;
+            const varSelectors = document.querySelectorAll('.variation-select');
+            if (varSelectors.length > 0) {
+                const selectedVariations = {};
+                varSelectors.forEach(select => { selectedVariations[select.dataset.name] = select.value; });
+                const comboId = Object.entries(selectedVariations).map(([k, v]) => `${k}:${v}`).join('|');
+                const details = product.variationDetails ? product.variationDetails[comboId] : null;
+                if (details && details.stock !== undefined) stock = details.stock;
+            }
+
+            if (current > stock) {
+                showToast(`Only ${stock} items available`, "error");
+                current = stock > 0 ? stock : 1;
+            }
         }
     }
     
     qtyValue.textContent = current;
-    // Keep internal modalQty in sync if we're in the modal
     if (qtyValue.id === 'modal-qty-value') modalQty = current;
 }
 
@@ -1738,11 +1766,14 @@ function openProductDetails(id) {
         variationsContainer.innerHTML = product.variations.map(v => `
             <div class="variation-group flex flex-col gap-1.5">
                 <label class="text-[10px] uppercase font-bold text-gray-400 tracking-wider">${v.name}</label>
-                <select class="variation-select w-full h-11 px-4 bg-gray-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-sm font-medium text-gray-700" data-name="${v.name}">
+                <select class="variation-select w-full h-11 px-4 bg-gray-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-sm font-medium text-gray-700" data-name="${v.name}" onchange="updateVariationInfo()">
                     ${v.options.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
                 </select>
             </div>
         `).join('');
+        
+        // Update price/stock based on first variation selection
+        setTimeout(() => updateVariationInfo(), 10);
     }
 
     // Features
@@ -1908,6 +1939,61 @@ function openProductDetails(id) {
     productModalRoot.classList.remove('hidden');
     document.body.classList.add('modal-open');
 }
+
+function updateVariationInfo() {
+    if (!currentModalProductId) return;
+    const product = products.find(p => p.id == currentModalProductId);
+    if (!product) return;
+
+    const selectedVariations = {};
+    const varSelectors = document.querySelectorAll('.variation-select');
+    varSelectors.forEach(select => {
+        selectedVariations[select.dataset.name] = select.value;
+    });
+
+    const comboId = Object.entries(selectedVariations).map(([k, v]) => `${k}:${v}`).join('|');
+    const details = product.variationDetails ? product.variationDetails[comboId] : null;
+
+    const currentPrice = (details && details.price !== undefined) ? details.price : product.price;
+    const currentStock = (details && details.stock !== undefined) ? details.stock : product.stock;
+
+    // Update Price Display
+    if (detailPrice) detailPrice.textContent = `LKR ${currentPrice.toLocaleString()}`;
+    const detailPriceOld = document.getElementById('detail-price-old');
+    if (detailPriceOld) {
+        detailPriceOld.textContent = `LKR ${(currentPrice * 1.15).toLocaleString()}`;
+    }
+
+    // Update Stock Badge
+    const stockBadge = document.getElementById('detail-stock-badge');
+    if (stockBadge) {
+        const isOutOfStock = currentStock <= 0;
+        stockBadge.textContent = isOutOfStock ? 'Out of Stock' : 'In Stock';
+        stockBadge.className = isOutOfStock 
+            ? 'px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-red-100 text-red-700'
+            : 'px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-blue-100 text-blue-700';
+    }
+
+    // Update Button States
+    const isOutOfStock = currentStock <= 0;
+    if (isOutOfStock) {
+        detailAddCartBtn.classList.add('opacity-50', 'cursor-not-allowed', 'grayscale');
+        detailAddCartBtn.innerHTML = '<i class="fas fa-times-circle"></i> Out of Stock';
+        detailBuyBtn.classList.add('hidden');
+    } else {
+        detailAddCartBtn.classList.remove('opacity-50', 'cursor-not-allowed', 'grayscale');
+        detailAddCartBtn.innerHTML = '<i class="fas fa-cart-plus"></i> Add to Cart';
+        detailBuyBtn.classList.remove('hidden');
+    }
+
+    // Update modalQty if it exceeds current stock
+    if (modalQty > currentStock && currentStock > 0) {
+        modalQty = currentStock;
+        const qtyValueDisplay = document.getElementById('modal-qty-value');
+        if (qtyValueDisplay) qtyValueDisplay.textContent = modalQty;
+    }
+}
+window.updateVariationInfo = updateVariationInfo;
 
 // Global helper for modal image changes
 function changeModalImage(thumb, url) {

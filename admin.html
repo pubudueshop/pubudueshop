@@ -624,7 +624,28 @@
                     </div>
                     <div class="form-group">
                         <label>Product Variations (One per line, e.g., Ohms: 10, 100, 1k)</label>
-                        <textarea id="prod-variations" rows="3" placeholder="Ohms: 10, 100, 1k&#10;Watt: 0.25W, 0.5W"></textarea>
+                        <textarea id="prod-variations" rows="3" placeholder="Ohms: 10, 100, 1k&#10;Watt: 0.25W, 0.5W" oninput="showSyncBtn()"></textarea>
+                        <button type="button" id="btn-sync-variations" onclick="generateVariationTable()" style="margin-top: 8px; font-size: 0.8rem; background: #f1f5f9; border: 1px solid #cbd5e1; padding: 4px 10px; border-radius: 4px; cursor: pointer; display: none;">
+                            <i class="fas fa-sync"></i> Set Price & Stock per Variation
+                        </button>
+                    </div>
+                    
+                    <!-- Variation Details Table -->
+                    <div id="variation-details-container" style="margin-bottom: 1.5rem; display: none;">
+                        <label style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 8px; display: block;">Specific Price & Stock:</label>
+                        <div id="variation-table-wrapper" style="max-height: 300px; overflow-y: auto; border: 1px solid var(--border); border-radius: 8px;">
+                            <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; background: white;">
+                                <thead style="background: #f8fafc; position: sticky; top: 0; z-index: 10;">
+                                    <tr>
+                                        <th style="padding: 8px; text-align: left; border-bottom: 1px solid var(--border);">Combination</th>
+                                        <th style="padding: 8px; text-align: left; border-bottom: 1px solid var(--border); width: 100px;">Price</th>
+                                        <th style="padding: 8px; text-align: left; border-bottom: 1px solid var(--border); width: 80px;">Stock</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="variation-table-body"></tbody>
+                            </table>
+                        </div>
+                        <p style="font-size: 0.7rem; color: var(--text-light); margin-top: 4px;">Leave empty to use the main price and stock.</p>
                     </div>
                     <div class="form-group">
                         <label>Video Link (YouTube/Facebook - Optional)</label>
@@ -1022,19 +1043,77 @@
                 updateImagePreview({ value: '' }); // Clear preview
             }
 
-            function updateImagePreview(input) {
-                const preview = document.getElementById('admin-image-preview');
-                const placeholder = document.getElementById('preview-placeholder');
-                if (input.value && input.value.trim() !== '') {
-                    preview.src = input.value;
-                    preview.style.display = 'block';
-                    placeholder.style.display = 'none';
-                } else {
-                    preview.style.display = 'none';
-                    placeholder.style.display = 'block';
+            function showSyncBtn() {
+                const val = document.getElementById('prod-variations').value.trim();
+                const btn = document.getElementById('btn-sync-variations');
+                btn.style.display = val ? 'inline-block' : 'none';
+                if (!val) {
+                    document.getElementById('variation-details-container').style.display = 'none';
                 }
             }
+
+            function generateVariationTable(existingDetails = null) {
+                const text = document.getElementById('prod-variations').value.trim();
+                if (!text) return;
+
+                const variations = text.split('\n').filter(line => line.trim()).map(line => {
+                    const parts = line.split(':');
+                    if (parts.length < 2) return null;
+                    return {
+                        name: parts[0].trim(),
+                        options: parts[1].split(',').map(o => o.trim()).filter(o => o)
+                    };
+                }).filter(v => v);
+
+                if (variations.length === 0) return;
+
+                const container = document.getElementById('variation-details-container');
+                const tbody = document.getElementById('variation-table-body');
+                container.style.display = 'block';
+                tbody.innerHTML = '';
+
+                // Generate combinations
+                let combinations = [{}];
+                variations.forEach(v => {
+                    let newCombos = [];
+                    v.options.forEach(opt => {
+                        combinations.forEach(combo => {
+                            newCombos.push({ ...combo, [v.name]: opt });
+                        });
+                    });
+                    combinations = newCombos;
+                });
+
+                if (combinations.length > 100) {
+                    tbody.innerHTML = `<tr><td colspan="3" style="padding:1rem; text-align:center; color: #ef4444;">Too many combinations (${combinations.length}). Please simplify variations.</td></tr>`;
+                    return;
+                }
+
+                combinations.forEach(combo => {
+                    const label = Object.entries(combo).map(([k, v]) => `${k}: ${v}`).join(', ');
+                    const comboId = Object.entries(combo).map(([k, v]) => `${k}:${v}`).join('|');
+                    
+                    let price = '';
+                    let stock = '';
+                    
+                    if (existingDetails && existingDetails[comboId]) {
+                        price = existingDetails[comboId].price !== undefined ? existingDetails[comboId].price : '';
+                        stock = existingDetails[comboId].stock !== undefined ? existingDetails[comboId].stock : '';
+                    }
+
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td style="padding: 8px; border-bottom: 1px solid #eee;">${label}</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #eee;"><input type="number" class="var-price" data-combo="${comboId}" value="${price}" placeholder="Default" style="padding: 4px; border: 1px solid #ddd; border-radius: 4px; width: 100%;"></td>
+                        <td style="padding: 8px; border-bottom: 1px solid #eee;"><input type="number" class="var-stock" data-combo="${comboId}" value="${stock}" placeholder="Default" style="padding: 4px; border: 1px solid #ddd; border-radius: 4px; width: 100%;"></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
             window.updateImagePreview = updateImagePreview;
+            window.showSyncBtn = showSyncBtn;
+            window.generateVariationTable = generateVariationTable;
 
             function deleteProduct(id) {
                 if (confirm('Are you sure you want to delete this item?')) {
@@ -1074,6 +1153,15 @@
                 document.getElementById('prod-desc').value = p.description;
                 document.getElementById('prod-keywords').value = p.keywords ? p.keywords.join(', ') : '';
                 document.getElementById('prod-variations').value = p.variations ? p.variations.map(v => `${v.name}: ${v.options.join(', ')}`).join('\n') : '';
+                
+                // Load Variation Table
+                if (p.variations && p.variations.length > 0) {
+                    showSyncBtn();
+                    generateVariationTable(p.variationDetails || null);
+                } else {
+                    document.getElementById('variation-details-container').style.display = 'none';
+                }
+
                 document.getElementById('prod-video').value = p.videoUrl && p.videoUrl !== '#' ? p.videoUrl : '';
 
                 mainCatSelect.value = p.mainCategory;
@@ -1132,6 +1220,28 @@
                     document.getElementById('prod-image-5').value
                 ].filter(url => url && url.trim() !== '');
 
+                const variations = document.getElementById('prod-variations').value.split('\n').filter(line => line.trim()).map(line => {
+                    const parts = line.split(':');
+                    if (parts.length < 2) return null;
+                    return {
+                        name: parts[0].trim(),
+                        options: parts[1].split(',').map(o => o.trim()).filter(o => o)
+                    };
+                }).filter(v => v && v.name && v.options.length > 0);
+
+                const variationDetails = {};
+                document.querySelectorAll('#variation-table-body tr').forEach(tr => {
+                    const comboId = tr.querySelector('.var-price').dataset.combo;
+                    const price = tr.querySelector('.var-price').value;
+                    const stock = tr.querySelector('.var-stock').value;
+                    if (price !== '' || stock !== '') {
+                        variationDetails[comboId] = {
+                            price: price !== '' ? parseInt(price) : undefined,
+                            stock: stock !== '' ? parseInt(stock) : undefined
+                        };
+                    }
+                });
+
                 const newProduct = {
                     id: isEdit ? parseInt(id) : Date.now(),
                     title: document.getElementById('prod-title').value,
@@ -1146,14 +1256,8 @@
                     images: images,
                     description: document.getElementById('prod-desc').value,
                     keywords: document.getElementById('prod-keywords').value.split(',').map(k => k.trim()).filter(k => k),
-                    variations: document.getElementById('prod-variations').value.split('\n').filter(line => line.trim()).map(line => {
-                        const parts = line.split(':');
-                        if (parts.length < 2) return null;
-                        return {
-                            name: parts[0].trim(),
-                            options: parts[1].split(',').map(o => o.trim()).filter(o => o)
-                        };
-                    }).filter(v => v && v.name && v.options.length > 0),
+                    variations: variations,
+                    variationDetails: variationDetails,
                     longDescription: document.getElementById('prod-desc').value,
                     features: ["High Quality Component", document.getElementById('prod-condition').value + " Condition"],
                     specs: {

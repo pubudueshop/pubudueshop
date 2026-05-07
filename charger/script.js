@@ -1,3 +1,14 @@
+// ✅ Firebase Configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyDl9N6YmDJI9bhhdkeUQPUxWKxIhZhryus",
+    authDomain: "pubudueshop-cde28.firebaseapp.com",
+    projectId: "pubudueshop-cde28",
+    storageBucket: "pubudueshop-cde28.firebasestorage.app",
+    messagingSenderId: "12742630809",
+    appId: "1:12742630809:web:68eab94d5c8b4257784708"
+};
+window.firebaseConfig = firebaseConfig; // Export for other scripts
+
 // ✅ FIX: missing function
 function downloadInvoice() {
     window.print();
@@ -93,21 +104,6 @@ let products = [];
 let db = null;
 const defaultDocumentTitle = "Pubudu Electronics | Premium Electronic Components in Sri Lanka";
 const defaultMetaDescription = "Premium electronic components in Sri Lanka. Shop Arduino, sensors, and modules at the best prices. Fast island-wide delivery. Trusted by makers and engineers.";
-
-// FIREBASE CONFIGURATION (REPLACE WITH YOUR OWN FROM FIREBASE CONSOLE)
-// 1. Go to console.firebase.google.com
-// 2. Create a project
-// 3. Register a web app
-// 4. Copy the "firebaseConfig" object here
-const firebaseConfig = {
-    apiKey: "AIzaSyDl9N6YmDJI9bhhdkeUQPUxWKxIhZhryus",
-    authDomain: "pubudueshop-cde28.firebaseapp.com",
-    projectId: "pubudueshop-cde28",
-    storageBucket: "pubudueshop-cde28.firebasestorage.app",
-    messagingSenderId: "12742630809",
-    appId: "1:12742630809:web:68eab94d5c8b4257784708"
-};
-window.firebaseConfig = firebaseConfig; // Export for other scripts
 
 const SITE_URL = "https://ichouse.lk/";
 
@@ -2184,33 +2180,33 @@ function updateWhatsAppMessage(productTitle = null) {
 
 // Initial Render
 document.addEventListener('DOMContentLoaded', async () => {
-    // Update Copyright Year
-    const yearEl = document.getElementById('current-year');
-    if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-    // Move cart-drawer and invoice-modal to body so they're never trapped inside hidden parents
-    ['cart-drawer', 'invoice-modal'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el && el.parentElement !== document.body) {
-            document.body.appendChild(el);
-        }
-    });
-
-    // Initialize Firebase FIRST before anything else
-    initFirebase();
-
-    // If we are on the admin page, skip the customer-facing initializations
-    if (document.getElementById('admin-page')) {
-        await loadCategories();
-        await loadProducts();
-        return;
-    }
-
-    // Load categories
-    await loadCategories();
-
-    // 1. Add Event Listeners Immediately (Non-Firebase)
     try {
+        // Update Copyright Year
+        const yearEl = document.getElementById('current-year');
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+        // Move cart-drawer and invoice-modal to body so they're never trapped inside hidden parents
+        ['cart-drawer', 'invoice-modal'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el && el.parentElement !== document.body) {
+                document.body.appendChild(el);
+            }
+        });
+
+        // Initialize Firebase FIRST before anything else
+        initFirebase();
+
+        // If we are on the admin page, skip the customer-facing initializations
+        if (document.getElementById('admin-page')) {
+            await loadCategories();
+            await loadProducts();
+            return;
+        }
+
+        // Load categories
+        await loadCategories();
+
+        // 1. Add Event Listeners Immediately (Non-Firebase)
         // Modal Close Events
         if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeProductModal);
         if (modalOverlay) modalOverlay.addEventListener('click', closeProductModal);

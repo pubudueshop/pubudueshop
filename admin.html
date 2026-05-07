@@ -662,6 +662,18 @@
 
         <script src="script.js"></script>
         <script>
+            // ===== FALLBACK FIREBASE CONFIG (in case script.js loads late) =====
+            if (!window.firebaseConfig) {
+                window.firebaseConfig = {
+                    apiKey: "AIzaSyDl9N6YmDJI9bhhdkeUQPUxWKxIhZhryus",
+                    authDomain: "pubudueshop-cde28.firebaseapp.com",
+                    projectId: "pubudueshop-cde28",
+                    storageBucket: "pubudueshop-cde28.firebasestorage.app",
+                    messagingSenderId: "12742630809",
+                    appId: "1:12742630809:web:68eab94d5c8b4257784708"
+                };
+            }
+
             // ===== AUTHENTICATION =====
             const loginPage = document.getElementById('login-page');
             const adminPage = document.getElementById('admin-page');
@@ -672,7 +684,6 @@
             const userEmailBadge = document.getElementById('user-email');
 
             // SECURITY: ONLY THESE EMAILS CAN ACCESS THE ADMIN DASHBOARD
-            // Add your Gmail address here!
             const ALLOWED_ADMINS = [
                 "pubudurox530@gmail.com",
                 "pubudueshop@gmail.com"
@@ -682,7 +693,7 @@
 
             // Initialize Firebase Auth
             function initAuth() {
-                const config = window.firebaseConfig || (typeof firebaseConfig !== 'undefined' ? firebaseConfig : null);
+                const config = window.firebaseConfig;
                 
                 if (typeof firebase !== 'undefined' && firebase.apps.length > 0) {
                     auth = firebase.auth();

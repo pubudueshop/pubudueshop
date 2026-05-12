@@ -498,7 +498,7 @@ function fixLinks(page) {
     page = page.replace(/src="logo\.png"/g, 'src="/logo.png"');
     
     // Fix ALL relative anchor links to absolute paths
-    const staticPages = ['delivery.html', 'faq.html', 'payment.html', 'privacy.html', 'return.html', 'terms.html', 'index.html'];
+    const staticPages = ['delivery.html', 'faq.html', 'payment.html', 'privacy.html', 'return.html', 'terms.html', 'index.html', 'request-parts.html'];
     staticPages.forEach(sp => {
         const regex = new RegExp(`href="${sp}"`, 'g');
         page = page.replace(regex, `href="/${sp}"`);
@@ -519,7 +519,7 @@ function generateSitemap(productList, categoryUrls) {
     xml += `  <url>\n    <loc>${SITE_URL}</loc>\n    <lastmod>${LAST_MOD}</lastmod>\n    <priority>1.0</priority>\n  </url>\n`;
 
     // Static Pages
-    const staticPages = ['delivery.html', 'faq.html', 'payment.html', 'privacy.html', 'return.html', 'terms.html'];
+    const staticPages = ['delivery.html', 'faq.html', 'payment.html', 'privacy.html', 'return.html', 'terms.html', 'request-parts.html'];
     staticPages.forEach(page => {
         xml += `  <url>\n    <loc>${SITE_URL}${page}</loc>\n    <lastmod>${LAST_MOD}</lastmod>\n    <priority>0.5</priority>\n  </url>\n`;
     });

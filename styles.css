@@ -2934,13 +2934,13 @@ body.modal-open {
 
 /* --- Request Parts Homepage Banner --- */
 .request-banner-section {
-    margin: 3rem 0;
+    margin: 3rem auto;
 }
 
 .request-promo-banner {
     background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
     border-radius: 24px;
-    padding: 3.5rem;
+    padding: 3rem 2.5rem;
     position: relative;
     overflow: hidden;
     display: flex;
@@ -2985,6 +2985,7 @@ body.modal-open {
     font-size: 1.2rem;
     color: #94a3b8;
     margin-bottom: 2rem;
+    text-align: justify;
 }
 
 .request-promo-badges {

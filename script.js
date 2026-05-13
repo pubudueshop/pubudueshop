@@ -1912,9 +1912,16 @@ function openProductDetails(id) {
     // 🔥 NEW: Trigger rendering the similar products feature inside the modal 
     renderRelatedProducts(product);
 
-    // Show Modal
-    productModalRoot.classList.remove('hidden');
-    document.body.classList.add('modal-open');
+    // Re-fill #similar-products-grid after it was cleared at the start of this function
+    if (typeof window.renderSimilarProducts === 'function') {
+        window.renderSimilarProducts();
+    }
+
+    // Show Modal (home page / category pages only — standalone product HTML may omit this node)
+    if (productModalRoot) {
+        productModalRoot.classList.remove('hidden');
+        document.body.classList.add('modal-open');
+    }
 }
 
 // Global helper for modal image changes
@@ -1989,7 +1996,7 @@ function renderRelatedProducts(currentProduct) {
         // Since we are inside the modal, clicking a similar item should just reload the modal cleanly
         return `
             <div class="border border-gray-100 rounded-lg p-3 hover:shadow-lg transition-all cursor-pointer flex flex-col items-center bg-white group"
-                 onclick="event.preventDefault(); (function(){ var g=document.getElementById('similar-products-grid'); if(g) g.innerHTML=''; history.pushState({},'','${productUrl}'); openProductDetails('${p.id}'); var pdv=document.getElementById('product-details-view'); if(pdv) pdv.scrollTo({top:0,behavior:'smooth'}); })();">
+                 onclick="event.preventDefault(); (function(){ var g=document.getElementById('similar-products-grid'); if(g) g.innerHTML=''; history.pushState({},'','${productUrl}'); window.openProductWhenReady('${p.id}'); })();">
                 <a href="${productUrl}" class="w-full aspect-square mb-3 block relative overflow-hidden rounded bg-gray-50 flex items-center justify-center p-2" onclick="event.preventDefault();">
                     <img src="${p.image}" alt="${p.title}" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Parts'">
                 </a>
@@ -2004,7 +2011,7 @@ function renderRelatedProducts(currentProduct) {
 
 // Close Modal
 function closeProductModal() {
-    productModalRoot.classList.add('hidden');
+    if (productModalRoot) productModalRoot.classList.add('hidden');
     document.body.classList.remove('modal-open');
     document.body.classList.remove('is-viewing-product');
 

@@ -1409,15 +1409,17 @@ function renderSimilarProducts() {
         const c = (p.subCategory||'').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
         const url = c ? `/${m}/${c}/${s}/` : `/${m}/${s}/`;
         const inStock = (parseInt(p.stock)||0) > 0;
+        // Use onclick + pushState so the product opens immediately without a full reload
+        const openClick = `event.preventDefault(); history.pushState({},'','${url}'); if(window.openProductDetails){openProductDetails('${p.id}'); const pdv=document.getElementById('product-details-view'); if(pdv)pdv.scrollTo({top:0,behavior:'smooth'});}`;
         return `<div class="product-card" style="background:#fff;border-radius:12px;border:1px solid #e2e8f0;overflow:hidden;display:flex;flex-direction:column;">
-            <a href="${url}"><div style="aspect-ratio:1;background:#f8fafc;padding:12px;display:flex;align-items:center;justify-content:center;">
+            <a href="${url}" onclick="${openClick}"><div style="aspect-ratio:1;background:#f8fafc;padding:12px;display:flex;align-items:center;justify-content:center;">
             <img src="${p.image||''}" alt="${(p.title||'').replace(/"/g,"'")}" style="width:100%;height:100%;object-fit:contain;" loading="lazy">
             </div></a>
             <div style="padding:10px;display:flex;flex-direction:column;flex:1;">
             <h3 style="font-size:13px;font-weight:600;color:#1e293b;margin:0 0 6px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">${p.title||''}</h3>
             <p style="color:#dc2626;font-weight:700;font-size:13px;margin:0 0 8px;">LKR ${(parseInt(p.price)||0).toLocaleString()}</p>
             <div style="margin-top:auto;display:flex;gap:6px;">
-                <a href="${url}" style="flex:1;text-align:center;background:#f1f5f9;color:#1e293b;border-radius:8px;padding:6px;font-size:12px;font-weight:600;text-decoration:none;">View Item</a>
+                <a href="${url}" onclick="${openClick}" style="flex:1;text-align:center;background:#f1f5f9;color:#1e293b;border-radius:8px;padding:6px;font-size:12px;font-weight:600;text-decoration:none;">View Item</a>
                 ${inStock ? `<button onclick="if(window.addToCart)addToCart('${p.id}',1)" style="flex:1;background:#2563eb;color:#fff;border:none;border-radius:8px;padding:6px;font-size:12px;font-weight:700;cursor:pointer;">Add to Cart</button>` : `<span style="flex:1;text-align:center;font-size:12px;color:#ef4444;padding:6px;">Out of Stock</span>`}
             </div></div></div>`;
     }).join('');
@@ -2306,6 +2308,20 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // If on a product page (MPA), wire up buttons immediately using _currentModalProduct
         const bodyProductId = document.body.dataset.productId;
+
+        // Safely open a product — retries up to ~3s if Firebase hasn't loaded products yet
+        function openProductWhenReady(id, attempt = 0) {
+            const found = products.find(p => String(p.id) === String(id));
+            if (found) {
+                openProductDetails(parseInt(id));
+            } else if (attempt < 15) {
+                // Retry every 200ms (15 × 200ms = 3 seconds max wait)
+                setTimeout(() => openProductWhenReady(id, attempt + 1), 200);
+            } else {
+                console.warn("Product not found after waiting for Firebase:", id);
+            }
+        }
+
         if (bodyProductId && window._currentModalProduct) {
             // Wire detail-add-cart-btn and mobile-add-cart-btn immediately (no Firebase needed)
             const pid = window._currentModalProduct.id;
@@ -2317,20 +2333,17 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (mobileAddCartBtn) mobileAddCartBtn.onclick = () => addToCart(pid, getSelectedQty());
             if (detailBuyBtn) detailBuyBtn.onclick = () => { addToCart(pid, getSelectedQty()); toggleCart(true); };
             if (mobileBuyBtn) mobileBuyBtn.onclick = () => { addToCart(pid, getSelectedQty()); toggleCart(true); };
-            // Also try openProductDetails after Firebase loads (for full modal data)
-            openProductDetails(parseInt(bodyProductId));
+            // Open with retry in case Firebase hasn't loaded yet
+            openProductWhenReady(bodyProductId);
         } else if (bodyProductId) {
-            openProductDetails(parseInt(bodyProductId));
+            openProductWhenReady(bodyProductId);
         } else if (window.location.pathname.includes('/products/')) {
             const pathParts = window.location.pathname.split('/').filter(p => p);
             const slug = pathParts[pathParts.indexOf('products') + 1];
             if (slug) {
                 const idMatch = slug.match(/-(\d+)$/);
                 if (idMatch) {
-                    const id = idMatch[1];
-                    // On product detail page, we should ensure the modal content for that product is visible
-                    // since our script.js still uses the "modal" div as the product detail view.
-                    openProductDetails(id);
+                    openProductWhenReady(idMatch[1]);
                 }
             }
         }

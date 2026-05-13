@@ -1672,6 +1672,11 @@ function openProductDetails(id) {
     detailSpecsBody.innerHTML = '';
     if (detailDescription) detailDescription.textContent = '';
     if (detailTags) detailTags.innerHTML = '';
+    // Clear related/similar grids so stale cards never show on product switch
+    var relList = document.getElementById('related-products-list');
+    if (relList) relList.innerHTML = '';
+    var simGrid = document.getElementById('similar-products-grid');
+    if (simGrid) simGrid.innerHTML = '';
 
     // Populate Data
     // Injected: Create Breadcrumb slugs
@@ -1961,9 +1966,13 @@ function renderRelatedProducts(currentProduct) {
 
     if (!section || !list) return;
 
+    // Always clear before re-render so stale cards don't stay on product switch
+    list.innerHTML = '';
+
     // Find up to 4 products in the same category, excluding the current one
+    // Use String() comparison — Firebase ids can be string or number
     const related = products
-        .filter(p => p.id !== currentProduct.id && (p.mainCategory === currentProduct.mainCategory || p.subCategory === currentProduct.subCategory))
+        .filter(p => String(p.id) !== String(currentProduct.id) && (p.mainCategory === currentProduct.mainCategory || p.subCategory === currentProduct.subCategory))
         .sort(() => 0.5 - Math.random()) // Randomize for variety
         .slice(0, 4);
 

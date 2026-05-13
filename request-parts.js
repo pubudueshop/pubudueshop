@@ -13,9 +13,16 @@ if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
 const db = firebase.firestore();
+const auth = firebase.auth();
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Ensure the user is authenticated anonymously so they can write to Firestore
+    auth.signInAnonymously().catch(error => {
+        console.error("Auth failed:", error);
+    });
+
     const form = document.getElementById('parts-request-form');
+
     const successModal = document.getElementById('success-modal');
 
     // --- Form Submission Logic ---

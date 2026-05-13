@@ -118,6 +118,16 @@ function initFirebase() {
         }
         db = firebase.firestore();
         customerAuth = firebase.auth(); // ← assign auth
+
+        // Anonymous sign-in for secure data logging
+        if (customerAuth) {
+            customerAuth.onAuthStateChanged((user) => {
+                if (!user) {
+                    customerAuth.signInAnonymously().catch(e => console.error("Anon Auth Error:", e));
+                }
+            });
+        }
+        
         console.log("Firebase Initialized Successfully");
     } catch (error) {
         console.error("Firebase Initialization Error:", error);
@@ -650,6 +660,33 @@ window.openProductDetails = openProductDetails;
 window.changeQty = changeQty;
 window.getSelectedQty = getSelectedQty;
 
+// --- Order Data Management (Logging) ---
+async function saveOrderToFirestore(customerData, invoiceId, cartItems, totalAmount) {
+    if (!db) return;
+    
+    const orderData = {
+        invoiceId: invoiceId,
+        customer: customerData,
+        items: cartItems.map(item => ({
+            id: item.id,
+            title: item.title,
+            quantity: item.quantity,
+            price: item.price
+        })),
+        total: totalAmount,
+        shipping: 500,
+        status: 'Pending',
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    };
+
+    try {
+        await db.collection("orders").add(orderData);
+        console.log("Order logged successfully in Firestore");
+    } catch (error) {
+        console.error("Error logging order:", error);
+    }
+}
+
 // --- Invoice & Order Logic ---
 function openInvoice(customerData) {
     if (cart.length === 0) {
@@ -692,6 +729,10 @@ function openInvoice(customerData) {
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const SHIPPING_FEE = 500;
     const grandTotal = subtotal + SHIPPING_FEE;
+    
+    // Log order to Firestore before showing the UI
+    saveOrderToFirestore(customerData, invoiceId, [...cart], grandTotal);
+
     invoiceSubtotal.textContent = `LKR ${subtotal.toLocaleString()}`;
     // Add shipping row to invoice table
     const shippingRow = `

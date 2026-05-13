@@ -1,0 +1,51 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // --- PART REQUESTS RULES ---
+    match /requests/{requestId} {
+      // Allow any authenticated user (including anonymous) to submit a request
+      allow create: if request.auth != null;
+      
+      // Only authorized admins can read, update or delete requests
+      allow read, update, delete: if request.auth != null && 
+        (request.auth.token.email == "pubudurox530@gmail.com" || 
+         request.auth.token.email == "pubudueshop@gmail.com");
+    }
+
+    // --- ORDERS RULES ---
+    match /orders/{orderId} {
+      // Allow any authenticated user (including anonymous) to log an order
+      allow create: if request.auth != null;
+      
+      // Only authorized admins can read or manage orders
+      allow read, update, delete: if request.auth != null && 
+        (request.auth.token.email == "pubudurox530@gmail.com" || 
+         request.auth.token.email == "pubudueshop@gmail.com");
+    }
+    
+    // --- SHOP & PRODUCTS RULES ---
+    match /shop/{document=**} {
+      // Publicly readable, but only admins can modify
+      allow read: if true;
+      allow write: if request.auth != null && 
+        (request.auth.token.email == "pubudurox530@gmail.com" || 
+         request.auth.token.email == "pubudueshop@gmail.com");
+    }
+    
+    // --- CATEGORIES RULES ---
+    match /categories/{document=**} {
+      allow read: if true;
+      allow write: if request.auth != null && 
+        (request.auth.token.email == "pubudurox530@gmail.com" || 
+         request.auth.token.email == "pubudueshop@gmail.com");
+    }
+
+    // --- OTHER COLLECTIONS (Default to Admin-Only) ---
+    match /{document=**} {
+      allow read, write: if request.auth != null && 
+        (request.auth.token.email == "pubudurox530@gmail.com" || 
+         request.auth.token.email == "pubudueshop@gmail.com");
+    }
+  }
+}

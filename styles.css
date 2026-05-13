@@ -21,6 +21,38 @@
     --radius-md: 12px;
     --radius-lg: 20px;
     --gradient: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+    --skeleton: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+}
+
+/* Home Button */
+.home-button {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 1.5rem;
+    background: var(--gradient);
+    color: white !important;
+    padding: 0.6rem 1.2rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+    z-index: 900;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.home-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.45);
+    filter: brightness(1.1);
+}
+
+/* Hide home button on the home page itself */
+body:not(.standalone-product-page) .home-button {
+    display: none !important;
 }
 
 .skeleton {

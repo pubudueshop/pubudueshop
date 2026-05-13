@@ -620,6 +620,7 @@ async function run() {
             page = page.replace(/name="twitter:title" id="tw-title" content=".*?"/g, `name="twitter:title" id="tw-title" content="${fullTitle}"`);
             page = page.replace(/name="twitter:description" id="tw-desc" content=".*?"/g, `name="twitter:description" id="tw-desc" content="${seoDesc}"`);
             page = page.replace(/name="twitter:image" id="tw-image" content=".*?"/g, `name="twitter:image" id="tw-image" content="${p.image}"`);
+            page = page.replace(/name="twitter:card" content=".*?"/g, `name="twitter:card" content="summary_large_image"`);
 
             // Fix Firebase SDKs - ensure they are NOT deferred on product pages for instant load
             page = page.replace(/<script\s+(defer\s+)?src="https:\/\/www\.gstatic\.com\/firebasejs/g, '<script src="https://www.gstatic.com/firebasejs');

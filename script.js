@@ -1389,8 +1389,7 @@ let homeGridSelectedProducts = [];
 function renderSimilarProducts() {
     const grid = document.getElementById('similar-products-grid');
     if (!grid || !window._currentModalProduct) return;
-    if (grid.querySelector('.product-card')) return; // already rendered
-
+    // NOTE: always re-render so clicking a different similar product shows fresh results
     const cur = window._currentModalProduct;
 
     function _rand(arr, n) { return arr.sort(() => 0.5 - Math.random()).slice(0, n); }
@@ -1427,7 +1426,7 @@ function renderSimilarProducts() {
         const inStock = (parseInt(p.stock)||0) > 0;
         // Use openProductWhenReady so product opens instantly without a full page reload.
         // history.pushState updates the URL in the browser bar without navigating.
-        const openFn = `event.preventDefault();history.pushState({},'','${url}');window.openProductWhenReady('${p.id}');`;
+        const openFn = `event.preventDefault();history.pushState({},'','${url}');(function(){var g=document.getElementById('similar-products-grid');if(g)g.innerHTML='';window.openProductWhenReady('${p.id}');})();`;
         return `<div class="product-card" style="background:#fff;border-radius:12px;border:1px solid #e2e8f0;overflow:hidden;display:flex;flex-direction:column;">
             <a href="${url}" onclick="${openFn}"><div style="aspect-ratio:1;background:#f8fafc;padding:12px;display:flex;align-items:center;justify-content:center;">
             <img src="${p.image||''}" alt="${(p.title||'').replace(/"/g,"'")}" style="width:100%;height:100%;object-fit:contain;" loading="lazy">
@@ -1981,7 +1980,7 @@ function renderRelatedProducts(currentProduct) {
         // Since we are inside the modal, clicking a similar item should just reload the modal cleanly
         return `
             <div class="border border-gray-100 rounded-lg p-3 hover:shadow-lg transition-all cursor-pointer flex flex-col items-center bg-white group"
-                 onclick="event.preventDefault(); openProductDetails('${p.id}'); document.getElementById('product-details-view').scrollTo({top: 0, behavior: 'smooth'});">
+                 onclick="event.preventDefault(); (function(){ var g=document.getElementById('similar-products-grid'); if(g) g.innerHTML=''; history.pushState({},'','${productUrl}'); openProductDetails('${p.id}'); var pdv=document.getElementById('product-details-view'); if(pdv) pdv.scrollTo({top:0,behavior:'smooth'}); })();">
                 <a href="${productUrl}" class="w-full aspect-square mb-3 block relative overflow-hidden rounded bg-gray-50 flex items-center justify-center p-2" onclick="event.preventDefault();">
                     <img src="${p.image}" alt="${p.title}" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Parts'">
                 </a>
@@ -2325,8 +2324,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // If on a product page (MPA), wire up buttons immediately using _currentModalProduct
         const bodyProductId = document.body.dataset.productId;
+
+        // Always use openProductWhenReady so Firebase has time to load before opening
         if (bodyProductId && window._currentModalProduct) {
-            // Wire detail-add-cart-btn and mobile-add-cart-btn immediately (no Firebase needed)
             const pid = window._currentModalProduct.id;
             const detailAddCartBtn = document.getElementById('detail-add-cart-btn');
             const mobileAddCartBtn = document.getElementById('mobile-add-cart-btn');
@@ -2336,20 +2336,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (mobileAddCartBtn) mobileAddCartBtn.onclick = () => addToCart(pid, getSelectedQty());
             if (detailBuyBtn) detailBuyBtn.onclick = () => { addToCart(pid, getSelectedQty()); toggleCart(true); };
             if (mobileBuyBtn) mobileBuyBtn.onclick = () => { addToCart(pid, getSelectedQty()); toggleCart(true); };
-            // Also try openProductDetails after Firebase loads (for full modal data)
-            openProductDetails(parseInt(bodyProductId));
+            window.openProductWhenReady(bodyProductId);
         } else if (bodyProductId) {
-            openProductDetails(parseInt(bodyProductId));
+            window.openProductWhenReady(bodyProductId);
         } else if (window.location.pathname.includes('/products/')) {
             const pathParts = window.location.pathname.split('/').filter(p => p);
             const slug = pathParts[pathParts.indexOf('products') + 1];
             if (slug) {
                 const idMatch = slug.match(/-(\d+)$/);
                 if (idMatch) {
-                    const id = idMatch[1];
-                    // On product detail page, we should ensure the modal content for that product is visible
-                    // since our script.js still uses the "modal" div as the product detail view.
-                    openProductDetails(id);
+                    window.openProductWhenReady(idMatch[1]);
                 }
             }
         }

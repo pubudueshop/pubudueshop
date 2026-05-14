@@ -1449,14 +1449,26 @@ function productListingPath(p) {
 }
 
 /**
- * Option B — in-page: delegated `.similar-product-link` uses pushState + openProductWhenReady (no full reload).
+ * Similar / related links:
+ * - Standalone product pages = real per-product HTML → use full navigation (do not intercept).
+ * - Home + modal = in-page: pushState + openProductWhenReady.
  */
 (function bindSimilarProductLinkDelegation() {
     if (window.__similarProductNavBound) return;
     window.__similarProductNavBound = true;
     document.addEventListener('click', function (e) {
         const a = e.target.closest && e.target.closest('a.similar-product-link[data-product-id]');
-        if (!a || !window.openProductWhenReady) return;
+        if (!a) return;
+
+        // New tab / modified click: keep native behaviour
+        if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
+
+        // Static SEO product pages: opening another product must load that page's HTML.
+        if (document.body && document.body.classList.contains('standalone-product-page')) {
+            return;
+        }
+
+        if (!window.openProductWhenReady) return;
         const pid = a.getAttribute('data-product-id');
         if (!pid) return;
         e.preventDefault();

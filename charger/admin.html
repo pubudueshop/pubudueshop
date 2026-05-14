@@ -3,6 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+    <meta http-equiv="Pragma" content="no-cache">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login - Pubudu Electronics</title>
     <link rel="icon" type="image/png" href="/favicon.png">
@@ -425,7 +427,7 @@
             <hr style="margin: 3rem 0; border: none; border-top: 1px solid var(--border);">
 
             <div class="admin-header">
-                <h2>Shop orders (cart checkout)</h2>
+                <h2>Shop orders (cart checkout) <span style="font-size:0.65rem;font-weight:500;color:var(--text-light);">build admin-orders-2</span></h2>
                 <button type="button" onclick="loadOrders()" class="btn-primary" style="background: var(--secondary);"><i class="fas fa-sync"></i> Refresh orders</button>
             </div>
 
@@ -660,7 +662,7 @@
             </div>
         </div>
 
-        <script src="script.js"></script>
+        <script src="script.js?v=admin-orders-2"></script>
         <script>
             // ===== FALLBACK FIREBASE CONFIG (in case script.js loads late) =====
             if (!window.firebaseConfig) {
@@ -764,6 +766,9 @@
                 document.body.style.background = '#f1f5f9';
                 userEmailBadge.innerHTML = `<i class="fas fa-user"></i> ${user.email}`;
                 initAdmin();
+                setTimeout(function () {
+                    if (typeof loadOrders === 'function') loadOrders();
+                }, 250);
             }
 
             // Login Form Submit
@@ -829,7 +834,6 @@
                 populateCategoryUI();
                 renderAdminCategories();
                 renderAdminList();
-                loadOrders();
 
                 // Auto-generate keywords when title is entered
                 document.getElementById('prod-title').addEventListener('blur', () => {
@@ -1167,6 +1171,12 @@
                     listEl.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#ef4444;">Firestore not available.</td></tr>';
                     return;
                 }
+                const au = firebase.auth();
+                const user = au.currentUser;
+                if (!user || !user.email) {
+                    listEl.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#ef4444;padding:1rem;line-height:1.5;">You must be signed in with an <b>admin Google / email</b> account (not anonymous) to read orders. Try refreshing after sign-in.</td></tr>';
+                    return;
+                }
                 if (ordersUnsub) {
                     ordersUnsub();
                     ordersUnsub = null;
@@ -1182,10 +1192,15 @@
                     renderOrdersList(rows.slice(0, 100));
                 }, (err) => {
                     console.error(err);
+                    const code = err && err.code ? err.code : '';
+                    let hint = '';
+                    if (code === 'permission-denied') {
+                        hint = '<br><span style="font-size:0.75rem;">Publish latest <code>firestore.rules</code> in Firebase Console → Firestore → Rules, then hard-refresh (Ctrl+F5).</span>';
+                    }
                     const detail = err && err.code
                         ? escHtml(err.code + ': ' + (err.message || ''))
                         : escHtml(String(err));
-                    listEl.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#ef4444;line-height:1.5;">Could not load orders.<br><span style="font-size:0.75rem;">' + detail + '</span></td></tr>';
+                    listEl.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#ef4444;line-height:1.5;">Could not load orders.<br><span style="font-size:0.75rem;">' + detail + '</span>' + hint + '</td></tr>';
                 });
             }
 

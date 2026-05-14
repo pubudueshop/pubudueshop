@@ -2,11 +2,15 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
+    function adminEmailLower() {
+      return (request.auth != null && request.auth.token.email is string)
+        ? request.auth.token.email.lower()
+        : '';
+    }
+
     function isShopAdmin() {
-      return request.auth != null &&
-        request.auth.token.email is string &&
-        (request.auth.token.email.lower() == "pubudurox530@gmail.com" ||
-         request.auth.token.email.lower() == "pubudueshop@gmail.com");
+      return adminEmailLower() == "pubudurox530@gmail.com" ||
+             adminEmailLower() == "pubudueshop@gmail.com";
     }
     
     // --- PART REQUESTS RULES ---

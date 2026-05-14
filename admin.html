@@ -401,6 +401,76 @@
             border: 1px solid var(--border);
             background: white;
         }
+
+        /* ===== TAB NAVIGATION ===== */
+        .admin-tabs {
+            display: flex;
+            gap: 0;
+            background: white;
+            border-bottom: 2px solid var(--border);
+            padding: 0 2rem;
+            position: sticky;
+            top: 56px;
+            z-index: 99;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .admin-tab {
+            padding: 0.85rem 1.5rem;
+            border: none;
+            background: none;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .admin-tab:hover {
+            color: var(--primary);
+            background: #f1f5f9;
+        }
+
+        .admin-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .admin-tab i {
+            font-size: 0.85rem;
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+            animation: fadeInTab 0.3s ease;
+        }
+
+        @keyframes fadeInTab {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            .admin-tabs {
+                padding: 0 0.5rem;
+            }
+            .admin-tab {
+                padding: 0.75rem 1rem;
+                font-size: 0.8rem;
+            }
+        }
     </style>
 </head>
 
@@ -451,121 +521,144 @@
         </div>
 
         <div class="admin-container">
-            <div class="admin-header">
-                <h2>Current Inventory (<span id="total-count">0</span>)</h2>
-                <button onclick="openModal()" class="btn-primary"><i class="fas fa-plus"></i> Add New Product</button>
+
+            <!-- ===== TAB NAVIGATION ===== -->
+            <div class="admin-tabs">
+                <button class="admin-tab active" onclick="switchTab('products', this)">
+                    <i class="fas fa-boxes-stacked"></i> Products
+                </button>
+                <button class="admin-tab" onclick="switchTab('requests', this)">
+                    <i class="fas fa-clipboard-list"></i> Part Requests
+                </button>
+                <button class="admin-tab" onclick="switchTab('orders', this)">
+                    <i class="fas fa-shopping-cart"></i> Orders
+                </button>
+                <button class="admin-tab" onclick="switchTab('settings', this)">
+                    <i class="fas fa-cogs"></i> Settings
+                </button>
             </div>
 
-            <div class="card">
-                <div id="admin-product-list" class="product-list">
-                    <!-- Products list here -->
+            <!-- ===== TAB 1: PRODUCTS ===== -->
+            <div id="tab-products" class="tab-panel active">
+                <div class="admin-header">
+                    <h2>Current Inventory (<span id="total-count">0</span>)</h2>
+                    <button onclick="openModal()" class="btn-primary"><i class="fas fa-plus"></i> Add New Product</button>
                 </div>
-            </div>
 
-            <hr style="margin: 3rem 0; border: none; border-top: 1px solid var(--border);">
-
-            <div class="admin-header">
-                <h2>Part Requests Management</h2>
-                <button onclick="loadRequests()" class="btn-primary" style="background: var(--secondary);"><i class="fas fa-sync"></i> Refresh Requests</button>
-            </div>
-
-            <div class="card" style="padding: 1rem;">
-                <div class="requests-table-container">
-                    <table class="requests-table">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Customer</th>
-                                <th>Part Details</th>
-                                <th>Contact</th>
-                                <th>Progress</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="requests-list">
-                            <!-- Requests will be loaded here -->
-                            <tr>
-                                <td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-light);">Loading requests...</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <hr style="margin: 3rem 0; border: none; border-top: 1px solid var(--border);">
-
-            <div class="admin-header">
-                <h2>Shop orders (cart checkout) <span style="font-size:0.65rem;font-weight:500;color:var(--text-light);">build admin-orders-2</span></h2>
-                <button type="button" onclick="loadOrders()" class="btn-primary" style="background: var(--secondary);"><i class="fas fa-sync"></i> Refresh orders</button>
-            </div>
-
-            <div class="card" style="padding: 1rem;">
-                <p style="font-size: 0.85rem; color: var(--text-light); margin: 0 0 1rem 0;">
-                    Orders are saved when a customer completes checkout and opens the invoice. Update progress below; open <b>Invoice</b> anytime for full line items and print.
-                </p>
-                <div class="requests-table-container">
-                    <table class="requests-table">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Invoice</th>
-                                <th>Customer</th>
-                                <th>Total</th>
-                                <th>Progress</th>
-                                <th>Invoice</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="orders-list">
-                            <tr>
-                                <td colspan="7" style="text-align: center; padding: 2rem; color: var(--text-light);">Sign in to load orders…</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <hr style="margin: 3rem 0; border: none; border-top: 1px solid var(--border);">
-
-            <div class="admin-header">
-                <h2>Category Management</h2>
-            </div>
-
-            <div class="card">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
-                    <!-- Main Category Control -->
-                    <div>
-                        <h3 style="margin-bottom: 1rem;">Add Main Category</h3>
-                        <div class="form-group" style="display: flex; gap: 0.5rem;">
-                            <input type="text" id="new-main-cat" placeholder="e.g. Cables">
-                            <button onclick="addMainCategory()" class="btn-primary"
-                                style="white-space: nowrap;">Add</button>
-                        </div>
-                        <ul id="main-cat-list"
-                            style="list-style: none; margin-top: 1rem; border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem;">
-                            <!-- Main categories -->
-                        </ul>
-                    </div>
-
-                    <!-- Sub Category Control -->
-                    <div>
-                        <h3 style="margin-bottom: 1rem;">Add Sub Category</h3>
-                        <div class="form-group">
-                            <label>To Main Category:</label>
-                            <select id="cat-target-main"></select>
-                        </div>
-                        <div class="form-group" style="display: flex; gap: 0.5rem;">
-                            <input type="text" id="new-sub-cat" placeholder="e.g. USB-C">
-                            <button onclick="addSubCategory()" class="btn-primary"
-                                style="white-space: nowrap;">Add</button>
-                        </div>
+                <div class="card">
+                    <div id="admin-product-list" class="product-list">
+                        <!-- Products list here -->
                     </div>
                 </div>
+            </div>
 
-                <hr style="margin: 3rem 0; border: none; border-top: 1px solid var(--border);">
+            <!-- ===== TAB 2: PART REQUESTS ===== -->
+            <div id="tab-requests" class="tab-panel">
+                <div class="admin-header">
+                    <h2>Part Requests Management</h2>
+                    <button onclick="loadRequests()" class="btn-primary" style="background: var(--secondary);"><i class="fas fa-sync"></i> Refresh Requests</button>
+                </div>
+
+                <div class="card" style="padding: 1rem;">
+                    <div class="requests-table-container">
+                        <table class="requests-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Customer</th>
+                                    <th>Part Details</th>
+                                    <th>Contact</th>
+                                    <th>Progress</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="requests-list">
+                                <!-- Requests will be loaded here -->
+                                <tr>
+                                    <td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-light);">Loading requests...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== TAB 3: ORDERS ===== -->
+            <div id="tab-orders" class="tab-panel">
+                <div class="admin-header">
+                    <h2>Shop Orders (Cart Checkout)</h2>
+                    <button type="button" onclick="loadOrders()" class="btn-primary" style="background: var(--secondary);"><i class="fas fa-sync"></i> Refresh Orders</button>
+                </div>
+
+                <div class="card" style="padding: 1rem;">
+                    <p style="font-size: 0.85rem; color: var(--text-light); margin: 0 0 1rem 0;">
+                        Orders are saved when a customer completes checkout and opens the invoice. Update progress below; open <b>Invoice</b> anytime for full line items and print.
+                    </p>
+                    <div class="requests-table-container">
+                        <table class="requests-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Invoice</th>
+                                    <th>Customer</th>
+                                    <th>Total</th>
+                                    <th>Progress</th>
+                                    <th>Invoice</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orders-list">
+                                <tr>
+                                    <td colspan="7" style="text-align: center; padding: 2rem; color: var(--text-light);">Sign in to load orders…</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== TAB 4: SETTINGS (Category + SEO + Optimization) ===== -->
+            <div id="tab-settings" class="tab-panel">
+                <div class="admin-header">
+                    <h2>Category Management</h2>
+                </div>
+
+                <div class="card">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                        <!-- Main Category Control -->
+                        <div>
+                            <h3 style="margin-bottom: 1rem;">Add Main Category</h3>
+                            <div class="form-group" style="display: flex; gap: 0.5rem;">
+                                <input type="text" id="new-main-cat" placeholder="e.g. Cables">
+                                <button onclick="addMainCategory()" class="btn-primary"
+                                    style="white-space: nowrap;">Add</button>
+                            </div>
+                            <ul id="main-cat-list"
+                                style="list-style: none; margin-top: 1rem; border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem;">
+                                <!-- Main categories -->
+                            </ul>
+                        </div>
+
+                        <!-- Sub Category Control -->
+                        <div>
+                            <h3 style="margin-bottom: 1rem;">Add Sub Category</h3>
+                            <div class="form-group">
+                                <label>To Main Category:</label>
+                                <select id="cat-target-main"></select>
+                            </div>
+                            <div class="form-group" style="display: flex; gap: 0.5rem;">
+                                <input type="text" id="new-sub-cat" placeholder="e.g. USB-C">
+                                <button onclick="addSubCategory()" class="btn-primary"
+                                    style="white-space: nowrap;">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr style="margin: 2rem 0; border: none; border-top: 1px solid var(--border);">
 
                 <div class="admin-header">
-                    <h2>Automatic SEO & Sitemap</h2>
+                    <h2>Automatic SEO &amp; Sitemap</h2>
                 </div>
                 <div class="card"
                     style="background: linear-gradient(135deg, #065f46 0%, #064e3b 100%); color: white; border-radius: 12px; margin-bottom: 2rem;">
@@ -585,10 +678,10 @@
                     </div>
                 </div>
 
-                <hr style="margin: 3rem 0; border: none; border-top: 1px solid var(--border);">
+                <hr style="margin: 2rem 0; border: none; border-top: 1px solid var(--border);">
 
                 <div class="admin-header">
-                    <h2>Optimization & Image Settings</h2>
+                    <h2>Optimization &amp; Image Settings</h2>
                 </div>
                 <div class="card"
                     style="background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%); border-left: 4px solid var(--primary); margin-bottom: 2rem;">
@@ -614,6 +707,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
 
         <!-- Order invoice (admin) -->
@@ -924,6 +1018,23 @@
                     auth.signOut();
                 }
             }
+
+            // ===== TAB NAVIGATION =====
+            function switchTab(tabName, btn) {
+                // Hide all panels
+                document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+                // Deactivate all tabs
+                document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+                // Show selected panel
+                const panel = document.getElementById('tab-' + tabName);
+                if (panel) panel.classList.add('active');
+                // Activate clicked tab
+                if (btn) btn.classList.add('active');
+                // Refresh data when switching to specific tabs
+                if (tabName === 'requests' && typeof loadRequests === 'function') loadRequests();
+                if (tabName === 'orders' && typeof loadOrders === 'function') loadOrders();
+            }
+            window.switchTab = switchTab;
 
             // ===== ADMIN LOGIC =====
             const modal = document.getElementById('product-modal');

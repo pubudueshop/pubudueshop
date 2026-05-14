@@ -123,31 +123,21 @@
             margin-bottom: 2rem;
             color: var(--text);
         }
-        .faq-item {
-            margin-bottom: 2rem;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 1.5rem;
-        }
-        .faq-question {
+        .info-card h2 {
             font-size: 1.25rem;
             font-weight: 700;
-            color: var(--text);
+            margin-top: 2rem;
             margin-bottom: 0.75rem;
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
+            color: var(--text);
         }
-        .faq-question i {
+        .info-card h2 i {
             color: var(--primary);
-            margin-top: 0.25rem;
+            margin-right: 0.5rem;
         }
-        .faq-answer {
+        .info-card p {
+            margin-bottom: 1.25rem;
             color: var(--text-light);
             line-height: 1.7;
-            padding-left: 2.5rem;
-            text-align: justify;
-        }
-        .info-card > p {
             text-align: justify;
         }
     </style>
@@ -171,68 +161,26 @@
     <main class="container info-page-content">
         <div class="info-card">
             <h1><i class="fas fa-question-circle" style="color: var(--primary); margin-right: 0.5rem;"></i> Frequently Asked Questions</h1>
-            <p style="margin-bottom: 3rem;">Find quick answers to common questions about shopping at Pubudu Electronics.</p>
+            <p>Find quick answers to common questions about shopping at Pubudu Electronics.</p>
 
-            <div class="faq-item">
-                <div class="faq-question">
-                    <i class="fas fa-circle-question"></i>
-                    Do you offer island-wide delivery?
-                </div>
-                <div class="faq-answer">
-                    Yes! We provide reliable delivery to all districts in Sri Lanka via professional courier services.
-                </div>
-            </div>
+            <h2><i class="fas fa-truck"></i> Do you offer island-wide delivery?</h2>
+            <p>Yes! We provide reliable delivery to all districts in Sri Lanka via professional courier services. Orders are typically dispatched within 1-2 business days.</p>
 
-            <div class="faq-item">
-                <div class="faq-question">
-                    <i class="fas fa-circle-question"></i>
-                    How can I track my order?
-                </div>
-                <div class="faq-answer">
-                    Once your order is dispatched, we will send you a tracking number via WhatsApp/Email which you can use on the courier service's website.
-                </div>
-            </div>
+            <h2><i class="fas fa-location-dot"></i> How can I track my order?</h2>
+            <p>Once your order is dispatched, we will send you a tracking number via WhatsApp/Email which you can use on the courier service's website to track your delivery in real time.</p>
 
-            <div class="faq-item">
-                <div class="faq-question">
-                    <i class="fas fa-circle-question"></i>
-                    What payment methods do you accept?
-                </div>
-                <div class="faq-answer">
-                    We accept Bank Transfers, LANKAQR, and Cash on Delivery. For more details, visit our Payment Methods page.
-                </div>
-            </div>
+            <h2><i class="fas fa-credit-card"></i> What payment methods do you accept?</h2>
+            <p>We accept Bank Transfers, LANKAQR, and Cash on Delivery. For more details, visit our <a href="payment.html" style="color:var(--primary); font-weight:600;">Payment Methods</a> page.</p>
 
-            <div class="faq-item">
-                <div class="faq-question">
-                    <i class="fas fa-circle-question"></i>
-                    Are the items tested before shipping?
-                </div>
-                <div class="faq-answer">
-                    Yes, we perform basic functionality checks on most items like modules and sensors before packaging to ensure you receive working components.
-                </div>
-            </div>
+            <h2><i class="fas fa-vial"></i> Are the items tested before shipping?</h2>
+            <p>Yes, we perform basic functionality checks on most items like modules and sensors before packaging to ensure you receive working components.</p>
 
-            <div class="faq-item">
-                <div class="faq-question">
-                    <i class="fas fa-circle-question"></i>
-                    Can I pick up my order from your store?
-                </div>
-                <div class="faq-answer">
-                    Absolutely! You can select 'Local Pickup' at checkout and visit us in Weliweriya. Please wait for the confirmation message that your order is ready.
-                </div>
-            </div>
+            <h2><i class="fas fa-store"></i> Can I pick up my order from your store?</h2>
+            <p>Absolutely! You can select 'Local Pickup' at checkout and visit us in Weliweriya, Gampaha. Please wait for the confirmation message that your order is ready before visiting.</p>
 
-            <div class="faq-item">
-                <div class="faq-question">
-                    <i class="fas fa-circle-question"></i>
-                    Do you provide technical support?
-                </div>
-                <div class="faq-answer">
-                    Yes, we offer expert technical support to our customers via WhatsApp. Feel free to contact us if you need help with your projects or components.
-                </div>
-            </div>
-            
+            <h2><i class="fas fa-headset"></i> Do you provide technical support?</h2>
+            <p>Yes, we offer expert technical support to our customers via WhatsApp. Feel free to contact us if you need help with your projects or components.</p>
+
             <p style="margin-top: 3rem; text-align: center;">Still have questions? <a href="https://wa.me/94789155130" target="_blank" style="color:var(--primary); font-weight:700;">Chat with us on WhatsApp</a></p>
         </div>
     </main>

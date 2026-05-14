@@ -1422,6 +1422,7 @@ function normCat(val) {
     return String(val || '').trim().toLowerCase();
 }
 
+/** Fisher–Yates slice: up to n items from arr (copy, non-destructive). */
 function shufflePick(arr, n) {
     const copy = arr.slice();
     for (let i = copy.length - 1; i > 0; i--) {
@@ -1447,7 +1448,9 @@ function productListingPath(p) {
     return '/' + createSEOSlug(p.mainCategory) + '/' + subPart + createSEOSlug(p.title) + '/';
 }
 
-// One delegated handler: plain <a> tags in the grid (no fragile inline onclick).
+/**
+ * Option B — in-page: delegated `.similar-product-link` uses pushState + openProductWhenReady (no full reload).
+ */
 (function bindSimilarProductLinkDelegation() {
     if (window.__similarProductNavBound) return;
     window.__similarProductNavBound = true;
@@ -1471,7 +1474,64 @@ function productListingPath(p) {
     });
 })();
 
-// ── Similar Products (standalone grid + any page with #similar-products-grid) ──
+/** Single picker for “similar” grid + modal related strip: subcategory → main → any. */
+function similarPick(cur, limit) {
+    limit = limit || 4;
+    if (!cur || cur.id == null || !products.length) return [];
+    const curId = String(cur.id);
+    const subN = normCat(cur.subCategory);
+    const mainN = normCat(cur.mainCategory);
+
+    let out = shufflePick(
+        products.filter(function (p) { return String(p.id) !== curId && normCat(p.subCategory) === subN; }),
+        limit
+    );
+
+    if (out.length < limit) {
+        const have = new Set(out.map(function (p) { return String(p.id); }));
+        have.add(curId);
+        out = out.concat(shufflePick(
+            products.filter(function (p) { return !have.has(String(p.id)) && normCat(p.mainCategory) === mainN; }),
+            limit - out.length
+        ));
+    }
+
+    if (out.length < limit) {
+        const have = new Set(out.map(function (p) { return String(p.id); }));
+        have.add(curId);
+        out = out.concat(shufflePick(
+            products.filter(function (p) { return !have.has(String(p.id)); }),
+            limit - out.length
+        ));
+    }
+
+    return out.slice(0, limit);
+}
+
+function buildSimilarGridCardHtml(p) {
+    const path = productListingPath(p);
+    const inStock = (parseInt(p.stock, 10) || 0) > 0;
+    const titleEsc = escapeHtmlAttr(p.title || '');
+    const pidEsc = escapeHtmlAttr(String(p.id));
+    return (
+        '<div class="product-card" style="background:#fff;border-radius:12px;border:1px solid #e2e8f0;overflow:hidden;display:flex;flex-direction:column;">' +
+        '<a href="' + path + '" class="similar-product-link" data-product-id="' + pidEsc + '">' +
+        '<div style="aspect-ratio:1;background:#f8fafc;padding:12px;display:flex;align-items:center;justify-content:center;">' +
+        '<img src="' + String(p.image || '').replace(/"/g, '%22') + '" alt="' + titleEsc + '" style="width:100%;height:100%;object-fit:contain;" loading="lazy">' +
+        '</div></a>' +
+        '<div style="padding:10px;display:flex;flex-direction:column;flex:1;">' +
+        '<h3 style="font-size:13px;font-weight:600;color:#1e293b;margin:0 0 6px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">' +
+        escapeHtmlText(p.title || '') + '</h3>' +
+        '<p style="color:#dc2626;font-weight:700;font-size:13px;margin:0 0 8px;">LKR ' + (parseInt(p.price, 10) || 0).toLocaleString() + '</p>' +
+        '<div style="margin-top:auto;display:flex;gap:6px;">' +
+        '<a href="' + path + '" class="similar-product-link" data-product-id="' + pidEsc + '" style="flex:1;text-align:center;background:#f1f5f9;color:#1e293b;border-radius:8px;padding:6px;font-size:12px;font-weight:600;text-decoration:none;">View Item</a>' +
+        (inStock
+            ? '<button type="button" onclick="if(window.addToCart)addToCart(' + JSON.stringify(String(p.id)) + ',1)" style="flex:1;background:#2563eb;color:#fff;border:none;border-radius:8px;padding:6px;font-size:12px;font-weight:700;cursor:pointer;">Add to Cart</button>'
+            : '<span style="flex:1;text-align:center;font-size:12px;color:#ef4444;padding:6px;">Out of Stock</span>') +
+        '</div></div></div>'
+    );
+}
+
 function renderSimilarProducts() {
     const grid = document.getElementById('similar-products-grid');
     if (!grid) return;
@@ -1482,64 +1542,16 @@ function renderSimilarProducts() {
     const section = document.getElementById('similar-products-section');
     if (section) section.style.display = '';
 
-    const needed = 4;
-    const curId = String(cur.id);
-    const subN = normCat(cur.subCategory);
-    const mainN = normCat(cur.mainCategory);
-
-    let pool = products.filter(function (p) {
-        return String(p.id) !== curId && normCat(p.subCategory) === subN;
-    });
-    let result = shufflePick(pool, needed);
-
-    if (result.length < needed) {
-        const have = new Set(result.map(function (p) { return String(p.id); }));
-        have.add(curId);
-        pool = products.filter(function (p) {
-            return !have.has(String(p.id)) && normCat(p.mainCategory) === mainN;
-        });
-        result = result.concat(shufflePick(pool, needed - result.length));
-    }
-
-    if (result.length < needed) {
-        const have = new Set(result.map(function (p) { return String(p.id); }));
-        have.add(curId);
-        pool = products.filter(function (p) { return !have.has(String(p.id)); });
-        result = result.concat(shufflePick(pool, needed - result.length));
-    }
-
-    if (result.length === 0) {
+    const items = similarPick(cur, 4);
+    if (items.length === 0) {
         if (section) section.style.display = 'none';
         grid.innerHTML = '';
         return;
     }
 
-    grid.innerHTML = result.map(function (p) {
-        const path = productListingPath(p);
-        const inStock = (parseInt(p.stock, 10) || 0) > 0;
-        const titleEsc = escapeHtmlAttr(p.title || '');
-        const pidEsc = escapeHtmlAttr(String(p.id));
-        return (
-            '<div class="product-card" style="background:#fff;border-radius:12px;border:1px solid #e2e8f0;overflow:hidden;display:flex;flex-direction:column;">' +
-            '<a href="' + path + '" class="similar-product-link" data-product-id="' + pidEsc + '">' +
-            '<div style="aspect-ratio:1;background:#f8fafc;padding:12px;display:flex;align-items:center;justify-content:center;">' +
-            '<img src="' + String(p.image || '').replace(/"/g, '%22') + '" alt="' + titleEsc + '" style="width:100%;height:100%;object-fit:contain;" loading="lazy">' +
-            '</div></a>' +
-            '<div style="padding:10px;display:flex;flex-direction:column;flex:1;">' +
-            '<h3 style="font-size:13px;font-weight:600;color:#1e293b;margin:0 0 6px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">' +
-            escapeHtmlText(p.title || '') + '</h3>' +
-            '<p style="color:#dc2626;font-weight:700;font-size:13px;margin:0 0 8px;">LKR ' + (parseInt(p.price, 10) || 0).toLocaleString() + '</p>' +
-            '<div style="margin-top:auto;display:flex;gap:6px;">' +
-            '<a href="' + path + '" class="similar-product-link" data-product-id="' + pidEsc + '" style="flex:1;text-align:center;background:#f1f5f9;color:#1e293b;border-radius:8px;padding:6px;font-size:12px;font-weight:600;text-decoration:none;">View Item</a>' +
-            (inStock
-                ? '<button type="button" onclick="if(window.addToCart)addToCart(' + JSON.stringify(String(p.id)) + ',1)" style="flex:1;background:#2563eb;color:#fff;border:none;border-radius:8px;padding:6px;font-size:12px;font-weight:700;cursor:pointer;">Add to Cart</button>'
-                : '<span style="flex:1;text-align:center;font-size:12px;color:#ef4444;padding:6px;">Out of Stock</span>') +
-            '</div></div></div>'
-        );
-    }).join('');
+    grid.innerHTML = items.map(buildSimilarGridCardHtml).join('');
 }
 window.renderSimilarProducts = renderSimilarProducts;
-// ── End Similar Products ──────────────────────────
 
 function renderHomeGrid() {
     const homeGrid = document.getElementById('home-product-grid');
@@ -2073,24 +2085,17 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Function to render related products dynamically inside the Modal
+// Modal “related” strip: same picker + same in-page navigation as #similar-products-grid.
 function renderRelatedProducts(currentProduct) {
     const section = document.getElementById('related-products-section');
     const list = document.getElementById('related-products-list');
 
     if (!section || !list) return;
 
-    // Always clear before re-render so stale cards don't stay on product switch
     list.innerHTML = '';
 
-    // Find up to 4 products in the same category, excluding the current one
-    // Use String() comparison — Firebase ids can be string or number
-    const related = products
-        .filter(p => String(p.id) !== String(currentProduct.id) && (p.mainCategory === currentProduct.mainCategory || p.subCategory === currentProduct.subCategory))
-        .sort(() => 0.5 - Math.random()) // Randomize for variety
-        .slice(0, 4);
+    const related = similarPick(currentProduct, 4);
 
-    // If no related products, hide the section
     if (related.length === 0) {
         section.classList.add('hidden');
         return;

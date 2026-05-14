@@ -115,6 +115,15 @@ function initFirebase() {
         }
         db = firebase.firestore();
         customerAuth = firebase.auth(); // ← assign auth
+
+        if (customerAuth) {
+            customerAuth.onAuthStateChanged((user) => {
+                if (!user) {
+                    customerAuth.signInAnonymously().catch(e => console.error("Anon Auth Error:", e));
+                }
+            });
+        }
+
         console.log("Firebase Initialized Successfully");
     } catch (error) {
         console.error("Firebase Initialization Error:", error);
@@ -686,8 +695,76 @@ window.openProductDetails = openProductDetails;
 window.changeQty = changeQty;
 window.getSelectedQty = getSelectedQty;
 
+function ensureCustomerAuthReady() {
+    return new Promise((resolve, reject) => {
+        if (!customerAuth) {
+            reject(new Error("Auth not initialized"));
+            return;
+        }
+        if (customerAuth.currentUser) {
+            resolve(customerAuth.currentUser);
+            return;
+        }
+        const timeout = setTimeout(() => {
+            unsub();
+            reject(new Error("Sign-in timed out"));
+        }, 12000);
+        const unsub = customerAuth.onAuthStateChanged((user) => {
+            if (user) {
+                clearTimeout(timeout);
+                unsub();
+                resolve(user);
+            }
+        });
+    });
+}
+
+async function saveOrderToFirestore(customerData, invoiceId, cartItems, totalAmount) {
+    if (!db) return null;
+
+    try {
+        await ensureCustomerAuthReady();
+    } catch (e) {
+        console.error("Order save: auth not ready", e);
+        return null;
+    }
+
+    const SHIPPING_FEE = 500;
+    const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+    const orderData = {
+        invoiceId: invoiceId,
+        customer: customerData,
+        items: cartItems.map(item => ({
+            id: item.id,
+            title: item.title,
+            quantity: item.quantity,
+            price: item.price,
+            image: item.image || null,
+            selectedVariations: item.selectedVariations || null,
+            comboId: item.comboId || null
+        })),
+        subtotal: subtotal,
+        shipping: SHIPPING_FEE,
+        total: totalAmount,
+        currency: "LKR",
+        status: "Pending",
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+
+    try {
+        const ref = await db.collection("orders").add(orderData);
+        console.log("Order saved to Firestore:", ref.id);
+        return ref.id;
+    } catch (error) {
+        console.error("Error logging order:", error);
+        return null;
+    }
+}
+
 // --- Invoice & Order Logic ---
-function openInvoice(customerData) {
+async function openInvoice(customerData) {
     if (cart.length === 0) {
         alert("Your cart is empty.");
         return;
@@ -705,7 +782,7 @@ function openInvoice(customerData) {
     const invoiceTotal = document.getElementById('invoice-total');
 
     const date = new Date();
-    const invoiceId = `PE-${Math.floor(Math.random() * 90000) + 10000}`;
+    const invoiceId = `PE-${Date.now()}-${Math.floor(Math.random() * 900 + 100)}`;
 
     invoiceDate.textContent = `Date: ${date.toLocaleDateString()}`;
     invoiceIdText.textContent = `Invoice ID: #${invoiceId}`;
@@ -735,6 +812,13 @@ function openInvoice(customerData) {
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const SHIPPING_FEE = 500;
     const grandTotal = subtotal + SHIPPING_FEE;
+
+    const orderDocId = await saveOrderToFirestore(customerData, invoiceId, [...cart], grandTotal);
+    window.currentOrderDocId = orderDocId;
+    if (db && !orderDocId) {
+        showToast("Order could not be saved online. You can still send via WhatsApp.", "error");
+    }
+
     invoiceSubtotal.textContent = `LKR ${subtotal.toLocaleString()}`;
     // Add shipping row to invoice table
     const shippingRow = `
@@ -2249,7 +2333,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         if (checkoutForm) {
-            checkoutForm.addEventListener('submit', (e) => {
+            checkoutForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const customerData = {
                     name: document.getElementById('cust-name').value,
@@ -2266,7 +2350,20 @@ document.addEventListener('DOMContentLoaded', async () => {
                     saveUserData();
                 }
 
-                openInvoice(customerData);
+                const submitBtn = checkoutForm.querySelector('button[type="submit"]');
+                const prevBtnHtml = submitBtn ? submitBtn.innerHTML : "";
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving order...';
+                }
+                try {
+                    await openInvoice(customerData);
+                } finally {
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = prevBtnHtml;
+                    }
+                }
             });
         }
 

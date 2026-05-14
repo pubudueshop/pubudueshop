@@ -348,6 +348,19 @@
             max-height: 90vh;
             overflow-y: auto;
         }
+
+        .requests-table-container { overflow-x: auto; margin-top: 1rem; }
+        .requests-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .requests-table th, .requests-table td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+        .requests-table th { background: #f8fafc; font-weight: 600; color: var(--text-light); text-transform: uppercase; font-size: 0.75rem; }
+        .status-select { padding: 0.35rem; font-size: 0.8rem; border-radius: 4px; border: 1px solid var(--border); background: white; }
+        .status-pending { background: #fef9c3; color: #854d0e; }
+        .status-confirmed { background: #dbeafe; color: #1e40af; }
+        .status-packing { background: #ede9fe; color: #5b21b6; }
+        .status-shipped { background: #cffafe; color: #0e7490; }
+        .status-out-for-delivery { background: #fed7aa; color: #c2410c; }
+        .status-delivered { background: #dcfce7; color: #166534; }
+        .status-cancelled { background: #fee2e2; color: #991b1b; }
     </style>
 </head>
 
@@ -406,6 +419,38 @@
             <div class="card">
                 <div id="admin-product-list" class="product-list">
                     <!-- Products list here -->
+                </div>
+            </div>
+
+            <hr style="margin: 3rem 0; border: none; border-top: 1px solid var(--border);">
+
+            <div class="admin-header">
+                <h2>Shop orders (cart checkout)</h2>
+                <button type="button" onclick="loadOrders()" class="btn-primary" style="background: var(--secondary);"><i class="fas fa-sync"></i> Refresh orders</button>
+            </div>
+
+            <div class="card" style="padding: 1rem;">
+                <p style="font-size: 0.85rem; color: var(--text-light); margin: 0 0 1rem 0;">
+                    Orders save when a customer completes checkout. Use <b>Progress</b> to update status; <b>View</b> for full invoice and print.
+                </p>
+                <div class="requests-table-container">
+                    <table class="requests-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Invoice</th>
+                                <th>Customer</th>
+                                <th>Total</th>
+                                <th>Progress</th>
+                                <th>Invoice</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-list">
+                            <tr>
+                                <td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-light);">Sign in to load orders…</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
@@ -494,6 +539,19 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div id="order-detail-modal" class="modal" onclick="if(event.target===this)closeOrderDetailModal()">
+            <div class="modal-content" style="max-width: 720px;" onclick="event.stopPropagation()">
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:1rem;flex-wrap:wrap;">
+                    <h2 style="margin:0;">Order invoice</h2>
+                    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+                        <button type="button" onclick="printOrderDetail()" class="btn-primary" style="padding:0.5rem 1rem;font-size:0.85rem;"><i class="fas fa-print"></i> Print</button>
+                        <button type="button" onclick="closeOrderDetailModal()" class="btn-danger" style="padding:0.5rem 1rem;font-size:0.85rem;">Close</button>
+                    </div>
+                </div>
+                <div id="order-detail-body" style="border:1px solid var(--border);border-radius:8px;padding:1.25rem;background:#fafafa;"></div>
             </div>
         </div>
 
@@ -771,6 +829,7 @@
                 populateCategoryUI();
                 renderAdminCategories();
                 renderAdminList();
+                loadOrders();
 
                 // Auto-generate keywords when title is entered
                 document.getElementById('prod-title').addEventListener('blur', () => {
@@ -1045,6 +1104,177 @@
                 closeModal();
                 alert(isEdit ? 'Product Updated!' : 'Product Added!');
             });
+
+            let ordersUnsub = null;
+
+            function escHtml(s) {
+                if (s == null || s === undefined) return '';
+                return String(s)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/"/g, '&quot;');
+            }
+
+            function closeOrderDetailModal() {
+                const m = document.getElementById('order-detail-modal');
+                if (m) m.classList.remove('active');
+            }
+
+            function printOrderDetail() {
+                const body = document.getElementById('order-detail-body');
+                if (!body) return;
+                const w = window.open('', '_blank');
+                w.document.write('<html><head><title>Pubudu Electronics — Order</title><style>body{font-family:system-ui,sans-serif;padding:20px;} table{width:100%;border-collapse:collapse;} th,td{border:1px solid #ddd;padding:8px;text-align:left;} th{background:#f1f5f9;}</style></head><body>');
+                w.document.write(body.innerHTML);
+                w.document.write('</body></html>');
+                w.document.close();
+                w.focus();
+                w.print();
+                w.close();
+            }
+
+            const ORDER_STATUSES = ['Pending', 'Confirmed', 'Packing', 'Shipped', 'Out for delivery', 'Delivered', 'Cancelled'];
+
+            function statusClass(st) {
+                const raw = (st || 'pending').toLowerCase().replace(/\s+/g, '-');
+                return 'status-' + raw.replace(/[^a-z0-9-]/g, '');
+            }
+
+            function formatOrderDate(ts) {
+                if (!ts || typeof ts.toDate !== 'function') return '—';
+                try {
+                    return ts.toDate().toLocaleString();
+                } catch (e) {
+                    return '—';
+                }
+            }
+
+            function loadOrders() {
+                const listEl = document.getElementById('orders-list');
+                if (!listEl) return;
+                if (typeof firebase === 'undefined' || !firebase.firestore) {
+                    listEl.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#ef4444;">Firestore not available.</td></tr>';
+                    return;
+                }
+                if (ordersUnsub) {
+                    ordersUnsub();
+                    ordersUnsub = null;
+                }
+                listEl.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--text-light);">Loading orders…</td></tr>';
+                const q = firebase.firestore().collection('orders').orderBy('timestamp', 'desc').limit(100);
+                ordersUnsub = q.onSnapshot((snap) => {
+                    const rows = [];
+                    snap.forEach((doc) => {
+                        rows.push({ id: doc.id, ...doc.data() });
+                    });
+                    renderOrdersList(rows);
+                }, (err) => {
+                    console.error(err);
+                    listEl.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#ef4444;">Could not load orders.</td></tr>';
+                });
+            }
+
+            function renderOrdersList(orders) {
+                const listEl = document.getElementById('orders-list');
+                if (!orders.length) {
+                    listEl.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--text-light);">No orders yet.</td></tr>';
+                    return;
+                }
+                listEl.innerHTML = orders.map((o) => {
+                    const c = o.customer || {};
+                    const inv = escHtml(o.invoiceId || '');
+                    const st = o.status || 'Pending';
+                    const sc = statusClass(st);
+                    const total = typeof o.total === 'number' ? o.total : 0;
+                    const dateStr = escHtml(formatOrderDate(o.timestamp));
+                    const opts = ORDER_STATUSES.map((label) =>
+                        `<option value="${label}" ${st === label ? 'selected' : ''}>${escHtml(label)}</option>`
+                    ).join('');
+                    const oid = o.id.replace(/"/g, '');
+                    return `<tr>
+                        <td style="white-space:nowrap;font-size:0.8rem;">${dateStr}</td>
+                        <td><b>#${inv}</b></td>
+                        <td>${escHtml(c.name || '')}<br><span style="font-size:0.75rem;color:var(--text-light);">${escHtml(c.phone1 || '')}</span></td>
+                        <td>LKR ${total.toLocaleString()}</td>
+                        <td>
+                            <select class="status-select ${sc}" data-order-id="${oid}" onchange="updateOrderStatus(this.dataset.orderId, this.value)">
+                                ${opts}
+                            </select>
+                        </td>
+                        <td>
+                            <button type="button" class="btn-edit" style="padding:0.35rem 0.75rem;font-size:0.8rem;" onclick="viewOrderDetail('${oid}')"><i class="fas fa-file-invoice"></i> View</button>
+                        </td>
+                    </tr>`;
+                }).join('');
+            }
+
+            async function updateOrderStatus(orderId, newStatus) {
+                try {
+                    await firebase.firestore().collection('orders').doc(orderId).update({
+                        status: newStatus,
+                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                } catch (e) {
+                    console.error(e);
+                    alert('Could not update status.');
+                    loadOrders();
+                }
+            }
+
+            function viewOrderDetail(orderId) {
+                firebase.firestore().collection('orders').doc(orderId).get().then((doc) => {
+                    if (!doc.exists) {
+                        alert('Order not found');
+                        return;
+                    }
+                    const o = doc.data();
+                    const c = o.customer || {};
+                    const items = o.items || [];
+                    const ship = o.shipping != null ? o.shipping : 500;
+                    const sub = o.subtotal != null ? o.subtotal : items.reduce((s, i) => s + (Number(i.price) || 0) * (Number(i.quantity) || 0), 0);
+                    const total = o.total != null ? o.total : sub + ship;
+
+                    const rows = items.map((i) => {
+                        const varHtml = i.selectedVariations
+                            ? `<div style="font-size:11px;color:#64748b;margin-top:2px;">${escHtml(Object.entries(i.selectedVariations).map(([k, v]) => k + ': ' + v).join(' | '))}</div>`
+                            : '';
+                        return `<tr>
+                            <td>${escHtml(i.title)}${varHtml}</td>
+                            <td>${escHtml(String(i.quantity))}</td>
+                            <td>LKR ${Number(i.price || 0).toLocaleString()}</td>
+                            <td>LKR ${(Number(i.price || 0) * Number(i.quantity || 0)).toLocaleString()}</td>
+                        </tr>`;
+                    }).join('');
+
+                    const body = document.getElementById('order-detail-body');
+                    body.innerHTML = `
+                        <p style="margin:0 0 0.5rem;font-size:0.85rem;color:#64748b;"><b>Status:</b> ${escHtml(o.status || 'Pending')} &nbsp;|&nbsp; <b>Invoice:</b> #${escHtml(o.invoiceId)}</p>
+                        <h3 style="margin:0.75rem 0 0.5rem;font-size:1rem;">Customer</h3>
+                        <p style="margin:0.25rem 0;"><b>Name:</b> ${escHtml(c.name)}</p>
+                        <p style="margin:0.25rem 0;"><b>Address:</b> ${escHtml(c.address)}</p>
+                        <p style="margin:0.25rem 0;"><b>City / District:</b> ${escHtml(c.city)}, ${escHtml(c.district)}</p>
+                        <p style="margin:0.25rem 0;"><b>Phone:</b> ${escHtml(c.phone1)}${c.phone2 ? ' / ' + escHtml(c.phone2) : ''}</p>
+                        <h3 style="margin:1rem 0 0.5rem;font-size:1rem;">Items</h3>
+                        <table style="width:100%;border-collapse:collapse;font-size:0.85rem;background:white;">
+                            <thead><tr><th style="border:1px solid #e2e8f0;padding:8px;text-align:left;">Item</th><th style="border:1px solid #e2e8f0;padding:8px;">Qty</th><th style="border:1px solid #e2e8f0;padding:8px;">Price</th><th style="border:1px solid #e2e8f0;padding:8px;">Line</th></tr></thead>
+                            <tbody>${rows}
+                            <tr style="background:#f8fafc;"><td colspan="3" style="border:1px solid #e2e8f0;padding:8px;">Shipping</td><td style="border:1px solid #e2e8f0;padding:8px;text-align:right;">LKR ${Number(ship).toLocaleString()}</td></tr>
+                            </tbody>
+                        </table>
+                        <p style="margin-top:1rem;font-size:1.1rem;font-weight:700;">Total: LKR ${Number(total).toLocaleString()}</p>
+                    `;
+                    document.getElementById('order-detail-modal').classList.add('active');
+                }).catch((e) => {
+                    console.error(e);
+                    alert('Failed to load order');
+                });
+            }
+
+            window.updateOrderStatus = updateOrderStatus;
+            window.viewOrderDetail = viewOrderDetail;
+            window.closeOrderDetailModal = closeOrderDetailModal;
+            window.printOrderDetail = printOrderDetail;
+            window.loadOrders = loadOrders;
 
             // Export for script.js
             window.renderAdminList = renderAdminList;

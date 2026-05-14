@@ -1149,6 +1149,17 @@
                 }
             }
 
+            function orderMillis(ts) {
+                if (!ts) return 0;
+                try {
+                    if (typeof ts.toMillis === 'function') return ts.toMillis();
+                    if (typeof ts.seconds === 'number') {
+                        return ts.seconds * 1000 + ((ts.nanoseconds || 0) / 1000000);
+                    }
+                } catch (e) { /* ignore */ }
+                return 0;
+            }
+
             function loadOrders() {
                 const listEl = document.getElementById('orders-list');
                 if (!listEl) return;
@@ -1161,16 +1172,20 @@
                     ordersUnsub = null;
                 }
                 listEl.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--text-light);">Loading orders…</td></tr>';
-                const q = firebase.firestore().collection('orders').orderBy('timestamp', 'desc').limit(100);
+                const q = firebase.firestore().collection('orders').limit(500);
                 ordersUnsub = q.onSnapshot((snap) => {
                     const rows = [];
                     snap.forEach((doc) => {
                         rows.push({ id: doc.id, ...doc.data() });
                     });
-                    renderOrdersList(rows);
+                    rows.sort((a, b) => orderMillis(b.timestamp) - orderMillis(a.timestamp));
+                    renderOrdersList(rows.slice(0, 100));
                 }, (err) => {
                     console.error(err);
-                    listEl.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#ef4444;">Could not load orders.</td></tr>';
+                    const detail = err && err.code
+                        ? escHtml(err.code + ': ' + (err.message || ''))
+                        : escHtml(String(err));
+                    listEl.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#ef4444;line-height:1.5;">Could not load orders.<br><span style="font-size:0.75rem;">' + detail + '</span></td></tr>';
                 });
             }
 

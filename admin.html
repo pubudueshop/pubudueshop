@@ -1300,18 +1300,31 @@
                 alert(isEdit ? 'Product Updated!' : 'Product Added!');
             });
 
+            /** Sort key for Firestore Timestamp (shared by requests + orders loaders). */
+            function orderMillis(ts) {
+                if (!ts) return 0;
+                try {
+                    if (typeof ts.toMillis === 'function') return ts.toMillis();
+                    if (typeof ts.seconds === 'number') {
+                        return ts.seconds * 1000 + ((ts.nanoseconds || 0) / 1000000);
+                    }
+                } catch (e) { /* ignore */ }
+                return 0;
+            }
+
             // ===== REQUESTS MANAGEMENT =====
             async function loadRequests() {
                 const listEl = document.getElementById('requests-list');
                 if (!listEl) return;
 
                 try {
-                    const snapshot = await firebase.firestore().collection("requests").orderBy("timestamp", "desc").limit(50).get();
+                    const snapshot = await firebase.firestore().collection("requests").limit(200).get();
                     const requests = [];
                     snapshot.forEach(doc => {
                         requests.push({ id: doc.id, ...doc.data() });
                     });
-                    renderRequestsList(requests);
+                    requests.sort((a, b) => orderMillis(b.timestamp) - orderMillis(a.timestamp));
+                    renderRequestsList(requests.slice(0, 50));
                 } catch (error) {
                     console.error("Error loading requests:", error);
                     listEl.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #ef4444;">Error loading requests.</td></tr>`;
@@ -1448,16 +1461,21 @@
                     ordersUnsub = null;
                 }
                 listEl.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--text-light);">Loading orders…</td></tr>';
-                const q = firebase.firestore().collection('orders').orderBy('timestamp', 'desc').limit(100);
+                // No orderBy: avoids "create index" errors; sort client-side (newest first).
+                const q = firebase.firestore().collection('orders').limit(500);
                 ordersUnsub = q.onSnapshot((snap) => {
                     const rows = [];
                     snap.forEach((doc) => {
                         rows.push({ id: doc.id, ...doc.data() });
                     });
-                    renderOrdersList(rows);
+                    rows.sort((a, b) => orderMillis(b.timestamp) - orderMillis(a.timestamp));
+                    renderOrdersList(rows.slice(0, 100));
                 }, (err) => {
                     console.error(err);
-                    listEl.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#ef4444;">Could not load orders. If the console mentions an index, create it in the Firebase console.</td></tr>';
+                    const detail = err && err.code
+                        ? escHtml(err.code + ': ' + (err.message || ''))
+                        : escHtml(String(err));
+                    listEl.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#ef4444;line-height:1.5;">Could not load orders.<br><span style="font-size:0.75rem;">' + detail + '</span></td></tr>';
                 });
             }
 

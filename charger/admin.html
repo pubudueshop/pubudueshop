@@ -445,11 +445,12 @@
                                 <th>Total</th>
                                 <th>Progress</th>
                                 <th>Invoice</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody id="orders-list">
                             <tr>
-                                <td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-light);">Sign in to load orders…</td>
+                                <td colspan="7" style="text-align: center; padding: 2rem; color: var(--text-light);">Sign in to load orders…</td>
                             </tr>
                         </tbody>
                     </table>
@@ -1168,20 +1169,20 @@
                 const listEl = document.getElementById('orders-list');
                 if (!listEl) return;
                 if (typeof firebase === 'undefined' || !firebase.firestore) {
-                    listEl.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#ef4444;">Firestore not available.</td></tr>';
+                    listEl.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#ef4444;">Firestore not available.</td></tr>';
                     return;
                 }
                 const au = firebase.auth();
                 const user = au.currentUser;
                 if (!user || !user.email) {
-                    listEl.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#ef4444;padding:1rem;line-height:1.5;">You must be signed in with an <b>admin Google / email</b> account (not anonymous) to read orders. Try refreshing after sign-in.</td></tr>';
+                    listEl.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#ef4444;padding:1rem;line-height:1.5;">You must be signed in with an <b>admin Google / email</b> account (not anonymous) to read orders. Try refreshing after sign-in.</td></tr>';
                     return;
                 }
                 if (ordersUnsub) {
                     ordersUnsub();
                     ordersUnsub = null;
                 }
-                listEl.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--text-light);">Loading orders…</td></tr>';
+                listEl.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--text-light);">Loading orders…</td></tr>';
                 const q = firebase.firestore().collection('orders').limit(500);
                 ordersUnsub = q.onSnapshot((snap) => {
                     const rows = [];
@@ -1200,14 +1201,14 @@
                     const detail = err && err.code
                         ? escHtml(err.code + ': ' + (err.message || ''))
                         : escHtml(String(err));
-                    listEl.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#ef4444;line-height:1.5;">Could not load orders.<br><span style="font-size:0.75rem;">' + detail + '</span>' + hint + '</td></tr>';
+                    listEl.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#ef4444;line-height:1.5;">Could not load orders.<br><span style="font-size:0.75rem;">' + detail + '</span>' + hint + '</td></tr>';
                 });
             }
 
             function renderOrdersList(orders) {
                 const listEl = document.getElementById('orders-list');
                 if (!orders.length) {
-                    listEl.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--text-light);">No orders yet.</td></tr>';
+                    listEl.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--text-light);">No orders yet.</td></tr>';
                     return;
                 }
                 listEl.innerHTML = orders.map((o) => {
@@ -1233,6 +1234,9 @@
                         </td>
                         <td>
                             <button type="button" class="btn-edit" style="padding:0.35rem 0.75rem;font-size:0.8rem;" onclick="viewOrderDetail('${oid}')"><i class="fas fa-file-invoice"></i> View</button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn-danger" style="padding:0.35rem 0.75rem;font-size:0.8rem;" onclick="deleteOrder('${oid}')" title="Permanently delete this order"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>`;
                 }).join('');
@@ -1300,11 +1304,22 @@
                 });
             }
 
+            async function deleteOrder(orderId) {
+                if (!confirm('Are you sure you want to permanently delete this order? This cannot be undone.')) return;
+                try {
+                    await firebase.firestore().collection('orders').doc(orderId).delete();
+                } catch (error) {
+                    console.error('Error deleting order:', error);
+                    alert('Failed to delete order.');
+                }
+            }
+
             window.updateOrderStatus = updateOrderStatus;
             window.viewOrderDetail = viewOrderDetail;
             window.closeOrderDetailModal = closeOrderDetailModal;
             window.printOrderDetail = printOrderDetail;
             window.loadOrders = loadOrders;
+            window.deleteOrder = deleteOrder;
 
             // Export for script.js
             window.renderAdminList = renderAdminList;

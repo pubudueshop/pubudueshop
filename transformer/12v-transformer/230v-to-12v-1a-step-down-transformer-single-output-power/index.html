@@ -239,7 +239,7 @@
                 <div class="md:w-3/5 p-8 flex flex-col">
                     <!-- Stock Badge -->
                     <div class="mb-3">
-                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-green-100 text-green-800">In Stock</span>
+                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-red-100 text-red-800">Out of Stock</span>
                         <span class="ml-2 px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">12v Transformer</span>
                     </div>
 
@@ -309,11 +309,8 @@
                         </div>
                         <div class="flex-1 min-w-[200px] flex flex-col gap-2">
                             
-                            <button onclick="if(window.addToCart) addToCart('1772346523054', getSelectedQty())" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold h-12 rounded-lg shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-2 active:scale-95">
-                                <i class="fas fa-cart-plus"></i> Add to Cart
-                            </button>
-                            <button onclick="if(window.addToCart) { addToCart('1772346523054', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold h-12 rounded-lg shadow-lg shadow-green-200 transition-all flex items-center justify-center gap-2 active:scale-95">
-                                <i class="fab fa-whatsapp"></i> Buy via WhatsApp
+                            <button disabled class="w-full bg-gray-200 text-gray-500 font-bold h-12 rounded-lg cursor-not-allowed flex items-center justify-center gap-2">
+                                <i class="fas fa-ban"></i> Out of Stock
                             </button>
                             
                         </div>
@@ -331,16 +328,16 @@
                 <table class="w-full text-left">
                     <tbody>
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">12v Transformer</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">N/A</td>
             </tr>
             <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Used</td>
             </tr>
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">N/A</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">12v Transformer</td>
             </tr>
             <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
@@ -376,24 +373,21 @@
 <!-- Mobile Sticky Bottom Bar -->
 <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 md:hidden flex gap-4 z-[2000] shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
     
-    <button onclick="if(window.addToCart) addToCart('1772346523054', getSelectedQty())" class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
-        <i class="fas fa-cart-plus"></i> Cart
-    </button>
-    <button onclick="if(window.addToCart) { addToCart('1772346523054', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="flex-1 bg-green-500 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
-        <i class="fab fa-whatsapp"></i> Buy
+    <button disabled class="flex-1 bg-gray-100 text-gray-400 font-bold py-3 rounded-lg flex items-center justify-center gap-2 cursor-not-allowed">
+        <i class="fas fa-ban"></i> Out of Stock
     </button>
     
 </div>
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Transformer","item":"https://ichouse.lk/transformer/"},{"@type":"ListItem","position":3,"name":"12v Transformer","item":"https://ichouse.lk/transformer/12v-transformer/"},{"@type":"ListItem","position":4,"name":"230V to 12V 1A Step Down Transformer – S…","item":"https://ichouse.lk/transformer/12v-transformer/230v-to-12v-1a-step-down-transformer-single-output-power/"}]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"230V to 12V 1A Step Down Transformer – Single Output Power Supply Transformer","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1772346376/1a2_2_dtpuyx.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1772346376/1a_1_1_lpb5ui.png"],"description":"Reliable 230V AC to 12V AC 1A step-down transformer, ideal for DIY electronics, amplifier circuits, LED drivers, battery chargers, and small power supply projects. Built with a durable laminated core for stable voltage output and long-lasting performance. Suitable for home, workshop, and repair applications.","sku":"PE-1772346523054","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/transformer/12v-transformer/230v-to-12v-1a-step-down-transformer-single-output-power/","priceCurrency":"LKR","price":400,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"230V to 12V 1A Step Down Transformer – Single Output Power Supply Transformer","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1772346376/1a2_2_dtpuyx.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1772346376/1a_1_1_lpb5ui.png"],"description":"Reliable 230V AC to 12V AC 1A step-down transformer, ideal for DIY electronics, amplifier circuits, LED drivers, battery chargers, and small power supply projects. Built with a durable laminated core for stable voltage output and long-lasting performance. Suitable for home, workshop, and repair applications.","sku":"PE-1772346523054","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/transformer/12v-transformer/230v-to-12v-1a-step-down-transformer-single-output-power/","priceCurrency":"LKR","price":400,"availability":"https://schema.org/OutOfStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
 <script>
 // Pre-load product data so cart works instantly without waiting for Firebase
 window._currentModalProduct = {
     id: '1772346523054',
     title: "230V to 12V 1A Step Down Transformer – Single Output Power Supply Transformer",
     price: 400,
-    stock: 1,
+    stock: 99,
     image: "https://res.cloudinary.com/dqwdov5ab/image/upload/v1772346376/1a2_2_dtpuyx.png",
     mainCategory: "Transformer",
     subCategory: "12v Transformer"
@@ -553,7 +547,7 @@ function closeZoom() {
                             <input type="tel" id="cust-phone1" required placeholder="07XXXXXXXX">
                         </div>
                         <div class="form-group">
-                            <label>Phone Number 2</label>
+                            <label>WhatsApp Number</label>
                             <input type="tel" id="cust-phone2" placeholder="07XXXXXXXX">
                         </div>
                     </div>

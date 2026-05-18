@@ -1581,6 +1581,16 @@
                 }
             }
 
+            function formatOrderWhatsAppLink(phone, name, invoiceId) {
+                if (!phone) return '#';
+                let cleanPhone = phone.replace(/\D/g, '');
+                if (cleanPhone.startsWith('0')) {
+                    cleanPhone = '94' + cleanPhone.substring(1);
+                }
+                const message = encodeURIComponent(`Hi ${name}, this is Pubudu Electronics. Regarding your order #${invoiceId}...`);
+                return `https://wa.me/${cleanPhone}?text=${message}`;
+            }
+
             function loadOrders() {
                 const listEl = document.getElementById('orders-list');
                 if (!listEl) return;
@@ -1642,7 +1652,11 @@
                     return `<tr>
                         <td style="white-space:nowrap;font-size:0.8rem;">${dateStr}</td>
                         <td><b>#${inv}</b></td>
-                        <td>${escHtml(c.name || '')}<br><span style="font-size:0.75rem;color:var(--text-light);">${escHtml(c.phone1 || '')}</span></td>
+                        <td>
+                            ${escHtml(c.name || '')}<br>
+                            <span style="font-size:0.75rem;color:var(--text-light);">${escHtml(c.phone1 || '')}</span>
+                            ${(c.phone2 || c.phone1) ? `<br><a href="${formatOrderWhatsAppLink(c.phone2 || c.phone1, c.name, inv)}" target="_blank" style="color: #25d366; font-size: 0.8rem; text-decoration: none;"><i class="fab fa-whatsapp"></i> Chat</a>` : ''}
+                        </td>
                         <td>LKR ${total.toLocaleString()}</td>
                         <td>
                             <select class="status-select ${sc}" data-order-id="${oid}" onchange="updateOrderStatus(this.dataset.orderId, this.value)">
@@ -1704,7 +1718,9 @@
                         <p style="margin:0.25rem 0;"><b>Name:</b> ${escHtml(c.name)}</p>
                         <p style="margin:0.25rem 0;"><b>Address:</b> ${escHtml(c.address)}</p>
                         <p style="margin:0.25rem 0;"><b>City / District:</b> ${escHtml(c.city)}, ${escHtml(c.district)}</p>
-                        <p style="margin:0.25rem 0;"><b>Phone:</b> ${escHtml(c.phone1)}${c.phone2 ? ' / ' + escHtml(c.phone2) : ''}</p>
+                        <p style="margin:0.25rem 0;"><b>Phone:</b> ${escHtml(c.phone1)}${c.phone2 ? ' / ' + escHtml(c.phone2) : ''}
+                            ${(c.phone2 || c.phone1) ? ` &nbsp; <a href="${formatOrderWhatsAppLink(c.phone2 || c.phone1, c.name, o.invoiceId)}" target="_blank" style="color: #25d366; font-size: 0.8rem; text-decoration: none;"><i class="fab fa-whatsapp"></i> Chat</a>` : ''}
+                        </p>
                         <h3 style="margin:1rem 0 0.5rem;font-size:1rem;">Items</h3>
                         <table style="width:100%;border-collapse:collapse;font-size:0.85rem;background:white;">
                             <thead><tr><th style="border:1px solid #e2e8f0;padding:8px;text-align:left;">Item</th><th style="border:1px solid #e2e8f0;padding:8px;">Qty</th><th style="border:1px solid #e2e8f0;padding:8px;">Price</th><th style="border:1px solid #e2e8f0;padding:8px;">Line</th></tr></thead>

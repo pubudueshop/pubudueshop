@@ -258,7 +258,7 @@
                 <div class="md:w-3/5 p-8 flex flex-col">
                     <!-- Stock Badge -->
                     <div class="mb-3">
-                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-green-100 text-green-800">In Stock</span>
+                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-red-100 text-red-800">Out of Stock</span>
                         <span class="ml-2 px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">4 Pin Relay</span>
                     </div>
 
@@ -328,11 +328,8 @@
                         </div>
                         <div class="flex-1 min-w-[200px] flex flex-col gap-2">
                             
-                            <button onclick="if(window.addToCart) addToCart('1777519026025', getSelectedQty())" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold h-12 rounded-lg shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-2 active:scale-95">
-                                <i class="fas fa-cart-plus"></i> Add to Cart
-                            </button>
-                            <button onclick="if(window.addToCart) { addToCart('1777519026025', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold h-12 rounded-lg shadow-lg shadow-green-200 transition-all flex items-center justify-center gap-2 active:scale-95">
-                                <i class="fab fa-whatsapp"></i> Buy via WhatsApp
+                            <button disabled class="w-full bg-gray-200 text-gray-500 font-bold h-12 rounded-lg cursor-not-allowed flex items-center justify-center gap-2">
+                                <i class="fas fa-ban"></i> Out of Stock
                             </button>
                             
                         </div>
@@ -350,20 +347,20 @@
                 <table class="w-full text-left">
                     <tbody>
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
-            </tr>
-            <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand new</td>
-            </tr>
-            <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">JD1912</td>
             </tr>
             <tr class="bg-gray-50">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
+            </tr>
+            <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">4 Pin Relay</td>
+            </tr>
+            <tr class="bg-gray-50">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand new</td>
             </tr></tbody>
                 </table>
             </div>
@@ -395,24 +392,21 @@
 <!-- Mobile Sticky Bottom Bar -->
 <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 md:hidden flex gap-4 z-[2000] shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
     
-    <button onclick="if(window.addToCart) addToCart('1777519026025', getSelectedQty())" class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
-        <i class="fas fa-cart-plus"></i> Cart
-    </button>
-    <button onclick="if(window.addToCart) { addToCart('1777519026025', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="flex-1 bg-green-500 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
-        <i class="fab fa-whatsapp"></i> Buy
+    <button disabled class="flex-1 bg-gray-100 text-gray-400 font-bold py-3 rounded-lg flex items-center justify-center gap-2 cursor-not-allowed">
+        <i class="fas fa-ban"></i> Out of Stock
     </button>
     
 </div>
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Relays","item":"https://ichouse.lk/relays/"},{"@type":"ListItem","position":3,"name":"4 Pin Relay","item":"https://ichouse.lk/relays/4-pin-relay/"},{"@type":"ListItem","position":4,"name":"JD1912 12V 80A 4 Pin Relay – Heavy Duty …","item":"https://ichouse.lk/relays/4-pin-relay/jd1912-12v-80a-4-pin-relay-heavy-duty-automotive-power/"}]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"JD1912 12V 80A 4 Pin Relay – Heavy Duty Automotive Power Relay for Cars, Bikes & Electronics | Sri Lanka","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1777518820/relay2_1_ylpjbo.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1777518820/relay4_1_ilbk5l.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1777518820/relay5_1_hovqef.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1777518820/relay1_1_gy7nce.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1777518820/relay3_1_cllp2k.png"],"description":"The JD1912 12V 80A 4 Pin Relay is a high-quality heavy-duty automotive relay designed for reliable switching of high current loads in electrical and electronic systems. Built with a durable transparent casing, this relay allows easy inspection of internal components, ensuring confidence in performance and quality. It operates on a standard 12V DC coil, making it ideal for most vehicles and battery-powered systems in Sri Lanka.\n\nThis relay features a 4-pin configuration (30, 85, 86, 87), supporting efficient switching of up to 80A current. The copper coil and  contacts provide stable conductivity, low resistance, and long service life even under demanding conditions. It is commonly used in car horn systems, fog lights, cooling fans, fuel pumps, inverters, solar setups, and other high-power switching applications.\n\nTechnically, the JD1912 relay ensures fast switching response, high insulation resistance, and strong contact durability. The mounting tab makes installation easy and secure in automotive or panel setups.\n\nPerfect for auto electricians, DIY enthusiasts, and repair technicians, this relay is a must-have component for reliable circuit control.\n\n✅ Fast delivery across Sri Lanka\n✅ High-quality, tested components\n✅ Ideal for automotive & electronic projects\n\nUpgrade your power control system today with this dependable 80A relay.","sku":"JD1912","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/relays/4-pin-relay/jd1912-12v-80a-4-pin-relay-heavy-duty-automotive-power/","priceCurrency":"LKR","price":220,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"JD1912 12V 80A 4 Pin Relay – Heavy Duty Automotive Power Relay for Cars, Bikes & Electronics | Sri Lanka","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1777518820/relay2_1_ylpjbo.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1777518820/relay4_1_ilbk5l.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1777518820/relay5_1_hovqef.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1777518820/relay1_1_gy7nce.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1777518820/relay3_1_cllp2k.png"],"description":"The JD1912 12V 80A 4 Pin Relay is a high-quality heavy-duty automotive relay designed for reliable switching of high current loads in electrical and electronic systems. Built with a durable transparent casing, this relay allows easy inspection of internal components, ensuring confidence in performance and quality. It operates on a standard 12V DC coil, making it ideal for most vehicles and battery-powered systems in Sri Lanka.\n\nThis relay features a 4-pin configuration (30, 85, 86, 87), supporting efficient switching of up to 80A current. The copper coil and  contacts provide stable conductivity, low resistance, and long service life even under demanding conditions. It is commonly used in car horn systems, fog lights, cooling fans, fuel pumps, inverters, solar setups, and other high-power switching applications.\n\nTechnically, the JD1912 relay ensures fast switching response, high insulation resistance, and strong contact durability. The mounting tab makes installation easy and secure in automotive or panel setups.\n\nPerfect for auto electricians, DIY enthusiasts, and repair technicians, this relay is a must-have component for reliable circuit control.\n\n✅ Fast delivery across Sri Lanka\n✅ High-quality, tested components\n✅ Ideal for automotive & electronic projects\n\nUpgrade your power control system today with this dependable 80A relay.","sku":"JD1912","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/relays/4-pin-relay/jd1912-12v-80a-4-pin-relay-heavy-duty-automotive-power/","priceCurrency":"LKR","price":220,"availability":"https://schema.org/OutOfStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
 <script>
 // Pre-load product data so cart works instantly without waiting for Firebase
 window._currentModalProduct = {
     id: '1777519026025',
     title: "JD1912 12V 80A 4 Pin Relay – Heavy Duty Automotive Power Relay for Cars, Bikes & Electronics | Sri Lanka",
     price: 220,
-    stock: 4,
+    stock: 99,
     image: "https://res.cloudinary.com/dqwdov5ab/image/upload/v1777518820/relay2_1_ylpjbo.png",
     mainCategory: "Relays",
     subCategory: "4 Pin Relay"

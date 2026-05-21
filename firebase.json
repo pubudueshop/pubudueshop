@@ -1,59 +1,1340 @@
-{
-  "hosting": {
-    "public": ".",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "headers": [
-      {
-        "source": "/admin.html",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "no-store, no-cache, must-revalidate, max-age=0"
-          }
-        ]
-      },
-      {
-        "source": "/charger/admin.html",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "no-store, no-cache, must-revalidate, max-age=0"
-          }
-        ]
-      },
-      {
-        "source": "**",
-        "headers": [
-          {
-            "key": "X-Frame-Options",
-            "value": "DENY"
-          },
-          {
-            "key": "X-Content-Type-Options",
-            "value": "nosniff"
-          },
-          {
-            "key": "Referrer-Policy",
-            "value": "strict-origin-when-cross-origin"
-          },
-          {
-            "key": "Permissions-Policy",
-            "value": "camera=(), microphone=(), geolocation=()"
-          },
-          {
-            "key": "Content-Security-Policy",
-            "value": "default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.gstatic.com https://www.googletagmanager.com https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://pagead2.googlesyndication.com https://adservice.google.com https://www.googletagservices.com https://*.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://*.google-analytics.com https://pagead2.googlesyndication.com https://adservice.google.com https://*.doubleclick.net https://*.google.com; frame-src 'self' https://googleads.g.doubleclick.net https://*.doubleclick.net https://tpc.googlesyndication.com https://*.googlesyndication.com https://*.google.com;"
-          }
-        ]
-      }
-    ]
-  },
-  "firestore": {
-
-    "rules": "firestore.rules"
-  }
+﻿{
+    "hosting":  {
+                    "public":  ".",
+                    "ignore":  [
+                                   "firebase.json",
+                                   "**/.*",
+                                   "**/node_modules/**"
+                               ],
+                    "headers":  [
+                                    {
+                                        "source":  "/admin.html",
+                                        "headers":  [
+                                                        {
+                                                            "key":  "Cache-Control",
+                                                            "value":  "no-store, no-cache, must-revalidate, max-age=0"
+                                                        }
+                                                    ]
+                                    },
+                                    {
+                                        "source":  "/charger/admin.html",
+                                        "headers":  [
+                                                        {
+                                                            "key":  "Cache-Control",
+                                                            "value":  "no-store, no-cache, must-revalidate, max-age=0"
+                                                        }
+                                                    ]
+                                    },
+                                    {
+                                        "source":  "**",
+                                        "headers":  [
+                                                        {
+                                                            "key":  "X-Frame-Options",
+                                                            "value":  "DENY"
+                                                        },
+                                                        {
+                                                            "key":  "X-Content-Type-Options",
+                                                            "value":  "nosniff"
+                                                        },
+                                                        {
+                                                            "key":  "Referrer-Policy",
+                                                            "value":  "strict-origin-when-cross-origin"
+                                                        },
+                                                        {
+                                                            "key":  "Permissions-Policy",
+                                                            "value":  "camera=(), microphone=(), geolocation=()"
+                                                        },
+                                                        {
+                                                            "key":  "Content-Security-Policy",
+                                                            "value":  "default-src \u0027self\u0027 https:; script-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 https://www.gstatic.com https://www.googletagmanager.com https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://pagead2.googlesyndication.com https://adservice.google.com https://www.googletagservices.com https://*.google.com; style-src \u0027self\u0027 \u0027unsafe-inline\u0027 https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src \u0027self\u0027 https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src \u0027self\u0027 data: https:; connect-src \u0027self\u0027 https://*.firebaseio.com https://*.googleapis.com https://*.google-analytics.com https://pagead2.googlesyndication.com https://adservice.google.com https://*.doubleclick.net https://*.google.com; frame-src \u0027self\u0027 https://googleads.g.doubleclick.net https://*.doubleclick.net https://tpc.googlesyndication.com https://*.googlesyndication.com https://*.google.com;"
+                                                        }
+                                                    ]
+                                    }
+                                ],
+                    "redirects":  [
+                                      {
+                                          "source":  "/bms/liion-bms/2s-lithium-battery-bms-protection-board-74v-liion-balance-mo",
+                                          "destination":  "/bms/liion-bms/2s-lithium-battery-bms-protection-board-74v-liion-balance/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/bms/liion-bms/2s-lithium-battery-bms-protection-board-74v-liion-balance-mo/",
+                                          "destination":  "/bms/liion-bms/2s-lithium-battery-bms-protection-board-74v-liion-balance/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/bms/liion-bms/2s-lithium-battery-bms-protection-board-74v-liion-balance-module",
+                                          "destination":  "/bms/liion-bms/2s-lithium-battery-bms-protection-board-74v-liion-balance/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/bms/liion-bms/2s-lithium-battery-bms-protection-board-74v-liion-balance-module/",
+                                          "destination":  "/bms/liion-bms/2s-lithium-battery-bms-protection-board-74v-liion-balance/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/cable/audio-extension-cable/35mm-aux-male-to-female-audio-extension-cable-red-color-high",
+                                          "destination":  "/cable/audio-extension-cable/35mm-aux-male-to-female-audio-extension-cable-red-color/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/cable/audio-extension-cable/35mm-aux-male-to-female-audio-extension-cable-red-color-high/",
+                                          "destination":  "/cable/audio-extension-cable/35mm-aux-male-to-female-audio-extension-cable-red-color/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/cable/audio-extension-cable/35mm-aux-male-to-female-audio-extension-cable-red-color-high-quality-stereo-jack",
+                                          "destination":  "/cable/audio-extension-cable/35mm-aux-male-to-female-audio-extension-cable-red-color/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/cable/audio-extension-cable/35mm-aux-male-to-female-audio-extension-cable-red-color-high-quality-stereo-jack/",
+                                          "destination":  "/cable/audio-extension-cable/35mm-aux-male-to-female-audio-extension-cable-red-color/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/cable/printer-cable/1m-usb-printer-cable-usb-a-to-usb-b-highspeed-data-cable-for",
+                                          "destination":  "/cable/printer-cable/1m-usb-printer-cable-usb-a-to-usb-b-highspeed-data-cable/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/cable/printer-cable/1m-usb-printer-cable-usb-a-to-usb-b-highspeed-data-cable-for/",
+                                          "destination":  "/cable/printer-cable/1m-usb-printer-cable-usb-a-to-usb-b-highspeed-data-cable/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/cable/printer-cable/1m-usb-printer-cable-usb-a-to-usb-b-highspeed-data-cable-for-printers-scanners",
+                                          "destination":  "/cable/printer-cable/1m-usb-printer-cable-usb-a-to-usb-b-highspeed-data-cable/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/cable/printer-cable/1m-usb-printer-cable-usb-a-to-usb-b-highspeed-data-cable-for-printers-scanners/",
+                                          "destination":  "/cable/printer-cable/1m-usb-printer-cable-usb-a-to-usb-b-highspeed-data-cable/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/capacitor/ceramic-capacitor/ceramic-capacitor-10pf-50wv-k-tolerance-through-hole-electro",
+                                          "destination":  "/capacitor/ceramic-capacitor/ceramic-capacitor-10pf-50wv-k-tolerance-through-hole/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/capacitor/ceramic-capacitor/ceramic-capacitor-10pf-50wv-k-tolerance-through-hole-electro/",
+                                          "destination":  "/capacitor/ceramic-capacitor/ceramic-capacitor-10pf-50wv-k-tolerance-through-hole/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/capacitor/ceramic-capacitor/ceramic-capacitor-10pf-50wv-k-tolerance-through-hole-electronic-component-sri-lanka",
+                                          "destination":  "/capacitor/ceramic-capacitor/ceramic-capacitor-10pf-50wv-k-tolerance-through-hole/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/capacitor/ceramic-capacitor/ceramic-capacitor-10pf-50wv-k-tolerance-through-hole-electronic-component-sri-lanka/",
+                                          "destination":  "/capacitor/ceramic-capacitor/ceramic-capacitor-10pf-50wv-k-tolerance-through-hole/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/capacitor/polyester-film-capacitor/153j-polyester-film-capacitor-0015f-100v-radial-lead-green",
+                                          "destination":  "/capacitor/polyester-film-capacitor/153j-polyester-film-capacitor-0015µf-100v-radial-lead-green/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/capacitor/polyester-film-capacitor/153j-polyester-film-capacitor-0015f-100v-radial-lead-green/",
+                                          "destination":  "/capacitor/polyester-film-capacitor/153j-polyester-film-capacitor-0015µf-100v-radial-lead-green/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/capacitor/polyester-film-capacitor/153j-polyester-film-capacitor-0015f-100v-radial-lead-green-c",
+                                          "destination":  "/capacitor/polyester-film-capacitor/153j-polyester-film-capacitor-0015µf-100v-radial-lead-green/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/capacitor/polyester-film-capacitor/153j-polyester-film-capacitor-0015f-100v-radial-lead-green-c/",
+                                          "destination":  "/capacitor/polyester-film-capacitor/153j-polyester-film-capacitor-0015µf-100v-radial-lead-green/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/capacitor/polyester-film-capacitor/153j-polyester-film-capacitor-0015f-100v-radial-lead-green-capacitor",
+                                          "destination":  "/capacitor/polyester-film-capacitor/153j-polyester-film-capacitor-0015µf-100v-radial-lead-green/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/capacitor/polyester-film-capacitor/153j-polyester-film-capacitor-0015f-100v-radial-lead-green-capacitor/",
+                                          "destination":  "/capacitor/polyester-film-capacitor/153j-polyester-film-capacitor-0015µf-100v-radial-lead-green/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/capacitor/polyester-film-capacitor/182j-polyester-film-capacitor-18nf-100v-radial-lead-green-ca",
+                                          "destination":  "/capacitor/polyester-film-capacitor/182j-polyester-film-capacitor-18nf-100v-radial-lead-green/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/capacitor/polyester-film-capacitor/182j-polyester-film-capacitor-18nf-100v-radial-lead-green-ca/",
+                                          "destination":  "/capacitor/polyester-film-capacitor/182j-polyester-film-capacitor-18nf-100v-radial-lead-green/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/capacitor/polyester-film-capacitor/182j-polyester-film-capacitor-18nf-100v-radial-lead-green-capacitor",
+                                          "destination":  "/capacitor/polyester-film-capacitor/182j-polyester-film-capacitor-18nf-100v-radial-lead-green/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/capacitor/polyester-film-capacitor/182j-polyester-film-capacitor-18nf-100v-radial-lead-green-capacitor/",
+                                          "destination":  "/capacitor/polyester-film-capacitor/182j-polyester-film-capacitor-18nf-100v-radial-lead-green/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/capacitor/polyester-film-capacitor/223j-polyester-film-capacitor-0022f-500v-radial-lead",
+                                          "destination":  "/capacitor/polyester-film-capacitor/223j-polyester-film-capacitor-0022µf-500v-radial-lead/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/capacitor/polyester-film-capacitor/223j-polyester-film-capacitor-0022f-500v-radial-lead/",
+                                          "destination":  "/capacitor/polyester-film-capacitor/223j-polyester-film-capacitor-0022µf-500v-radial-lead/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/capacitor/polyester-film-capacitor/223j-polyester-film-capacitor-0022f-500v-radial-lead-capacit",
+                                          "destination":  "/capacitor/polyester-film-capacitor/223j-polyester-film-capacitor-0022µf-500v-radial-lead/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/capacitor/polyester-film-capacitor/223j-polyester-film-capacitor-0022f-500v-radial-lead-capacit/",
+                                          "destination":  "/capacitor/polyester-film-capacitor/223j-polyester-film-capacitor-0022µf-500v-radial-lead/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/capacitor/polyester-film-capacitor/223j-polyester-film-capacitor-0022f-500v-radial-lead-capacitor",
+                                          "destination":  "/capacitor/polyester-film-capacitor/223j-polyester-film-capacitor-0022µf-500v-radial-lead/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/capacitor/polyester-film-capacitor/223j-polyester-film-capacitor-0022f-500v-radial-lead-capacitor/",
+                                          "destination":  "/capacitor/polyester-film-capacitor/223j-polyester-film-capacitor-0022µf-500v-radial-lead/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/capacitor/polyester-film-capacitor/223k-polyester-film-capacitor-0022f-10-tolerance-radial",
+                                          "destination":  "/capacitor/polyester-film-capacitor/223k-polyester-film-capacitor-0022µf-10-tolerance-radial/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/capacitor/polyester-film-capacitor/223k-polyester-film-capacitor-0022f-10-tolerance-radial/",
+                                          "destination":  "/capacitor/polyester-film-capacitor/223k-polyester-film-capacitor-0022µf-10-tolerance-radial/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/capacitor/polyester-film-capacitor/223k-polyester-film-capacitor-0022f-10-tolerance-radial-lead",
+                                          "destination":  "/capacitor/polyester-film-capacitor/223k-polyester-film-capacitor-0022µf-10-tolerance-radial/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/capacitor/polyester-film-capacitor/223k-polyester-film-capacitor-0022f-10-tolerance-radial-lead/",
+                                          "destination":  "/capacitor/polyester-film-capacitor/223k-polyester-film-capacitor-0022µf-10-tolerance-radial/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/capacitor/polyester-film-capacitor/223k-polyester-film-capacitor-0022f-10-tolerance-radial-lead-capacitor",
+                                          "destination":  "/capacitor/polyester-film-capacitor/223k-polyester-film-capacitor-0022µf-10-tolerance-radial/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/capacitor/polyester-film-capacitor/223k-polyester-film-capacitor-0022f-10-tolerance-radial-lead-capacitor/",
+                                          "destination":  "/capacitor/polyester-film-capacitor/223k-polyester-film-capacitor-0022µf-10-tolerance-radial/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/charger/18650-charger/18650-single-battery-charger-42v-1a-liion-universal-smart-ch",
+                                          "destination":  "/charger/18650-charger/18650-single-battery-charger-42v-1a-liion-universal-smart/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/charger/18650-charger/18650-single-battery-charger-42v-1a-liion-universal-smart-ch/",
+                                          "destination":  "/charger/18650-charger/18650-single-battery-charger-42v-1a-liion-universal-smart/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/charger/18650-charger/18650-single-battery-charger-42v-1a-liion-universal-smart-charger-100240v-ac",
+                                          "destination":  "/charger/18650-charger/18650-single-battery-charger-42v-1a-liion-universal-smart/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/charger/18650-charger/18650-single-battery-charger-42v-1a-liion-universal-smart-charger-100240v-ac/",
+                                          "destination":  "/charger/18650-charger/18650-single-battery-charger-42v-1a-liion-universal-smart/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/charger/liion-charger/liion-universal-battery-charger-dual-slot-42v-smart-charger-18650-14500-16340-compatible",
+                                          "destination":  "/charger/liion-charger/liion-universal-battery-charger-dual-slot-42v-smart-charger/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/charger/liion-charger/liion-universal-battery-charger-dual-slot-42v-smart-charger-18650-14500-16340-compatible/",
+                                          "destination":  "/charger/liion-charger/liion-universal-battery-charger-dual-slot-42v-smart-charger/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/diode/dual-schottky-rectifier-diode/mbr30100pt-schottky-diode-100v-30a-to247-dual-rectifier-sri-lanka",
+                                          "destination":  "/diode/dual-schottky-rectifier-diode/mbr30100pt-schottky-diode-100v-30a-to247-dual-rectifier-sri/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/diode/dual-schottky-rectifier-diode/mbr30100pt-schottky-diode-100v-30a-to247-dual-rectifier-sri-lanka/",
+                                          "destination":  "/diode/dual-schottky-rectifier-diode/mbr30100pt-schottky-diode-100v-30a-to247-dual-rectifier-sri/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/diode/ultrafast-rectifier-diode/rhro30120-ultrafast-rectifier-diode-30a-1200v-to247-high-spe",
+                                          "destination":  "/diode/ultrafast-rectifier-diode/rhro30120-ultrafast-rectifier-diode-30a-1200v-to247-high/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/diode/ultrafast-rectifier-diode/rhro30120-ultrafast-rectifier-diode-30a-1200v-to247-high-spe/",
+                                          "destination":  "/diode/ultrafast-rectifier-diode/rhro30120-ultrafast-rectifier-diode-30a-1200v-to247-high/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/fan/12v-fan/igo-jg8025-12v-dc-cooling-fan-80x80x25mm-panel-cabinet-exhau",
+                                          "destination":  "/fan/12v-fan/igo-jg8025-12v-dc-cooling-fan-80x80x25mm-panel-cabinet/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/fan/12v-fan/igo-jg8025-12v-dc-cooling-fan-80x80x25mm-panel-cabinet-exhau/",
+                                          "destination":  "/fan/12v-fan/igo-jg8025-12v-dc-cooling-fan-80x80x25mm-panel-cabinet/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/fan/12v-fan/igo-jg8025-12v-dc-cooling-fan-80x80x25mm-panel-cabinet-exhaust-fan",
+                                          "destination":  "/fan/12v-fan/igo-jg8025-12v-dc-cooling-fan-80x80x25mm-panel-cabinet/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/fan/12v-fan/igo-jg8025-12v-dc-cooling-fan-80x80x25mm-panel-cabinet-exhaust-fan/",
+                                          "destination":  "/fan/12v-fan/igo-jg8025-12v-dc-cooling-fan-80x80x25mm-panel-cabinet/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/fuse/ceramic-fuses/10a-ceramic-fuse-5x20mm-250v-cartridge-fuse-for-electronic-p",
+                                          "destination":  "/fuse/ceramic-fuses/10a-ceramic-fuse-5x20mm-250v-cartridge-fuse-for-electronic/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/fuse/ceramic-fuses/10a-ceramic-fuse-5x20mm-250v-cartridge-fuse-for-electronic-p/",
+                                          "destination":  "/fuse/ceramic-fuses/10a-ceramic-fuse-5x20mm-250v-cartridge-fuse-for-electronic/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/fuse/ceramic-fuses/10a-ceramic-fuse-5x20mm-250v-cartridge-fuse-for-electronic-protection",
+                                          "destination":  "/fuse/ceramic-fuses/10a-ceramic-fuse-5x20mm-250v-cartridge-fuse-for-electronic/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/fuse/ceramic-fuses/10a-ceramic-fuse-5x20mm-250v-cartridge-fuse-for-electronic-protection/",
+                                          "destination":  "/fuse/ceramic-fuses/10a-ceramic-fuse-5x20mm-250v-cartridge-fuse-for-electronic/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/fuse/ceramic-fuses/13a-ceramic-fuse-250v-cartridge-fuse-high-temperature-protec",
+                                          "destination":  "/fuse/ceramic-fuses/13a-ceramic-fuse-250v-cartridge-fuse-high-temperature/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/fuse/ceramic-fuses/13a-ceramic-fuse-250v-cartridge-fuse-high-temperature-protec/",
+                                          "destination":  "/fuse/ceramic-fuses/13a-ceramic-fuse-250v-cartridge-fuse-high-temperature/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/fuse/ceramic-fuses/13a-ceramic-fuse-250v-cartridge-fuse-high-temperature-protection",
+                                          "destination":  "/fuse/ceramic-fuses/13a-ceramic-fuse-250v-cartridge-fuse-high-temperature/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/fuse/ceramic-fuses/13a-ceramic-fuse-250v-cartridge-fuse-high-temperature-protection/",
+                                          "destination":  "/fuse/ceramic-fuses/13a-ceramic-fuse-250v-cartridge-fuse-high-temperature/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/fuse/ceramic-fuses/5a-ceramic-fuse-5x20mm-250v-cartridge-fuse-for-electronic-pr",
+                                          "destination":  "/fuse/ceramic-fuses/5a-ceramic-fuse-5x20mm-250v-cartridge-fuse-for-electronic/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/fuse/ceramic-fuses/5a-ceramic-fuse-5x20mm-250v-cartridge-fuse-for-electronic-pr/",
+                                          "destination":  "/fuse/ceramic-fuses/5a-ceramic-fuse-5x20mm-250v-cartridge-fuse-for-electronic/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/fuse/ceramic-fuses/5a-ceramic-fuse-5x20mm-250v-cartridge-fuse-for-electronic-protection",
+                                          "destination":  "/fuse/ceramic-fuses/5a-ceramic-fuse-5x20mm-250v-cartridge-fuse-for-electronic/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/fuse/ceramic-fuses/5a-ceramic-fuse-5x20mm-250v-cartridge-fuse-for-electronic-protection/",
+                                          "destination":  "/fuse/ceramic-fuses/5a-ceramic-fuse-5x20mm-250v-cartridge-fuse-for-electronic/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/fuse/glass-fuses/10a-glass-fuse-5x20mm-250v-fast-blow-cartridge-fuse-for-elec",
+                                          "destination":  "/fuse/glass-fuses/10a-glass-fuse-5x20mm-250v-fast-blow-cartridge-fuse-for/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/fuse/glass-fuses/10a-glass-fuse-5x20mm-250v-fast-blow-cartridge-fuse-for-elec/",
+                                          "destination":  "/fuse/glass-fuses/10a-glass-fuse-5x20mm-250v-fast-blow-cartridge-fuse-for/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/fuse/glass-fuses/10a-glass-fuse-5x20mm-250v-fast-blow-cartridge-fuse-for-electronics",
+                                          "destination":  "/fuse/glass-fuses/10a-glass-fuse-5x20mm-250v-fast-blow-cartridge-fuse-for/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/fuse/glass-fuses/10a-glass-fuse-5x20mm-250v-fast-blow-cartridge-fuse-for-electronics/",
+                                          "destination":  "/fuse/glass-fuses/10a-glass-fuse-5x20mm-250v-fast-blow-cartridge-fuse-for/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/fuse/glass-fuses/5a-glass-fuse-5x20mm-250v-fast-blow-cartridge-fuse-for-elect",
+                                          "destination":  "/fuse/glass-fuses/5a-glass-fuse-5x20mm-250v-fast-blow-cartridge-fuse-for/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/fuse/glass-fuses/5a-glass-fuse-5x20mm-250v-fast-blow-cartridge-fuse-for-elect/",
+                                          "destination":  "/fuse/glass-fuses/5a-glass-fuse-5x20mm-250v-fast-blow-cartridge-fuse-for/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/fuse/glass-fuses/5a-glass-fuse-5x20mm-250v-fast-blow-cartridge-fuse-for-electronics",
+                                          "destination":  "/fuse/glass-fuses/5a-glass-fuse-5x20mm-250v-fast-blow-cartridge-fuse-for/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/fuse/glass-fuses/5a-glass-fuse-5x20mm-250v-fast-blow-cartridge-fuse-for-electronics/",
+                                          "destination":  "/fuse/glass-fuses/5a-glass-fuse-5x20mm-250v-fast-blow-cartridge-fuse-for/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/ic/darlington-driver/uln2004apg-darlington-transistor-array-ic-7-channel-relay-dr",
+                                          "destination":  "/ic/darlington-driver/uln2004apg-darlington-transistor-array-ic-7-channel-relay/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/ic/darlington-driver/uln2004apg-darlington-transistor-array-ic-7-channel-relay-dr/",
+                                          "destination":  "/ic/darlington-driver/uln2004apg-darlington-transistor-array-ic-7-channel-relay/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/ic/pwm-controller-ic/uc3843an-pwm-controller-ic-smps-power-supply-ic-sri-lanka-hi",
+                                          "destination":  "/ic/pwmcontroller/uc3843an-pwm-controller-ic-smps-power-supply-ic-sri-lanka/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/ic/pwm-controller-ic/uc3843an-pwm-controller-ic-smps-power-supply-ic-sri-lanka-hi/",
+                                          "destination":  "/ic/pwmcontroller/uc3843an-pwm-controller-ic-smps-power-supply-ic-sri-lanka/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/ic/pwm-controller-ic/uc3843an-pwm-controller-ic-smps-power-supply-ic-sri-lanka-high-quality-dip8",
+                                          "destination":  "/ic/pwmcontroller/uc3843an-pwm-controller-ic-smps-power-supply-ic-sri-lanka/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/ic/pwm-controller-ic/uc3843an-pwm-controller-ic-smps-power-supply-ic-sri-lanka-high-quality-dip8/",
+                                          "destination":  "/ic/pwmcontroller/uc3843an-pwm-controller-ic-smps-power-supply-ic-sri-lanka/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/ic/pwmcontroller/uc3843an-pwm-controller-ic-smps-power-supply-ic-sri-lanka-hi",
+                                          "destination":  "/ic/pwmcontroller/uc3843an-pwm-controller-ic-smps-power-supply-ic-sri-lanka/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/ic/pwmcontroller/uc3843an-pwm-controller-ic-smps-power-supply-ic-sri-lanka-hi/",
+                                          "destination":  "/ic/pwmcontroller/uc3843an-pwm-controller-ic-smps-power-supply-ic-sri-lanka/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/igbt/nchannel/mp50n65ed-igbt-650v-50a-to247-power-transistor-high-speed-sw",
+                                          "destination":  "/igbt/nchannel/mp50n65ed-igbt-650v-50a-to247-power-transistor-high-speed/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/igbt/nchannel/mp50n65ed-igbt-650v-50a-to247-power-transistor-high-speed-sw/",
+                                          "destination":  "/igbt/nchannel/mp50n65ed-igbt-650v-50a-to247-power-transistor-high-speed/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/jack/tv-antenna-coaxial-jack-plug/tv-antenna-coaxial-jack-plug-connector-rf-tv-aerial-male-plu",
+                                          "destination":  "/jack/tv-antenna-coaxial-jack-plug/tv-antenna-coaxial-jack-plug-connector-rf-tv-aerial-male/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/jack/tv-antenna-coaxial-jack-plug/tv-antenna-coaxial-jack-plug-connector-rf-tv-aerial-male-plu/",
+                                          "destination":  "/jack/tv-antenna-coaxial-jack-plug/tv-antenna-coaxial-jack-plug-connector-rf-tv-aerial-male/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/jack/tv-antenna-coaxial-jack-plug/tv-antenna-coaxial-jack-plug-connector-rf-tv-aerial-male-plug-with-cover",
+                                          "destination":  "/jack/tv-antenna-coaxial-jack-plug/tv-antenna-coaxial-jack-plug-connector-rf-tv-aerial-male/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/jack/tv-antenna-coaxial-jack-plug/tv-antenna-coaxial-jack-plug-connector-rf-tv-aerial-male-plug-with-cover/",
+                                          "destination":  "/jack/tv-antenna-coaxial-jack-plug/tv-antenna-coaxial-jack-plug-connector-rf-tv-aerial-male/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/jack-base/35mm-handfree-headphone-jack-base-pcb-mount/35mm-handfree-headphone-jack-base-pcb-mount-audio-socket-fem",
+                                          "destination":  "/jack-base/35mm-handfree-headphone-jack-base-pcb-mount/35mm-handfree-headphone-jack-base-pcb-mount-audio-socket/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/jack-base/35mm-handfree-headphone-jack-base-pcb-mount/35mm-handfree-headphone-jack-base-pcb-mount-audio-socket-fem/",
+                                          "destination":  "/jack-base/35mm-handfree-headphone-jack-base-pcb-mount/35mm-handfree-headphone-jack-base-pcb-mount-audio-socket/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/jack-base/35mm-handfree-headphone-jack-base-pcb-mount/35mm-handfree-headphone-jack-base-pcb-mount-audio-socket-female-connector",
+                                          "destination":  "/jack-base/35mm-handfree-headphone-jack-base-pcb-mount/35mm-handfree-headphone-jack-base-pcb-mount-audio-socket/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/jack-base/35mm-handfree-headphone-jack-base-pcb-mount/35mm-handfree-headphone-jack-base-pcb-mount-audio-socket-female-connector/",
+                                          "destination":  "/jack-base/35mm-handfree-headphone-jack-base-pcb-mount/35mm-handfree-headphone-jack-base-pcb-mount-audio-socket/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/module/battery-protection/m609-battery-low-voltage-cutoff-protection-module-with-digit",
+                                          "destination":  "/module/battery-protection/m609-battery-low-voltage-cutoff-protection-module-with/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/module/battery-protection/m609-battery-low-voltage-cutoff-protection-module-with-digit/",
+                                          "destination":  "/module/battery-protection/m609-battery-low-voltage-cutoff-protection-module-with/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/module/battery-protection/m609-battery-low-voltage-cutoff-protection-module-with-digital-display",
+                                          "destination":  "/module/battery-protection/m609-battery-low-voltage-cutoff-protection-module-with/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/module/battery-protection/m609-battery-low-voltage-cutoff-protection-module-with-digital-display/",
+                                          "destination":  "/module/battery-protection/m609-battery-low-voltage-cutoff-protection-module-with/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/module/buck-converter/hw920-dcdc-buck-converter-adjustable-stepdown-power-supply-m",
+                                          "destination":  "/module/buck-converter/hw920-dcdc-buck-converter-adjustable-stepdown-power-supply/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/module/buck-converter/hw920-dcdc-buck-converter-adjustable-stepdown-power-supply-m/",
+                                          "destination":  "/module/buck-converter/hw920-dcdc-buck-converter-adjustable-stepdown-power-supply/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/module/buck-converter/hw920-dcdc-buck-converter-adjustable-stepdown-power-supply-module",
+                                          "destination":  "/module/buck-converter/hw920-dcdc-buck-converter-adjustable-stepdown-power-supply/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/module/buck-converter/hw920-dcdc-buck-converter-adjustable-stepdown-power-supply-module/",
+                                          "destination":  "/module/buck-converter/hw920-dcdc-buck-converter-adjustable-stepdown-power-supply/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/module/charging-module/tp4056-micro-usb-lithium-battery-charger-module-with-protect",
+                                          "destination":  "/module/charging-module/tp4056-micro-usb-lithium-battery-charger-module-with/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/module/charging-module/tp4056-micro-usb-lithium-battery-charger-module-with-protect/",
+                                          "destination":  "/module/charging-module/tp4056-micro-usb-lithium-battery-charger-module-with/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/module/charging-module/tp4056-micro-usb-lithium-battery-charger-module-with-protection-1a-18650-charging-board",
+                                          "destination":  "/module/charging-module/tp4056-micro-usb-lithium-battery-charger-module-with/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/module/charging-module/tp4056-micro-usb-lithium-battery-charger-module-with-protection-1a-18650-charging-board/",
+                                          "destination":  "/module/charging-module/tp4056-micro-usb-lithium-battery-charger-module-with/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/module/charging-module/tp4056-typec-lithium-battery-charging-module-with-protection",
+                                          "destination":  "/module/charging-module/tp4056-typec-lithium-battery-charging-module-with/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/module/charging-module/tp4056-typec-lithium-battery-charging-module-with-protection/",
+                                          "destination":  "/module/charging-module/tp4056-typec-lithium-battery-charging-module-with/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/module/charging-module/tp4056-typec-lithium-battery-charging-module-with-protection-1a-18650-charger-board",
+                                          "destination":  "/module/charging-module/tp4056-typec-lithium-battery-charging-module-with/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/module/charging-module/tp4056-typec-lithium-battery-charging-module-with-protection-1a-18650-charger-board/",
+                                          "destination":  "/module/charging-module/tp4056-typec-lithium-battery-charging-module-with/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/module/charging-module/tp5100-1s2s-lithium-battery-charger-module-2a-stepdown-charg",
+                                          "destination":  "/module/charging-module/tp5100-1s2s-lithium-battery-charger-module-2a-stepdown/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/module/charging-module/tp5100-1s2s-lithium-battery-charger-module-2a-stepdown-charg/",
+                                          "destination":  "/module/charging-module/tp5100-1s2s-lithium-battery-charger-module-2a-stepdown/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/module/charging-module/tp5100-1s2s-lithium-battery-charger-module-2a-stepdown-charging-board",
+                                          "destination":  "/module/charging-module/tp5100-1s2s-lithium-battery-charger-module-2a-stepdown/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/module/charging-module/tp5100-1s2s-lithium-battery-charger-module-2a-stepdown-charging-board/",
+                                          "destination":  "/module/charging-module/tp5100-1s2s-lithium-battery-charger-module-2a-stepdown/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/module/thermal-senser/thermal-senser-module",
+                                          "destination":  "/module/thermal-senser/xhw3001-ac-230v-digital-temperature-controller-thermostat/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/module/thermal-senser/thermal-senser-module/",
+                                          "destination":  "/module/thermal-senser/xhw3001-ac-230v-digital-temperature-controller-thermostat/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/module/thermal-senser/xhw3001-ac-230v-digital-temperature-controller-thermostat-mo",
+                                          "destination":  "/module/thermal-senser/xhw3001-ac-230v-digital-temperature-controller-thermostat/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/module/thermal-senser/xhw3001-ac-230v-digital-temperature-controller-thermostat-mo/",
+                                          "destination":  "/module/thermal-senser/xhw3001-ac-230v-digital-temperature-controller-thermostat/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/mosfet/nchannel/60r380f-mosfet-transistor-high-voltage-power-mosfet-600v-8a-smps-repair-sri-lanka",
+                                          "destination":  "/mosfet/nchannel/60r380f-mosfet-transistor-high-voltage-power-mosfet-600v-8a/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/mosfet/nchannel/60r380f-mosfet-transistor-high-voltage-power-mosfet-600v-8a-smps-repair-sri-lanka/",
+                                          "destination":  "/mosfet/nchannel/60r380f-mosfet-transistor-high-voltage-power-mosfet-600v-8a/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/mosfet/nchannel/7n65f-mosfet-650v-7a-to220-nchannel-power-transistor-sri-lan",
+                                          "destination":  "/mosfet/nchannel/7n65f-mosfet-650v-7a-to220-nchannel-power-transistor-sri/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/mosfet/nchannel/7n65f-mosfet-650v-7a-to220-nchannel-power-transistor-sri-lan/",
+                                          "destination":  "/mosfet/nchannel/7n65f-mosfet-650v-7a-to220-nchannel-power-transistor-sri/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/mosfet/nchannel/7n65f-mosfet-650v-7a-to220-nchannel-power-transistor-sri-lanka",
+                                          "destination":  "/mosfet/nchannel/7n65f-mosfet-650v-7a-to220-nchannel-power-transistor-sri/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/mosfet/nchannel/7n65f-mosfet-650v-7a-to220-nchannel-power-transistor-sri-lanka/",
+                                          "destination":  "/mosfet/nchannel/7n65f-mosfet-650v-7a-to220-nchannel-power-transistor-sri/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/mosfet/nchannel/irf740-nchannel-power-mosfet-to220-400v-high-voltage-switchi",
+                                          "destination":  "/mosfet/nchannel/irf740-nchannel-power-mosfet-to220-400v-high-voltage/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/mosfet/nchannel/irf740-nchannel-power-mosfet-to220-400v-high-voltage-switchi/",
+                                          "destination":  "/mosfet/nchannel/irf740-nchannel-power-mosfet-to220-400v-high-voltage/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/mosfet/nchannel/irf740-nchannel-power-mosfet-to220-400v-high-voltage-switching-transistor",
+                                          "destination":  "/mosfet/nchannel/irf740-nchannel-power-mosfet-to220-400v-high-voltage/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/mosfet/nchannel/irf740-nchannel-power-mosfet-to220-400v-high-voltage-switching-transistor/",
+                                          "destination":  "/mosfet/nchannel/irf740-nchannel-power-mosfet-to220-400v-high-voltage/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/mosfet/nchannel/slh60r041gtdi-mosfet-600v-41a-power-transistor-to247-high-ef",
+                                          "destination":  "/mosfet/nchannel/slh60r041gtdi-mosfet-600v-41a-power-transistor-to247-high/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/mosfet/nchannel/slh60r041gtdi-mosfet-600v-41a-power-transistor-to247-high-ef/",
+                                          "destination":  "/mosfet/nchannel/slh60r041gtdi-mosfet-600v-41a-power-transistor-to247-high/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/mosfet/nchannel/slh60r041gtdi-mosfet-600v-41a-power-transistor-to247-high-efficiency-smps-mosfet-sri-lanka",
+                                          "destination":  "/mosfet/nchannel/slh60r041gtdi-mosfet-600v-41a-power-transistor-to247-high/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/mosfet/nchannel/slh60r041gtdi-mosfet-600v-41a-power-transistor-to247-high-efficiency-smps-mosfet-sri-lanka/",
+                                          "destination":  "/mosfet/nchannel/slh60r041gtdi-mosfet-600v-41a-power-transistor-to247-high/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/network-switch/8port-switch/tplink-tlsf1008d-8port-fast-ethernet-switch-10100mbps-deskto",
+                                          "destination":  "/network-switch/8port-switch/tplink-tlsf1008d-8port-fast-ethernet-switch-10100mbps/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/network-switch/8port-switch/tplink-tlsf1008d-8port-fast-ethernet-switch-10100mbps-deskto/",
+                                          "destination":  "/network-switch/8port-switch/tplink-tlsf1008d-8port-fast-ethernet-switch-10100mbps/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/network-switch/8port-switch/tplink-tlsf1008d-8port-fast-ethernet-switch-10100mbps-desktop-lan-hub",
+                                          "destination":  "/network-switch/8port-switch/tplink-tlsf1008d-8port-fast-ethernet-switch-10100mbps/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/network-switch/8port-switch/tplink-tlsf1008d-8port-fast-ethernet-switch-10100mbps-desktop-lan-hub/",
+                                          "destination":  "/network-switch/8port-switch/tplink-tlsf1008d-8port-fast-ethernet-switch-10100mbps/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/panel-meter/ac-ammeter/sf72-analog-ac-ammeter-3005a-72x72mm-panel-meter-current-tra",
+                                          "destination":  "/panel-meter/ac-ammeter/sf72-analog-ac-ammeter-3005a-72x72mm-panel-meter-current/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/panel-meter/ac-ammeter/sf72-analog-ac-ammeter-3005a-72x72mm-panel-meter-current-tra/",
+                                          "destination":  "/panel-meter/ac-ammeter/sf72-analog-ac-ammeter-3005a-72x72mm-panel-meter-current/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/panel-meter/ac-ammeter/sf72-analog-ac-ammeter-3005a-72x72mm-panel-meter-current-transformer-ct-type-ammeter",
+                                          "destination":  "/panel-meter/ac-ammeter/sf72-analog-ac-ammeter-3005a-72x72mm-panel-meter-current/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/panel-meter/ac-ammeter/sf72-analog-ac-ammeter-3005a-72x72mm-panel-meter-current-transformer-ct-type-ammeter/",
+                                          "destination":  "/panel-meter/ac-ammeter/sf72-analog-ac-ammeter-3005a-72x72mm-panel-meter-current/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/plug-top/square-pin-plug-top/uk-standard-3pin-fused-plug-top-250v-ac-heavy-duty-unbreakab",
+                                          "destination":  "/plug-top/square-pin-plug-top/uk-standard-3pin-fused-plug-top-250v-ac-heavy-duty/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/plug-top/square-pin-plug-top/uk-standard-3pin-fused-plug-top-250v-ac-heavy-duty-unbreakab/",
+                                          "destination":  "/plug-top/square-pin-plug-top/uk-standard-3pin-fused-plug-top-250v-ac-heavy-duty/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/plug-top/square-pin-plug-top/uk-standard-3pin-fused-plug-top-250v-ac-heavy-duty-unbreakable",
+                                          "destination":  "/plug-top/square-pin-plug-top/uk-standard-3pin-fused-plug-top-250v-ac-heavy-duty/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/plug-top/square-pin-plug-top/uk-standard-3pin-fused-plug-top-250v-ac-heavy-duty-unbreakable/",
+                                          "destination":  "/plug-top/square-pin-plug-top/uk-standard-3pin-fused-plug-top-250v-ac-heavy-duty/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/project-box/plastic-project-box/mini-plastic-project-box-enclosure-6425cm-black-electronic-d",
+                                          "destination":  "/project-box/plastic-project-box/mini-plastic-project-box-enclosure-6425cm-black-electronic/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/project-box/plastic-project-box/mini-plastic-project-box-enclosure-6425cm-black-electronic-d/",
+                                          "destination":  "/project-box/plastic-project-box/mini-plastic-project-box-enclosure-6425cm-black-electronic/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/project-box/plastic-project-box/mini-plastic-project-box-enclosure-6425cm-black-electronic-diy-case",
+                                          "destination":  "/project-box/plastic-project-box/mini-plastic-project-box-enclosure-6425cm-black-electronic/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/project-box/plastic-project-box/mini-plastic-project-box-enclosure-6425cm-black-electronic-diy-case/",
+                                          "destination":  "/project-box/plastic-project-box/mini-plastic-project-box-enclosure-6425cm-black-electronic/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/project-box/plastic-project-box/plastic-doorbell-project-box-25-cm-14-cm-6-cm-wallmount-encl",
+                                          "destination":  "/project-box/plastic-project-box/plastic-doorbell-project-box-25-cm-14-cm-6-cm-wallmount/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/project-box/plastic-project-box/plastic-doorbell-project-box-25-cm-14-cm-6-cm-wallmount-encl/",
+                                          "destination":  "/project-box/plastic-project-box/plastic-doorbell-project-box-25-cm-14-cm-6-cm-wallmount/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/project-box/plastic-project-box/plastic-doorbell-project-box-25-cm-14-cm-6-cm-wallmount-enclosure",
+                                          "destination":  "/project-box/plastic-project-box/plastic-doorbell-project-box-25-cm-14-cm-6-cm-wallmount/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/project-box/plastic-project-box/plastic-doorbell-project-box-25-cm-14-cm-6-cm-wallmount-enclosure/",
+                                          "destination":  "/project-box/plastic-project-box/plastic-doorbell-project-box-25-cm-14-cm-6-cm-wallmount/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/push-button/momentary-push-button-switch/momentary-push-button-switch-push-on-release-off-normally-op",
+                                          "destination":  "/push-button/momentary-push-button-switch/momentary-push-button-switch-push-on-release-off-normally/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/push-button/momentary-push-button-switch/momentary-push-button-switch-push-on-release-off-normally-op/",
+                                          "destination":  "/push-button/momentary-push-button-switch/momentary-push-button-switch-push-on-release-off-normally/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/push-button/momentary-push-button-switch/momentary-push-button-switch-push-on-release-off-normally-open-no-power-switch",
+                                          "destination":  "/push-button/momentary-push-button-switch/momentary-push-button-switch-push-on-release-off-normally/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/push-button/momentary-push-button-switch/momentary-push-button-switch-push-on-release-off-normally-open-no-power-switch/",
+                                          "destination":  "/push-button/momentary-push-button-switch/momentary-push-button-switch-push-on-release-off-normally/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/relays/4-pin-relay/jd1912-12v-80a-4-pin-relay-heavy-duty-automotive-power-relay",
+                                          "destination":  "/relays/4-pin-relay/jd1912-12v-80a-4-pin-relay-heavy-duty-automotive-power/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/relays/4-pin-relay/jd1912-12v-80a-4-pin-relay-heavy-duty-automotive-power-relay/",
+                                          "destination":  "/relays/4-pin-relay/jd1912-12v-80a-4-pin-relay-heavy-duty-automotive-power/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/relays/solid-state-relays-ssr/ssr80da-solid-state-relay-80a-332v-dc-to-24380v-ac-high-powe",
+                                          "destination":  "/relays/solid-state-relays-ssr/ssr80da-solid-state-relay-80a-332v-dc-to-24380v-ac-high/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/relays/solid-state-relays-ssr/ssr80da-solid-state-relay-80a-332v-dc-to-24380v-ac-high-powe/",
+                                          "destination":  "/relays/solid-state-relays-ssr/ssr80da-solid-state-relay-80a-332v-dc-to-24380v-ac-high/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/resistors/ceramic-resistors/10w-082-ceramic-power-resistor-10-tolerance-high-watt",
+                                          "destination":  "/resistors/ceramic-resistors/10w-082ω-ceramic-power-resistor-10-tolerance-high-watt/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/resistors/ceramic-resistors/10w-082-ceramic-power-resistor-10-tolerance-high-watt/",
+                                          "destination":  "/resistors/ceramic-resistors/10w-082ω-ceramic-power-resistor-10-tolerance-high-watt/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/resistors/ceramic-resistors/10w-12k-ceramic-cement-resistor-wirewound-high-power-1200",
+                                          "destination":  "/resistors/ceramic-resistors/10w-12kω-ceramic-cement-resistor-wirewound-high-power-1200/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/resistors/ceramic-resistors/10w-12k-ceramic-cement-resistor-wirewound-high-power-1200/",
+                                          "destination":  "/resistors/ceramic-resistors/10w-12kω-ceramic-cement-resistor-wirewound-high-power-1200/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/resistors/ceramic-resistors/10w-15k-ceramic-cement-resistor-wirewound-high-power-1500",
+                                          "destination":  "/resistors/ceramic-resistors/10w-15kω-ceramic-cement-resistor-wirewound-high-power-1500/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/resistors/ceramic-resistors/10w-15k-ceramic-cement-resistor-wirewound-high-power-1500/",
+                                          "destination":  "/resistors/ceramic-resistors/10w-15kω-ceramic-cement-resistor-wirewound-high-power-1500/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/resistors/ceramic-resistors/10w-180-ohm-cement-resistor-180-j-5-high-power-wirewound",
+                                          "destination":  "/resistors/ceramic-resistors/10w-180-ohm-cement-resistor-180ω-j-5-high-power-wirewound/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/resistors/ceramic-resistors/10w-180-ohm-cement-resistor-180-j-5-high-power-wirewound/",
+                                          "destination":  "/resistors/ceramic-resistors/10w-180-ohm-cement-resistor-180ω-j-5-high-power-wirewound/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/resistors/ceramic-resistors/10w-22-ceramic-resistor-wirewound-high-power-22-ohm",
+                                          "destination":  "/resistors/ceramic-resistors/10w-22ω-ceramic-resistor-wirewound-high-power-22-ohm/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/resistors/ceramic-resistors/10w-22-ceramic-resistor-wirewound-high-power-22-ohm/",
+                                          "destination":  "/resistors/ceramic-resistors/10w-22ω-ceramic-resistor-wirewound-high-power-22-ohm/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/resistors/ceramic-resistors/10w-33k-ceramic-wirewound-resistor-33k-ohm-j-5-high-power",
+                                          "destination":  "/resistors/ceramic-resistors/10w-33kω-ceramic-wirewound-resistor-33k-ohm-j-5-high-power/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/resistors/ceramic-resistors/10w-33k-ceramic-wirewound-resistor-33k-ohm-j-5-high-power/",
+                                          "destination":  "/resistors/ceramic-resistors/10w-33kω-ceramic-wirewound-resistor-33k-ohm-j-5-high-power/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/resistors/ceramic-resistors/10w-39-cement-power-resistor-wirewound-high-wattage-39-ohm",
+                                          "destination":  "/resistors/ceramic-resistors/10w-39ω-cement-power-resistor-wirewound-high-wattage-39-ohm/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/resistors/ceramic-resistors/10w-39-cement-power-resistor-wirewound-high-wattage-39-ohm/",
+                                          "destination":  "/resistors/ceramic-resistors/10w-39ω-cement-power-resistor-wirewound-high-wattage-39-ohm/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/resistors/ceramic-resistors/15w-27-wirewound-cement-resistor-high-power-27-ohm-resistor",
+                                          "destination":  "/resistors/ceramic-resistors/15w-27ω-wirewound-cement-resistor-high-power-27-ohm/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/resistors/ceramic-resistors/15w-27-wirewound-cement-resistor-high-power-27-ohm-resistor/",
+                                          "destination":  "/resistors/ceramic-resistors/15w-27ω-wirewound-cement-resistor-high-power-27-ohm/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/resistors/ceramic-resistors/15w-39-cement-resistor-wirewound-high-power-ceramic",
+                                          "destination":  "/resistors/ceramic-resistors/15w-39ω-cement-resistor-wirewound-high-power-ceramic/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/resistors/ceramic-resistors/15w-39-cement-resistor-wirewound-high-power-ceramic/",
+                                          "destination":  "/resistors/ceramic-resistors/15w-39ω-cement-resistor-wirewound-high-power-ceramic/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/resistors/ceramic-resistors/33k-10w-ceramic-power-resistor-5-j-high-watt-wirewound",
+                                          "destination":  "/resistors/ceramic-resistors/33kω-10w-ceramic-power-resistor-5-j-high-watt-wirewound/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/resistors/ceramic-resistors/33k-10w-ceramic-power-resistor-5-j-high-watt-wirewound/",
+                                          "destination":  "/resistors/ceramic-resistors/33kω-10w-ceramic-power-resistor-5-j-high-watt-wirewound/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/resistors/ceramic-resistors/5w-82k-ceramic-cement-resistor-5-j-high-power-wirewound",
+                                          "destination":  "/resistors/ceramic-resistors/5w-82kω-ceramic-cement-resistor-5-j-high-power-wirewound/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/resistors/ceramic-resistors/5w-82k-ceramic-cement-resistor-5-j-high-power-wirewound/",
+                                          "destination":  "/resistors/ceramic-resistors/5w-82kω-ceramic-cement-resistor-5-j-high-power-wirewound/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/resistors/ceramic-resistors/7w-047-ceramic-wirewound-resistor-10-tolerance-high-power",
+                                          "destination":  "/resistors/ceramic-resistors/7w-047ω-ceramic-wirewound-resistor-10-tolerance-high-power/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/resistors/ceramic-resistors/7w-047-ceramic-wirewound-resistor-10-tolerance-high-power/",
+                                          "destination":  "/resistors/ceramic-resistors/7w-047ω-ceramic-wirewound-resistor-10-tolerance-high-power/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/resistors/ceramic-resistors/7w-068-ohm-cement-resistor-068-k-high-power-wirewound",
+                                          "destination":  "/resistors/ceramic-resistors/7w-068-ohm-cement-resistor-068ω-k-high-power-wirewound/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/resistors/ceramic-resistors/7w-068-ohm-cement-resistor-068-k-high-power-wirewound/",
+                                          "destination":  "/resistors/ceramic-resistors/7w-068-ohm-cement-resistor-068ω-k-high-power-wirewound/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/resistors/ceramic-resistors/7w-62-ceramic-wirewound-resistor-cement-type-high-power",
+                                          "destination":  "/resistors/ceramic-resistors/7w-62ω-ceramic-wirewound-resistor-cement-type-high-power/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/resistors/ceramic-resistors/7w-62-ceramic-wirewound-resistor-cement-type-high-power/",
+                                          "destination":  "/resistors/ceramic-resistors/7w-62ω-ceramic-wirewound-resistor-cement-type-high-power/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/resistors/ceramic-resistors/7w-68-cement-resistor-wirewound-power-resistor-high-power",
+                                          "destination":  "/resistors/ceramic-resistors/7w-68ω-cement-resistor-wirewound-power-resistor-high-power/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/resistors/ceramic-resistors/7w-68-cement-resistor-wirewound-power-resistor-high-power/",
+                                          "destination":  "/resistors/ceramic-resistors/7w-68ω-cement-resistor-wirewound-power-resistor-high-power/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/resistors/ceramic-resistors/7w-82-ceramic-cement-resistor-10-high-power-wirewound",
+                                          "destination":  "/resistors/ceramic-resistors/7w-82ω-ceramic-cement-resistor-10-high-power-wirewound/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/resistors/ceramic-resistors/7w-82-ceramic-cement-resistor-10-high-power-wirewound/",
+                                          "destination":  "/resistors/ceramic-resistors/7w-82ω-ceramic-cement-resistor-10-high-power-wirewound/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/solar/mini-solar-panel/mini-solar-emergency-light-panel-usb-rechargeable-compact-so",
+                                          "destination":  "/solar/mini-solar-panel/mini-solar-emergency-light-panel-usb-rechargeable-compact/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/solar/mini-solar-panel/mini-solar-emergency-light-panel-usb-rechargeable-compact-so/",
+                                          "destination":  "/solar/mini-solar-panel/mini-solar-emergency-light-panel-usb-rechargeable-compact/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/solar/mini-solar-panel/mini-solar-emergency-light-panel-usb-rechargeable-compact-solar-lamp",
+                                          "destination":  "/solar/mini-solar-panel/mini-solar-emergency-light-panel-usb-rechargeable-compact/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/solar/mini-solar-panel/mini-solar-emergency-light-panel-usb-rechargeable-compact-solar-lamp/",
+                                          "destination":  "/solar/mini-solar-panel/mini-solar-emergency-light-panel-usb-rechargeable-compact/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/speaker-part/4pin-speaker-input-terminal-plate/4pin-speaker-input-terminal-plate-audio-amplifier-speaker-co",
+                                          "destination":  "/speaker-part/4pin-speaker-input-terminal-plate/4pin-speaker-input-terminal-plate-audio-amplifier-speaker/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/speaker-part/4pin-speaker-input-terminal-plate/4pin-speaker-input-terminal-plate-audio-amplifier-speaker-co/",
+                                          "destination":  "/speaker-part/4pin-speaker-input-terminal-plate/4pin-speaker-input-terminal-plate-audio-amplifier-speaker/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/speaker-part/4pin-speaker-input-terminal-plate/4pin-speaker-input-terminal-plate-audio-amplifier-speaker-connector-panel",
+                                          "destination":  "/speaker-part/4pin-speaker-input-terminal-plate/4pin-speaker-input-terminal-plate-audio-amplifier-speaker/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/speaker-part/4pin-speaker-input-terminal-plate/4pin-speaker-input-terminal-plate-audio-amplifier-speaker-connector-panel/",
+                                          "destination":  "/speaker-part/4pin-speaker-input-terminal-plate/4pin-speaker-input-terminal-plate-audio-amplifier-speaker/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/splitter/2-way-splitter/sd72-2-way-coaxial-splitter-fm-vhf-uhf-power-pass-cable-tv-s",
+                                          "destination":  "/splitter/2-way-splitter/sd72-2-way-coaxial-splitter-fm-vhf-uhf-power-pass-cable-tv/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/splitter/2-way-splitter/sd72-2-way-coaxial-splitter-fm-vhf-uhf-power-pass-cable-tv-s/",
+                                          "destination":  "/splitter/2-way-splitter/sd72-2-way-coaxial-splitter-fm-vhf-uhf-power-pass-cable-tv/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/splitter/2-way-splitter/sd72-2-way-coaxial-splitter-fm-vhf-uhf-power-pass-cable-tv-signal-splitter",
+                                          "destination":  "/splitter/2-way-splitter/sd72-2-way-coaxial-splitter-fm-vhf-uhf-power-pass-cable-tv/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/splitter/2-way-splitter/sd72-2-way-coaxial-splitter-fm-vhf-uhf-power-pass-cable-tv-signal-splitter/",
+                                          "destination":  "/splitter/2-way-splitter/sd72-2-way-coaxial-splitter-fm-vhf-uhf-power-pass-cable-tv/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/splitter/3-way-splitter/mx254a-3-way-cable-splitter-51000mhz-digital-tv-signal-split",
+                                          "destination":  "/splitter/3-way-splitter/mx254a-3-way-cable-splitter-51000mhz-digital-tv-signal/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/splitter/3-way-splitter/mx254a-3-way-cable-splitter-51000mhz-digital-tv-signal-split/",
+                                          "destination":  "/splitter/3-way-splitter/mx254a-3-way-cable-splitter-51000mhz-digital-tv-signal/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/splitter/3-way-splitter/mx254a-3-way-cable-splitter-51000mhz-digital-tv-signal-splitter-power-pass-sri-lanka",
+                                          "destination":  "/splitter/3-way-splitter/mx254a-3-way-cable-splitter-51000mhz-digital-tv-signal/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/splitter/3-way-splitter/mx254a-3-way-cable-splitter-51000mhz-digital-tv-signal-splitter-power-pass-sri-lanka/",
+                                          "destination":  "/splitter/3-way-splitter/mx254a-3-way-cable-splitter-51000mhz-digital-tv-signal/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/thyristors/triac/bt136-triac-600v-4a-to220-ac-power-control-switch-for-dimmer",
+                                          "destination":  "/thyristors/triac/bt136-triac-600v-4a-to220-ac-power-control-switch-for/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/thyristors/triac/bt136-triac-600v-4a-to220-ac-power-control-switch-for-dimmer/",
+                                          "destination":  "/thyristors/triac/bt136-triac-600v-4a-to220-ac-power-control-switch-for/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/tool-machine/hot-glue-gun/boaisen-hj20w-hot-melt-glue-gun-100240v-electric-craft-diy-g",
+                                          "destination":  "/tool-machine/hot-glue-gun/boaisen-hj20w-hot-melt-glue-gun-100240v-electric-craft-diy/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/tool-machine/hot-glue-gun/boaisen-hj20w-hot-melt-glue-gun-100240v-electric-craft-diy-g/",
+                                          "destination":  "/tool-machine/hot-glue-gun/boaisen-hj20w-hot-melt-glue-gun-100240v-electric-craft-diy/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/tool-machine/hot-glue-gun/boaisen-hj20w-hot-melt-glue-gun-100240v-electric-craft-diy-glue-gun",
+                                          "destination":  "/tool-machine/hot-glue-gun/boaisen-hj20w-hot-melt-glue-gun-100240v-electric-craft-diy/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/tool-machine/hot-glue-gun/boaisen-hj20w-hot-melt-glue-gun-100240v-electric-craft-diy-glue-gun/",
+                                          "destination":  "/tool-machine/hot-glue-gun/boaisen-hj20w-hot-melt-glue-gun-100240v-electric-craft-diy/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transformer/12v-transformer/12v-x2-300ma-step-down-transformer-ac-230v-to-dual-12v-power",
+                                          "destination":  "/transformer/12v-transformer/12v-x2-300ma-step-down-transformer-ac-230v-to-dual-12v/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transformer/12v-transformer/12v-x2-300ma-step-down-transformer-ac-230v-to-dual-12v-power/",
+                                          "destination":  "/transformer/12v-transformer/12v-x2-300ma-step-down-transformer-ac-230v-to-dual-12v/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transformer/12v-transformer/12v-x2-300ma-step-down-transformer-ac-230v-to-dual-12v-power-supply-transformer",
+                                          "destination":  "/transformer/12v-transformer/12v-x2-300ma-step-down-transformer-ac-230v-to-dual-12v/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transformer/12v-transformer/12v-x2-300ma-step-down-transformer-ac-230v-to-dual-12v-power-supply-transformer/",
+                                          "destination":  "/transformer/12v-transformer/12v-x2-300ma-step-down-transformer-ac-230v-to-dual-12v/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transformer/12v-transformer/220v-to-12v-x2-14a-ac-transformer-dual-output-power-supply-t",
+                                          "destination":  "/transformer/12v-transformer/220v-to-12v-x2-14a-ac-transformer-dual-output-power-supply/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transformer/12v-transformer/220v-to-12v-x2-14a-ac-transformer-dual-output-power-supply-t/",
+                                          "destination":  "/transformer/12v-transformer/220v-to-12v-x2-14a-ac-transformer-dual-output-power-supply/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transformer/12v-transformer/220v-to-12v-x2-14a-ac-transformer-dual-output-power-supply-transformer",
+                                          "destination":  "/transformer/12v-transformer/220v-to-12v-x2-14a-ac-transformer-dual-output-power-supply/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transformer/12v-transformer/220v-to-12v-x2-14a-ac-transformer-dual-output-power-supply-transformer/",
+                                          "destination":  "/transformer/12v-transformer/220v-to-12v-x2-14a-ac-transformer-dual-output-power-supply/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transformer/12v-transformer/220v-to-6v-065a-step-down-transformer-single-output-power-su",
+                                          "destination":  "/transformer/12v-transformer/220v-to-6v-065a-step-down-transformer-single-output-power/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transformer/12v-transformer/220v-to-6v-065a-step-down-transformer-single-output-power-su/",
+                                          "destination":  "/transformer/12v-transformer/220v-to-6v-065a-step-down-transformer-single-output-power/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transformer/12v-transformer/220v-to-6v-065a-step-down-transformer-single-output-power-supply-transformer",
+                                          "destination":  "/transformer/12v-transformer/220v-to-6v-065a-step-down-transformer-single-output-power/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transformer/12v-transformer/220v-to-6v-065a-step-down-transformer-single-output-power-supply-transformer/",
+                                          "destination":  "/transformer/12v-transformer/220v-to-6v-065a-step-down-transformer-single-output-power/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transformer/12v-transformer/230v-to-12v-1a-step-down-transformer-single-output-power-sup",
+                                          "destination":  "/transformer/12v-transformer/230v-to-12v-1a-step-down-transformer-single-output-power/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transformer/12v-transformer/230v-to-12v-1a-step-down-transformer-single-output-power-sup/",
+                                          "destination":  "/transformer/12v-transformer/230v-to-12v-1a-step-down-transformer-single-output-power/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transformer/12v-transformer/230v-to-12v-1a-step-down-transformer-single-output-power-supply-transformer",
+                                          "destination":  "/transformer/12v-transformer/230v-to-12v-1a-step-down-transformer-single-output-power/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transformer/12v-transformer/230v-to-12v-1a-step-down-transformer-single-output-power-supply-transformer/",
+                                          "destination":  "/transformer/12v-transformer/230v-to-12v-1a-step-down-transformer-single-output-power/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transformer/4v-transformer/230v-to-4v-400ma-step-down-transformer-single-output-power-s",
+                                          "destination":  "/transformer/4v-transformer/230v-to-4v-400ma-step-down-transformer-single-output-power/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transformer/4v-transformer/230v-to-4v-400ma-step-down-transformer-single-output-power-s/",
+                                          "destination":  "/transformer/4v-transformer/230v-to-4v-400ma-step-down-transformer-single-output-power/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transformer/4v-transformer/230v-to-4v-400ma-step-down-transformer-single-output-power-supply-transformer",
+                                          "destination":  "/transformer/4v-transformer/230v-to-4v-400ma-step-down-transformer-single-output-power/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transformer/4v-transformer/230v-to-4v-400ma-step-down-transformer-single-output-power-supply-transformer/",
+                                          "destination":  "/transformer/4v-transformer/230v-to-4v-400ma-step-down-transformer-single-output-power/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transistor/npn-transistor/13007-power-transistor-mje13007-j130072-equivalent-high-volt",
+                                          "destination":  "/transistor/npn-transistor/13007-power-transistor-mje13007-j130072-equivalent-high/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transistor/npn-transistor/13007-power-transistor-mje13007-j130072-equivalent-high-volt/",
+                                          "destination":  "/transistor/npn-transistor/13007-power-transistor-mje13007-j130072-equivalent-high/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transistor/npn-transistor/13007-power-transistor-mje13007-j130072-equivalent-high-voltage-npn-sri-lanka",
+                                          "destination":  "/transistor/npn-transistor/13007-power-transistor-mje13007-j130072-equivalent-high/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transistor/npn-transistor/13007-power-transistor-mje13007-j130072-equivalent-high-voltage-npn-sri-lanka/",
+                                          "destination":  "/transistor/npn-transistor/13007-power-transistor-mje13007-j130072-equivalent-high/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transistor/npn-transistor/d2058-npn-power-transistor-60v-5a-40w-to220-2sd2058-amplifie",
+                                          "destination":  "/transistor/npn-transistor/d2058-npn-power-transistor-60v-5a-40w-to220-2sd2058/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transistor/npn-transistor/d2058-npn-power-transistor-60v-5a-40w-to220-2sd2058-amplifie/",
+                                          "destination":  "/transistor/npn-transistor/d2058-npn-power-transistor-60v-5a-40w-to220-2sd2058/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transistor/npn-transistor/d313-2sd313-npn-power-transistor-to220-for-amplifier-power-c",
+                                          "destination":  "/transistor/npn-transistor/d313-2sd313-npn-power-transistor-to220-for-amplifier-power/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transistor/npn-transistor/d313-2sd313-npn-power-transistor-to220-for-amplifier-power-c/",
+                                          "destination":  "/transistor/npn-transistor/d313-2sd313-npn-power-transistor-to220-for-amplifier-power/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transistor/npn-transistor/d313-2sd313-npn-power-transistor-to220-for-amplifier-power-circuits",
+                                          "destination":  "/transistor/npn-transistor/d313-2sd313-npn-power-transistor-to220-for-amplifier-power/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transistor/npn-transistor/d313-2sd313-npn-power-transistor-to220-for-amplifier-power-circuits/",
+                                          "destination":  "/transistor/npn-transistor/d313-2sd313-npn-power-transistor-to220-for-amplifier-power/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transistor/npn-transistor/d882-2sd882-npn-power-transistor-to126-for-amplifier-switchi",
+                                          "destination":  "/transistor/npn-transistor/d882-2sd882-npn-power-transistor-to126-for-amplifier/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transistor/npn-transistor/d882-2sd882-npn-power-transistor-to126-for-amplifier-switchi/",
+                                          "destination":  "/transistor/npn-transistor/d882-2sd882-npn-power-transistor-to126-for-amplifier/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transistor/npn-transistor/d882-2sd882-npn-power-transistor-to126-for-amplifier-switching-circuits",
+                                          "destination":  "/transistor/npn-transistor/d882-2sd882-npn-power-transistor-to126-for-amplifier/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transistor/npn-transistor/d882-2sd882-npn-power-transistor-to126-for-amplifier-switching-circuits/",
+                                          "destination":  "/transistor/npn-transistor/d882-2sd882-npn-power-transistor-to126-for-amplifier/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transistor/npn-transistor/e13009l-power-transistor-400v-12a-to3p-smps-transistor-sri-l",
+                                          "destination":  "/transistor/npn-transistor/e13009l-power-transistor-400v-12a-to3p-smps-transistor-sri/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transistor/npn-transistor/e13009l-power-transistor-400v-12a-to3p-smps-transistor-sri-l/",
+                                          "destination":  "/transistor/npn-transistor/e13009l-power-transistor-400v-12a-to3p-smps-transistor-sri/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transistor/npn-transistor/e13009l-power-transistor-400v-12a-to3p-smps-transistor-sri-lanka",
+                                          "destination":  "/transistor/npn-transistor/e13009l-power-transistor-400v-12a-to3p-smps-transistor-sri/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transistor/npn-transistor/e13009l-power-transistor-400v-12a-to3p-smps-transistor-sri-lanka/",
+                                          "destination":  "/transistor/npn-transistor/e13009l-power-transistor-400v-12a-to3p-smps-transistor-sri/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transistor/pnp-transistor/buy-2sb1366-b1366-pnp-power-transistor-to220f-in-sri-lanka-o",
+                                          "destination":  "/transistor/pnp-transistor/buy-2sb1366-b1366-pnp-power-transistor-to220f-in-sri-lanka/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/transistor/pnp-transistor/buy-2sb1366-b1366-pnp-power-transistor-to220f-in-sri-lanka-o/",
+                                          "destination":  "/transistor/pnp-transistor/buy-2sb1366-b1366-pnp-power-transistor-to220f-in-sri-lanka/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/voltmeter/dc-voltmeter/dc-030v-red-led-digital-voltmeter-panel-meter-3-digit-voltag",
+                                          "destination":  "/voltmeter/dc-voltmeter/dc-030v-red-led-digital-voltmeter-panel-meter-3-digit/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/voltmeter/dc-voltmeter/dc-030v-red-led-digital-voltmeter-panel-meter-3-digit-voltag/",
+                                          "destination":  "/voltmeter/dc-voltmeter/dc-030v-red-led-digital-voltmeter-panel-meter-3-digit/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/voltmeter/dc-voltmeter/dc-030v-red-led-digital-voltmeter-panel-meter-3-digit-voltage-display-module",
+                                          "destination":  "/voltmeter/dc-voltmeter/dc-030v-red-led-digital-voltmeter-panel-meter-3-digit/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/voltmeter/dc-voltmeter/dc-030v-red-led-digital-voltmeter-panel-meter-3-digit-voltage-display-module/",
+                                          "destination":  "/voltmeter/dc-voltmeter/dc-030v-red-led-digital-voltmeter-panel-meter-3-digit/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/watt-hour-meter/single-phase-digital/single-phase-digital-watt-hour-meter-lsg121l-220v-560a-kwh-m",
+                                          "destination":  "/watt-hour-meter/single-phase-digital/single-phase-digital-watt-hour-meter-lsg121l-220v-560a-kwh/",
+                                          "type":  301
+                                      },
+                                      {
+                                          "source":  "/watt-hour-meter/single-phase-digital/single-phase-digital-watt-hour-meter-lsg121l-220v-560a-kwh-m/",
+                                          "destination":  "/watt-hour-meter/single-phase-digital/single-phase-digital-watt-hour-meter-lsg121l-220v-560a-kwh/",
+                                          "type":  301
+                                      }
+                                  ]
+                },
+    "firestore":  {
+                      "rules":  "firestore.rules"
+                  }
 }

@@ -396,6 +396,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ichouse.lk/relays/5pin-relay/</loc>
+    <lastmod>2026-05-25</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ichouse.lk/thyristors/</loc>
     <lastmod>2026-05-25</lastmod>
     <priority>0.8</priority>
@@ -902,6 +907,26 @@
   </url>
   <url>
     <loc>https://ichouse.lk/resistors/ceramic-resistors/10w-39-cement-power-resistor-wirewound-high-wattage-39-ohm/</loc>
+    <lastmod>2026-05-25</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/module/thermal-senser/hw557-v61-digital-thermostat-module-12v-temperature/</loc>
+    <lastmod>2026-05-25</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/relays/4-pin-relay/jd2912-24v-40a-4pin-automotive-relay-heavy-duty-power-relay/</loc>
+    <lastmod>2026-05-25</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/relays/5pin-relay/jd2914-24v-40a-5pin-automotive-relay-heavy-duty-spdt-relay/</loc>
+    <lastmod>2026-05-25</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/capacitor/ceramic-capacitor/ceramic-disc-capacitor-473-50v-y5v-0047uf-47nf-radial/</loc>
     <lastmod>2026-05-25</lastmod>
     <priority>0.9</priority>
   </url>

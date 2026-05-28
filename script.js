@@ -2012,32 +2012,56 @@ function openProductDetails(id) {
 
         if (copyLinkBtn) {
             copyLinkBtn.onclick = () => {
-                navigator.clipboard.writeText(finalUrl).then(() => {
+                const doCopy = () => {
                     const originalText = copyLinkBtn.innerHTML;
                     copyLinkBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-                    copyLinkBtn.style.borderColor = "var(--secondary)";
+                    copyLinkBtn.style.background = '#d1fae5';
+                    copyLinkBtn.style.borderColor = '#10b981';
+                    copyLinkBtn.style.color = '#065f46';
                     setTimeout(() => {
                         copyLinkBtn.innerHTML = originalText;
-                        copyLinkBtn.style.borderColor = "";
+                        copyLinkBtn.style.background = '';
+                        copyLinkBtn.style.borderColor = '';
+                        copyLinkBtn.style.color = '';
                     }, 2000);
-                }).catch(err => {
-                    console.error("Copy failed:", err);
-                    alert("Link: " + finalUrl);
-                });
+                };
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(finalUrl).then(doCopy).catch(() => {
+                        // fallback
+                        const ta = document.createElement('textarea');
+                        ta.value = finalUrl;
+                        ta.style.position = 'fixed';
+                        ta.style.opacity = '0';
+                        document.body.appendChild(ta);
+                        ta.focus(); ta.select();
+                        try { document.execCommand('copy'); doCopy(); } catch(e) { alert('Link: ' + finalUrl); }
+                        document.body.removeChild(ta);
+                    });
+                } else {
+                    // HTTP fallback
+                    const ta = document.createElement('textarea');
+                    ta.value = finalUrl;
+                    ta.style.position = 'fixed';
+                    ta.style.opacity = '0';
+                    document.body.appendChild(ta);
+                    ta.focus(); ta.select();
+                    try { document.execCommand('copy'); doCopy(); } catch(e) { alert('Link: ' + finalUrl); }
+                    document.body.removeChild(ta);
+                }
             };
         }
 
         if (fbShareBtn) {
             fbShareBtn.onclick = () => {
                 const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(finalUrl)}`;
-                window.open(fbUrl, '_blank', 'noopener,noreferrer');
+                window.open(fbUrl, '_blank', 'noopener,noreferrer,width=600,height=400');
             };
         }
 
         if (whatsappShareBtn) {
             whatsappShareBtn.onclick = () => {
-                const message = `Check out this premium component at Pubudu Electronics:\n*${product.title}*\n\nPrice: LKR ${product.price.toLocaleString()}\nLink: ${finalUrl}`;
-                const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
+                const message = `Check out this product at Pubudu Electronics: *${product.title}* | LKR ${product.price.toLocaleString()} | ${finalUrl}`;
+                const waUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
                 window.open(waUrl, '_blank', 'noopener,noreferrer');
             };
         }

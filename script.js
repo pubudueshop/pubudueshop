@@ -2000,6 +2000,47 @@ function openProductDetails(id) {
         detailAddCartBtn.classList.remove('opacity-50', 'cursor-not-allowed', 'grayscale');
         detailAddCartBtn.innerHTML = '<i class="fas fa-cart-plus"></i> Add to Cart';
         detailBuyBtn.classList.remove('hidden');
+        
+        const copyLinkBtn = document.getElementById('copy-link-btn');
+        const fbShareBtn = document.getElementById('fb-share-btn');
+        const whatsappShareBtn = document.getElementById('whatsapp-share-btn');
+
+        // Generate a clean direct URL
+        const shareUrl = new URL(window.location.origin + window.location.pathname);
+        shareUrl.searchParams.set('product', product.id);
+        const finalUrl = shareUrl.toString();
+
+        if (copyLinkBtn) {
+            copyLinkBtn.onclick = () => {
+                navigator.clipboard.writeText(finalUrl).then(() => {
+                    const originalText = copyLinkBtn.innerHTML;
+                    copyLinkBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    copyLinkBtn.style.borderColor = "var(--secondary)";
+                    setTimeout(() => {
+                        copyLinkBtn.innerHTML = originalText;
+                        copyLinkBtn.style.borderColor = "";
+                    }, 2000);
+                }).catch(err => {
+                    console.error("Copy failed:", err);
+                    alert("Link: " + finalUrl);
+                });
+            };
+        }
+
+        if (fbShareBtn) {
+            fbShareBtn.onclick = () => {
+                const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(finalUrl)}`;
+                window.open(fbUrl, '_blank', 'noopener,noreferrer');
+            };
+        }
+
+        if (whatsappShareBtn) {
+            whatsappShareBtn.onclick = () => {
+                const message = `Check out this premium component at Pubudu Electronics:\n*${product.title}*\n\nPrice: LKR ${product.price.toLocaleString()}\nLink: ${finalUrl}`;
+                const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
+                window.open(waUrl, '_blank', 'noopener,noreferrer');
+            };
+        }
     }
 
     const modalFavBtn = document.getElementById('modal-fav-btn');
@@ -2009,39 +2050,6 @@ function openProductDetails(id) {
         modalFavBtn.classList.toggle('bg-pink-50', isFav);
         modalFavBtn.innerHTML = isFav ? '<i class="fas fa-heart"></i>' : '<i class="far fa-heart"></i>';
         modalFavBtn.onclick = () => toggleFavorite(product.id);
-    }
-
-    // --- Share Feature Logic ---
-    const copyLinkBtn = document.getElementById('copy-link-btn');
-    const fbShareBtn = document.getElementById('fb-share-btn');
-
-    // Generate a clean direct URL
-    const shareUrl = new URL(window.location.origin + window.location.pathname);
-    shareUrl.searchParams.set('product', product.id);
-    const finalUrl = shareUrl.toString();
-
-    if (copyLinkBtn) {
-        copyLinkBtn.onclick = () => {
-            navigator.clipboard.writeText(finalUrl).then(() => {
-                const originalText = copyLinkBtn.innerHTML;
-                copyLinkBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-                copyLinkBtn.style.borderColor = "var(--secondary)";
-                setTimeout(() => {
-                    copyLinkBtn.innerHTML = originalText;
-                    copyLinkBtn.style.borderColor = "";
-                }, 2000);
-            }).catch(err => {
-                console.error("Copy failed:", err);
-                alert("Link: " + finalUrl);
-            });
-        };
-    }
-
-    if (fbShareBtn) {
-        fbShareBtn.onclick = () => {
-            const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(finalUrl)}`;
-            window.open(fbUrl, '_blank', 'width=600,height=400');
-        };
     }
 
     // --- Dynamic WhatsApp Link ---

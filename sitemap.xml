@@ -81,6 +81,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ichouse.lk/module/photo-control-switch/</loc>
+    <lastmod>2026-05-28</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ichouse.lk/bms/</loc>
     <lastmod>2026-05-28</lastmod>
     <priority>0.8</priority>
@@ -316,6 +321,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ichouse.lk/fan/ac-230-fan/</loc>
+    <lastmod>2026-05-28</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ichouse.lk/solar/</loc>
     <lastmod>2026-05-28</lastmod>
     <priority>0.8</priority>
@@ -437,6 +447,16 @@
   </url>
   <url>
     <loc>https://ichouse.lk/resistors/ceramic-resistors/</loc>
+    <lastmod>2026-05-28</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/metal-case-power-supply/</loc>
+    <lastmod>2026-05-28</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/metal-case-power-supply/12v-power-supply/</loc>
     <lastmod>2026-05-28</lastmod>
     <priority>0.8</priority>
   </url>
@@ -927,6 +947,36 @@
   </url>
   <url>
     <loc>https://ichouse.lk/capacitor/ceramic-capacitor/ceramic-disc-capacitor-473-50v-y5v-0047uf-47nf-radial/</loc>
+    <lastmod>2026-05-28</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/metal-case-power-supply/12v-power-supply/12v-20a-switching-power-supply-metal-case-ac-to-dc/</loc>
+    <lastmod>2026-05-28</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/metal-case-power-supply/12v-power-supply/12v-30a-switching-power-supply-sri-lanka-fws2026-ac-to-dc/</loc>
+    <lastmod>2026-05-28</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/ic/pwmcontroller/uc3846n-pwm-controller-ic-dip16-smps-power-supply-control/</loc>
+    <lastmod>2026-05-28</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/module/photo-control-switch/as10-220v-automatic-day-night-sensor-switch-10a-street/</loc>
+    <lastmod>2026-05-28</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/fan/ac-230-fan/sunon-sf8025at-220v-ac-cooling-fan-80x80x25mm-industrial/</loc>
+    <lastmod>2026-05-28</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/module/thermal-senser/xhw3001-digital-temperature-controller-12v-thermostat/</loc>
     <lastmod>2026-05-28</lastmod>
     <priority>0.9</priority>
   </url>

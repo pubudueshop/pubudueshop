@@ -635,6 +635,148 @@ Sitemap: ${SITE_URL}sitemap.xml
     console.log('✅ robots.txt saved!');
 }
 
+function getOldMpaSlug(title, id) {
+    if (!title) return String(id);
+    let s = title.toLowerCase().replace(/[^a-z0-9 ]/g, '');
+    s = s.trim().replace(/\s+/g, '-');
+    if (s.length > 50) {
+        s = s.substring(0, 50).replace(/-$/g, '');
+    }
+    return id ? `${s}-${id}` : s;
+}
+
+function getOldStraightSlug60(title) {
+    if (!title) return '';
+    let s = title.toLowerCase()
+        .replace(/[^\w ]+/g, '')
+        .replace(/ +/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
+    if (s.length > 60) {
+        s = s.substring(0, 60).replace(/-$/g, '');
+    }
+    return s;
+}
+
+function getOldLongSlug(title) {
+    if (!title) return '';
+    let s = title.toLowerCase()
+        .replace(/[^\w ]+/g, '')
+        .replace(/ +/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
+    return s;
+}
+
+function updateRedirects(products) {
+    console.log("🔄 Generating dynamic product URL redirects...");
+    const redirectMap = {};
+    const redirectsList = [];
+
+    products.forEach(p => {
+        if (!p.id || !p.title) return;
+
+        const slug = createSEOSlug(p.title);
+        const mainCatSlug = createSEOSlug(p.mainCategory || 'General');
+        const subCatSlug = p.subCategory ? createSEOSlug(p.subCategory) : '';
+        const newPath = subCatSlug ? `/${mainCatSlug}/${subCatSlug}/${slug}/` : `/${mainCatSlug}/${slug}/`;
+
+        // Variations of old paths to redirect:
+        const oldPaths = [];
+
+        // 1. Old MPA format
+        const oldMpaSlug = getOldMpaSlug(p.title, p.id);
+        oldPaths.push(`/products/${oldMpaSlug}`);
+        oldPaths.push(`/products/${oldMpaSlug}/`);
+
+        // 2. Old Straight 60 format
+        const oldStraightSlug = getOldStraightSlug60(p.title);
+        if (oldStraightSlug && oldStraightSlug !== slug) {
+            if (subCatSlug) {
+                oldPaths.push(`/${mainCatSlug}/${subCatSlug}/${oldStraightSlug}`);
+                oldPaths.push(`/${mainCatSlug}/${subCatSlug}/${oldStraightSlug}/`);
+            } else {
+                oldPaths.push(`/${mainCatSlug}/${oldStraightSlug}`);
+                oldPaths.push(`/${mainCatSlug}/${oldStraightSlug}/`);
+            }
+        }
+
+        // 3. Old Long format
+        const oldLongSlug = getOldLongSlug(p.title);
+        if (oldLongSlug && oldLongSlug !== slug && oldLongSlug !== oldStraightSlug) {
+            if (subCatSlug) {
+                oldPaths.push(`/${mainCatSlug}/${subCatSlug}/${oldLongSlug}`);
+                oldPaths.push(`/${mainCatSlug}/${subCatSlug}/${oldLongSlug}/`);
+            } else {
+                oldPaths.push(`/${mainCatSlug}/${oldLongSlug}`);
+                oldPaths.push(`/${mainCatSlug}/${oldLongSlug}/`);
+            }
+        }
+
+        // Add to redirect mapping lists
+        oldPaths.forEach(oldP => {
+            // Avoid circular redirects or duplicates
+            if (oldP !== newPath && oldP !== `${newPath}/` && oldP.replace(/\/$/, '') !== newPath.replace(/\/$/, '')) {
+                redirectMap[oldP] = newPath;
+                redirectsList.push({
+                    source: oldP,
+                    destination: newPath,
+                    type: 301
+                });
+            }
+        });
+    });
+
+    console.log(`📊 Generated ${redirectsList.length} redirect rules for ${products.length} products.`);
+
+    // 1. Write to firebase.json
+    try {
+        if (fs.existsSync('firebase.json')) {
+            const firebaseRaw = fs.readFileSync('firebase.json', 'utf8');
+            const firebaseJson = JSON.parse(firebaseRaw);
+            
+            if (firebaseJson.hosting) {
+                firebaseJson.hosting.redirects = redirectsList;
+                fs.writeFileSync('firebase.json', JSON.stringify(firebaseJson, null, 4));
+                console.log("✅ Rebuilt redirects in firebase.json successfully.");
+            } else {
+                console.warn("⚠️ firebase.json has no 'hosting' section.");
+            }
+        } else {
+            console.warn("⚠️ firebase.json does not exist in workspace.");
+        }
+    } catch (err) {
+        console.error("❌ Error writing redirects to firebase.json:", err.message);
+    }
+
+    // 2. Write to 404.html
+    try {
+        if (fs.existsSync('404.html')) {
+            let html404 = fs.readFileSync('404.html', 'utf8');
+            const beginTag = '// BEGIN_REDIRECT_MAP';
+            const endTag = '// END_REDIRECT_MAP';
+
+            if (html404.includes(beginTag) && html404.includes(endTag)) {
+                const parts1 = html404.split(beginTag);
+                const parts2 = parts1[1].split(endTag);
+                
+                // Construct the redirectMap string
+                const mapString = `\n            const redirectMap = ${JSON.stringify(redirectMap, null, 16).replace(/\n\s*}/, '\n            }')};\n            `;
+                
+                const newHtml = parts1[0] + beginTag + mapString + endTag + parts2[1];
+                fs.writeFileSync('404.html', newHtml);
+                console.log("✅ Injected redirectMap into 404.html successfully.");
+            } else {
+                console.warn("⚠️ 404.html does not contain BEGIN_REDIRECT_MAP and END_REDIRECT_MAP placeholders.");
+            }
+        } else {
+            console.warn("⚠️ 404.html does not exist in workspace.");
+        }
+    } catch (err) {
+        console.error("❌ Error injecting redirectMap into 404.html:", err.message);
+    }
+}
+
 async function run() {
     try {
         const products = await fetchProducts();
@@ -782,6 +924,7 @@ async function run() {
         let newIndexHtml = baseHtml.replace(/<div id="seo-category-links"[^>]*>[\s\S]*?<\/div>/, `<div id="seo-category-links" style="display:none;">\n${staticLinksHtml}\n</div>`);
         fs.writeFileSync('index.html', newIndexHtml);
 
+        updateRedirects(products);
         generateSitemap(products, urls);
         console.log("✨ All tasks completed successfully!");
         console.log(`📊 Summary: ${products.length} product pages + ${urls.length} category pages generated`);

@@ -35,61 +35,106 @@
 
         function createSEOSlug(name) {
             if (!name) return "";
-            return name
+            let slug = name
                 .toLowerCase()
                 .replace(/[^\w ]+/g, '')
                 .replace(/ +/g, '-')
                 .replace(/-+/g, '-')
-                .replace(/^-|-$/g, '')
-                .substring(0, 60)
-                .replace(/-$/g, '');
+                .replace(/^-|-$/g, '');
+            // Cut at word boundary (last dash before 60 chars) to match seo-gen.js
+            if (slug.length > 60) {
+                const cut = slug.substring(0, 60);
+                const lastDash = cut.lastIndexOf('-');
+                slug = lastDash > 30 ? cut.substring(0, lastDash) : cut;
+            }
+            return slug.replace(/-$/g, '');
         }
 
         const path = window.location.pathname;
+        const cleanPath = path.replace(/\/+$/, ''); // Remove trailing slash for comparison
         const urlParams = new URLSearchParams(window.location.search);
         const queryId = urlParams.get('product');
 
-        // Case 1: Old ?product=ID query param → redirect to home (script.js handles it)
-        if (queryId) {
-            window.location.replace('/?product=' + queryId);
+        // Case 0.1: Remove "/category" prefix automatically if URL starts with it
+        if (path.startsWith('/category/')) {
+            window.location.replace(path.replace(/^\/category/, ''));
         }
-        // Case 2: Old /products/slug-ID/ pattern
-        else if (path.match(/\/products\/.*-([0-9]+)\/?$/)) {
-            const m = path.match(/\/products\/.*-([0-9]+)\/?$/);
-            window.location.replace('/?product=' + m[1]);
-        }
-        // Case 3: Old long slug → try to find new short slug
-        // Pattern: /category/subcategory/very-long-slug-here/
-        else if (path.split('/').filter(Boolean).length >= 2) {
-            const parts = path.split('/').filter(Boolean);
-            
-            // If last segment is longer than 60 chars, it's an old long slug
-            const lastSegment = parts[parts.length - 1];
-            
-            if (lastSegment && lastSegment.length > 60) {
-                // Truncate to new 60-char slug format
-                const newSlug = lastSegment
-                    .substring(0, 60)
-                    .replace(/-$/g, '');
-                
-                parts[parts.length - 1] = newSlug;
-                const newPath = '/' + parts.join('/') + '/';
-                
-                // Redirect to new short URL
-                window.location.replace(newPath);
+        // Case 0.2: Explicit redirect map for old URLs that don't match standard truncation rules
+        else {
+            // BEGIN_REDIRECT_MAP
+            const redirectMap = {
+                '/igbt/nchannel/mp50n65ed-igbt-650v-50a-to247-power-transistor-high-speed-sw': '/igbt/nchannel/mp50n65ed-igbt-650v-50a-to247-power-transistor-high-speed/',
+                '/module/buck-converter/hw920-dcdc-buck-converter-adjustable-stepdown-power-supply-m': '/module/buck-converter/hw920-dcdc-buck-converter-adjustable-stepdown-power-supply/',
+                '/module/buck-converter/hw920-dcdc-buck-converter-adjustable-stepdown-power-supply-module': '/module/buck-converter/hw920-dcdc-buck-converter-adjustable-stepdown-power-supply/',
+                '/capacitor/polyester-film-capacitor/182j-polyester-film-capacitor-18nf-100v-radial-lead-green-capacitor': '/capacitor/polyester-film-capacitor/182j-polyester-film-capacitor-18nf-100v-radial-lead-green/',
+                '/capacitor/polyester-film-capacitor/153j-polyester-film-capacitor-0015f-100v-radial-lead-green-capacitor': '/capacitor/polyester-film-capacitor/153j-polyester-film-capacitor-0015µf-100v-radial-lead-green/',
+                '/capacitor/polyester-film-capacitor/223j-polyester-film-capacitor-0022f-500v-radial-lead-capacitor': '/capacitor/polyester-film-capacitor/223j-polyester-film-capacitor-0022µf-500v-radial-lead/',
+                '/capacitor/polyester-film-capacitor/223k-polyester-film-capacitor-0022f-10-tolerance-radial-lead-capacitor': '/capacitor/polyester-film-capacitor/223k-polyester-film-capacitor-0022µf-10-tolerance-radial/'
+            };
+            // END_REDIRECT_MAP
+
+            if (redirectMap[cleanPath]) {
+                window.location.replace(redirectMap[cleanPath]);
             }
-            // Case 4: URL has query params appended (?category=...&subcategory=...&product=...)
-            else if (urlParams.get('category') || urlParams.get('subcategory')) {
-                // Strip query params, keep clean path
-                window.location.replace(path.split('?')[0]);
+            // Case 0.3: Slug-only fallback matching (to handle category shifts)
+            else if (cleanPath.split('/').filter(Boolean).length >= 1) {
+                const parts = cleanPath.split('/').filter(Boolean);
+                const lastSegment = parts[parts.length - 1];
+                let foundUrl = null;
+                
+                for (const [oldUrl, newUrl] of Object.entries(redirectMap)) {
+                    const oldSlug = oldUrl.replace(/\/+$/, '').split('/').pop();
+                    const newSlug = newUrl.replace(/\/+$/, '').split('/').pop();
+                    if (oldSlug === lastSegment || newSlug === lastSegment) {
+                        foundUrl = newUrl;
+                        break;
+                    }
+                }
+                
+                if (foundUrl) {
+                    window.location.replace(foundUrl);
+                }
+                // Case 1: Old ?product=ID query param → redirect to home (script.js handles it)
+                else if (queryId) {
+                    window.location.replace('/?product=' + queryId);
+                }
+                // Case 2: Old /products/slug-ID/ pattern
+                else if (path.match(/\/products\/.*-([0-9]+)\/?$/)) {
+                    const m = path.match(/\/products\/.*-([0-9]+)\/?$/);
+                    window.location.replace('/?product=' + m[1]);
+                }
+                // Case 3: Old long slug → try to find new short slug
+                // Pattern: /category/subcategory/very-long-slug-here/
+                else if (path.split('/').filter(Boolean).length >= 2) {
+                    const parts = path.split('/').filter(Boolean);
+                    
+                    // If last segment is longer than 60 chars, it's an old long slug
+                    const lastSegment = parts[parts.length - 1];
+                    
+                    if (lastSegment && lastSegment.length > 60) {
+                        // Truncate to new short slug format using correct word-boundary logic
+                        const newSlug = createSEOSlug(lastSegment);
+                        
+                        parts[parts.length - 1] = newSlug;
+                        const newPath = '/' + parts.join('/') + '/';
+                        
+                        // Redirect to new short URL
+                        window.location.replace(newPath);
+                    }
+                }
+                // Case 4: URL has query params appended (?category=...&subcategory=...&product=...)
+                else if (urlParams.get('category') || urlParams.get('subcategory')) {
+                    // Strip query params, keep clean path
+                    window.location.replace(path.split('?')[0]);
+                }
+                else {
+                    // Unknown 404 - go home
+                    window.location.replace('/');
+                }
             }
             else {
-                // Unknown 404 - go home
                 window.location.replace('/');
             }
-        }
-        else {
-            window.location.replace('/');
         }
     </script>
 </head>

@@ -330,16 +330,13 @@
                         <div class="flex items-center gap-3">
                             <span class="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Share</span>
                             <div class="flex gap-2">
-                                <button onclick="var btn=this; navigator.clipboard.writeText(window.location.href).then(function(){var orig=btn.innerHTML; btn.innerHTML='<i class='fas fa-check'></i> Copied!'; setTimeout(function(){btn.innerHTML=orig;},2000);})" class="px-4 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg text-xs font-bold text-gray-600 border border-gray-100 transition-all flex items-center gap-1">
+                                <button id="seo-copy-btn" class="px-4 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg text-xs font-bold text-gray-600 border border-gray-100 transition-all flex items-center gap-1">
                                     <i class="fas fa-link"></i> Copy
                                 </button>
-                                <button onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.href), '_blank', 'noopener,noreferrer')" class="px-4 py-2 bg-blue-50 hover:bg-blue-100 rounded-lg text-xs font-bold text-blue-600 border border-blue-100 transition-all flex items-center gap-1">
+                                <button id="seo-fb-btn" class="px-4 py-2 bg-blue-50 hover:bg-blue-100 rounded-lg text-xs font-bold text-blue-600 border border-blue-100 transition-all flex items-center gap-1">
                                     <i class="fab fa-facebook"></i> Facebook
                                 </button>
-                                <button onclick="window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent('Check out this premium component at Pubudu Electronics:
-*' + 'SSR-80DA Solid State Relay 80A 3-32V DC to 24-380V AC | High Power SSR Sri Lanka' + '*
-
-Link: ' + window.location.href), '_blank', 'noopener,noreferrer')" class="px-4 py-2 bg-green-50 hover:bg-green-100 rounded-lg text-xs font-bold text-green-600 border border-green-100 transition-all flex items-center gap-1">
+                                <button id="seo-wa-btn" class="px-4 py-2 bg-green-50 hover:bg-green-100 rounded-lg text-xs font-bold text-green-600 border border-green-100 transition-all flex items-center gap-1">
                                     <i class="fab fa-whatsapp"></i> WhatsApp
                                 </button>
                             </div>
@@ -358,20 +355,20 @@ Link: ' + window.location.href), '_blank', 'noopener,noreferrer')" class="px-4 p
                 <table class="w-full text-left">
                     <tbody>
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Solid State Relays (SSR)</td>
-            </tr>
-            <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">FQFER</td>
-            </tr>
-            <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand new</td>
             </tr>
             <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">SSR-80DA</td>
+            </tr>
+            <tr class="bg-white">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Solid State Relays (SSR)</td>
+            </tr>
+            <tr class="bg-gray-50">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">FQFER</td>
             </tr></tbody>
                 </table>
             </div>
@@ -481,6 +478,69 @@ function closeZoom() {
     document.body.style.overflow = '';
 }
 // ── End Image Switch & Zoom ──────────────────────────
+
+// ── Share Buttons ─────────────────────────────────────
+(function() {
+    var copyBtn = document.getElementById('seo-copy-btn');
+    var fbBtn = document.getElementById('seo-fb-btn');
+    var waBtn = document.getElementById('seo-wa-btn');
+    var pageUrl = window.location.href;
+    var productName = "SSR-80DA Solid State Relay 80A 3-32V DC to 24-380V AC | High Power SSR Sri Lanka";
+
+    if (copyBtn) {
+        copyBtn.addEventListener('click', function() {
+            var btn = this;
+            var done = function() {
+                var orig = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                btn.style.background = '#d1fae5';
+                btn.style.borderColor = '#10b981';
+                btn.style.color = '#065f46';
+                setTimeout(function() {
+                    btn.innerHTML = orig;
+                    btn.style.background = '';
+                    btn.style.borderColor = '';
+                    btn.style.color = '';
+                }, 2000);
+            };
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(pageUrl).then(done).catch(function() {
+                    var ta = document.createElement('textarea');
+                    ta.value = pageUrl;
+                    ta.style.position = 'fixed';
+                    ta.style.opacity = '0';
+                    document.body.appendChild(ta);
+                    ta.focus(); ta.select();
+                    try { document.execCommand('copy'); done(); } catch(e) { alert('Link: ' + pageUrl); }
+                    document.body.removeChild(ta);
+                });
+            } else {
+                var ta = document.createElement('textarea');
+                ta.value = pageUrl;
+                ta.style.position = 'fixed';
+                ta.style.opacity = '0';
+                document.body.appendChild(ta);
+                ta.focus(); ta.select();
+                try { document.execCommand('copy'); done(); } catch(e) { alert('Link: ' + pageUrl); }
+                document.body.removeChild(ta);
+            }
+        });
+    }
+
+    if (fbBtn) {
+        fbBtn.addEventListener('click', function() {
+            window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(pageUrl), '_blank', 'noopener,noreferrer,width=600,height=400');
+        });
+    }
+
+    if (waBtn) {
+        waBtn.addEventListener('click', function() {
+            var msg = 'Check out this product at Pubudu Electronics: *' + productName + '* | ' + pageUrl;
+            window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank', 'noopener,noreferrer');
+        });
+    }
+})();
+// ── End Share Buttons ─────────────────────────────────
 </script>
 
     

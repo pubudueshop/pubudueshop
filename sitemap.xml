@@ -86,6 +86,16 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ichouse.lk/module/relay-module/</loc>
+    <lastmod>2026-06-02</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/module/photosensitive-sensor-module/</loc>
+    <lastmod>2026-06-02</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ichouse.lk/bms/</loc>
     <lastmod>2026-06-02</lastmod>
     <priority>0.8</priority>
@@ -977,6 +987,31 @@
   </url>
   <url>
     <loc>https://ichouse.lk/module/thermal-senser/xhw3001-digital-temperature-controller-12v-thermostat/</loc>
+    <lastmod>2026-06-02</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/ic/melody-ic/um3561a-siren-sound-generator-ic-original-dip8-alarm-tone/</loc>
+    <lastmod>2026-06-02</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/transistor/pnp-transistor/2sa1941-original-toshiba-pnp-power-transistor-high-power/</loc>
+    <lastmod>2026-06-02</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/transistor/npn-transistor/toshiba-c5198-npn-power-transistor-original-audio-amplifier/</loc>
+    <lastmod>2026-06-02</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/module/relay-module/4-channel-5v-relay-module-board-for-arduino-esp32-raspberry/</loc>
+    <lastmod>2026-06-02</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/module/photosensitive-sensor-module/ldr-light-sensor-module-lm393-adjustable-photosensitive/</loc>
     <lastmod>2026-06-02</lastmod>
     <priority>0.9</priority>
   </url>

@@ -327,7 +327,7 @@ function injectProductContent(page, product, pageUrl) {
                 <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
                     <i class="fas fa-star text-blue-500"></i> Product Description
                 </h2>
-                <div class="text-gray-600 leading-relaxed" style="line-height:1.8;text-align:justify;text-justify:inter-word;">
+                <div class="text-gray-600 leading-relaxed" style="line-height:1.8;text-align:left;">
                     ${renderDesc(product.longDescription || product.description || '')}
                 </div>
             </div>

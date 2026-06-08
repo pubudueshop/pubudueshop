@@ -1014,8 +1014,7 @@ a {
     color: var(--text-light);
     font-size: 1.1rem;
     line-height: 1.7;
-    text-align: justify;
-    text-justify: inter-word;
+    text-align: left;
 }
 
 .about-features {

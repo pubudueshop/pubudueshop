@@ -472,6 +472,8 @@
             }
         }
     </style>
+    <!-- jsPDF for invoice download -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 
 <body>
@@ -535,6 +537,9 @@
                 </button>
                 <button class="admin-tab" onclick="switchTab('settings', this)">
                     <i class="fas fa-cogs"></i> Settings
+                </button>
+                <button class="admin-tab" onclick="switchTab('manual-invoice', this)">
+                    <i class="fas fa-file-invoice"></i> Manual Invoice
                 </button>
             </div>
 
@@ -614,6 +619,78 @@
                             </tbody>
                         </table>
                     </div>
+                </div>
+            </div>
+
+            <!-- ===== TAB: MANUAL INVOICE ===== -->
+            <div id="tab-manual-invoice" class="tab-panel">
+                <div class="admin-header">
+                    <h2>Create Manual Invoice</h2>
+                </div>
+                <div class="card" style="padding: 1rem;">
+                    <form id="manual-invoice-form" onsubmit="generateManualInvoice(event)">
+                        <h3 style="margin-bottom: 1rem;">Customer Details</h3>
+                        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div class="form-group">
+                                <label>Customer Name *</label>
+                                <input type="text" id="mi-name" required placeholder="Enter customer name">
+                            </div>
+                            <div class="form-group">
+                                <label>Phone Number *</label>
+                                <input type="tel" id="mi-phone" required placeholder="07XXXXXXXX">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Address *</label>
+                            <input type="text" id="mi-address" required placeholder="Full Address">
+                        </div>
+                        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div class="form-group">
+                                <label>City</label>
+                                <input type="text" id="mi-city" placeholder="City">
+                            </div>
+                            <div class="form-group">
+                                <label>District</label>
+                                <input type="text" id="mi-district" placeholder="District">
+                            </div>
+                        </div>
+
+                        <hr style="margin: 1.5rem 0; border: none; border-top: 1px solid var(--border);">
+                        
+                        <h3 style="margin-bottom: 1rem;">Item Details</h3>
+                        <div id="mi-items-container">
+                            <div class="form-row mi-item-row" style="display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 1rem; align-items: end; margin-bottom: 1rem;">
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label>Item Name *</label>
+                                    <input type="text" class="mi-item-name" required placeholder="Item description">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label>Qty *</label>
+                                    <input type="number" class="mi-item-qty" required min="1" value="1">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label>Unit Price (LKR) *</label>
+                                    <input type="number" class="mi-item-price" required min="0" step="0.01">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <button type="button" class="btn-danger" onclick="this.parentElement.parentElement.remove()" style="padding: 0.75rem; height: 100%;" disabled><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="button" class="btn-primary" onclick="addManualInvoiceItem()" style="background: var(--secondary); margin-bottom: 1.5rem;"><i class="fas fa-plus"></i> Add Another Item</button>
+
+                        <hr style="margin: 1.5rem 0; border: none; border-top: 1px solid var(--border);">
+
+                        <div class="form-group" style="max-width: 300px;">
+                            <label>Shipping & Handling (LKR) *</label>
+                            <input type="number" id="mi-shipping" required min="0" value="500" step="0.01">
+                        </div>
+
+                        <button type="submit" class="btn-checkout full-width" style="margin-top: 2rem; padding: 1rem; font-size: 1.1rem; background: #ef4444; color: white;" id="mi-generate-btn">
+                            <i class="fas fa-file-pdf"></i> Download Invoice PDF
+                        </button>
+                    </form>
                 </div>
             </div>
 
@@ -1754,6 +1831,274 @@
             window.printOrderDetail = printOrderDetail;
             window.loadOrders = loadOrders;
             window.deleteOrder = deleteOrder;
+
+            // ===== MANUAL INVOICE =====
+            function addManualInvoiceItem() {
+                const container = document.getElementById('mi-items-container');
+                const row = document.createElement('div');
+                row.className = 'form-row mi-item-row';
+                row.style.cssText = 'display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 1rem; align-items: end; margin-bottom: 1rem;';
+                row.innerHTML = `
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label>Item Name *</label>
+                        <input type="text" class="mi-item-name" required placeholder="Item description">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label>Qty *</label>
+                        <input type="number" class="mi-item-qty" required min="1" value="1">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label>Unit Price (LKR) *</label>
+                        <input type="number" class="mi-item-price" required min="0" step="0.01">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <button type="button" class="btn-danger" onclick="this.parentElement.parentElement.remove()" style="padding: 0.75rem; height: 100%;"><i class="fas fa-trash"></i></button>
+                    </div>
+                `;
+                container.appendChild(row);
+            }
+
+            window.addManualInvoiceItem = addManualInvoiceItem;
+
+            function generateManualInvoice(e) {
+                e.preventDefault();
+                
+                if (!window.jspdf || !window.jspdf.jsPDF) {
+                    alert("jsPDF library not loaded yet. Please wait or check your internet connection.");
+                    return;
+                }
+
+                const btn = document.getElementById('mi-generate-btn');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+                btn.disabled = true;
+
+                try {
+                    const data = {
+                        name: document.getElementById('mi-name').value,
+                        phone1: document.getElementById('mi-phone').value,
+                        address: document.getElementById('mi-address').value,
+                        city: document.getElementById('mi-city').value,
+                        district: document.getElementById('mi-district').value
+                    };
+
+                    const shippingCost = parseFloat(document.getElementById('mi-shipping').value) || 0;
+                    
+                    const items = [];
+                    const itemRows = document.querySelectorAll('.mi-item-row');
+                    itemRows.forEach(row => {
+                        const title = row.querySelector('.mi-item-name').value;
+                        const qty = parseInt(row.querySelector('.mi-item-qty').value) || 1;
+                        const price = parseFloat(row.querySelector('.mi-item-price').value) || 0;
+                        items.push({ title, quantity: qty, price });
+                    });
+
+                    const doc = new window.jspdf.jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+                    const W = 210, H = 297;
+                    const ml = 15, mr = 15, mt = 15; 
+                    const cw = W - ml - mr; 
+                    const date = new Date().toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+                    const subtotal = items.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+                    const grandTotal = subtotal + shippingCost;
+                    const invId = `PE-MAN-${Date.now().toString().slice(-6)}`;
+
+                    let y = mt;
+
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(18);
+                    doc.setTextColor(37, 99, 235);
+                    doc.text('Pubudu Electronics', ml, y);
+
+                    doc.setFontSize(22);
+                    doc.setFont('helvetica', 'bold');
+                    doc.text('INVOICE', W - mr, y, { align: 'right' });
+
+                    y += 6;
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(9);
+                    doc.setTextColor(100, 116, 139);
+                    doc.text('Premium Electronic Components', ml, y);
+                    doc.setFontSize(10);
+                    doc.setTextColor(30, 41, 59);
+                    doc.setFont('helvetica', 'bold');
+                    doc.text(`Invoice ID: #${invId}`, W - mr, y, { align: 'right' });
+
+                    y += 5;
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(9);
+                    doc.setTextColor(100, 116, 139);
+                    doc.text('Weliweriya, Gampaha, Sri Lanka', ml, y);
+                    doc.setFontSize(9);
+                    doc.setTextColor(100, 116, 139);
+                    doc.text(`Date: ${date}`, W - mr, y, { align: 'right' });
+
+                    y += 4;
+                    doc.text('Tel: +94 78 915 5130  |  ichouse.lk', ml, y);
+
+                    y += 5;
+                    doc.setDrawColor(37, 99, 235);
+                    doc.setLineWidth(0.8);
+                    doc.line(ml, y, W - mr, y);
+
+                    y += 8;
+
+                    doc.setFillColor(248, 250, 252);
+                    doc.setDrawColor(226, 232, 240);
+                    doc.setLineWidth(0.3);
+                    doc.roundedRect(ml, y, cw, 30, 2, 2, 'FD');
+
+                    y += 6;
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(7.5);
+                    doc.setTextColor(148, 163, 184);
+                    doc.text('BILL TO', ml + 5, y);
+
+                    y += 6;
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(13);
+                    doc.setTextColor(15, 23, 42);
+                    doc.text(data.name || '', ml + 5, y);
+
+                    y += 5;
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(10);
+                    doc.setTextColor(71, 85, 105);
+                    doc.text(data.address || '', ml + 5, y);
+
+                    y += 4.5;
+                    let locationParts = [data.city, data.district].filter(Boolean);
+                    doc.text(locationParts.join(', ') || '', ml + 5, y);
+
+                    y += 4.5;
+                    doc.text(`Phone: ${data.phone1 || ''}`, ml + 5, y);
+
+                    y += 10;
+
+                    const colW = [10, 95, 15, 30, 30]; 
+                    const colX = [ml, ml+10, ml+105, ml+120, ml+150];
+                    const rowH = 8;
+
+                    doc.setFillColor(37, 99, 235);
+                    doc.rect(ml, y, cw, 9, 'F');
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(9);
+                    doc.setTextColor(255, 255, 255);
+                    doc.text('#', colX[0] + 2, y + 6);
+                    doc.text('Item Description', colX[1], y + 6);
+                    doc.text('Qty', colX[2] + 7, y + 6, { align: 'center' });
+                    doc.text('Unit Price', colX[3] + 15, y + 6, { align: 'right' });
+                    doc.text('Total', colX[4] + 15, y + 6, { align: 'right' });
+
+                    y += 9;
+
+                    items.forEach((item, i) => {
+                        if (y + rowH > H - 40) {
+                            doc.addPage();
+                            y = mt;
+                            doc.setFillColor(37, 99, 235);
+                            doc.rect(ml, y, cw, 9, 'F');
+                            doc.setFont('helvetica', 'bold');
+                            doc.setFontSize(9);
+                            doc.setTextColor(255, 255, 255);
+                            doc.text('#', colX[0] + 2, y + 6);
+                            doc.text('Item Description', colX[1], y + 6);
+                            doc.text('Qty', colX[2] + 7, y + 6, { align: 'center' });
+                            doc.text('Unit Price', colX[3] + 15, y + 6, { align: 'right' });
+                            doc.text('Total', colX[4] + 15, y + 6, { align: 'right' });
+                            y += 9;
+                        }
+
+                        doc.setFillColor(i % 2 === 0 ? 255 : 248, i % 2 === 0 ? 255 : 250, i % 2 === 0 ? 255 : 252);
+                        doc.rect(ml, y, cw, rowH, 'F');
+
+                        doc.setDrawColor(226, 232, 240);
+                        doc.setLineWidth(0.2);
+                        doc.line(ml, y + rowH, W - mr, y + rowH);
+
+                        doc.setFont('helvetica', 'normal');
+                        doc.setFontSize(9);
+                        doc.setTextColor(100, 116, 139);
+                        doc.text(String(i + 1), colX[0] + 2, y + 5.5);
+
+                        doc.setTextColor(15, 23, 42);
+                        doc.setFont('helvetica', 'bold');
+                        const titleMaxW = 90;
+                        const titleLines = doc.splitTextToSize(item.title || '', titleMaxW);
+                        doc.text(titleLines[0], colX[1], y + 5.5); 
+
+                        doc.setFont('helvetica', 'normal');
+                        doc.setTextColor(71, 85, 105);
+                        doc.text(String(item.quantity), colX[2] + 7, y + 5.5, { align: 'center' });
+                        doc.text(`LKR ${item.price.toLocaleString()}`, colX[3] + 15, y + 5.5, { align: 'right' });
+                        doc.setFont('helvetica', 'bold');
+                        doc.setTextColor(15, 23, 42);
+                        doc.text(`LKR ${(item.price * item.quantity).toLocaleString()}`, colX[4] + 15, y + 5.5, { align: 'right' });
+
+                        y += rowH;
+                    });
+
+                    y += 6;
+
+                    if (y + rowH > H - 40) { doc.addPage(); y = mt; }
+                    doc.setFillColor(248, 250, 252);
+                    doc.rect(ml, y, cw, rowH, 'F');
+                    doc.setDrawColor(226, 232, 240);
+                    doc.setLineWidth(0.2);
+                    doc.line(ml, y + rowH, W - mr, y + rowH);
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(9);
+                    doc.setTextColor(100, 116, 139);
+                    doc.text('', colX[0] + 2, y + 5.5);
+                    doc.setTextColor(71, 85, 105);
+                    doc.text('Shipping & Handling Fee', colX[1], y + 5.5);
+                    doc.setFont('helvetica', 'bold');
+                    doc.setTextColor(15, 23, 42);
+                    doc.text(`LKR ${shippingCost.toLocaleString()}`, colX[4] + 15, y + 5.5, { align: 'right' });
+                    y += rowH + 6;
+
+                    if (y + 14 > H - 35) { doc.addPage(); y = mt; }
+
+                    const totalBoxX = W - mr - 65;
+                    doc.setFillColor(37, 99, 235);
+                    doc.roundedRect(totalBoxX, y, 65, 12, 2, 2, 'F');
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(11);
+                    doc.setTextColor(255, 255, 255);
+                    doc.text('TOTAL', totalBoxX + 5, y + 8);
+                    doc.setFontSize(12);
+                    doc.text(`LKR ${grandTotal.toLocaleString()}`, totalBoxX + 63, y + 8, { align: 'right' });
+
+                    y += 18;
+
+                    if (y + 16 > H - 10) { doc.addPage(); y = mt; }
+                    doc.setDrawColor(226, 232, 240);
+                    doc.setLineWidth(0.3);
+                    doc.line(ml, y, W - mr, y);
+                    y += 6;
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(10);
+                    doc.setTextColor(37, 99, 235);
+                    doc.text('Thank you for choosing Pubudu Electronics!', W / 2, y, { align: 'center' });
+                    y += 5;
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(8.5);
+                    doc.setTextColor(148, 163, 184);
+                    doc.text('Weliweriya, Gampaha, Sri Lanka  |  +94 78 915 5130  |  ichouse.lk', W / 2, y, { align: 'center' });
+                    y += 4;
+                    doc.text('This is a computer-generated invoice. No signature required.', W / 2, y, { align: 'center' });
+
+                    doc.save(`Pubudu_Electronics_Manual_Invoice_${invId}.pdf`);
+
+                } catch(err) {
+                    console.error("PDF Error:", err);
+                    alert("Could not generate PDF. Please try again. " + err.message);
+                }
+
+                btn.innerHTML = '<i class="fas fa-file-pdf"></i> Download Invoice PDF';
+                btn.disabled = false;
+            }
+
+            window.generateManualInvoice = generateManualInvoice;
 
             // Export for init
             window.loadRequests = loadRequests;

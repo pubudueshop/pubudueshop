@@ -2685,3 +2685,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         showStatus("Website error. Please contact admin.", true);
     }
 });
+
+// Prevent number inputs from changing value on mouse scroll globally
+document.addEventListener("wheel", function(event) {
+    if (document.activeElement.type === "number") {
+        document.activeElement.blur();
+    }
+});

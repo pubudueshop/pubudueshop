@@ -243,7 +243,7 @@
                 <div class="md:w-3/5 p-8 flex flex-col">
                     <!-- Stock Badge -->
                     <div class="mb-3">
-                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-red-100 text-red-800">Out of Stock</span>
+                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-green-100 text-green-800">In Stock</span>
                         <span class="ml-2 px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">Melody IC</span>
                     </div>
 
@@ -313,8 +313,11 @@
                         </div>
                         <div class="flex-1 min-w-[200px] flex flex-col gap-2">
                             
-                            <button disabled class="w-full bg-gray-200 text-gray-500 font-bold h-12 rounded-lg cursor-not-allowed flex items-center justify-center gap-2">
-                                <i class="fas fa-ban"></i> Out of Stock
+                            <button onclick="if(window.addToCart) addToCart('1780382400185', getSelectedQty())" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold h-12 rounded-lg shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-2 active:scale-95">
+                                <i class="fas fa-cart-plus"></i> Add to Cart
+                            </button>
+                            <button onclick="if(window.addToCart) { addToCart('1780382400185', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold h-12 rounded-lg shadow-lg shadow-green-200 transition-all flex items-center justify-center gap-2 active:scale-95">
+                                <i class="fab fa-whatsapp"></i> Buy via WhatsApp
                             </button>
                             
                         </div>
@@ -354,16 +357,16 @@
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand new</td>
             </tr>
             <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">UM3561</td>
-            </tr>
-            <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
             </tr>
-            <tr class="bg-gray-50">
+            <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Melody IC</td>
+            </tr>
+            <tr class="bg-gray-50">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">UM3561</td>
             </tr></tbody>
                 </table>
             </div>
@@ -395,21 +398,24 @@
 <!-- Mobile Sticky Bottom Bar -->
 <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 md:hidden flex gap-4 z-[2000] shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
     
-    <button disabled class="flex-1 bg-gray-100 text-gray-400 font-bold py-3 rounded-lg flex items-center justify-center gap-2 cursor-not-allowed">
-        <i class="fas fa-ban"></i> Out of Stock
+    <button onclick="if(window.addToCart) addToCart('1780382400185', getSelectedQty())" class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
+        <i class="fas fa-cart-plus"></i> Cart
+    </button>
+    <button onclick="if(window.addToCart) { addToCart('1780382400185', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="flex-1 bg-green-500 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
+        <i class="fab fa-whatsapp"></i> Buy
     </button>
     
 </div>
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"IC","item":"https://ichouse.lk/ic/"},{"@type":"ListItem","position":3,"name":"Melody IC","item":"https://ichouse.lk/ic/melody-ic/"},{"@type":"ListItem","position":4,"name":"UM3561A Siren Sound Generator IC – Origi…","item":"https://ichouse.lk/ic/melody-ic/um3561a-siren-sound-generator-ic-original-dip8-alarm-tone/"}]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"UM3561A Siren Sound Generator IC – Original DIP-8 Alarm Tone Generator IC for Security Systems","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1780382247/um3561_1_ul2kwr.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1780382247/um_3561_pin_1_sohemo.png"],"description":"The UM3561A Sound Generator IC is a popular 4-tone siren sound generator integrated circuit widely used in electronic alarm systems, security devices, DIY electronics projects, toy sound modules, emergency warning systems, and educational electronics applications. This compact DIP-8 IC can generate multiple alarm sounds without requiring a microcontroller, making it an ideal solution for simple and cost-effective sound generation circuits.\n\nThe UM3561A is designed to produce four different warning tones, including police siren, ambulance siren, machine gun sound, and fire engine siren, depending on the circuit configuration. Due to its low power consumption and simple circuit requirements, it is commonly used by electronics hobbyists, repair technicians, and embedded system designers.\n\n**Key Specifications**\n\nModel: UM3561A\nPackage Type: DIP-8 (8 Pin)\nOperating Voltage: 2.4V – 5V DC\nLow Power CMOS Technology\nBuilt-in 4 Sound Effects\nCompact Through-Hole Package\nEasy Interface with Amplifier Circuits\nSuitable for Battery-Powered Devices\nTechnical Details\n\nThe UM3561A utilizes CMOS technology to provide stable sound generation with minimal current consumption. The IC requires an external transistor amplifier and speaker for louder audio output. It can be integrated into custom PCB designs, educational electronics kits, security alarm systems, and DIY projects. Its DIP-8 package allows easy soldering and replacement during maintenance or repair work.\n\n**Applications**\n\nSecurity Alarm Systems\nBurglar Alarm Circuits\nFire Warning Systems\nEmergency Alert Devices\nElectronic Toys\nDIY Electronics Projects\nSchool and University Electronics Experiments\nSound Effect Generators\nWhy Buy From iChouse.lk?\n\nBuy genuine UM3561A Sound Generator ICs in Sri Lanka with fast islandwide delivery. We supply original electronic components suitable for professional repairs and new electronic designs. Whether you are an electronics student, hobbyist, or technician, iChouse.lk offers quality components, competitive prices, and reliable customer support throughout Sri Lanka.","sku":"UM3561","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/ic/melody-ic/um3561a-siren-sound-generator-ic-original-dip8-alarm-tone/","priceCurrency":"LKR","price":459,"availability":"https://schema.org/OutOfStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"UM3561A Siren Sound Generator IC – Original DIP-8 Alarm Tone Generator IC for Security Systems","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1780382247/um3561_1_ul2kwr.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1780382247/um_3561_pin_1_sohemo.png"],"description":"The UM3561A Sound Generator IC is a popular 4-tone siren sound generator integrated circuit widely used in electronic alarm systems, security devices, DIY electronics projects, toy sound modules, emergency warning systems, and educational electronics applications. This compact DIP-8 IC can generate multiple alarm sounds without requiring a microcontroller, making it an ideal solution for simple and cost-effective sound generation circuits.\n\nThe UM3561A is designed to produce four different warning tones, including police siren, ambulance siren, machine gun sound, and fire engine siren, depending on the circuit configuration. Due to its low power consumption and simple circuit requirements, it is commonly used by electronics hobbyists, repair technicians, and embedded system designers.\n\n**Key Specifications**\n\nModel: UM3561A\nPackage Type: DIP-8 (8 Pin)\nOperating Voltage: 2.4V – 5V DC\nLow Power CMOS Technology\nBuilt-in 4 Sound Effects\nCompact Through-Hole Package\nEasy Interface with Amplifier Circuits\nSuitable for Battery-Powered Devices\nTechnical Details\n\nThe UM3561A utilizes CMOS technology to provide stable sound generation with minimal current consumption. The IC requires an external transistor amplifier and speaker for louder audio output. It can be integrated into custom PCB designs, educational electronics kits, security alarm systems, and DIY projects. Its DIP-8 package allows easy soldering and replacement during maintenance or repair work.\n\n**Applications**\n\nSecurity Alarm Systems\nBurglar Alarm Circuits\nFire Warning Systems\nEmergency Alert Devices\nElectronic Toys\nDIY Electronics Projects\nSchool and University Electronics Experiments\nSound Effect Generators\nWhy Buy From iChouse.lk?\n\nBuy genuine UM3561A Sound Generator ICs in Sri Lanka with fast islandwide delivery. We supply original electronic components suitable for professional repairs and new electronic designs. Whether you are an electronics student, hobbyist, or technician, iChouse.lk offers quality components, competitive prices, and reliable customer support throughout Sri Lanka.","sku":"UM3561","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/ic/melody-ic/um3561a-siren-sound-generator-ic-original-dip8-alarm-tone/","priceCurrency":"LKR","price":459,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
 <script>
 // Pre-load product data so cart works instantly without waiting for Firebase
 window._currentModalProduct = {
     id: '1780382400185',
     title: "UM3561A Siren Sound Generator IC – Original DIP-8 Alarm Tone Generator IC for Security Systems",
     price: 459,
-    stock: 99,
+    stock: 5,
     image: "https://res.cloudinary.com/dqwdov5ab/image/upload/v1780382247/um3561_1_ul2kwr.png",
     mainCategory: "IC",
     subCategory: "Melody IC"

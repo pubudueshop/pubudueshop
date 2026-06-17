@@ -541,6 +541,9 @@
                 <button class="admin-tab" onclick="switchTab('manual-invoice', this)">
                     <i class="fas fa-file-invoice"></i> Manual Invoice
                 </button>
+                <button class="admin-tab" onclick="switchTab('shipping-label', this)">
+                    <i class="fas fa-tags"></i> Shipping Label
+                </button>
             </div>
 
             <!-- ===== TAB 1: PRODUCTS ===== -->
@@ -693,6 +696,66 @@
                     </form>
                 </div>
             </div>
+        <!-- ===== TAB: SHIPPING LABEL ===== -->
+        <div id="tab-shipping-label" class="tab-panel">
+            <div class="admin-header">
+                <h2>Generate Shipping Labels</h2>
+            </div>
+            <div class="card" style="padding: 1rem;">
+                <form id="shipping-label-form">
+                    <div id="sl-customers-container">
+                        <div class="sl-customer-block" style="border: 1px solid var(--border); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; background: #fafafa; position: relative;">
+                            <h3 style="margin-bottom: 1rem; color: var(--primary);">Customer 1</h3>
+                            <button type="button" class="btn-danger sl-remove-btn" onclick="this.parentElement.remove(); updateSLHeaders();" style="position: absolute; top: 1rem; right: 1rem; padding: 0.5rem;" disabled><i class="fas fa-trash"></i></button>
+                            <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <div class="form-group">
+                                    <label>Customer Name *</label>
+                                    <input type="text" class="sl-name" required placeholder="Enter customer name">
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone Number *</label>
+                                    <input type="tel" class="sl-phone" required placeholder="07XXXXXXXX">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Address *</label>
+                                <input type="text" class="sl-address" required placeholder="Full Address">
+                            </div>
+                            <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <div class="form-group">
+                                    <label>City/District</label>
+                                    <input type="text" class="sl-city" placeholder="City or District">
+                                </div>
+                                <div class="form-group">
+                                    <label>COD Price (LKR) *</label>
+                                    <input type="number" class="sl-cod" required min="0" step="0.01" placeholder="Amount to collect">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Reference/Notes (Optional)</label>
+                                <input type="text" class="sl-ref" placeholder="Order ID or Note">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="button" class="btn-primary" onclick="addShippingCustomerForm()" style="background: var(--secondary); margin-bottom: 1.5rem;"><i class="fas fa-plus"></i> Add Another Customer</button>
+
+                    <hr style="margin: 1.5rem 0; border: none; border-top: 1px solid var(--border);">
+
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem;">
+                        <button type="button" class="btn-primary" style="flex: 1; padding: 1rem; font-size: 1rem;" onclick="generateShippingLabel('b5')">
+                            <i class="fas fa-file-pdf"></i> Print B5 Label
+                        </button>
+                        <button type="button" class="btn-primary" style="flex: 1; padding: 1rem; font-size: 1rem;" onclick="generateShippingLabel('a4-1')">
+                            <i class="fas fa-file-pdf"></i> Print A4 (1 Label)
+                        </button>
+                        <button type="button" class="btn-primary" style="flex: 1; padding: 1rem; font-size: 1rem; background: #059669; color: white;" onclick="generateShippingLabel('a4-2')">
+                            <i class="fas fa-file-pdf"></i> Print A4 (2 Labels/Pg)
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
             <!-- ===== TAB 4: SETTINGS (Category + SEO + Optimization) ===== -->
             <div id="tab-settings" class="tab-panel">
@@ -2099,6 +2162,176 @@
             }
 
             window.generateManualInvoice = generateManualInvoice;
+
+            // Shipping Label Logic
+            function updateSLHeaders() {
+                const blocks = document.querySelectorAll('.sl-customer-block');
+                blocks.forEach((block, index) => {
+                    block.querySelector('h3').innerText = `Customer ${index + 1}`;
+                    const removeBtn = block.querySelector('.sl-remove-btn');
+                    if (blocks.length > 1) {
+                        removeBtn.disabled = false;
+                    } else {
+                        removeBtn.disabled = true;
+                    }
+                });
+            }
+
+            function addShippingCustomerForm() {
+                const container = document.getElementById('sl-customers-container');
+                const firstBlock = container.querySelector('.sl-customer-block');
+                const clone = firstBlock.cloneNode(true);
+                // Clear inputs
+                clone.querySelectorAll('input').forEach(input => input.value = '');
+                container.appendChild(clone);
+                updateSLHeaders();
+            }
+
+            window.addShippingCustomerForm = addShippingCustomerForm;
+            window.updateSLHeaders = updateSLHeaders;
+
+            async function generateShippingLabel(format) {
+                const form = document.getElementById('shipping-label-form');
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                }
+
+                const blocks = document.querySelectorAll('.sl-customer-block');
+                const customers = [];
+                blocks.forEach(block => {
+                    customers.push({
+                        name: block.querySelector('.sl-name').value.trim(),
+                        phone: block.querySelector('.sl-phone').value.trim(),
+                        address: block.querySelector('.sl-address').value.trim(),
+                        city: block.querySelector('.sl-city').value.trim(),
+                        cod: parseFloat(block.querySelector('.sl-cod').value) || 0,
+                        ref: block.querySelector('.sl-ref').value.trim()
+                    });
+                });
+
+                if (customers.length === 0) return;
+
+                const { jsPDF } = window.jspdf;
+                let doc;
+
+                // Configure PDF based on format
+                if (format === 'b5') {
+                    doc = new jsPDF({ format: 'b5', unit: 'mm' });
+                } else {
+                    doc = new jsPDF({ format: 'a4', unit: 'mm' });
+                }
+
+                const pageWidth = doc.internal.pageSize.getWidth();
+                const pageHeight = doc.internal.pageSize.getHeight();
+
+                function drawLabel(doc, customer, x, y, width, height) {
+                    // Draw outer border
+                    doc.setDrawColor(0);
+                    doc.setLineWidth(0.5);
+                    doc.rect(x, y, width, height);
+
+                    // Sender section (Top Left)
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(12);
+                    doc.text("Pubudu Electronics", x + 5, y + 8);
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(10);
+                    doc.text("Weliweriya, Gampaha", x + 5, y + 13);
+                    doc.text("078 915 5130", x + 5, y + 18);
+                    
+                    // Reference (Top Right)
+                    if (customer.ref) {
+                        doc.setFont('helvetica', 'normal');
+                        doc.setFontSize(10);
+                        doc.text(`Ref: ${customer.ref}`, x + width - 5, y + 8, { align: 'right' });
+                    }
+
+                    // Divider
+                    doc.setLineWidth(0.2);
+                    doc.line(x, y + 22, x + width, y + 22);
+
+                    // Receiver section (Middle)
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(14);
+                    doc.text("SHIP TO:", x + 5, y + 32);
+
+                    doc.setFontSize(16);
+                    doc.text(customer.name, x + 5, y + 42);
+
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(14);
+                    const splitAddress = doc.splitTextToSize(customer.address, width - 10);
+                    doc.text(splitAddress, x + 5, y + 50);
+                    
+                    let currY = y + 50 + (splitAddress.length * 6);
+                    if (customer.city) {
+                        doc.text(customer.city, x + 5, currY);
+                        currY += 6;
+                    }
+                    
+                    doc.setFont('helvetica', 'bold');
+                    doc.text(`Tel: ${customer.phone}`, x + 5, currY + 4);
+
+                    // COD Section (Bottom)
+                    const codY = y + height - 25;
+                    doc.setLineWidth(0.5);
+                    doc.rect(x, codY, width, 25);
+                    doc.setFillColor(240, 240, 240);
+                    doc.rect(x + 0.25, codY + 0.25, width - 0.5, 24.5, 'F');
+                    
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(18);
+                    doc.setTextColor(0);
+                    doc.text("COD AMOUNT:", x + 5, codY + 16);
+                    
+                    doc.setFontSize(24);
+                    doc.text(`Rs. ${customer.cod.toLocaleString(undefined, {minimumFractionDigits: 2})}`, x + width - 5, codY + 17, { align: 'right' });
+                }
+
+                if (format === 'b5') {
+                    // Margin: 10mm
+                    const margin = 10;
+                    customers.forEach((cust, i) => {
+                        if (i > 0) doc.addPage();
+                        drawLabel(doc, cust, margin, margin, pageWidth - (margin * 2), pageHeight - (margin * 2));
+                    });
+                } else if (format === 'a4-1') {
+                    // Margin: 15mm, draw in the center or top half. Let's make it large.
+                    const margin = 15;
+                    const labelHeight = 150;
+                    customers.forEach((cust, i) => {
+                        if (i > 0) doc.addPage();
+                        drawLabel(doc, cust, margin, margin, pageWidth - (margin * 2), labelHeight);
+                    });
+                } else if (format === 'a4-2') {
+                    // 2 labels per page.
+                    const margin = 15;
+                    const spacing = 15;
+                    const labelHeight = (pageHeight - (margin * 2) - spacing) / 2;
+                    
+                    for (let i = 0; i < customers.length; i++) {
+                        if (i > 0 && i % 2 === 0) doc.addPage();
+                        
+                        const isBottom = (i % 2 === 1);
+                        const yPos = margin + (isBottom ? labelHeight + spacing : 0);
+                        
+                        drawLabel(doc, customers[i], margin, yPos, pageWidth - (margin * 2), labelHeight);
+                        
+                        // Draw dashed cut line if it's the first label on the page
+                        if (!isBottom) {
+                            doc.setLineDashPattern([2, 2], 0);
+                            doc.setDrawColor(150);
+                            doc.line(0, margin + labelHeight + (spacing / 2), pageWidth, margin + labelHeight + (spacing / 2));
+                            doc.setLineDashPattern([], 0); // Reset
+                            doc.setDrawColor(0);
+                        }
+                    }
+                }
+
+                doc.save(`Shipping_Labels_${Date.now()}.pdf`);
+            }
+            window.generateShippingLabel = generateShippingLabel;
 
             // Export for init
             window.loadRequests = loadRequests;

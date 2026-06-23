@@ -346,19 +346,20 @@
 
         <!-- Specs + Description -->
         <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div class="bg-white p-8 rounded-xl border border-gray-200 shadow-sm">
-                <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
-                    <i class="fas fa-list-ul text-blue-500"></i> Specifications
-                </h2>
-                <table class="w-full text-left">
-                    <tbody>
+            <div class="flex flex-col gap-6">
+                <div class="bg-white p-8 rounded-xl border border-gray-200 shadow-sm">
+                    <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+                        <i class="fas fa-list-ul text-blue-500"></i> Specifications
+                    </h2>
+                    <table class="w-full text-left">
+                        <tbody>
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
-            </tr>
-            <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">NPN Transistor</td>
+            </tr>
+            <tr class="bg-gray-50">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
             </tr>
             <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
@@ -368,9 +369,25 @@
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
             </tr></tbody>
-                </table>
+                    </table>
+                </div>
+                
+                <!-- Cash on Delivery Banner -->
+                <div class="bg-green-50 p-6 rounded-xl border border-green-200 shadow-sm flex flex-col items-center justify-center text-center relative overflow-hidden group cursor-pointer hover:shadow-md transition-all" onclick="window.open('https://wa.me/94789155130', '_blank')">
+                    <div class="absolute -right-6 -top-6 w-24 h-24 bg-green-100 rounded-full opacity-50 group-hover:scale-150 transition-transform duration-500"></div>
+                    <div class="absolute -left-6 -bottom-6 w-16 h-16 bg-green-100 rounded-full opacity-50 group-hover:scale-150 transition-transform duration-500"></div>
+                    <div class="z-10 bg-white w-14 h-14 rounded-full flex items-center justify-center shadow-sm text-green-600 text-2xl mb-3">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <h3 class="z-10 font-bold text-gray-900 text-xl mb-1">Cash on Deliver Available</h3>
+                    <p class="z-10 text-sm text-gray-600 mb-4 font-medium">Order now and pay when you receive it!</p>
+                    <a href="https://wa.me/94789155130" target="_blank" onclick="event.stopPropagation()" class="z-10 bg-[#25d366] hover:bg-[#20bd5a] text-white font-bold py-3 px-6 rounded-full transition-colors flex items-center gap-2 shadow-md w-full justify-center">
+                        <i class="fab fa-whatsapp text-xl"></i> whatsapp 0789155130
+                    </a>
+                </div>
             </div>
-            <div class="bg-white p-8 rounded-xl border border-gray-200 shadow-sm">
+
+            <div class="bg-white p-8 rounded-xl border border-gray-200 shadow-sm h-fit">
                 <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
                     <i class="fas fa-star text-blue-500"></i> Product Description
                 </h2>

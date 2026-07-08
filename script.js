@@ -47,7 +47,7 @@ async function saveCategories() {
                 data: categoryData,
                 lastUpdated: new Date()
             });
-            console.log("Categories saved to Cloud");
+            // console.log("Categories saved to Cloud");
         } catch (e) {
             console.error("Category Save Error:", e);
         }
@@ -74,7 +74,7 @@ async function loadCategories() {
                 if (JSON.stringify(newData) !== JSON.stringify(categoryData)) {
                     Object.keys(categoryData).forEach(key => delete categoryData[key]);
                     Object.assign(categoryData, newData);
-                    console.log("Categories updated from Cloud (Live)");
+                    // console.log("Categories updated from Cloud (Live)");
                     localStorage.setItem('eshop_categories', JSON.stringify(categoryData));
                     
                     // Refresh UI components that use category data
@@ -128,7 +128,7 @@ function initFirebase() {
             });
         }
         
-        console.log("Firebase Initialized Successfully");
+        // console.log("Firebase Initialized Successfully");
     } catch (error) {
         console.error("Firebase Initialization Error:", error);
     }
@@ -199,7 +199,7 @@ async function loadProducts() {
                 if (window.renderAdminList) window.renderAdminList();
                 initialRenderDone = true;
                 renderSimilarProducts(); // ← render similar products from Firebase
-                console.log("Products synced from Firebase:", products.length);
+                // console.log("Products synced from Firebase:", products.length);
             } else {
                 console.warn("No inventory document found in Firestore!");
             }
@@ -225,7 +225,7 @@ async function saveProducts() {
                 products: products,
                 lastUpdated: new Date()
             });
-            console.log("Saved to Cloud");
+            // console.log("Saved to Cloud");
             if (window.renderAdminList) window.renderAdminList();
         } catch (e) {
             console.error("Cloud Save Error:", e);
@@ -296,7 +296,7 @@ function initCustomerAuth() {
         const userAvatar = document.getElementById('user-avatar');
 
         if (user) {
-            console.log("User logged in:", user.email);
+            // console.log("User logged in:", user.email);
             if (loginBtn) loginBtn.classList.add('hidden');
             if (userProfile) userProfile.classList.remove('hidden');
             if (userAvatar) userAvatar.src = user.photoURL || 'https://via.placeholder.com/40';
@@ -305,7 +305,7 @@ function initCustomerAuth() {
             await loadUserData(user.uid);
             renderProducts(); // Re-render to show favorite hearts
         } else {
-            console.log("User logged out");
+            // console.log("User logged out");
             if (loginBtn) loginBtn.classList.remove('hidden');
             if (userProfile) userProfile.classList.add('hidden');
             favorites = [];
@@ -354,7 +354,7 @@ async function saveUserData() {
             details: userDeliveryDetails,
             lastSeen: new Date()
         }, { merge: true });
-        console.log("User data saved to Cloud");
+        // console.log("User data saved to Cloud");
     } catch (e) {
         console.error("Save User Data Error:", e);
     }
@@ -754,7 +754,7 @@ async function saveOrderToFirestore(customerData, invoiceId, cartItems, totalAmo
 
     try {
         const ref = await db.collection("orders").add(orderData);
-        console.log("Order saved to Firestore:", ref.id);
+        // console.log("Order saved to Firestore:", ref.id);
         return ref.id;
     } catch (error) {
         console.error("Error logging order:", error);
@@ -2471,7 +2471,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const navContactBtn = document.getElementById('nav-contact-btn');
         if (navContactBtn) {
             navContactBtn.addEventListener('click', (e) => {
-                console.log("Contact button clicked");
+                // console.log("Contact button clicked");
             });
         }
 
@@ -2531,7 +2531,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const subCatSlug = p.subCategory ? createSEOSlug(p.subCategory) + '/' : '';
                 const newUrl = `/${createSEOSlug(p.mainCategory || 'General')}/${subCatSlug}${createSEOSlug(p.title)}/`;
                 if (window.location.pathname !== newUrl) {
-                    console.log("SEO Redirect: Moving from ?product= to slug logic", newUrl);
+                    // console.log("SEO Redirect: Moving from ?product= to slug logic", newUrl);
                     window.location.replace(newUrl);
                     return; // Stop execution on this old URL
                 }

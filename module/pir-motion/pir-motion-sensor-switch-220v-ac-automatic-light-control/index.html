@@ -253,7 +253,7 @@
                 <div class="md:w-3/5 p-8 flex flex-col">
                     <!-- Stock Badge -->
                     <div class="mb-3">
-                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-green-100 text-green-800">In Stock</span>
+                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-red-100 text-red-800">Out of Stock</span>
                         <span class="ml-2 px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">PIR Motion</span>
                     </div>
 
@@ -323,11 +323,8 @@
                         </div>
                         <div class="flex-1 min-w-[200px] flex flex-col gap-2">
                             
-                            <button onclick="if(window.addToCart) addToCart('1781497976294', getSelectedQty())" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold h-12 rounded-lg shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-2 active:scale-95">
-                                <i class="fas fa-cart-plus"></i> Add to Cart
-                            </button>
-                            <button onclick="if(window.addToCart) { addToCart('1781497976294', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold h-12 rounded-lg shadow-lg shadow-green-200 transition-all flex items-center justify-center gap-2 active:scale-95">
-                                <i class="fab fa-whatsapp"></i> Buy via WhatsApp
+                            <button disabled class="w-full bg-gray-200 text-gray-500 font-bold h-12 rounded-lg cursor-not-allowed flex items-center justify-center gap-2">
+                                <i class="fas fa-ban"></i> Out of Stock
                             </button>
                             
                         </div>
@@ -364,20 +361,20 @@
                     <table class="w-full text-left">
                         <tbody>
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">N/A</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">PIR Motion</td>
             </tr>
             <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
             </tr>
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand new</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">N/A</td>
             </tr>
             <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">PIR Motion</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand new</td>
             </tr></tbody>
                     </table>
                 </div>
@@ -425,24 +422,21 @@
 <!-- Mobile Sticky Bottom Bar -->
 <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 md:hidden flex gap-4 z-[2000] shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
     
-    <button onclick="if(window.addToCart) addToCart('1781497976294', getSelectedQty())" class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
-        <i class="fas fa-cart-plus"></i> Cart
-    </button>
-    <button onclick="if(window.addToCart) { addToCart('1781497976294', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="flex-1 bg-green-500 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
-        <i class="fab fa-whatsapp"></i> Buy
+    <button disabled class="flex-1 bg-gray-100 text-gray-400 font-bold py-3 rounded-lg flex items-center justify-center gap-2 cursor-not-allowed">
+        <i class="fas fa-ban"></i> Out of Stock
     </button>
     
 </div>
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Module","item":"https://ichouse.lk/module/"},{"@type":"ListItem","position":3,"name":"PIR Motion","item":"https://ichouse.lk/module/pir-motion/"},{"@type":"ListItem","position":4,"name":"PIR Motion Sensor Switch 220V AC – Autom…","item":"https://ichouse.lk/module/pir-motion/pir-motion-sensor-switch-220v-ac-automatic-light-control/"}]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"PIR Motion Sensor Switch 220V AC – Automatic Light Control Sensor for Home, Garage & Staircase | Sri Lanka","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1781497930/pir5_rjoayq.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1781497930/pir_1_hgr9qw.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1781497929/pir2_xggang.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1781497930/pir3_qgvdhq.png"],"description":"**Smart PIR Motion Sensor Switch – Automatic Lighting Solution**\n\nමෙම PIR Motion Sensor Switch එක ඔබගේ නිවසේ, ගරාජ් එකේ, පඩිපෙළේ, ගබඩා කාමරයේ හෝ ඕනෑම ආලෝකකරණ පද්ධතියක ස්වයංක්‍රීය පාලනය සඳහා නිර්මාණය කර ඇති උසස් තත්ත්වයේ Motion Detection Sensor එකකි. අඳුරු පරිසරයකදී පුද්ගල චලනය හඳුනාගෙන LED Bulb හෝ වෙනත් ලයිට් ස්වයංක්‍රීයව ON කරයි. චලනය නොමැති විට නැවත OFF වන බැවින් විදුලි බලය ඉතිරි කිරීමට සහ ආරක්ෂාව වැඩි කිරීමට උපකාරී වේ.\n\n**Key Specifications**\n\n• Product Type: PIR Motion Sensor Switch\n• Operating Voltage: 220V - 240V AC\n• Sensor Type: Passive Infrared (PIR)\n• Detection Method: Human Motion Detection\n• Output Type: Automatic Switched Live Output\n• Application: Indoor / Outdoor Covered Areas\n• Installation Type: Panel Mount / Wall Mount\n• Auto ON/OFF Function: Yes\n• Day/Night Operation: Night Activated Motion Detection\n\n**Technical Details**\n\nමෙම PIR Sensor එක Passive Infrared Technology භාවිතා කර මිනිස් සිරුරෙන් නිකුත් වන Infrared Heat Detection මගින් ක්‍රියා කරයි. Brown Wire එක Live Input සඳහාද, Blue Wire එක Neutral සඳහාද, Yellow Wire එක Load Output සඳහාද භාවිතා වේ. Sensor එක චලනය හඳුනාගත් විට Load Output මගින් සම්බන්ධ කර ඇති LED Light හෝ Bulb එක ස්වයංක්‍රීයව ක්‍රියාත්මක කරයි.\n\n**Applications**\n\n✔ Home Entrance Lighting\n✔ Staircase Lighting\n✔ Garage Lighting\n✔ Store Room Lighting\n✔ Warehouse Lighting\n✔ Corridor Lighting\n✔ Security Lighting Systems\n✔ Energy Saving Lighting Projects\n\n**Why Buy From Us?**\n\n✅ Sri Lanka Islandwide Delivery Available\n✅ Quality Tested Products\n✅ Reliable Customer Support\n✅ Secure Packaging\n✅ Affordable Price\n✅ Suitable for LED Lighting Systems\n✅ Fast Dispatch Across Sri Lanka\n\nඔබගේ නිවසේ හෝ ව්‍යාපාරික ස්ථානයේ ආරක්ෂාව සහ විදුලි බලය ඉතිරි කිරීම සඳහා මෙම PIR Motion Sensor Switch එක අදම ඇණවුම් කරන්න.","sku":"PE-1781497976294","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/module/pir-motion/pir-motion-sensor-switch-220v-ac-automatic-light-control/","priceCurrency":"LKR","price":600,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"PIR Motion Sensor Switch 220V AC – Automatic Light Control Sensor for Home, Garage & Staircase | Sri Lanka","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1781497930/pir5_rjoayq.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1781497930/pir_1_hgr9qw.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1781497929/pir2_xggang.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1781497930/pir3_qgvdhq.png"],"description":"**Smart PIR Motion Sensor Switch – Automatic Lighting Solution**\n\nමෙම PIR Motion Sensor Switch එක ඔබගේ නිවසේ, ගරාජ් එකේ, පඩිපෙළේ, ගබඩා කාමරයේ හෝ ඕනෑම ආලෝකකරණ පද්ධතියක ස්වයංක්‍රීය පාලනය සඳහා නිර්මාණය කර ඇති උසස් තත්ත්වයේ Motion Detection Sensor එකකි. අඳුරු පරිසරයකදී පුද්ගල චලනය හඳුනාගෙන LED Bulb හෝ වෙනත් ලයිට් ස්වයංක්‍රීයව ON කරයි. චලනය නොමැති විට නැවත OFF වන බැවින් විදුලි බලය ඉතිරි කිරීමට සහ ආරක්ෂාව වැඩි කිරීමට උපකාරී වේ.\n\n**Key Specifications**\n\n• Product Type: PIR Motion Sensor Switch\n• Operating Voltage: 220V - 240V AC\n• Sensor Type: Passive Infrared (PIR)\n• Detection Method: Human Motion Detection\n• Output Type: Automatic Switched Live Output\n• Application: Indoor / Outdoor Covered Areas\n• Installation Type: Panel Mount / Wall Mount\n• Auto ON/OFF Function: Yes\n• Day/Night Operation: Night Activated Motion Detection\n\n**Technical Details**\n\nමෙම PIR Sensor එක Passive Infrared Technology භාවිතා කර මිනිස් සිරුරෙන් නිකුත් වන Infrared Heat Detection මගින් ක්‍රියා කරයි. Brown Wire එක Live Input සඳහාද, Blue Wire එක Neutral සඳහාද, Yellow Wire එක Load Output සඳහාද භාවිතා වේ. Sensor එක චලනය හඳුනාගත් විට Load Output මගින් සම්බන්ධ කර ඇති LED Light හෝ Bulb එක ස්වයංක්‍රීයව ක්‍රියාත්මක කරයි.\n\n**Applications**\n\n✔ Home Entrance Lighting\n✔ Staircase Lighting\n✔ Garage Lighting\n✔ Store Room Lighting\n✔ Warehouse Lighting\n✔ Corridor Lighting\n✔ Security Lighting Systems\n✔ Energy Saving Lighting Projects\n\n**Why Buy From Us?**\n\n✅ Sri Lanka Islandwide Delivery Available\n✅ Quality Tested Products\n✅ Reliable Customer Support\n✅ Secure Packaging\n✅ Affordable Price\n✅ Suitable for LED Lighting Systems\n✅ Fast Dispatch Across Sri Lanka\n\nඔබගේ නිවසේ හෝ ව්‍යාපාරික ස්ථානයේ ආරක්ෂාව සහ විදුලි බලය ඉතිරි කිරීම සඳහා මෙම PIR Motion Sensor Switch එක අදම ඇණවුම් කරන්න.","sku":"PE-1781497976294","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/module/pir-motion/pir-motion-sensor-switch-220v-ac-automatic-light-control/","priceCurrency":"LKR","price":600,"availability":"https://schema.org/OutOfStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
 <script>
 // Pre-load product data so cart works instantly without waiting for Firebase
 window._currentModalProduct = {
     id: '1781497976294',
     title: "PIR Motion Sensor Switch 220V AC – Automatic Light Control Sensor for Home, Garage & Staircase | Sri Lanka",
     price: 600,
-    stock: 10,
+    stock: 99,
     image: "https://res.cloudinary.com/dqwdov5ab/image/upload/v1781497930/pir5_rjoayq.png",
     mainCategory: "Module",
     subCategory: "PIR Motion"

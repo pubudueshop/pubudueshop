@@ -516,6 +516,16 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ichouse.lk/motor/</loc>
+    <lastmod>2026-07-13</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/motor/dc-motor/</loc>
+    <lastmod>2026-07-13</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ichouse.lk/cable/audio-extension-cable/35mm-aux-male-to-female-audio-extension-cable-red-color/</loc>
     <lastmod>2026-07-13</lastmod>
     <priority>0.9</priority>
@@ -1122,6 +1132,21 @@
   </url>
   <url>
     <loc>https://ichouse.lk/bms/liion-bms/4s-40a-lithium-battery-protection-board-bms-with-balance/</loc>
+    <lastmod>2026-07-13</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/motor/dc-motor/dc7512lsg-230v-dc-motor-with-coupling-and-mount-original/</loc>
+    <lastmod>2026-07-13</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/module/pir-motion/adjustable-pir-motion-sensor-switch-220v-ac-6a-auto-light/</loc>
+    <lastmod>2026-07-13</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/mosfet/nchannel/irfz44n-nchannel-power-mosfet-55v-49a-to220-original/</loc>
     <lastmod>2026-07-13</lastmod>
     <priority>0.9</priority>
   </url>

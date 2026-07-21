@@ -258,7 +258,7 @@
                 <div class="md:w-3/5 p-8 flex flex-col">
                     <!-- Stock Badge -->
                     <div class="mb-3">
-                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-green-100 text-green-800">In Stock</span>
+                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-red-100 text-red-800">Out of Stock</span>
                         <span class="ml-2 px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">Dc Motor</span>
                     </div>
 
@@ -328,11 +328,8 @@
                         </div>
                         <div class="flex-1 min-w-[200px] flex flex-col gap-2">
                             
-                            <button onclick="if(window.addToCart) addToCart('1783913668801', getSelectedQty())" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold h-12 rounded-lg shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-2 active:scale-95">
-                                <i class="fas fa-cart-plus"></i> Add to Cart
-                            </button>
-                            <button onclick="if(window.addToCart) { addToCart('1783913668801', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold h-12 rounded-lg shadow-lg shadow-green-200 transition-all flex items-center justify-center gap-2 active:scale-95">
-                                <i class="fab fa-whatsapp"></i> Buy via WhatsApp
+                            <button disabled class="w-full bg-gray-200 text-gray-500 font-bold h-12 rounded-lg cursor-not-allowed flex items-center justify-center gap-2">
+                                <i class="fas fa-ban"></i> Out of Stock
                             </button>
                             
                         </div>
@@ -369,8 +366,8 @@
                     <table class="w-full text-left">
                         <tbody>
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Used</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">DC751(2)</td>
             </tr>
             <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
@@ -381,8 +378,8 @@
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Dc Motor</td>
             </tr>
             <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">DC751(2)</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Used</td>
             </tr></tbody>
                     </table>
                 </div>
@@ -430,24 +427,21 @@
 <!-- Mobile Sticky Bottom Bar -->
 <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 md:hidden flex gap-4 z-[2000] shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
     
-    <button onclick="if(window.addToCart) addToCart('1783913668801', getSelectedQty())" class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
-        <i class="fas fa-cart-plus"></i> Cart
-    </button>
-    <button onclick="if(window.addToCart) { addToCart('1783913668801', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="flex-1 bg-green-500 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
-        <i class="fab fa-whatsapp"></i> Buy
+    <button disabled class="flex-1 bg-gray-100 text-gray-400 font-bold py-3 rounded-lg flex items-center justify-center gap-2 cursor-not-allowed">
+        <i class="fas fa-ban"></i> Out of Stock
     </button>
     
 </div>
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Motor","item":"https://ichouse.lk/motor/"},{"@type":"ListItem","position":3,"name":"Dc Motor","item":"https://ichouse.lk/motor/dc-motor/"},{"@type":"ListItem","position":4,"name":"DC751(2)LSG 230V DC Motor with Coupling …","item":"https://ichouse.lk/motor/dc-motor/dc7512lsg-230v-dc-motor-with-coupling-and-mount-original/"}]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"DC751(2)LSG 230V DC Motor with Coupling and Mount | Original Carbon Brush Motor | Vacuum Cleaner Motor Replacement Sri Lanka","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1783913397/motor5_rh18xv.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1783913397/motor_1_tjnntr.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1783913397/motor_4_zuf6sd.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1783913397/motor2_ivcxbt.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1783913397/motor3_l6q9yh.png"],"description":"The DC751(2)LSG 230V DC Motor is a high-performance brushed DC motor designed for applications requiring high rotational speed, reliable torque, and long operational life. This motor comes complete with the original coupling adapter and mounting support, making it ideal for direct replacement in compatible vacuum cleaners, industrial equipment, power tools, and custom electronic projects.\n\nBuilt with a durable metal housing and carbon brush assembly, this motor is engineered to deliver consistent performance under demanding conditions. The compact design allows easy installation while maintaining excellent power output. Whether you are repairing existing equipment or building a custom project, this motor provides a dependable and cost-effective solution.\n\n**Key Specifications**\n\nModel: DC751(2)LSG\nMotor Type: Brushed DC Motor\nRated Voltage: 230V DC\nCarbon Brush Type Construction\nIncludes Coupling Adapter\nIncludes Mounting Support Ring\nMetal Body Housing\nHigh-Speed Operation\nCompact Industrial Design\nSuitable for Continuous Duty Applications\n\n**Technical Details**\n\nThis motor utilizes a traditional carbon brush and commutator system for efficient DC power conversion. The robust armature and magnetic field structure provide stable operation and good starting torque. The included coupling piece helps connect the motor shaft to the driven mechanism, while the mounting base improves alignment and reduces vibration during operation.\n\nThe motor features ventilation slots for improved cooling and extended service life. Its compact cylindrical construction makes it suitable for both original equipment replacement and DIY engineering projects.\n\n**Applications**\n\nVacuum Cleaner Motor Replacement\nIndustrial Cleaning Equipment\nPower Tool Repairs\nCustom Electronics Projects\nSmall Machinery Systems\nLaboratory Equipment\nDIY Automation Projects\nPrototype Development\nEngineering Experiments\nWhy Buy from ichouse.lk?\n\n✔ Original electronic and electrical spare parts\n\n✔ Fast delivery throughout Sri Lanka\n\n✔ Carefully tested products\n\n✔ Secure packaging for transport\n\n✔ Trusted supplier for technicians and repair professionals\n\n✔ Local customer support\n\nIf you are searching for a 230V DC motor in Sri Lanka, vacuum cleaner replacement motor, high-speed brushed DC motor, carbon brush motor, or DC751(2)LSG motor, this original unit is an excellent choice for professional repairs and technical projects.\n\n","sku":"DC751(2)","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/motor/dc-motor/dc7512lsg-230v-dc-motor-with-coupling-and-mount-original/","priceCurrency":"LKR","price":1150,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"DC751(2)LSG 230V DC Motor with Coupling and Mount | Original Carbon Brush Motor | Vacuum Cleaner Motor Replacement Sri Lanka","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1783913397/motor5_rh18xv.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1783913397/motor_1_tjnntr.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1783913397/motor_4_zuf6sd.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1783913397/motor2_ivcxbt.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1783913397/motor3_l6q9yh.png"],"description":"The DC751(2)LSG 230V DC Motor is a high-performance brushed DC motor designed for applications requiring high rotational speed, reliable torque, and long operational life. This motor comes complete with the original coupling adapter and mounting support, making it ideal for direct replacement in compatible vacuum cleaners, industrial equipment, power tools, and custom electronic projects.\n\nBuilt with a durable metal housing and carbon brush assembly, this motor is engineered to deliver consistent performance under demanding conditions. The compact design allows easy installation while maintaining excellent power output. Whether you are repairing existing equipment or building a custom project, this motor provides a dependable and cost-effective solution.\n\n**Key Specifications**\n\nModel: DC751(2)LSG\nMotor Type: Brushed DC Motor\nRated Voltage: 230V DC\nCarbon Brush Type Construction\nIncludes Coupling Adapter\nIncludes Mounting Support Ring\nMetal Body Housing\nHigh-Speed Operation\nCompact Industrial Design\nSuitable for Continuous Duty Applications\n\n**Technical Details**\n\nThis motor utilizes a traditional carbon brush and commutator system for efficient DC power conversion. The robust armature and magnetic field structure provide stable operation and good starting torque. The included coupling piece helps connect the motor shaft to the driven mechanism, while the mounting base improves alignment and reduces vibration during operation.\n\nThe motor features ventilation slots for improved cooling and extended service life. Its compact cylindrical construction makes it suitable for both original equipment replacement and DIY engineering projects.\n\n**Applications**\n\nVacuum Cleaner Motor Replacement\nIndustrial Cleaning Equipment\nPower Tool Repairs\nCustom Electronics Projects\nSmall Machinery Systems\nLaboratory Equipment\nDIY Automation Projects\nPrototype Development\nEngineering Experiments\nWhy Buy from ichouse.lk?\n\n✔ Original electronic and electrical spare parts\n\n✔ Fast delivery throughout Sri Lanka\n\n✔ Carefully tested products\n\n✔ Secure packaging for transport\n\n✔ Trusted supplier for technicians and repair professionals\n\n✔ Local customer support\n\nIf you are searching for a 230V DC motor in Sri Lanka, vacuum cleaner replacement motor, high-speed brushed DC motor, carbon brush motor, or DC751(2)LSG motor, this original unit is an excellent choice for professional repairs and technical projects.\n\n","sku":"DC751(2)","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/motor/dc-motor/dc7512lsg-230v-dc-motor-with-coupling-and-mount-original/","priceCurrency":"LKR","price":1150,"availability":"https://schema.org/OutOfStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
 <script>
 // Pre-load product data so cart works instantly without waiting for Firebase
 window._currentModalProduct = {
     id: '1783913668801',
     title: "DC751(2)LSG 230V DC Motor with Coupling and Mount | Original Carbon Brush Motor | Vacuum Cleaner Motor Replacement Sri Lanka",
     price: 1150,
-    stock: 1,
+    stock: 99,
     image: "https://res.cloudinary.com/dqwdov5ab/image/upload/v1783913397/motor5_rh18xv.png",
     mainCategory: "Motor",
     subCategory: "Dc Motor"

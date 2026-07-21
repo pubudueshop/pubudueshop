@@ -1256,6 +1256,26 @@ footer {
     letter-spacing: 0.02em;
 }
 
+.card-badge-low {
+    position: absolute;
+    top: 0.6rem;
+    right: 0.6rem;
+    background: #fff7ed;
+    color: #c2410c;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.2rem 0.5rem;
+    border-radius: 20px;
+    z-index: 5;
+    letter-spacing: 0.02em;
+    animation: pulse-low 1.8s ease-in-out infinite;
+}
+
+@keyframes pulse-low {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.65; }
+}
+
 .modal-fav-btn {
     background: #f8fafc;
     border: 1px solid var(--border);

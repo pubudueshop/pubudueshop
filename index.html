@@ -382,9 +382,12 @@
 
                     <!-- Right: Info Col (60%) -->
                     <div class="md:w-3/5 p-8 flex flex-col bg-white">
-                        <div class="mb-2">
+                        <div class="mb-2 flex items-center gap-2 flex-wrap">
                             <span id="detail-stock-badge" class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-blue-100 text-blue-700">
                                 In Stock
+                            </span>
+                            <span id="detail-stock-count" class="px-3 py-1 rounded-full text-[10px] font-bold bg-gray-100 text-gray-600 hidden">
+                                <i class="fas fa-box-open mr-1"></i><span id="detail-stock-count-value"></span>
                             </span>
                         </div>
                         

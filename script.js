@@ -1660,16 +1660,23 @@ function renderHomeGrid() {
     }
 
     const html = homeGridSelectedProducts.map(product => {
-        const isOutOfStock = product.stock <= 0;
+        const stockQty = parseInt(product.stock, 10) || 0;
+        const isOutOfStock = stockQty <= 0;
+        const isLowStock = !isOutOfStock && stockQty <= 10;
         const isFav = favorites.some(id => id == product.id);
         const productUrl = `${SITE_URL}${createSEOSlug(product.mainCategory)}/${product.subCategory ? createSEOSlug(product.subCategory) + '/' : ''}${createSEOSlug(product.title)}/`;
+        const stockBadgeHtml = isOutOfStock
+            ? '<span class="card-badge-out">Out of Stock</span>'
+            : isLowStock
+                ? `<span class="card-badge-low">Only ${stockQty} left!</span>`
+                : '<span class="card-badge-in">In Stock</span>';
 
         return `
             <div class="product-card">
                 <button class="btn-fav ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${product.id}')" title="${isFav ? 'Remove from Favorites' : 'Add to Favorites'}">
                     <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
                 </button>
-                ${isOutOfStock ? '<span class="card-badge-out">Out of Stock</span>' : '<span class="card-badge-in">In Stock</span>'}
+                ${stockBadgeHtml}
                 <a href="${productUrl}" style="text-decoration:none;color:inherit;display:flex;flex-direction:column;flex:1;">
                     <div class="product-image-container">
                         <img src="${product.image}" alt="${product.title}" class="product-image" loading="lazy">
@@ -1763,16 +1770,23 @@ function renderProducts(mainCat = 'all', subCat = 'all', searchQuery = '', reset
 
 
     const html = displayedProducts.map(product => {
-        const isOutOfStock = product.stock <= 0;
+        const stockQty = parseInt(product.stock, 10) || 0;
+        const isOutOfStock = stockQty <= 0;
+        const isLowStock = !isOutOfStock && stockQty <= 10;
         const isFav = favorites.some(id => id == product.id);
         const productUrl = `${SITE_URL}${createSEOSlug(product.mainCategory)}/${product.subCategory ? createSEOSlug(product.subCategory) + '/' : ''}${createSEOSlug(product.title)}/`;
+        const stockBadgeHtml = isOutOfStock
+            ? '<span class="card-badge-out">Out of Stock</span>'
+            : isLowStock
+                ? `<span class="card-badge-low">Only ${stockQty} left!</span>`
+                : '<span class="card-badge-in">In Stock</span>';
 
         return `
             <div class="product-card">
                 <button class="btn-fav ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${product.id}')" title="${isFav ? 'Remove from Favorites' : 'Add to Favorites'}">
                     <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
                 </button>
-                ${isOutOfStock ? '<span class="card-badge-out">Out of Stock</span>' : '<span class="card-badge-in">In Stock</span>'}
+                ${stockBadgeHtml}
                 <a href="${productUrl}" style="text-decoration:none;color:inherit;display:flex;flex-direction:column;flex:1;">
                     <div class="product-image-container">
                         <img src="${product.image}" alt="${product.title}" class="product-image" loading="lazy" onerror="this.src='https://via.placeholder.com/300x300?text=Parts'">
@@ -1890,12 +1904,32 @@ function openProductDetails(id) {
 
     // Stock Badge
     const stockBadge = document.getElementById('detail-stock-badge');
+    const stockCountEl = document.getElementById('detail-stock-count');
+    const stockCountVal = document.getElementById('detail-stock-count-value');
     if (stockBadge) {
-        const isOutOfStock = product.stock <= 0;
-        stockBadge.textContent = isOutOfStock ? 'Out of Stock' : 'In Stock';
+        const stockQty = parseInt(product.stock, 10) || 0;
+        const isOutOfStock = stockQty <= 0;
+        const isLowStock = !isOutOfStock && stockQty <= 10;
+
+        stockBadge.textContent = isOutOfStock ? 'Out of Stock' : (isLowStock ? 'Low Stock' : 'In Stock');
         stockBadge.className = isOutOfStock 
             ? 'px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-red-100 text-red-700'
-            : 'px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-blue-100 text-blue-700';
+            : isLowStock
+                ? 'px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-orange-100 text-orange-700'
+                : 'px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-blue-100 text-blue-700';
+
+        // Show stock count pill
+        if (stockCountEl && stockCountVal) {
+            if (!isOutOfStock) {
+                stockCountVal.textContent = `${stockQty} unit${stockQty === 1 ? '' : 's'} available`;
+                stockCountEl.className = isLowStock
+                    ? 'px-3 py-1 rounded-full text-[10px] font-bold bg-orange-50 text-orange-600'
+                    : 'px-3 py-1 rounded-full text-[10px] font-bold bg-green-50 text-green-700';
+                stockCountEl.classList.remove('hidden');
+            } else {
+                stockCountEl.classList.add('hidden');
+            }
+        }
     }
 
     // Model Number Display

@@ -192,30 +192,47 @@
             <h1>Electronic Components in <span class="gradient-text">Sri Lanka</span></h1>
             <p>Buy original transistors, ICs, MOSFETs, modules & more. Island-wide delivery from Weliweriya, Gampaha.</p>
             
-            <!-- Modern Search Bar Component -->
-            <div class="max-w-3xl mx-auto mt-8 px-4">
-                <div class="flex items-center bg-white border border-slate-200 rounded-md overflow-hidden shadow-sm focus-within:ring-2 focus-within:ring-blue-500/20 transition-all font-['Inter',sans-serif]">
-                    <!-- Input Section -->
-                    <div class="flex-1 flex items-center px-4">
-                        <i class="fas fa-search text-slate-400 mr-2"></i>
-                        <input type="text" id="main-search-input" placeholder="Search for Products" class="w-full py-3 outline-none border-none text-slate-700 bg-transparent placeholder-slate-400">
-                    </div>
-
-                    <!-- Category Selector Section -->
-                    <div class="hidden md:flex items-center border-l border-slate-200 px-4 h-12 bg-slate-50 relative">
-                        <select id="main-category-search" class="bg-transparent outline-none text-slate-600 text-sm font-medium cursor-pointer appearance-none pr-8 relative z-10">
-                            <option value="all">All Categories</option>
-                            <!-- Options injected by JS -->
-                        </select>
-                        <div class="absolute right-4 pointer-events-none text-slate-400 z-0">
-                            <i class="fas fa-sort"></i>
+            <!-- Pro Search Bar Component -->
+            <div class="max-w-3xl mx-auto mt-10 px-4" id="hero-search-wrapper">
+                <!-- Glow ring wrapper -->
+                <div class="pro-search-glow-wrapper">
+                    <div class="pro-search-bar">
+                        <!-- Search Icon + Input -->
+                        <div class="pro-search-input-section">
+                            <div class="pro-search-icon">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <input type="text" id="main-search-input" placeholder="Search transistors, ICs, MOSFETs, modules…" class="pro-search-input">
                         </div>
-                    </div>
 
-                    <!-- Search Button -->
-                    <button id="main-search-btn" class="bg-[#1e293b] hover:bg-[#0f172a] text-white w-14 h-12 flex items-center justify-center transition-colors">
-                        <i class="fas fa-search"></i>
-                    </button>
+                        <!-- Divider -->
+                        <div class="pro-search-divider hidden md:block"></div>
+
+                        <!-- Category Selector -->
+                        <div class="pro-category-wrapper hidden md:flex">
+                            <i class="fas fa-layer-group pro-category-icon"></i>
+                            <select id="main-category-search" class="pro-category-select">
+                                <option value="all">All Categories</option>
+                                <!-- Options injected by JS -->
+                            </select>
+                            <i class="fas fa-chevron-down pro-category-arrow"></i>
+                        </div>
+
+                        <!-- Search Button -->
+                        <button id="main-search-btn" class="pro-search-btn">
+                            <i class="fas fa-search"></i>
+                            <span class="hidden sm:inline">Search</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Hot tags -->
+                <div class="pro-search-tags">
+                    <span class="pro-tag-label"><i class="fas fa-bolt"></i> Popular:</span>
+                    <a href="#" class="pro-tag" onclick="document.getElementById('main-search-input').value='Arduino';document.getElementById('main-search-btn').click();return false;">Arduino</a>
+                    <a href="#" class="pro-tag" onclick="document.getElementById('main-search-input').value='MOSFET';document.getElementById('main-search-btn').click();return false;">MOSFET</a>
+                    <a href="#" class="pro-tag" onclick="document.getElementById('main-search-input').value='Resistor';document.getElementById('main-search-btn').click();return false;">Resistor</a>
+                    <a href="#" class="pro-tag" onclick="document.getElementById('main-search-input').value='ESP32';document.getElementById('main-search-btn').click();return false;">ESP32</a>
+                    <a href="#" class="pro-tag" onclick="document.getElementById('main-search-input').value='Capacitor';document.getElementById('main-search-btn').click();return false;">Capacitor</a>
                 </div>
             </div>
 

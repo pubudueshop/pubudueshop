@@ -3694,3 +3694,201 @@ body.modal-open {
     margin-top: 1.5rem;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
+
+/* ============================================
+   Pro Search Bar Component
+   ============================================ */
+
+.pro-search-glow-wrapper {
+    position: relative;
+    border-radius: 16px;
+}
+
+.pro-search-glow-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    opacity: 0.2;
+    filter: blur(8px);
+    transition: opacity 0.3s ease;
+    z-index: 0;
+}
+
+.pro-search-glow-wrapper:focus-within::before {
+    opacity: 0.5;
+}
+
+.pro-search-bar {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    border: 2px solid #e2e8f0;
+    border-radius: 14px;
+    box-shadow: 0 4px 24px rgba(37, 99, 235, 0.08);
+    overflow: hidden;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pro-search-bar:focus-within {
+    border-color: #2563eb;
+    box-shadow: 0 4px 32px rgba(37, 99, 235, 0.18);
+}
+
+.pro-search-input-section {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    padding: 0 1rem;
+    gap: 0.6rem;
+}
+
+.pro-search-icon {
+    color: #2563eb;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.pro-search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 1rem;
+    color: #1e293b;
+    padding: 1rem 0;
+    font-family: inherit;
+    min-width: 0;
+}
+
+.pro-search-input::placeholder {
+    color: #94a3b8;
+}
+
+.pro-search-divider {
+    width: 1px;
+    height: 32px;
+    background: #e2e8f0;
+    flex-shrink: 0;
+}
+
+.pro-category-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0 1rem;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.pro-category-icon {
+    color: #64748b;
+    font-size: 0.85rem;
+}
+
+.pro-category-select {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 0.9rem;
+    color: #475569;
+    font-family: inherit;
+    cursor: pointer;
+    padding-right: 1.2rem;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.pro-category-arrow {
+    position: absolute;
+    right: 0.5rem;
+    color: #94a3b8;
+    font-size: 0.7rem;
+    pointer-events: none;
+}
+
+.pro-search-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+    color: #ffffff;
+    border: none;
+    padding: 0.85rem 1.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: filter 0.2s ease, transform 0.1s ease;
+    flex-shrink: 0;
+    border-radius: 0 12px 12px 0;
+    align-self: stretch;
+}
+
+.pro-search-btn:hover {
+    filter: brightness(1.1);
+}
+
+.pro-search-btn:active {
+    transform: scale(0.97);
+}
+
+/* Hot Tags row */
+.pro-search-tags {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.85rem;
+    padding: 0 0.25rem;
+}
+
+.pro-tag-label {
+    font-size: 0.8rem;
+    color: #64748b;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    flex-shrink: 0;
+}
+
+.pro-tag-label i {
+    color: #f59e0b;
+}
+
+.pro-tag {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(37, 99, 235, 0.25);
+    color: #2563eb;
+    border-radius: 50px;
+    padding: 0.3rem 0.85rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+    backdrop-filter: blur(4px);
+}
+
+.pro-tag:hover {
+    background: #eff6ff;
+    border-color: #2563eb;
+    transform: translateY(-1px);
+    text-decoration: none;
+    color: #1d4ed8;
+}
+
+@media (max-width: 640px) {
+    .pro-search-btn {
+        padding: 0.85rem 1rem;
+    }
+
+    .pro-search-tags {
+        justify-content: center;
+    }
+}

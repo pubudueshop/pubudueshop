@@ -842,25 +842,25 @@ async function run() {
             const fullTitle = displayTitle + titleSuffix;
 
             page = page.replace(/<title>.*?<\/title>/s, `<title>${fullTitle}</title>`);
-            page = page.replace(/<meta name="description" content=".*?"/s, `<meta name="description" content="${seoDesc}"`);
-            page = page.replace(/<link rel="canonical" href=".*?"/s, `<link rel="canonical" href="${pUrl}"`);
+            page = page.replace(/<meta name="description"\s+content=".*?"/s, `<meta name="description" content="${seoDesc}"`);
+            page = page.replace(/<link rel="canonical"\s+href=".*?"/s, `<link rel="canonical" href="${pUrl}"`);
             
             // Keywords meta - product specific
             const productKeywords = [cleanTitle, p.mainCategory, p.subCategory, p.brand, p.modelNumber, 'Sri Lanka', 'buy Sri Lanka', 'Pubudu Electronics', 'electronic components Sri Lanka'].filter(Boolean).join(', ');
-            page = page.replace(/<meta name="keywords" content=".*?"/s, `<meta name="keywords" content="${productKeywords}"`);
+            page = page.replace(/<meta name="keywords"\s+content=".*?"/s, `<meta name="keywords" content="${productKeywords}"`);
             
             // OG Tags
-            page = page.replace(/property="og:url" content=".*?"/g, `property="og:url" content="${pUrl}"`);
-            page = page.replace(/property="og:title" id="og-title" content=".*?"/g, `property="og:title" id="og-title" content="${fullTitle}"`);
-            page = page.replace(/property="og:description" id="og-desc" content=".*?"/g, `property="og:description" id="og-desc" content="${seoDesc}"`);
-            page = page.replace(/property="og:image" id="og-image" content=".*?"/g, `property="og:image" id="og-image" content="${p.image}"`);
+            page = page.replace(/property="og:url"\s+content=".*?"/g, `property="og:url" content="${pUrl}"`);
+            page = page.replace(/property="og:title" id="og-title"\s+content=".*?"/g, `property="og:title" id="og-title" content="${fullTitle}"`);
+            page = page.replace(/property="og:description" id="og-desc"\s+content=".*?"/g, `property="og:description" id="og-desc" content="${seoDesc}"`);
+            page = page.replace(/property="og:image" id="og-image"\s+content=".*?"/g, `property="og:image" id="og-image" content="${p.image}"`);
             
             // Twitter Tags
-            page = page.replace(/name="twitter:url" content=".*?"/g, `name="twitter:url" content="${pUrl}"`);
-            page = page.replace(/name="twitter:title" id="tw-title" content=".*?"/g, `name="twitter:title" id="tw-title" content="${fullTitle}"`);
-            page = page.replace(/name="twitter:description" id="tw-desc" content=".*?"/g, `name="twitter:description" id="tw-desc" content="${seoDesc}"`);
-            page = page.replace(/name="twitter:image" id="tw-image" content=".*?"/g, `name="twitter:image" id="tw-image" content="${p.image}"`);
-            page = page.replace(/name="twitter:card" content=".*?"/g, `name="twitter:card" content="summary_large_image"`);
+            page = page.replace(/name="twitter:url"\s+content=".*?"/g, `name="twitter:url" content="${pUrl}"`);
+            page = page.replace(/name="twitter:title" id="tw-title"\s+content=".*?"/g, `name="twitter:title" id="tw-title" content="${fullTitle}"`);
+            page = page.replace(/name="twitter:description" id="tw-desc"\s+content=".*?"/g, `name="twitter:description" id="tw-desc" content="${seoDesc}"`);
+            page = page.replace(/name="twitter:image" id="tw-image"\s+content=".*?"/g, `name="twitter:image" id="tw-image" content="${p.image}"`);
+            page = page.replace(/name="twitter:card"\s+content=".*?"/g, `name="twitter:card" content="summary_large_image"`);
 
             // Fix Firebase SDKs - ensure they are NOT deferred on product pages for instant load
             page = page.replace(/<script\s+(defer\s+)?src="https:\/\/www\.gstatic\.com\/firebasejs/g, '<script src="https://www.gstatic.com/firebasejs');

@@ -23,6 +23,13 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Build Tailwind CSS (pre-compiled, no CDN runtime needed)
+        run: |
+          curl -sLo tailwindcss https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-x64
+          chmod +x tailwindcss
+          ./tailwindcss -i input.css -o tailwind-built.css --minify
+          echo "Tailwind CSS built: $(wc -c < tailwind-built.css) bytes"
+
       - name: Generate SEO and Static Pages
         run: node seo-gen.js
 
@@ -30,12 +37,12 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add sitemap.xml robots.txt
+          git add sitemap.xml robots.txt tailwind-built.css
           # Add all generated category folders (only if they contain an index.html to be safe)
           git add .
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Auto-update sitemap and product pages [skip ci]"
+            git commit -m "Auto-update sitemap, product pages and Tailwind CSS [skip ci]"
             git push
           fi

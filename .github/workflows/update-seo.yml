@@ -19,7 +19,7 @@ jobs:
       # 1. Checkout repository
       # --------------------------------------------------
       - name: Checkout Repository
-        uses: actions/checkout@v4
+  uses: actions/checkout@v5
         with:
           fetch-depth: 0
           persist-credentials: true
@@ -28,10 +28,10 @@ jobs:
       # 2. Setup Node.js
       # --------------------------------------------------
       - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
+  uses: actions/setup-node@v5
+  with:
+    node-version: 24
+    cache: npm
 
       # --------------------------------------------------
       # 3. Install dependencies

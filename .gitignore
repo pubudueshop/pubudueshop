@@ -17,3 +17,13 @@ Thumbs.db
 
 # Tailwind binary (downloaded during CI)
 tailwindcss.exe
+# Tailwind CLI binaries
+tailwindcss
+tailwindcss.exe
+tailwindcss-linux-x64
+tailwindcss-linux-arm64
+
+# Build dependencies
+node_modules/
+.tmp/
+temp/

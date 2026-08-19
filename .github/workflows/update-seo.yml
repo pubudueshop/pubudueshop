@@ -1,11 +1,11 @@
+```yaml
 name: Update Sitemap and SEO
 
 on:
+  workflow_dispatch:
   push:
-    branches: [ main ]
-  schedule:
-    - cron: '*/5 * * * *' # Every 5 minutes
-  workflow_dispatch: # Manual trigger
+    branches:
+      - main
 
 permissions:
   contents: write
@@ -15,34 +15,312 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # --------------------------------------------------
+      # 1. Checkout repository
+      # --------------------------------------------------
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
 
+      # --------------------------------------------------
+      # 2. Setup Node.js
+      # --------------------------------------------------
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: 20
+          cache: npm
 
-      - name: Build Tailwind CSS (pre-compiled, no CDN runtime needed)
+      # --------------------------------------------------
+      # 3. Install dependencies
+      # --------------------------------------------------
+      - name: Install Dependencies
         run: |
-          curl -sLo tailwindcss https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-x64
-          chmod +x tailwindcss
-          ./tailwindcss -i input.css -o tailwind-built.css --minify
-          echo "Tailwind CSS built: $(wc -c < tailwind-built.css) bytes"
-
-      - name: Generate SEO and Static Pages
-        run: node seo-gen.js
-
-      - name: Commit and Push Changes
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add sitemap.xml robots.txt tailwind-built.css
-          # Add all generated category folders (only if they contain an index.html to be safe)
-          git add .
-          if git diff --staged --quiet; then
-            echo "No changes to commit"
+          if [ -f package-lock.json ]; then
+            npm ci
+          elif [ -f package.json ]; then
+            npm install
           else
-            git commit -m "Auto-update sitemap, product pages and Tailwind CSS [skip ci]"
-            git push
+            echo "No package.json found. Continuing..."
           fi
+
+      # --------------------------------------------------
+      # 4. Build Tailwind CSS
+      #
+      # IMPORTANT:
+      # Tailwind CLI must NEVER be committed to Git.
+      # --------------------------------------------------
+      - name: Build Tailwind CSS (pre-compiled, no CDN runtime needed)
+        shell: bash
+        run: |
+          set -e
+
+          echo "Checking Tailwind setup..."
+
+          # If package.json contains a Tailwind build script,
+          # use it first.
+          if node -e "const p=require('./package.json'); process.exit(p.scripts && p.scripts['build:css'] ? 0 : 1)" 2>/dev/null; then
+            npm run build:css
+
+          elif node -e "const p=require('./package.json'); process.exit(p.scripts && p.scripts['build:tailwind'] ? 0 : 1)" 2>/dev/null; then
+            npm run build:tailwind
+
+          # Use local Tailwind CLI if installed
+          elif [ -x "./node_modules/.bin/tailwindcss" ]; then
+            ./node_modules/.bin/tailwindcss \
+              -i ./src/input.css \
+              -o ./css/tailwind.css \
+              --minify
+
+          # Otherwise download Tailwind temporarily
+          else
+            echo "Installing temporary Tailwind CLI..."
+
+            curl -L \
+              --fail \
+              --silent \
+              --show-error \
+              -o /tmp/tailwindcss \
+              https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-x64
+
+            chmod +x /tmp/tailwindcss
+
+            /tmp/tailwindcss \
+              -i ./src/input.css \
+              -o ./css/tailwind.css \
+              --minify
+
+            # Remove temporary binary immediately
+            rm -f /tmp/tailwindcss
+          fi
+
+      # --------------------------------------------------
+      # 5. Generate SEO and Static Pages
+      # --------------------------------------------------
+      - name: Generate SEO and Static Pages
+        shell: bash
+        run: |
+          set -e
+
+          if node -e "const p=require('./package.json'); process.exit(p.scripts && p.scripts['seo'] ? 0 : 1)" 2>/dev/null; then
+            npm run seo
+
+          elif node -e "const p=require('./package.json'); process.exit(p.scripts && p.scripts['generate-seo'] ? 0 : 1)" 2>/dev/null; then
+            npm run generate-seo
+
+          elif [ -f scripts/generate-seo.js ]; then
+            node scripts/generate-seo.js
+
+          elif [ -f scripts/generateSEO.js ]; then
+            node scripts/generateSEO.js
+
+          else
+            echo "No separate SEO generation script found."
+            echo "Continuing with existing static pages..."
+          fi
+
+      # --------------------------------------------------
+      # 6. Generate Sitemap
+      # --------------------------------------------------
+      - name: Generate Sitemap
+        shell: bash
+        run: |
+          set -e
+
+          # Remove old generated sitemap so it can be rebuilt
+          rm -f sitemap.xml
+
+          # Use existing npm sitemap script if available
+          if node -e "const p=require('./package.json'); process.exit(p.scripts && p.scripts['sitemap'] ? 0 : 1)" 2>/dev/null; then
+            npm run sitemap
+
+          elif node -e "const p=require('./package.json'); process.exit(p.scripts && p.scripts['generate:sitemap'] ? 0 : 1)" 2>/dev/null; then
+            npm run generate:sitemap
+
+          # Use custom sitemap script if present
+          elif [ -f scripts/generate-sitemap.js ]; then
+            node scripts/generate-sitemap.js
+
+          elif [ -f scripts/generateSitemap.js ]; then
+            node scripts/generateSitemap.js
+
+          else
+            echo "Generating sitemap from HTML files..."
+
+            SITE_URL="https://ichouse.lk"
+
+            {
+              echo '<?xml version="1.0" encoding="UTF-8"?>'
+              echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+
+              find . \
+                -type f \
+                \( -name "*.html" -o -name "*.htm" \) \
+                ! -path "./.git/*" \
+                ! -path "./node_modules/*" \
+                ! -path "./dist/*" \
+                ! -path "./build/*" \
+                | sort \
+                | while read -r file; do
+
+                  path="${file#./}"
+
+                  if [ "$path" = "index.html" ]; then
+                    url="$SITE_URL/"
+                  else
+                    url="$SITE_URL/${path}"
+                  fi
+
+                  echo "  <url>"
+                  echo "    <loc>${url}</loc>"
+                  echo "  </url>"
+                done
+
+              echo '</urlset>'
+            } > sitemap.xml
+
+          fi
+
+          echo ""
+          echo "Sitemap created:"
+          ls -lh sitemap.xml || true
+
+      # --------------------------------------------------
+      # 7. Make sure robots.txt references sitemap
+      # --------------------------------------------------
+      - name: Update robots.txt
+        shell: bash
+        run: |
+          set -e
+
+          if [ ! -f robots.txt ]; then
+            touch robots.txt
+          fi
+
+          # Remove old sitemap lines
+          sed -i '/^[[:space:]]*[Ss]itemap:/d' robots.txt
+
+          # Add sitemap URL
+          echo "" >> robots.txt
+          echo "Sitemap: https://ichouse.lk/sitemap.xml" >> robots.txt
+
+          echo "robots.txt:"
+          cat robots.txt
+
+      # --------------------------------------------------
+      # 8. CRITICAL CLEANUP
+      #
+      # Prevent the 106 MB Tailwind binary from being
+      # included in the Git commit.
+      # --------------------------------------------------
+      - name: Remove Large Build Files Before Commit
+        shell: bash
+        run: |
+          set -e
+
+          echo "Removing Tailwind binaries..."
+
+          rm -f ./tailwindcss
+          rm -f ./tailwindcss.exe
+          rm -f ./tailwindcss-linux-x64
+          rm -f ./tailwindcss-linux-arm64
+          rm -f /tmp/tailwindcss
+
+          # Remove any accidentally generated Tailwind executable
+          find . \
+            -type f \
+            \( -name "tailwindcss" -o -name "tailwindcss.exe" \) \
+            -not -path "./node_modules/*" \
+            -not -path "./.git/*" \
+            -delete || true
+
+          # If the file was already tracked, remove it from Git index
+          git rm --cached --ignore-unmatch tailwindcss || true
+          git rm --cached --ignore-unmatch tailwindcss.exe || true
+
+          echo ""
+          echo "Checking for files larger than 90 MB..."
+
+          find . \
+            -type f \
+            -not -path "./.git/*" \
+            -not -path "./node_modules/*" \
+            -size +90M \
+            -print || true
+
+      # --------------------------------------------------
+      # 9. Verify Git changes
+      # --------------------------------------------------
+      - name: Verify Changes
+        shell: bash
+        run: |
+          echo "Git status:"
+          git status --short
+
+          echo ""
+          echo "Large files:"
+          find . \
+            -type f \
+            -not -path "./.git/*" \
+            -not -path "./node_modules/*" \
+            -size +90M \
+            -print || true
+
+          if find . \
+            -type f \
+            -not -path "./.git/*" \
+            -not -path "./node_modules/*" \
+            -size +100M \
+            | grep -q .; then
+
+            echo "ERROR: A file larger than GitHub's 100 MB limit exists."
+            exit 1
+          fi
+
+      # --------------------------------------------------
+      # 10. Commit and Push Changes
+      # --------------------------------------------------
+      - name: Commit and Push Changes
+        shell: bash
+        run: |
+          set -e
+
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add -A
+
+          # Never commit Tailwind binaries
+          git reset -- tailwindcss 2>/dev/null || true
+          git reset -- tailwindcss.exe 2>/dev/null || true
+
+          # Remove them from working tree if accidentally staged
+          git rm --cached --ignore-unmatch tailwindcss || true
+          git rm --cached --ignore-unmatch tailwindcss.exe || true
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          git commit -m "Auto-update sitemap, SEO pages and Tailwind CSS"
+
+          git push origin HEAD:main
+```
+
+### Also add this to `.gitignore`
+
+```gitignore
+# Tailwind CLI binaries
+tailwindcss
+tailwindcss.exe
+tailwindcss-linux-x64
+tailwindcss-linux-arm64
+
+# Build output
+node_modules/
+.tmp/
+temp/
+```

@@ -685,7 +685,8 @@ a {
     padding: 6rem 0 2rem;
     text-align: center;
     background: linear-gradient(180deg, rgba(59, 130, 246, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
-    overflow: hidden;
+    overflow: visible;
+    z-index: 30;
 }
 
 .hero h1, .hero .hero-title {
@@ -714,7 +715,7 @@ a {
 
 .hero-content {
     position: relative;
-    z-index: 2;
+    z-index: 30;
 }
 
 .btn-lg {
@@ -3899,31 +3900,35 @@ body.modal-open {
 
 #hero-search-wrapper {
     position: relative;
+    z-index: 50;
 }
 
 .pro-search-glow-wrapper {
     position: relative;
+    z-index: 50;
 }
 
 .sticky-search-mobile {
     position: sticky;
+    z-index: 999;
 }
 
 .sticky-search-mobile .search-input-wrapper {
     position: relative;
+    z-index: 999;
 }
 
 .search-autocomplete-dropdown {
     position: absolute;
-    top: calc(100% + 10px);
+    top: calc(100% + 8px);
     left: 0;
     right: 0;
     background: #ffffff;
     border-radius: 16px;
-    box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.22), 0 0 0 1px rgba(226, 232, 240, 0.8);
-    z-index: 10005;
+    box-shadow: 0 25px 60px -12px rgba(15, 23, 42, 0.28), 0 0 0 1px rgba(226, 232, 240, 0.95);
+    z-index: 99999;
     overflow: hidden;
-    animation: searchDropdownFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: searchDropdownFadeIn 0.18s cubic-bezier(0.16, 1, 0.3, 1);
     border: 1px solid #e2e8f0;
     text-align: left;
 }
@@ -3931,7 +3936,8 @@ body.modal-open {
 .search-autocomplete-mobile {
     top: calc(100% + 6px);
     border-radius: 14px;
-    box-shadow: 0 15px 35px -8px rgba(15, 23, 42, 0.25);
+    box-shadow: 0 20px 40px -8px rgba(15, 23, 42, 0.3);
+    z-index: 99999;
 }
 
 @keyframes searchDropdownFadeIn {

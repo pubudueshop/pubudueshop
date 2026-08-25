@@ -1734,11 +1734,20 @@ function renderProducts(mainCat = 'all', subCat = 'all', searchQuery = '', reset
 
         let matchSearch = true;
         if (searchQuery) {
-            const q = searchQuery.toLowerCase();
-            const inTitle = p.title.toLowerCase().includes(q);
-            const inCategory = p.mainCategory.toLowerCase().includes(q) || p.subCategory.toLowerCase().includes(q);
-            const inKeywords = p.keywords ? p.keywords.some(k => k.toLowerCase().includes(q)) : false;
-            matchSearch = inTitle || inCategory || inKeywords;
+            const terms = searchQuery.toLowerCase().trim().split(/\s+/).filter(Boolean);
+            if (terms.length > 0) {
+                const title = (p.title || '').toLowerCase();
+                const model = (p.modelNumber || '').toLowerCase();
+                const brand = (p.brand || '').toLowerCase();
+                const mainCategory = (p.mainCategory || '').toLowerCase();
+                const subCategory = (p.subCategory || '').toLowerCase();
+                const keywords = Array.isArray(p.keywords) ? p.keywords.join(' ').toLowerCase() : '';
+                const specs = p.specs ? Object.values(p.specs).join(' ').toLowerCase() : '';
+                const desc = (p.description || '').toLowerCase();
+                const haystack = `${title} ${model} ${brand} ${mainCategory} ${subCategory} ${keywords} ${specs} ${desc}`;
+                
+                matchSearch = terms.every(term => haystack.includes(term));
+            }
         }
 
         return matchMain && matchSub && matchSearch && matchFav;
@@ -2639,10 +2648,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         function highlightSearchQuery(text, query) {
             if (!text || !query) return escapeHtmlSearch(text || '');
+            const words = query.trim().split(/\s+/).filter(Boolean);
+            if (words.length === 0) return escapeHtmlSearch(text);
+            const escaped = words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
             const cleanText = escapeHtmlSearch(text);
-            const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-            const regex = new RegExp(`(${escapedQuery})`, 'gi');
-            return cleanText.replace(regex, '<span class="search-highlight">$1</span>');
+            try {
+                const regex = new RegExp(`(${escaped})`, 'gi');
+                return cleanText.replace(regex, '<span class="search-highlight">$1</span>');
+            } catch (e) {
+                return cleanText;
+            }
         }
 
         function setupSearchAutocomplete(inputEl, dropdownEl, categorySelectEl) {
@@ -2657,49 +2672,98 @@ document.addEventListener('DOMContentLoaded', async () => {
                 selectedIndex = -1;
             }
 
+            function getProductLink(product) {
+                if (!product) return '#';
+                const subPart = product.subCategory ? createSEOSlug(product.subCategory) + '/' : '';
+                return `${SITE_URL}${createSEOSlug(product.mainCategory)}/${subPart}${createSEOSlug(product.title)}/`;
+            }
+
+            function navigateToProduct(productId, productUrl) {
+                hideDropdown();
+                const hasModalUi = productModalRoot && document.getElementById('detail-image');
+                if (hasModalUi && typeof openProductDetails === 'function') {
+                    openProductDetails(productId);
+                } else if (productUrl) {
+                    window.location.href = productUrl;
+                }
+            }
+
             function renderSuggestions(query, category) {
                 if (!products || products.length === 0) {
                     hideDropdown();
                     return;
                 }
 
-                const q = query.trim().toLowerCase();
+                const rawQuery = query.trim().toLowerCase();
+                const terms = rawQuery.split(/\s+/).filter(Boolean);
+                if (terms.length === 0) {
+                    hideDropdown();
+                    return;
+                }
+
                 const activeCategory = category && category !== 'all' ? category : null;
 
-                // Filter products
-                const matches = products.filter(p => {
-                    if (activeCategory && p.mainCategory !== activeCategory) return false;
-                    
-                    const inTitle = p.title && p.title.toLowerCase().includes(q);
-                    const inModel = p.modelNumber && p.modelNumber.toLowerCase().includes(q);
-                    const inBrand = p.brand && p.brand.toLowerCase().includes(q);
-                    const inCategory = p.mainCategory && p.mainCategory.toLowerCase().includes(q);
-                    const inSubCategory = p.subCategory && p.subCategory.toLowerCase().includes(q);
-                    const inKeywords = p.keywords ? p.keywords.some(k => k && k.toLowerCase().includes(q)) : false;
+                // Match and rank products
+                const scoredMatches = [];
 
-                    return inTitle || inModel || inBrand || inCategory || inSubCategory || inKeywords;
+                products.forEach(product => {
+                    if (activeCategory && product.mainCategory !== activeCategory) return;
+
+                    const title = (product.title || '').toLowerCase();
+                    const model = (product.modelNumber || '').toLowerCase();
+                    const brand = (product.brand || '').toLowerCase();
+                    const mainCat = (product.mainCategory || '').toLowerCase();
+                    const subCat = (product.subCategory || '').toLowerCase();
+                    const desc = (product.description || '').toLowerCase();
+                    const keywords = Array.isArray(product.keywords) ? product.keywords.join(' ').toLowerCase() : '';
+                    const specs = product.specs ? Object.values(product.specs).join(' ').toLowerCase() : '';
+
+                    const haystack = `${title} ${model} ${brand} ${mainCat} ${subCat} ${keywords} ${specs} ${desc}`;
+
+                    // All search terms must match somewhere in the product info
+                    const matchesAllTerms = terms.every(term => haystack.includes(term));
+                    if (!matchesAllTerms) return;
+
+                    // Compute smart relevance score
+                    let score = 0;
+
+                    // Exact title or starts with query
+                    if (title === rawQuery) score += 100;
+                    else if (title.startsWith(rawQuery)) score += 70;
+                    else if (title.includes(rawQuery)) score += 40;
+
+                    // Model match
+                    if (model && (model === rawQuery || model.startsWith(rawQuery))) score += 60;
+                    else if (model && model.includes(rawQuery)) score += 35;
+
+                    // Individual terms in title
+                    const titleTermsCount = terms.filter(t => title.includes(t)).length;
+                    score += titleTermsCount * 20;
+
+                    // Individual terms in model
+                    const modelTermsCount = terms.filter(t => model.includes(t)).length;
+                    score += modelTermsCount * 15;
+
+                    // Keywords / brand
+                    if (brand && brand.includes(rawQuery)) score += 15;
+                    if (keywords && keywords.includes(rawQuery)) score += 15;
+
+                    // Stock availability boost
+                    const stockQty = parseInt(product.stock, 10) || 0;
+                    if (stockQty > 0) {
+                        score += 25;
+                    } else {
+                        score -= 15;
+                    }
+
+                    scoredMatches.push({ product, score });
                 });
 
-                // Smart rank matches
-                matches.sort((a, b) => {
-                    const aTitle = (a.title || '').toLowerCase();
-                    const bTitle = (b.title || '').toLowerCase();
-                    const aStarts = aTitle.startsWith(q);
-                    const bStarts = bTitle.startsWith(q);
-                    if (aStarts && !bStarts) return -1;
-                    if (!aStarts && bStarts) return 1;
-
-                    // In stock priority
-                    const aStock = parseInt(a.stock, 10) || 0;
-                    const bStock = parseInt(b.stock, 10) || 0;
-                    if (aStock > 0 && bStock <= 0) return -1;
-                    if (aStock <= 0 && bStock > 0) return 1;
-
-                    return b.id - a.id;
-                });
-
+                // Sort by relevance score descending
+                scoredMatches.sort((a, b) => b.score - a.score || b.product.id - a.product.id);
+                const matches = scoredMatches.map(m => m.product);
                 const totalCount = matches.length;
-                const topMatches = matches.slice(0, 6);
+                const topMatches = matches.slice(0, 8);
 
                 if (topMatches.length === 0) {
                     dropdownEl.innerHTML = `
@@ -2730,9 +2794,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const brandPart = product.brand ? ` [${escapeHtmlSearch(product.brand)}]` : '';
                     const productImg = product.image || (product.images && product.images[0]) || 'https://via.placeholder.com/80?text=Part';
                     const price = parseInt(product.price, 10) || 0;
+                    const productUrl = getProductLink(product);
 
                     return `
-                        <div class="search-suggestion-item" data-index="${index}" data-product-id="${product.id}">
+                        <a href="${productUrl}" class="search-suggestion-item" data-index="${index}" data-product-id="${product.id}">
                             <div class="search-suggestion-img-wrap">
                                 <img src="${productImg}" alt="${escapeHtmlSearch(product.title)}" class="search-suggestion-img" loading="lazy" onerror="this.src='https://via.placeholder.com/80?text=Part'">
                             </div>
@@ -2747,7 +2812,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                                 <div class="search-price-curr">LKR</div>
                                 <div class="search-price-val">${price.toLocaleString()}</div>
                             </div>
-                        </div>
+                        </a>
                     `;
                 }).join('');
 
@@ -2772,13 +2837,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                 // Wire click events on items
                 dropdownEl.querySelectorAll('.search-suggestion-item').forEach(item => {
                     item.addEventListener('click', (e) => {
+                        if (e.ctrlKey || e.metaKey || e.shiftKey || e.button === 1) {
+                            return; // Allow new tab navigation
+                        }
                         e.preventDefault();
                         e.stopPropagation();
                         const pid = item.dataset.productId;
-                        if (pid) {
-                            hideDropdown();
-                            openProductDetails(pid);
-                        }
+                        const href = item.getAttribute('href');
+                        navigateToProduct(pid, href);
                     });
                 });
 
@@ -2806,7 +2872,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 debounceTimer = setTimeout(() => {
                     renderSuggestions(val, cat);
-                }, 180);
+                }, 160);
             });
 
             inputEl.addEventListener('focus', () => {
@@ -2839,9 +2905,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 } else if (e.key === 'Enter') {
                     if (selectedIndex >= 0 && selectedIndex < items.length) {
                         e.preventDefault();
-                        const pid = items[selectedIndex].dataset.productId;
-                        hideDropdown();
-                        if (pid) openProductDetails(pid);
+                        const item = items[selectedIndex];
+                        const pid = item.dataset.productId;
+                        const href = item.getAttribute('href');
+                        navigateToProduct(pid, href);
                     } else {
                         hideDropdown();
                         const cat = categorySelectEl ? categorySelectEl.value : 'all';

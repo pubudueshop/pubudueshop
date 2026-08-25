@@ -17,13 +17,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>5A Glass Fuse 5x20mm 250V Fast Blow Ca… | Pubudu Electronics</title>
 
-    <!-- Preconnect to external domains -->
+    <!-- Preconnect to external domains for faster resolution -->
     <link rel="preconnect" href="https://www.gstatic.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Pre-built Tailwind CSS (replaces heavy CDN runtime script - reduces TBT by ~200ms) -->
+    <link rel="stylesheet" href="/tailwind-built.css">
+    <!-- Google Fonts with display=swap to prevent FOIT, loaded non-blocking -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet"></noscript>
 
     <meta name="description" content="Buy 5A Glass Fuse 5x20mm 250V Fast Blow Cartridge Fuse for Electronics in Sri Lanka at Pubudu Electronics. 5A glass cartridge fuse designed for reliable overcur">
     <meta name="keywords" content="5A Glass Fuse 5x20mm 250V Fast Blow Cartridge Fuse for Electronics, Fuse, Glass fuses, Sri Lanka, buy Sri Lanka, Pubudu Electronics, electronic components Sri Lanka">
@@ -60,9 +63,10 @@
 
     <link rel="icon" type="image/png" href="/favicon.png">
 
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- FontAwesome loaded non-blocking to prevent render-blocking -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 
     <!-- jsPDF for invoice download -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
@@ -350,20 +354,20 @@
                     <table class="w-full text-left">
                         <tbody>
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
-            </tr>
-            <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">N/A</td>
-            </tr>
-            <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Glass fuses</td>
             </tr>
             <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
+            </tr>
+            <tr class="bg-white">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
+            </tr>
+            <tr class="bg-gray-50">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Glass fuses</td>
             </tr></tbody>
                     </table>
                 </div>

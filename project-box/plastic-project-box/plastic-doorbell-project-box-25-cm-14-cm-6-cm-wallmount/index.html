@@ -17,13 +17,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plastic Doorbell Project Box 2.5 cm × … | Pubudu Electronics</title>
 
-    <!-- Preconnect to external domains -->
+    <!-- Preconnect to external domains for faster resolution -->
     <link rel="preconnect" href="https://www.gstatic.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Pre-built Tailwind CSS (replaces heavy CDN runtime script - reduces TBT by ~200ms) -->
+    <link rel="stylesheet" href="/tailwind-built.css">
+    <!-- Google Fonts with display=swap to prevent FOIT, loaded non-blocking -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet"></noscript>
 
     <meta name="description" content="Buy Plastic Doorbell Project Box 2.5 cm × 14 cm × 6 cm Wall-Mount Enclosure in Sri Lanka at Pubudu Electronics. Slim plastic doorbell project box designed for D">
     <meta name="keywords" content="Plastic Doorbell Project Box 2.5 cm × 14 cm × 6 cm Wall-Mount Enclosure, Project Box, Plastic Project Box, Sri Lanka, buy Sri Lanka, Pubudu Electronics, electronic components Sri Lanka">
@@ -60,9 +63,10 @@
 
     <link rel="icon" type="image/png" href="/favicon.png">
 
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- FontAwesome loaded non-blocking to prevent render-blocking -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 
     <!-- jsPDF for invoice download -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
@@ -239,7 +243,7 @@
                 <div class="md:w-3/5 p-8 flex flex-col">
                     <!-- Stock Badge -->
                     <div class="mb-3">
-                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-green-100 text-green-800">In Stock</span>
+                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-red-100 text-red-800">Out of Stock</span>
                         <span class="ml-2 px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">Plastic Project Box</span>
                     </div>
 
@@ -309,11 +313,8 @@
                         </div>
                         <div class="flex-1 min-w-[200px] flex flex-col gap-2">
                             
-                            <button onclick="if(window.addToCart) addToCart('1772015741950', getSelectedQty())" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold h-12 rounded-lg shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-2 active:scale-95">
-                                <i class="fas fa-cart-plus"></i> Add to Cart
-                            </button>
-                            <button onclick="if(window.addToCart) { addToCart('1772015741950', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold h-12 rounded-lg shadow-lg shadow-green-200 transition-all flex items-center justify-center gap-2 active:scale-95">
-                                <i class="fab fa-whatsapp"></i> Buy via WhatsApp
+                            <button disabled class="w-full bg-gray-200 text-gray-500 font-bold h-12 rounded-lg cursor-not-allowed flex items-center justify-center gap-2">
+                                <i class="fas fa-ban"></i> Out of Stock
                             </button>
                             
                         </div>
@@ -350,20 +351,20 @@
                     <table class="w-full text-left">
                         <tbody>
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Plastic Project Box</td>
             </tr>
             <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">N/A</td>
             </tr>
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand new</td>
             </tr>
             <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Plastic Project Box</td>
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
             </tr></tbody>
                     </table>
                 </div>
@@ -411,24 +412,21 @@
 <!-- Mobile Sticky Bottom Bar -->
 <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 md:hidden flex gap-4 z-[2000] shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
     
-    <button onclick="if(window.addToCart) addToCart('1772015741950', getSelectedQty())" class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
-        <i class="fas fa-cart-plus"></i> Cart
-    </button>
-    <button onclick="if(window.addToCart) { addToCart('1772015741950', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="flex-1 bg-green-500 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
-        <i class="fab fa-whatsapp"></i> Buy
+    <button disabled class="flex-1 bg-gray-100 text-gray-400 font-bold py-3 rounded-lg flex items-center justify-center gap-2 cursor-not-allowed">
+        <i class="fas fa-ban"></i> Out of Stock
     </button>
     
 </div>
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Project Box","item":"https://ichouse.lk/project-box/"},{"@type":"ListItem","position":3,"name":"Plastic Project Box","item":"https://ichouse.lk/project-box/plastic-project-box/"},{"@type":"ListItem","position":4,"name":"Plastic Doorbell Project Box 2.5 cm × 14…","item":"https://ichouse.lk/project-box/plastic-project-box/plastic-doorbell-project-box-25-cm-14-cm-6-cm-wallmount/"}]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"Plastic Doorbell Project Box 2.5 cm × 14 cm × 6 cm Wall-Mount Enclosure","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1772015590/black2_1_o7p6o3.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1772015590/black1_1_syrwas.png"],"description":"Slim plastic doorbell project box designed for DIY electronics and doorbell circuits. Durable lightweight enclosure with 2.5 cm height, 14 cm length, and 6 cm width. Features ventilation grill, internal PCB mounting posts, and wall-mount keyhole slot for easy installation. Ideal for doorbell modules, sensors, and small electronic projects.","sku":"PE-1772015741950","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/project-box/plastic-project-box/plastic-doorbell-project-box-25-cm-14-cm-6-cm-wallmount/","priceCurrency":"LKR","price":150,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"Plastic Doorbell Project Box 2.5 cm × 14 cm × 6 cm Wall-Mount Enclosure","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1772015590/black2_1_o7p6o3.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1772015590/black1_1_syrwas.png"],"description":"Slim plastic doorbell project box designed for DIY electronics and doorbell circuits. Durable lightweight enclosure with 2.5 cm height, 14 cm length, and 6 cm width. Features ventilation grill, internal PCB mounting posts, and wall-mount keyhole slot for easy installation. Ideal for doorbell modules, sensors, and small electronic projects.","sku":"PE-1772015741950","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/project-box/plastic-project-box/plastic-doorbell-project-box-25-cm-14-cm-6-cm-wallmount/","priceCurrency":"LKR","price":150,"availability":"https://schema.org/OutOfStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
 <script>
 // Pre-load product data so cart works instantly without waiting for Firebase
 window._currentModalProduct = {
     id: '1772015741950',
     title: "Plastic Doorbell Project Box 2.5 cm × 14 cm × 6 cm Wall-Mount Enclosure",
     price: 150,
-    stock: 10,
+    stock: 99,
     image: "https://res.cloudinary.com/dqwdov5ab/image/upload/v1772015590/black2_1_o7p6o3.png",
     mainCategory: "Project Box",
     subCategory: "Plastic Project Box"

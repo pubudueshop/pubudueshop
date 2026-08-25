@@ -3201,6 +3201,12 @@ body.modal-open {
     box-shadow: var(--shadow-lg);
     position: relative;
     overflow: hidden;
+    z-index: 1;
+}
+
+#browse-all-banner {
+    position: relative;
+    z-index: 1;
 }
 
 .browse-content {
@@ -3275,6 +3281,8 @@ body.modal-open {
 /* --- Request Parts Homepage Banner --- */
 .request-banner-section {
     margin: 3rem auto;
+    position: relative;
+    z-index: 1;
 }
 
 .request-promo-banner {
@@ -3288,6 +3296,7 @@ body.modal-open {
     justify-content: space-between;
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    z-index: 1;
 }
 
 .request-promo-banner::before {
@@ -4203,3 +4212,24 @@ body.modal-open {
     color: white;
 }
 
+/* =====================================================
+   SEARCH DROPDOWN STACKING FIX
+   Ensures the autocomplete dropdown shows fully on top
+   of all sections that follow the hero area.
+   ===================================================== */
+
+/* Hero needs extra bottom padding to give room for the dropdown */
+.hero {
+    padding-bottom: 6rem;
+}
+
+/* All sections directly after hero must sit below the search dropdown */
+#browse-all-banner,
+.request-banner-section,
+#home-featured,
+.recently-viewed-section,
+#products,
+#about {
+    position: relative;
+    z-index: 1;
+}

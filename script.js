@@ -2624,45 +2624,273 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         }
 
-        if (mainSearchBtn) {
-            mainSearchBtn.onclick = () => {
-                const query = mainSearchInput.value.trim();
-                const cat = mainCategorySearch.value;
-                handleSearch(query, cat);
-            };
+        // ==========================================================================
+        // LIVE SEARCH & AUTOCOMPLETE ENHANCEMENTS
+        // ==========================================================================
+        function escapeHtmlSearch(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
         }
 
-        if (mainSearchInput) {
-            mainSearchInput.onkeypress = (e) => {
-                if (e.key === 'Enter') {
-                    const query = mainSearchInput.value.trim();
-                    const cat = mainCategorySearch.value;
-                    handleSearch(query, cat);
+        function highlightSearchQuery(text, query) {
+            if (!text || !query) return escapeHtmlSearch(text || '');
+            const cleanText = escapeHtmlSearch(text);
+            const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const regex = new RegExp(`(${escapedQuery})`, 'gi');
+            return cleanText.replace(regex, '<span class="search-highlight">$1</span>');
+        }
+
+        function setupSearchAutocomplete(inputEl, dropdownEl, categorySelectEl) {
+            if (!inputEl || !dropdownEl) return;
+
+            let debounceTimer = null;
+            let selectedIndex = -1;
+
+            function hideDropdown() {
+                dropdownEl.style.display = 'none';
+                dropdownEl.innerHTML = '';
+                selectedIndex = -1;
+            }
+
+            function renderSuggestions(query, category) {
+                if (!products || products.length === 0) {
+                    hideDropdown();
+                    return;
                 }
-            };
+
+                const q = query.trim().toLowerCase();
+                const activeCategory = category && category !== 'all' ? category : null;
+
+                // Filter products
+                const matches = products.filter(p => {
+                    if (activeCategory && p.mainCategory !== activeCategory) return false;
+                    
+                    const inTitle = p.title && p.title.toLowerCase().includes(q);
+                    const inModel = p.modelNumber && p.modelNumber.toLowerCase().includes(q);
+                    const inBrand = p.brand && p.brand.toLowerCase().includes(q);
+                    const inCategory = p.mainCategory && p.mainCategory.toLowerCase().includes(q);
+                    const inSubCategory = p.subCategory && p.subCategory.toLowerCase().includes(q);
+                    const inKeywords = p.keywords ? p.keywords.some(k => k && k.toLowerCase().includes(q)) : false;
+
+                    return inTitle || inModel || inBrand || inCategory || inSubCategory || inKeywords;
+                });
+
+                // Smart rank matches
+                matches.sort((a, b) => {
+                    const aTitle = (a.title || '').toLowerCase();
+                    const bTitle = (b.title || '').toLowerCase();
+                    const aStarts = aTitle.startsWith(q);
+                    const bStarts = bTitle.startsWith(q);
+                    if (aStarts && !bStarts) return -1;
+                    if (!aStarts && bStarts) return 1;
+
+                    // In stock priority
+                    const aStock = parseInt(a.stock, 10) || 0;
+                    const bStock = parseInt(b.stock, 10) || 0;
+                    if (aStock > 0 && bStock <= 0) return -1;
+                    if (aStock <= 0 && bStock > 0) return 1;
+
+                    return b.id - a.id;
+                });
+
+                const totalCount = matches.length;
+                const topMatches = matches.slice(0, 6);
+
+                if (topMatches.length === 0) {
+                    dropdownEl.innerHTML = `
+                        <div class="search-empty-state">
+                            <div class="search-empty-icon"><i class="fas fa-search"></i></div>
+                            <div class="search-empty-text">No products matching "<strong>${escapeHtmlSearch(query)}</strong>"</div>
+                            <div class="search-empty-sub">Can't find the electronic component you need?</div>
+                            <a href="/request-parts.html" class="search-request-link">
+                                <i class="fas fa-paper-plane"></i> Request This Part
+                            </a>
+                        </div>
+                    `;
+                    dropdownEl.style.display = 'block';
+                    return;
+                }
+
+                const itemsHtml = topMatches.map((product, index) => {
+                    const stockQty = parseInt(product.stock, 10) || 0;
+                    const isOutOfStock = stockQty <= 0;
+                    const isLowStock = !isOutOfStock && stockQty <= 10;
+                    const stockBadge = isOutOfStock
+                        ? '<span class="search-stock-pill search-stock-out">Out of Stock</span>'
+                        : isLowStock
+                            ? `<span class="search-stock-pill search-stock-low">${stockQty} left</span>`
+                            : '<span class="search-stock-pill search-stock-in">In Stock</span>';
+
+                    const subCatPart = product.subCategory ? ` • ${escapeHtmlSearch(product.subCategory)}` : '';
+                    const brandPart = product.brand ? ` [${escapeHtmlSearch(product.brand)}]` : '';
+                    const productImg = product.image || (product.images && product.images[0]) || 'https://via.placeholder.com/80?text=Part';
+                    const price = parseInt(product.price, 10) || 0;
+
+                    return `
+                        <div class="search-suggestion-item" data-index="${index}" data-product-id="${product.id}">
+                            <div class="search-suggestion-img-wrap">
+                                <img src="${productImg}" alt="${escapeHtmlSearch(product.title)}" class="search-suggestion-img" loading="lazy" onerror="this.src='https://via.placeholder.com/80?text=Part'">
+                            </div>
+                            <div class="search-suggestion-info">
+                                <div class="search-suggestion-title">${highlightSearchQuery(product.title, query)}</div>
+                                <div class="search-suggestion-meta">
+                                    <span class="search-suggestion-cat">${escapeHtmlSearch(product.mainCategory)}${subCatPart}${brandPart}</span>
+                                    ${stockBadge}
+                                </div>
+                            </div>
+                            <div class="search-suggestion-price">
+                                <div class="search-price-curr">LKR</div>
+                                <div class="search-price-val">${price.toLocaleString()}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                dropdownEl.innerHTML = `
+                    <div class="search-autocomplete-header">
+                        <span class="search-autocomplete-title"><i class="fas fa-bolt text-amber-500"></i> Top Matches</span>
+                        <span class="search-autocomplete-count">${totalCount} result${totalCount === 1 ? '' : 's'}</span>
+                    </div>
+                    <div class="search-autocomplete-list">
+                        ${itemsHtml}
+                    </div>
+                    <div class="search-autocomplete-footer">
+                        <button type="button" class="search-view-all-btn">
+                            View all ${totalCount} results for "${escapeHtmlSearch(query)}" <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                `;
+
+                dropdownEl.style.display = 'block';
+                selectedIndex = -1;
+
+                // Wire click events on items
+                dropdownEl.querySelectorAll('.search-suggestion-item').forEach(item => {
+                    item.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const pid = item.dataset.productId;
+                        if (pid) {
+                            hideDropdown();
+                            openProductDetails(pid);
+                        }
+                    });
+                });
+
+                // Wire click on "View all results"
+                const viewAllBtn = dropdownEl.querySelector('.search-view-all-btn');
+                if (viewAllBtn) {
+                    viewAllBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        hideDropdown();
+                        handleSearch(query, category || 'all');
+                    });
+                }
+            }
+
+            inputEl.addEventListener('input', () => {
+                clearTimeout(debounceTimer);
+                const val = inputEl.value.trim();
+                const cat = categorySelectEl ? categorySelectEl.value : 'all';
+
+                if (val.length < 2) {
+                    hideDropdown();
+                    return;
+                }
+
+                debounceTimer = setTimeout(() => {
+                    renderSuggestions(val, cat);
+                }, 180);
+            });
+
+            inputEl.addEventListener('focus', () => {
+                const val = inputEl.value.trim();
+                if (val.length >= 2) {
+                    const cat = categorySelectEl ? categorySelectEl.value : 'all';
+                    renderSuggestions(val, cat);
+                }
+            });
+
+            inputEl.addEventListener('keydown', (e) => {
+                const items = dropdownEl.querySelectorAll('.search-suggestion-item');
+                if (!items || items.length === 0 || dropdownEl.style.display === 'none') {
+                    if (e.key === 'Enter') {
+                        hideDropdown();
+                        const cat = categorySelectEl ? categorySelectEl.value : 'all';
+                        handleSearch(inputEl.value.trim(), cat);
+                    }
+                    return;
+                }
+
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    selectedIndex = (selectedIndex + 1) % items.length;
+                    updateSelectedItem(items);
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    selectedIndex = (selectedIndex - 1 + items.length) % items.length;
+                    updateSelectedItem(items);
+                } else if (e.key === 'Enter') {
+                    if (selectedIndex >= 0 && selectedIndex < items.length) {
+                        e.preventDefault();
+                        const pid = items[selectedIndex].dataset.productId;
+                        hideDropdown();
+                        if (pid) openProductDetails(pid);
+                    } else {
+                        hideDropdown();
+                        const cat = categorySelectEl ? categorySelectEl.value : 'all';
+                        handleSearch(inputEl.value.trim(), cat);
+                    }
+                } else if (e.key === 'Escape') {
+                    hideDropdown();
+                }
+            });
+
+            function updateSelectedItem(items) {
+                items.forEach((item, i) => {
+                    if (i === selectedIndex) {
+                        item.classList.add('is-selected');
+                        item.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                    } else {
+                        item.classList.remove('is-selected');
+                    }
+                });
+            }
+
+            // Close when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!inputEl.contains(e.target) && !dropdownEl.contains(e.target)) {
+                    hideDropdown();
+                }
+            });
+        }
+
+        const heroSearchAutocomplete = document.getElementById('hero-search-autocomplete');
+        const mobileSearchAutocomplete = document.getElementById('mobile-search-autocomplete');
+
+        if (mainSearchInput && heroSearchAutocomplete) {
+            setupSearchAutocomplete(mainSearchInput, heroSearchAutocomplete, mainCategorySearch);
         }
 
         const mobileSearchInput = document.getElementById('mobile-search-input');
         const stickySearchMobile = document.querySelector('.sticky-search-mobile');
 
-        if (mobileSearchInput) {
-            mobileSearchInput.onkeypress = (e) => {
-                if (e.key === 'Enter') {
-                    const query = mobileSearchInput.value.trim();
-                    handleSearch(query, 'all');
-                }
-            };
-            
-            // Also search on input for quicker mobile experience
-            let searchTimeout;
-            mobileSearchInput.oninput = () => {
-                clearTimeout(searchTimeout);
-                searchTimeout = setTimeout(() => {
-                    const query = mobileSearchInput.value.trim();
-                    if (query.length > 2 || query.length === 0) {
-                        handleSearch(query, 'all');
-                    }
-                }, 500);
+        if (mobileSearchInput && mobileSearchAutocomplete) {
+            setupSearchAutocomplete(mobileSearchInput, mobileSearchAutocomplete, null);
+        }
+
+        if (mainSearchBtn) {
+            mainSearchBtn.onclick = () => {
+                const query = mainSearchInput.value.trim();
+                const cat = mainCategorySearch.value;
+                if (heroSearchAutocomplete) heroSearchAutocomplete.style.display = 'none';
+                handleSearch(query, cat);
             };
         }
 
@@ -2682,6 +2910,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         };
 
         function handleSearch(query, category) {
+            if (heroSearchAutocomplete) heroSearchAutocomplete.style.display = 'none';
+            if (mobileSearchAutocomplete) mobileSearchAutocomplete.style.display = 'none';
+
             // If empty query — just show all products with categories, scroll to products
             if (!query || query.trim() === '') {
                 showAllProducts(null);

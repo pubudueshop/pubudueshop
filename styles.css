@@ -3892,3 +3892,308 @@ body.modal-open {
         justify-content: center;
     }
 }
+
+/* ==========================================================================
+   LIVE SEARCH & AUTOCOMPLETE DROPDOWN
+   ========================================================================== */
+
+#hero-search-wrapper {
+    position: relative;
+}
+
+.pro-search-glow-wrapper {
+    position: relative;
+}
+
+.sticky-search-mobile {
+    position: sticky;
+}
+
+.sticky-search-mobile .search-input-wrapper {
+    position: relative;
+}
+
+.search-autocomplete-dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.22), 0 0 0 1px rgba(226, 232, 240, 0.8);
+    z-index: 10005;
+    overflow: hidden;
+    animation: searchDropdownFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid #e2e8f0;
+    text-align: left;
+}
+
+.search-autocomplete-mobile {
+    top: calc(100% + 6px);
+    border-radius: 14px;
+    box-shadow: 0 15px 35px -8px rgba(15, 23, 42, 0.25);
+}
+
+@keyframes searchDropdownFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.search-autocomplete-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.7rem 1rem 0.5rem;
+    border-bottom: 1px solid #f1f5f9;
+    background: #f8fafc;
+}
+
+.search-autocomplete-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.search-autocomplete-count {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #94a3b8;
+}
+
+.search-autocomplete-list {
+    max-height: 380px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+.search-autocomplete-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.search-autocomplete-list::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+.search-autocomplete-list::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+.search-suggestion-item {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.65rem 1rem;
+    text-decoration: none;
+    color: #0f172a;
+    border-bottom: 1px solid #f8fafc;
+    transition: all 0.15s ease;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+}
+
+.search-suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.search-suggestion-item:hover,
+.search-suggestion-item.is-selected {
+    background: #f1f5f9;
+    border-left-color: #2563eb;
+}
+
+.search-suggestion-img-wrap {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 3px;
+}
+
+.search-suggestion-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.2s ease;
+}
+
+.search-suggestion-item:hover .search-suggestion-img {
+    transform: scale(1.08);
+}
+
+.search-suggestion-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.search-suggestion-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1e293b;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 0.2rem;
+}
+
+.search-highlight {
+    color: #2563eb;
+    background: rgba(37, 99, 235, 0.1);
+    font-weight: 700;
+    border-radius: 3px;
+    padding: 0 2px;
+}
+
+.search-suggestion-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
+
+.search-suggestion-cat {
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: #64748b;
+    background: #f1f5f9;
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+}
+
+.search-stock-pill {
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 0.12rem 0.4rem;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.search-stock-in {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.search-stock-low {
+    background: #ffedd5;
+    color: #c2410c;
+}
+
+.search-stock-out {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.search-suggestion-price {
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.search-price-curr {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    line-height: 1;
+}
+
+.search-price-val {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #dc2626;
+    line-height: 1.2;
+}
+
+.search-autocomplete-footer {
+    padding: 0.55rem 0.85rem;
+    background: #f8fafc;
+    border-top: 1px solid #f1f5f9;
+    text-align: center;
+}
+
+.search-view-all-btn {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    background: #eff6ff;
+    color: #2563eb;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+}
+
+.search-view-all-btn:hover {
+    background: #2563eb;
+    color: #ffffff;
+    border-color: #2563eb;
+}
+
+.search-empty-state {
+    padding: 1.5rem 1rem;
+    text-align: center;
+    color: #64748b;
+}
+
+.search-empty-icon {
+    font-size: 1.6rem;
+    color: #94a3b8;
+    margin-bottom: 0.5rem;
+}
+
+.search-empty-text {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 0.25rem;
+}
+
+.search-empty-sub {
+    font-size: 0.78rem;
+    color: #94a3b8;
+    margin-bottom: 0.75rem;
+}
+
+.search-request-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #2563eb;
+    background: #eff6ff;
+    border: 1px solid #dbeafe;
+    padding: 0.35rem 0.75rem;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.search-request-link:hover {
+    background: #2563eb;
+    color: white;
+}
+

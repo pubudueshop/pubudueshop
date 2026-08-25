@@ -2034,45 +2034,34 @@ function openProductDetails(id) {
         detailAddCartBtn.classList.remove('opacity-50', 'cursor-not-allowed', 'grayscale');
         detailAddCartBtn.innerHTML = '<i class="fas fa-cart-plus"></i> Add to Cart';
         detailBuyBtn.classList.remove('hidden');
-        
-        const copyLinkBtn = document.getElementById('copy-link-btn');
-        const fbShareBtn = document.getElementById('fb-share-btn');
-        const whatsappShareBtn = document.getElementById('whatsapp-share-btn');
+    }
 
-        // Generate a clean direct URL
-        const shareUrl = new URL(window.location.origin + window.location.pathname);
-        shareUrl.searchParams.set('product', product.id);
-        const finalUrl = shareUrl.toString();
+    // Generate a clean direct URL for sharing
+    const copyLinkBtn = document.getElementById('copy-link-btn');
+    const fbShareBtn = document.getElementById('fb-share-btn');
+    const whatsappShareBtn = document.getElementById('whatsapp-share-btn');
+    const shareUrl = new URL(window.location.origin + window.location.pathname);
+    shareUrl.searchParams.set('product', product.id);
+    const finalUrl = shareUrl.toString();
 
-        if (copyLinkBtn) {
-            copyLinkBtn.onclick = () => {
-                const doCopy = () => {
-                    const originalText = copyLinkBtn.innerHTML;
-                    copyLinkBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-                    copyLinkBtn.style.background = '#d1fae5';
-                    copyLinkBtn.style.borderColor = '#10b981';
-                    copyLinkBtn.style.color = '#065f46';
-                    setTimeout(() => {
-                        copyLinkBtn.innerHTML = originalText;
-                        copyLinkBtn.style.background = '';
-                        copyLinkBtn.style.borderColor = '';
-                        copyLinkBtn.style.color = '';
-                    }, 2000);
-                };
-                if (navigator.clipboard && window.isSecureContext) {
-                    navigator.clipboard.writeText(finalUrl).then(doCopy).catch(() => {
-                        // fallback
-                        const ta = document.createElement('textarea');
-                        ta.value = finalUrl;
-                        ta.style.position = 'fixed';
-                        ta.style.opacity = '0';
-                        document.body.appendChild(ta);
-                        ta.focus(); ta.select();
-                        try { document.execCommand('copy'); doCopy(); } catch(e) { alert('Link: ' + finalUrl); }
-                        document.body.removeChild(ta);
-                    });
-                } else {
-                    // HTTP fallback
+    if (copyLinkBtn) {
+        copyLinkBtn.onclick = () => {
+            const doCopy = () => {
+                const originalText = copyLinkBtn.innerHTML;
+                copyLinkBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                copyLinkBtn.style.background = '#d1fae5';
+                copyLinkBtn.style.borderColor = '#10b981';
+                copyLinkBtn.style.color = '#065f46';
+                setTimeout(() => {
+                    copyLinkBtn.innerHTML = originalText;
+                    copyLinkBtn.style.background = '';
+                    copyLinkBtn.style.borderColor = '';
+                    copyLinkBtn.style.color = '';
+                }, 2000);
+            };
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(finalUrl).then(doCopy).catch(() => {
+                    // fallback
                     const ta = document.createElement('textarea');
                     ta.value = finalUrl;
                     ta.style.position = 'fixed';
@@ -2081,24 +2070,34 @@ function openProductDetails(id) {
                     ta.focus(); ta.select();
                     try { document.execCommand('copy'); doCopy(); } catch(e) { alert('Link: ' + finalUrl); }
                     document.body.removeChild(ta);
-                }
-            };
-        }
+                });
+            } else {
+                // HTTP fallback
+                const ta = document.createElement('textarea');
+                ta.value = finalUrl;
+                ta.style.position = 'fixed';
+                ta.style.opacity = '0';
+                document.body.appendChild(ta);
+                ta.focus(); ta.select();
+                try { document.execCommand('copy'); doCopy(); } catch(e) { alert('Link: ' + finalUrl); }
+                document.body.removeChild(ta);
+            }
+        };
+    }
 
-        if (fbShareBtn) {
-            fbShareBtn.onclick = () => {
-                const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(finalUrl)}`;
-                window.open(fbUrl, '_blank', 'noopener,noreferrer,width=600,height=400');
-            };
-        }
+    if (fbShareBtn) {
+        fbShareBtn.onclick = () => {
+            const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(finalUrl)}`;
+            window.open(fbUrl, '_blank', 'noopener,noreferrer,width=600,height=400');
+        };
+    }
 
-        if (whatsappShareBtn) {
-            whatsappShareBtn.onclick = () => {
-                const message = `Check out this product at Pubudu Electronics: *${product.title}* | LKR ${product.price.toLocaleString()} | ${finalUrl}`;
-                const waUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
-                window.open(waUrl, '_blank', 'noopener,noreferrer');
-            };
-        }
+    if (whatsappShareBtn) {
+        whatsappShareBtn.onclick = () => {
+            const message = `Check out this product at Pubudu Electronics: *${product.title}* | LKR ${product.price.toLocaleString()} | ${finalUrl}`;
+            const waUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+            window.open(waUrl, '_blank', 'noopener,noreferrer');
+        };
     }
 
     const modalFavBtn = document.getElementById('modal-fav-btn');
@@ -2557,18 +2556,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         const heroSearch = document.getElementById('hero-product-search');
         if (heroSearch) heroSearch.value = initialSearch;
 
-        // Deep Link Check / SEO Redirect Middleware: Open product if ID in URL
+        // Deep Link Check / SEO Redirect Middleware: Open product if ID or Slug in URL
         const productId = urlParams.get('product');
-        if (productId) {
+        const productSlug = urlParams.get('productSlug') || urlParams.get('viewProduct');
+        if (productSlug) {
+            const p = products.find(prod => createSEOSlug(prod.title) === productSlug || String(prod.id) === productSlug);
+            if (p) {
+                openProductDetails(p.id);
+            }
+        } else if (productId) {
             const p = products.find(prod => prod.id == productId);
             if (p) {
-                const subCatSlug = p.subCategory ? createSEOSlug(p.subCategory) + '/' : '';
-                const newUrl = `/${createSEOSlug(p.mainCategory || 'General')}/${subCatSlug}${createSEOSlug(p.title)}/`;
-                if (window.location.pathname !== newUrl) {
-                    // console.log("SEO Redirect: Moving from ?product= to slug logic", newUrl);
-                    window.location.replace(newUrl);
-                    return; // Stop execution on this old URL
-                }
+                openProductDetails(p.id);
             } else {
                 openProductDetails(parseInt(productId));
             }

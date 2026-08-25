@@ -833,22 +833,21 @@
                     window.location.replace('/?product=' + m[1]);
                 }
                 // Case 3: Old long slug → try to find new short slug
-                // Pattern: /category/subcategory/very-long-slug-here/
                 else if (path.split('/').filter(Boolean).length >= 2) {
                     const parts = path.split('/').filter(Boolean);
-                    
-                    // If last segment is longer than 60 chars, it's an old long slug
                     const lastSegment = parts[parts.length - 1];
                     
                     if (lastSegment && lastSegment.length > 60) {
                         // Truncate to new short slug format using correct word-boundary logic
                         const newSlug = createSEOSlug(lastSegment);
-                        
                         parts[parts.length - 1] = newSlug;
                         const newPath = '/' + parts.join('/') + '/';
-                        
-                        // Redirect to new short URL
                         window.location.replace(newPath);
+                    } else if (lastSegment) {
+                        // Dynamic fallback for newly added items / pending SSG pages: open product modal on homepage
+                        window.location.replace('/?productSlug=' + encodeURIComponent(lastSegment));
+                    } else {
+                        window.location.replace('/');
                     }
                 }
                 // Case 4: URL has query params appended (?category=...&subcategory=...&product=...)
@@ -857,8 +856,14 @@
                     window.location.replace(path.split('?')[0]);
                 }
                 else {
-                    // Unknown 404 - go home
-                    window.location.replace('/');
+                    const parts = cleanPath.split('/').filter(Boolean);
+                    const lastSegment = parts[parts.length - 1];
+                    if (lastSegment && !lastSegment.endsWith('.html') && !lastSegment.endsWith('.txt') && !lastSegment.endsWith('.xml')) {
+                        // Single slug path fallback
+                        window.location.replace('/?productSlug=' + encodeURIComponent(lastSegment));
+                    } else {
+                        window.location.replace('/');
+                    }
                 }
             }
             else {

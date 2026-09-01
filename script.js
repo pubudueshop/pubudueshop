@@ -290,12 +290,12 @@ function initCustomerAuth() {
         return;
     }
     customerAuth.onAuthStateChanged(async (user) => {
-        currentUser = user;
         const loginBtn = document.getElementById('customer-login-btn');
         const userProfile = document.getElementById('user-profile');
         const userAvatar = document.getElementById('user-avatar');
 
-        if (user) {
+        if (user && !user.isAnonymous) {
+            currentUser = user;
             // console.log("User logged in:", user.email);
             if (loginBtn) loginBtn.classList.add('hidden');
             if (userProfile) userProfile.classList.remove('hidden');
@@ -305,6 +305,7 @@ function initCustomerAuth() {
             await loadUserData(user.uid);
             renderProducts(); // Re-render to show favorite hearts
         } else {
+            currentUser = null;
             // console.log("User logged out");
             if (loginBtn) loginBtn.classList.remove('hidden');
             if (userProfile) userProfile.classList.add('hidden');
@@ -347,7 +348,7 @@ async function loadUserData(uid) {
 }
 
 async function saveUserData() {
-    if (!currentUser || !db) return;
+    if (!currentUser || currentUser.isAnonymous || !db) return;
     try {
         await db.collection("users").doc(currentUser.uid).set({
             favorites: favorites,
@@ -380,7 +381,7 @@ function handleLogout() {
 
 // --- Cart & Favorites Logic ---
 function toggleFavorite(productId) {
-    if (!currentUser) {
+    if (!currentUser || currentUser.isAnonymous) {
         alert("Please login with Gmail to use favorites.");
         handleLogin();
         return;
@@ -1664,7 +1665,7 @@ function renderHomeGrid() {
         const isOutOfStock = stockQty <= 0;
         const isLowStock = !isOutOfStock && stockQty <= 10;
         const isFav = favorites.some(id => id == product.id);
-        const productUrl = `${SITE_URL}${createSEOSlug(product.mainCategory)}/${product.subCategory ? createSEOSlug(product.subCategory) + '/' : ''}${createSEOSlug(product.title)}/`;
+        const productUrl = `/${createSEOSlug(product.mainCategory)}/${product.subCategory ? createSEOSlug(product.subCategory) + '/' : ''}${createSEOSlug(product.title)}/`;
         const stockBadgeHtml = isOutOfStock
             ? '<span class="card-badge-out">Out of Stock</span>'
             : isLowStock
@@ -1783,7 +1784,7 @@ function renderProducts(mainCat = 'all', subCat = 'all', searchQuery = '', reset
         const isOutOfStock = stockQty <= 0;
         const isLowStock = !isOutOfStock && stockQty <= 10;
         const isFav = favorites.some(id => id == product.id);
-        const productUrl = `${SITE_URL}${createSEOSlug(product.mainCategory)}/${product.subCategory ? createSEOSlug(product.subCategory) + '/' : ''}${createSEOSlug(product.title)}/`;
+        const productUrl = `/${createSEOSlug(product.mainCategory)}/${product.subCategory ? createSEOSlug(product.subCategory) + '/' : ''}${createSEOSlug(product.title)}/`;
         const stockBadgeHtml = isOutOfStock
             ? '<span class="card-badge-out">Out of Stock</span>'
             : isLowStock
@@ -2675,16 +2676,18 @@ document.addEventListener('DOMContentLoaded', async () => {
             function getProductLink(product) {
                 if (!product) return '#';
                 const subPart = product.subCategory ? createSEOSlug(product.subCategory) + '/' : '';
-                return `${SITE_URL}${createSEOSlug(product.mainCategory)}/${subPart}${createSEOSlug(product.title)}/`;
+                return `/${createSEOSlug(product.mainCategory)}/${subPart}${createSEOSlug(product.title)}/`;
             }
 
             function navigateToProduct(productId, productUrl) {
                 hideDropdown();
-                const hasModalUi = productModalRoot && document.getElementById('detail-image');
-                if (hasModalUi && typeof openProductDetails === 'function') {
-                    openProductDetails(productId);
-                } else if (productUrl) {
+                if (productUrl && productUrl !== '#' && productUrl !== 'javascript:void(0)') {
                     window.location.href = productUrl;
+                } else if (productId) {
+                    const product = products.find(p => p.id == productId);
+                    if (product) {
+                        window.location.href = getProductLink(product);
+                    }
                 }
             }
 

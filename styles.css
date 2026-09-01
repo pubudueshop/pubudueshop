@@ -3193,12 +3193,12 @@ body.modal-open {
 .browse-banner {
     background: var(--gradient);
     border-radius: var(--radius-md);
-    padding: 3rem;
+    padding: 1.5rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     color: white;
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-md);
     position: relative;
     overflow: hidden;
     z-index: 1;
@@ -3215,32 +3215,32 @@ body.modal-open {
 }
 
 .browse-content h2 {
-    font-size: 2.2rem;
-    font-weight: 800;
-    margin-bottom: 0.5rem;
-    line-height: 1.2;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+    line-height: 1.25;
 }
 
 .browse-content p {
-    font-size: 1.1rem;
+    font-size: 0.92rem;
     opacity: 0.9;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 
 .btn-browse-all {
     background: white;
     color: var(--primary);
-    padding: 0.8rem 2rem;
+    padding: 0.55rem 1.4rem;
     border-radius: 50px;
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 0.88rem;
     border: none;
     cursor: pointer;
     transition: var(--transition);
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     display: inline-flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.6rem;
 }
 
 .btn-browse-all:hover {
@@ -3251,12 +3251,12 @@ body.modal-open {
 }
 
 .browse-image {
-    font-size: 8rem;
+    font-size: 5rem;
     opacity: 0.15;
     transform: rotate(-15deg);
     position: absolute;
     right: 2rem;
-    bottom: -1rem;
+    bottom: -0.5rem;
     pointer-events: none;
 }
 
@@ -3264,38 +3264,38 @@ body.modal-open {
     .browse-banner {
         flex-direction: column;
         text-align: center;
-        padding: 2.5rem 1.5rem;
+        padding: 1.5rem 1.25rem;
     }
     .browse-image {
         display: none;
     }
     .browse-content h2 {
-        font-size: 1.8rem;
+        font-size: 1.25rem;
     }
     .browse-content p {
-        font-size: 1rem;
-        margin-bottom: 1.5rem;
+        font-size: 0.88rem;
+        margin-bottom: 1rem;
     }
 }
 
 /* --- Request Parts Homepage Banner --- */
 .request-banner-section {
-    margin: 3rem auto;
+    margin: 1.25rem auto;
     position: relative;
     z-index: 1;
 }
 
 .request-promo-banner {
     background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-    border-radius: 24px;
-    padding: 3rem 2.5rem;
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
     position: relative;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: space-between;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
     z-index: 1;
 }
 
@@ -3319,39 +3319,39 @@ body.modal-open {
 .request-promo-content {
     position: relative;
     z-index: 2;
-    max-width: 600px;
+    max-width: 650px;
 }
 
 .request-promo-content h2 {
-    font-size: 2.8rem;
-    font-weight: 800;
+    font-size: 1.45rem;
+    font-weight: 700;
     color: white;
-    margin-bottom: 1rem;
-    line-height: 1.2;
+    margin-bottom: 0.35rem;
+    line-height: 1.25;
 }
 
 .request-promo-content p {
-    font-size: 1.2rem;
+    font-size: 0.92rem;
     color: #94a3b8;
-    margin-bottom: 2rem;
-    text-align: justify;
+    margin-bottom: 1rem;
+    text-align: left;
 }
 
 .request-promo-badges {
     display: flex;
-    gap: 1.5rem;
-    margin-bottom: 2.5rem;
+    gap: 0.6rem;
+    margin-bottom: 1.1rem;
     flex-wrap: wrap;
 }
 
 .promo-badge {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
     background: rgba(255, 255, 255, 0.05);
-    padding: 0.6rem 1.2rem;
+    padding: 0.35rem 0.75rem;
     border-radius: 50px;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: #e2e8f0;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -3362,33 +3362,35 @@ body.modal-open {
 
 .request-promo-actions {
     display: flex;
-    gap: 1.2rem;
+    gap: 0.75rem;
     flex-wrap: wrap;
 }
 
 .btn-request {
     background: #2563eb;
     color: white !important;
-    padding: 1rem 2rem;
-    border-radius: 12px;
-    font-weight: 700;
+    padding: 0.55rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.88rem;
     text-decoration: none;
     transition: all 0.3s ease;
-    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
 }
 
 .btn-request:hover {
     background: #1d4ed8;
-    transform: translateY(-3px);
-    box-shadow: 0 12px 25px rgba(37, 99, 235, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(37, 99, 235, 0.35);
 }
 
 .btn-whatsapp-outline {
     background: transparent;
     color: #25d366 !important;
-    padding: 1rem 2rem;
-    border-radius: 12px;
-    font-weight: 700;
+    padding: 0.55rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.88rem;
     text-decoration: none;
     border: 2px solid #25d366;
     transition: all 0.3s ease;
@@ -3396,7 +3398,7 @@ body.modal-open {
 
 .btn-whatsapp-outline:hover {
     background: rgba(37, 211, 102, 0.1);
-    transform: translateY(-3px);
+    transform: translateY(-2px);
 }
 
 .request-promo-visual {
@@ -3408,9 +3410,9 @@ body.modal-open {
 }
 
 .glow-pcb {
-    font-size: 10rem;
+    font-size: 5rem;
     color: rgba(37, 99, 235, 0.2);
-    filter: drop-shadow(0 0 30px rgba(37, 99, 235, 0.5));
+    filter: drop-shadow(0 0 15px rgba(37, 99, 235, 0.4));
     animation: pulseGlow 4s infinite ease-in-out;
 }
 
@@ -3422,17 +3424,20 @@ body.modal-open {
 @media (max-width: 992px) {
     .request-promo-banner {
         flex-direction: column;
-        padding: 3rem 2rem;
+        padding: 1.5rem 1.25rem;
         text-align: center;
     }
     .request-promo-content {
-        margin-bottom: 3rem;
+        margin-bottom: 1.25rem;
     }
     .request-promo-badges, .request-promo-actions {
         justify-content: center;
     }
     .request-promo-content h2 {
-        font-size: 2.2rem;
+        font-size: 1.3rem;
+    }
+    .request-promo-content p {
+        text-align: center;
     }
 }
 

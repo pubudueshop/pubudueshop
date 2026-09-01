@@ -1300,8 +1300,12 @@ function initFilters(skipInitialRender = false) {
         // Hide hero and featured if shop is being viewed
         const hero = document.querySelector('.hero');
         const featured = document.getElementById('home-featured');
+        const browseBanner = document.getElementById('browse-all-banner');
+        const requestBanners = document.querySelectorAll('.request-banner-section');
         if (hero) hero.style.display = 'none';
         if (featured) featured.style.display = 'none';
+        if (browseBanner) browseBanner.style.display = 'none';
+        requestBanners.forEach(b => b.style.display = 'none');
     } else {
         // Just hide the products section on homepage by default
         const prodSection = document.getElementById('products');
@@ -1382,9 +1386,13 @@ function showAllProducts(query = null) {
     const hero = document.querySelector('.hero');
     const featured = document.getElementById('home-featured');
     const about = document.getElementById('about');
+    const browseBanner = document.getElementById('browse-all-banner');
+    const requestBanners = document.querySelectorAll('.request-banner-section');
     if (hero) hero.style.display = 'none';
     if (featured) featured.style.display = 'none';
     if (about) about.style.display = 'none'; // hide about section when showing products
+    if (browseBanner) browseBanner.style.display = 'none';
+    requestBanners.forEach(b => b.style.display = 'none');
     
     // Reset filters to show everything including categories
     if (window.renderProducts) {

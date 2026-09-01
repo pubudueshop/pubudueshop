@@ -248,7 +248,7 @@
                 <div class="md:w-3/5 p-8 flex flex-col">
                     <!-- Stock Badge -->
                     <div class="mb-3">
-                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-green-100 text-green-800">In Stock</span>
+                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-red-100 text-red-800">Out of Stock</span>
                         <span class="ml-2 px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">Light Sensor Relay Module</span>
                     </div>
 
@@ -318,11 +318,8 @@
                         </div>
                         <div class="flex-1 min-w-[200px] flex flex-col gap-2">
                             
-                            <button onclick="if(window.addToCart) addToCart('1784869514437', getSelectedQty())" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold h-12 rounded-lg shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-2 active:scale-95">
-                                <i class="fas fa-cart-plus"></i> Add to Cart
-                            </button>
-                            <button onclick="if(window.addToCart) { addToCart('1784869514437', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold h-12 rounded-lg shadow-lg shadow-green-200 transition-all flex items-center justify-center gap-2 active:scale-95">
-                                <i class="fab fa-whatsapp"></i> Buy via WhatsApp
+                            <button disabled class="w-full bg-gray-200 text-gray-500 font-bold h-12 rounded-lg cursor-not-allowed flex items-center justify-center gap-2">
+                                <i class="fas fa-ban"></i> Out of Stock
                             </button>
                             
                         </div>
@@ -359,20 +356,20 @@
                     <table class="w-full text-left">
                         <tbody>
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Light Sensor Relay Module</td>
-            </tr>
-            <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand new</td>
-            </tr>
-            <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">XH-M131 12v</td>
             </tr>
             <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
+            </tr>
+            <tr class="bg-white">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand new</td>
+            </tr>
+            <tr class="bg-gray-50">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Light Sensor Relay Module</td>
             </tr></tbody>
                     </table>
                 </div>
@@ -420,24 +417,21 @@
 <!-- Mobile Sticky Bottom Bar -->
 <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 md:hidden flex gap-4 z-[2000] shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
     
-    <button onclick="if(window.addToCart) addToCart('1784869514437', getSelectedQty())" class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
-        <i class="fas fa-cart-plus"></i> Cart
-    </button>
-    <button onclick="if(window.addToCart) { addToCart('1784869514437', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="flex-1 bg-green-500 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
-        <i class="fab fa-whatsapp"></i> Buy
+    <button disabled class="flex-1 bg-gray-100 text-gray-400 font-bold py-3 rounded-lg flex items-center justify-center gap-2 cursor-not-allowed">
+        <i class="fas fa-ban"></i> Out of Stock
     </button>
     
 </div>
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Module","item":"https://ichouse.lk/module/"},{"@type":"ListItem","position":3,"name":"Light Sensor Relay Module","item":"https://ichouse.lk/module/light-sensor-relay-module/"},{"@type":"ListItem","position":4,"name":"12V DC Light Sensor Relay Switch Module …","item":"https://ichouse.lk/module/light-sensor-relay-module/12v-dc-light-sensor-relay-switch-module-xhm131-with-ldr/"}]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"12V DC Light Sensor Relay Switch Module (XH-M131) with LDR Photoresistor | Automatic Day Night Light Controller | 10A Relay | Sri Lanka","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1784869362/xh-m131_12v_zrrjmf.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1784869362/ldr_senser_yiesw4.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1784869362/xh-m131_back_yqdf0n.png"],"description":"The XH-M131 12V DC Light Sensor Relay Module is an intelligent automatic light control board designed to switch electrical devices ON or OFF according to ambient light levels. It includes a high-quality LDR (Light Dependent Resistor) photoresistor sensor and a built-in 12V Songle relay, making it ideal for automatic lighting, energy-saving projects, security systems, and DIY electronics.\n\nThis module operates from a 12V DC power supply and uses an LM393 voltage comparator to accurately detect changes in light intensity. The onboard adjustable potentiometer allows you to set the exact light threshold for relay activation, giving you complete control over day and night switching. When the surrounding light drops below the preset level, the relay activates automatically. As daylight returns, the relay switches off, eliminating the need for manual operation.\n\nThe integrated Songle SRD-12VDC-SL-C relay supports loads up to 10A at 250VAC or 30VDC, making it suitable for LED lights, garden lights, outdoor lamps, security lighting, fans, small pumps, alarms, and other low-power electrical appliances.\n\nThe external LDR sensor is connected via a convenient plug, allowing flexible installation where light can be measured accurately while keeping the controller safely enclosed. This makes the XH-M131 ideal for both indoor and outdoor automation projects.\n\nIf you're looking for a reliable automatic day/night light switch module in Sri Lanka, the XH-M131 offers dependable performance, simple wiring, and long service life. At iChouse.lk, we supply original electronic modules, competitive prices, and fast islandwide delivery across Sri Lanka, ensuring you receive quality components for your electronics and automation projects.\n\n**Key Specifications**\n\nModel: XH-M131\nOperating Voltage: 12V DC\nSensor Type: External LDR Photoresistor\nComparator IC: LM393\nRelay Model: Songle SRD-12VDC-SL-C\nRelay Contact Rating:\n10A @ 250VAC\n10A @ 125VAC\n10A @ 30VDC\nAdjustable Light Detection Threshold\nLED Power & Relay Status Indicators\nPlug-in External Sensor\nScrew Terminal Connections\nEasy Installation\nSuitable for Indoor & Outdoor Automation\nTechnical Details\nControl IC: LM393 Comparator\nRelay Coil Voltage: 12V DC\nTrigger Method: Ambient Light Detection\nOutput Type: Relay (NO / COM / NC)\nSensor Cable: External LDR with Connector\nMounting: PCB Mount with Four Fixing Holes\nAdjustable Sensitivity via Onboard Trimmer\nLow Power Consumption\nStable and Reliable Switching Performance\n\n**Applications**\n\nAutomatic Street Light Controller\nGarden Lighting Systems\nOutdoor Security Lights\nPorch & Gate Lights\nSolar Lighting Projects\nWarehouse Lighting\nAdvertising Sign Boards\nHome Automation Projects\nIndustrial Automation\nDIY Arduino & Electronics Projects (Relay Output)\n\n**Why Buy from iChouse.lk?**\n\n✅ Genuine quality electronic modules\n\n✅ Fast islandwide delivery across Sri Lanka\n\n✅ Carefully tested electronic components\n\n✅ Competitive local prices\n\n✅ Ideal for repair technicians, students, hobbyists, and automation projects\n\n✅ Trusted Sri Lankan supplier of electronic parts and modules","sku":"XH-M131 12v","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/module/light-sensor-relay-module/12v-dc-light-sensor-relay-switch-module-xhm131-with-ldr/","priceCurrency":"LKR","price":1200,"availability":"https://schema.org/InStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"12V DC Light Sensor Relay Switch Module (XH-M131) with LDR Photoresistor | Automatic Day Night Light Controller | 10A Relay | Sri Lanka","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1784869362/xh-m131_12v_zrrjmf.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1784869362/ldr_senser_yiesw4.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1784869362/xh-m131_back_yqdf0n.png"],"description":"The XH-M131 12V DC Light Sensor Relay Module is an intelligent automatic light control board designed to switch electrical devices ON or OFF according to ambient light levels. It includes a high-quality LDR (Light Dependent Resistor) photoresistor sensor and a built-in 12V Songle relay, making it ideal for automatic lighting, energy-saving projects, security systems, and DIY electronics.\n\nThis module operates from a 12V DC power supply and uses an LM393 voltage comparator to accurately detect changes in light intensity. The onboard adjustable potentiometer allows you to set the exact light threshold for relay activation, giving you complete control over day and night switching. When the surrounding light drops below the preset level, the relay activates automatically. As daylight returns, the relay switches off, eliminating the need for manual operation.\n\nThe integrated Songle SRD-12VDC-SL-C relay supports loads up to 10A at 250VAC or 30VDC, making it suitable for LED lights, garden lights, outdoor lamps, security lighting, fans, small pumps, alarms, and other low-power electrical appliances.\n\nThe external LDR sensor is connected via a convenient plug, allowing flexible installation where light can be measured accurately while keeping the controller safely enclosed. This makes the XH-M131 ideal for both indoor and outdoor automation projects.\n\nIf you're looking for a reliable automatic day/night light switch module in Sri Lanka, the XH-M131 offers dependable performance, simple wiring, and long service life. At iChouse.lk, we supply original electronic modules, competitive prices, and fast islandwide delivery across Sri Lanka, ensuring you receive quality components for your electronics and automation projects.\n\n**Key Specifications**\n\nModel: XH-M131\nOperating Voltage: 12V DC\nSensor Type: External LDR Photoresistor\nComparator IC: LM393\nRelay Model: Songle SRD-12VDC-SL-C\nRelay Contact Rating:\n10A @ 250VAC\n10A @ 125VAC\n10A @ 30VDC\nAdjustable Light Detection Threshold\nLED Power & Relay Status Indicators\nPlug-in External Sensor\nScrew Terminal Connections\nEasy Installation\nSuitable for Indoor & Outdoor Automation\nTechnical Details\nControl IC: LM393 Comparator\nRelay Coil Voltage: 12V DC\nTrigger Method: Ambient Light Detection\nOutput Type: Relay (NO / COM / NC)\nSensor Cable: External LDR with Connector\nMounting: PCB Mount with Four Fixing Holes\nAdjustable Sensitivity via Onboard Trimmer\nLow Power Consumption\nStable and Reliable Switching Performance\n\n**Applications**\n\nAutomatic Street Light Controller\nGarden Lighting Systems\nOutdoor Security Lights\nPorch & Gate Lights\nSolar Lighting Projects\nWarehouse Lighting\nAdvertising Sign Boards\nHome Automation Projects\nIndustrial Automation\nDIY Arduino & Electronics Projects (Relay Output)\n\n**Why Buy from iChouse.lk?**\n\n✅ Genuine quality electronic modules\n\n✅ Fast islandwide delivery across Sri Lanka\n\n✅ Carefully tested electronic components\n\n✅ Competitive local prices\n\n✅ Ideal for repair technicians, students, hobbyists, and automation projects\n\n✅ Trusted Sri Lankan supplier of electronic parts and modules","sku":"XH-M131 12v","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/module/light-sensor-relay-module/12v-dc-light-sensor-relay-switch-module-xhm131-with-ldr/","priceCurrency":"LKR","price":1200,"availability":"https://schema.org/OutOfStock","seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
 <script>
 // Pre-load product data so cart works instantly without waiting for Firebase
 window._currentModalProduct = {
     id: '1784869514437',
     title: "12V DC Light Sensor Relay Switch Module (XH-M131) with LDR Photoresistor | Automatic Day Night Light Controller | 10A Relay | Sri Lanka",
     price: 1200,
-    stock: 1,
+    stock: 99,
     image: "https://res.cloudinary.com/dqwdov5ab/image/upload/v1784869362/xh-m131_12v_zrrjmf.png",
     mainCategory: "Module",
     subCategory: "Light Sensor Relay Module"

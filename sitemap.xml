@@ -126,6 +126,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ichouse.lk/bms/lfp-bms/</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ichouse.lk/power-adapter/</loc>
     <lastmod>2026-09-09</lastmod>
     <priority>0.8</priority>
@@ -572,6 +577,26 @@
   </url>
   <url>
     <loc>https://ichouse.lk/motor-speed-controller/mini-motor-speed-regulator/</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/glue-sticks-for-glue-gun/</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/glue-sticks-for-glue-gun/7mm-300mm-glue-gun-glue-sticks/</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/pcb/</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/pcb/10-led-knight-rider-kit/</loc>
     <lastmod>2026-09-09</lastmod>
     <priority>0.8</priority>
   </url>
@@ -1282,6 +1307,36 @@
   </url>
   <url>
     <loc>https://ichouse.lk/motor-speed-controller/mini-motor-speed-regulator/hw687-dc-motor-speed-controller-45v35v-5a-pwm-mini-motor/</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/glue-sticks-for-glue-gun/7mm-300mm-glue-gun-glue-sticks/7mm-300mm-hot-melt-glue-sticks-1kg-7080pcs-grade-a-high/</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/pcb/10-led-knight-rider-kit/10-led-knight-rider-kitt-running-light-no-soldering-diy-kit/</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/audio-amplifier/stereo-amplifier-board/pam8610-210w-stereo-classd-audio-amplifier-module-12v-mini/</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/bms/liion-bms/1s-37v-liion-bms-protection-board-18650-battery-overcharge/</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/solar/mini-solar-panel/3v-100ma-mini-solar-panel-small-solar-cell-for-diy-projects/</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/bms/lfp-bms/4s-100a-lifepo4-bms-battery-protection-balancing-board/</loc>
     <lastmod>2026-09-09</lastmod>
     <priority>0.9</priority>
   </url>

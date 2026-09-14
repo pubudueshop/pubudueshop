@@ -1,6 +1,7 @@
 const fs = require('fs');
 const https = require('https');
 const path = require('path');
+const crypto = require('crypto');
 
 // Configuration
 const SITE_URL = "https://ichouse.lk/";
@@ -173,16 +174,54 @@ function injectProductContent(page, product, pageUrl) {
         "@context": "https://schema.org",
         "@type": "Product",
         "name": product.title,
-        "image": product.images || [product.image],
-        "description": rawDesc,
+        "image": (product.images && product.images.length > 0) ? product.images : [product.image],
+        "description": rawDesc.substring(0, 5000),
         "sku": product.modelNumber || `PE-${product.id}`,
+        "itemCondition": "https://schema.org/NewCondition",
         "brand": { "@type": "Brand", "name": product.brand || "Pubudu Electronics" },
         "offers": {
             "@type": "Offer",
             "url": pageUrl,
             "priceCurrency": "LKR",
             "price": price,
+            "priceValidUntil": "2027-12-31",
+            "itemCondition": "https://schema.org/NewCondition",
             "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+            "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "LK",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+                "merchantReturnDays": 7,
+                "returnMethod": "https://schema.org/ReturnByMail",
+                "returnFees": "https://schema.org/FreeReturn"
+            },
+            "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {
+                    "@type": "MonetaryAmount",
+                    "value": "350",
+                    "currency": "LKR"
+                },
+                "shippingDestination": {
+                    "@type": "DefinedRegion",
+                    "addressCountry": "LK"
+                },
+                "deliveryTime": {
+                    "@type": "ShippingDeliveryTime",
+                    "handlingTime": {
+                        "@type": "QuantitativeValue",
+                        "minValue": 0,
+                        "maxValue": 1,
+                        "unitCode": "d"
+                    },
+                    "transitTime": {
+                        "@type": "QuantitativeValue",
+                        "minValue": 1,
+                        "maxValue": 3,
+                        "unitCode": "d"
+                    }
+                }
+            },
             "seller": { "@type": "Organization", "name": "Pubudu Electronics" }
         }
     };
@@ -538,7 +577,7 @@ function injectCategoryContent(page, cat, subCat, products, catUrl) {
         p.mainCategory === cat && (!subCat || p.subCategory === subCat)
     );
 
-    const productListHtml = categoryProducts.slice(0, 20).map(p => {
+    const productListHtml = categoryProducts.map(p => {
         const slug = createSEOSlug(p.title);
         const mainCatSlug = createSEOSlug(p.mainCategory || 'General');
         const subCatSlug = p.subCategory ? createSEOSlug(p.subCategory) : '';
@@ -609,22 +648,71 @@ function fixLinks(page) {
     return page;
 }
 
-function generateSitemap(productList, categoryUrls) {
+const MANIFEST_PATH = 'seo-manifest.json';
+
+function loadManifest() {
+    try {
+        if (fs.existsSync(MANIFEST_PATH)) {
+            return JSON.parse(fs.readFileSync(MANIFEST_PATH, 'utf8'));
+        }
+    } catch (e) {
+        console.warn("⚠️ Could not parse seo-manifest.json, creating a new manifest.");
+    }
+    const manifest = { urls: {} };
+    try {
+        if (fs.existsSync('sitemap.xml')) {
+            const xml = fs.readFileSync('sitemap.xml', 'utf8');
+            const regex = /<url>\s*<loc>(https:\/\/ichouse\.lk\/[^<]*)<\/loc>\s*<lastmod>([^<]*)<\/lastmod>/g;
+            let match;
+            while ((match = regex.exec(xml)) !== null) {
+                manifest.urls[match[1]] = { hash: '', lastmod: match[2] };
+            }
+            console.log(`📋 Seeded manifest with ${Object.keys(manifest.urls).length} existing URLs from sitemap.xml`);
+        }
+    } catch (err) {
+        console.warn("Could not seed from sitemap.xml:", err.message);
+    }
+    return manifest;
+}
+
+function saveManifest(manifest) {
+    try {
+        fs.writeFileSync(MANIFEST_PATH, JSON.stringify(manifest, null, 2));
+        console.log("💾 Updated seo-manifest.json successfully.");
+    } catch (e) {
+        console.error("❌ Failed to save seo-manifest.json:", e.message);
+    }
+}
+
+function computeProductHash(p) {
+    const raw = `${p.id}::${p.title}::${p.price}::${p.stock}::${p.description || ''}::${(p.images || []).join(',')}`;
+    return crypto.createHash('md5').update(raw).digest('hex');
+}
+
+function generateSitemap(productList, categoryUrls, manifest) {
     let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
     xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
     
-    // Homepage
-    xml += `  <url>\n    <loc>${SITE_URL}</loc>\n    <lastmod>${LAST_MOD}</lastmod>\n    <priority>1.0</priority>\n  </url>\n`;
+    const getMod = (url, defaultDate = "2026-09-01") => {
+        if (manifest && manifest.urls && manifest.urls[url] && manifest.urls[url].lastmod) {
+            return manifest.urls[url].lastmod;
+        }
+        return defaultDate;
+    };
 
-    // Static Pages
-    const staticPages = ['delivery.html', 'faq.html', 'payment.html', 'privacy.html', 'return.html', 'terms.html', 'request-parts.html'];
+    // Homepage
+    xml += `  <url>\n    <loc>${SITE_URL}</loc>\n    <lastmod>${getMod(SITE_URL, "2026-09-01")}</lastmod>\n    <priority>1.0</priority>\n  </url>\n`;
+
+    // Static Pages (including sitemap.html)
+    const staticPages = ['delivery.html', 'faq.html', 'payment.html', 'privacy.html', 'return.html', 'terms.html', 'request-parts.html', 'sitemap.html'];
     staticPages.forEach(page => {
-        xml += `  <url>\n    <loc>${SITE_URL}${page}</loc>\n    <lastmod>${LAST_MOD}</lastmod>\n    <priority>0.5</priority>\n  </url>\n`;
+        const u = `${SITE_URL}${page}`;
+        xml += `  <url>\n    <loc>${u}</loc>\n    <lastmod>${getMod(u, "2026-09-01")}</lastmod>\n    <priority>0.5</priority>\n  </url>\n`;
     });
 
     // Categories
     categoryUrls.forEach(url => {
-        xml += `  <url>\n    <loc>${url}</loc>\n    <lastmod>${LAST_MOD}</lastmod>\n    <priority>0.8</priority>\n  </url>\n`;
+        xml += `  <url>\n    <loc>${url}</loc>\n    <lastmod>${getMod(url, "2026-09-01")}</lastmod>\n    <priority>0.8</priority>\n  </url>\n`;
     });
 
     // Products
@@ -634,18 +722,179 @@ function generateSitemap(productList, categoryUrls) {
             const mainCatSlug = createSEOSlug(prod.mainCategory || 'General');
             const subCatSlug = prod.subCategory ? createSEOSlug(prod.subCategory) : '';
             const pUrlStr = subCatSlug ? `${SITE_URL}${mainCatSlug}/${subCatSlug}/${slug}/` : `${SITE_URL}${mainCatSlug}/${slug}/`;
-            xml += `  <url>\n    <loc>${pUrlStr}</loc>\n    <lastmod>${LAST_MOD}</lastmod>\n    <priority>0.9</priority>\n  </url>\n`;
+            const modDate = getMod(pUrlStr, LAST_MOD);
+            xml += `  <url>\n    <loc>${pUrlStr}</loc>\n    <lastmod>${modDate}</lastmod>\n    <priority>0.9</priority>\n  </url>\n`;
         }
     });
 
     xml += `</urlset>`;
     fs.writeFileSync('sitemap.xml', xml);
-    console.log(`✅ sitemap.xml saved with ${productList.length} products + ${categoryUrls.length} category URLs!`);
+    console.log(`✅ sitemap.xml saved with ${productList.length} products + ${categoryUrls.length} category URLs with stable lastmod!`);
+}
+
+function generateHtmlSitemap(productList, categoryMap) {
+    console.log("📄 Generating HTML Sitemap (sitemap.html)...");
+    let catSections = '';
+    
+    Object.keys(categoryMap).sort().forEach(cat => {
+        const catSlug = createSEOSlug(cat);
+        const prodsInCat = productList.filter(p => p.mainCategory === cat);
+        
+        let prodsHtml = prodsInCat.map(p => {
+            const slug = createSEOSlug(p.title);
+            const subCatSlug = p.subCategory ? createSEOSlug(p.subCategory) : '';
+            const pUrl = subCatSlug ? `/${catSlug}/${subCatSlug}/${slug}/` : `/${catSlug}/${slug}/`;
+            const cleanTitle = (p.title || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            return `<li><a href="${pUrl}">${cleanTitle}</a> ${p.price ? `<span class="price">LKR ${parseInt(p.price).toLocaleString()}</span>` : ''}</li>`;
+        }).join('');
+
+        catSections += `
+        <div class="sitemap-category">
+            <h2><a href="/${catSlug}/">${cat}</a> <span class="count">(${prodsInCat.length})</span></h2>
+            <ul>${prodsHtml}</ul>
+        </div>`;
+    });
+
+    const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Sitemap - All Products & Categories | Pubudu Electronics</title>
+    <meta name="description" content="Complete directory and sitemap of all original electronic components, modules, sensors, ICs and tools available in Sri Lanka at Pubudu Electronics.">
+    <link rel="canonical" href="${SITE_URL}sitemap.html">
+    <meta name="robots" content="index, follow">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Outfit', sans-serif; background: #f8fafc; color: #1e293b; margin: 0; padding: 0; }
+        .sitemap-container { max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; }
+        .sitemap-header { margin-bottom: 2rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 1rem; }
+        .sitemap-header h1 { font-size: 2rem; color: #0f172a; margin-bottom: 0.5rem; }
+        .sitemap-header p { color: #64748b; font-size: 1rem; }
+        .sitemap-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
+        .sitemap-category { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .sitemap-category h2 { font-size: 1.2rem; margin-top: 0; margin-bottom: 0.75rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.5rem; }
+        .sitemap-category h2 a { color: #2563eb; text-decoration: none; }
+        .sitemap-category h2 a:hover { text-decoration: underline; }
+        .sitemap-category .count { font-size: 0.85rem; color: #94a3b8; font-weight: normal; }
+        .sitemap-category ul { list-style: none; padding-left: 0; margin: 0; max-height: 380px; overflow-y: auto; }
+        .sitemap-category li { margin-bottom: 0.4rem; font-size: 0.9rem; line-height: 1.4; display: flex; justify-content: space-between; gap: 0.5rem; }
+        .sitemap-category li a { color: #334155; text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .sitemap-category li a:hover { color: #2563eb; text-decoration: underline; }
+        .sitemap-category .price { color: #dc2626; font-weight: 600; font-size: 0.8rem; flex-shrink: 0; }
+        .back-home { display: inline-block; margin-bottom: 1rem; color: #2563eb; text-decoration: none; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="sitemap-container">
+        <a href="/" class="back-home">&larr; Back to Home</a>
+        <div class="sitemap-header">
+            <h1>Pubudu Electronics - Product Directory & Sitemap</h1>
+            <p>Complete directory of all original electronic components, sensors, microcontrollers, and tools available in Sri Lanka.</p>
+        </div>
+        <div class="sitemap-grid">
+            ${catSections}
+        </div>
+    </div>
+</body>
+</html>`;
+
+    fs.writeFileSync('sitemap.html', html);
+    console.log("✅ HTML sitemap (sitemap.html) saved!");
+}
+
+function generateRedirectStubs(redirectMap) {
+    console.log("🛠️ Generating physical 301/refresh redirect stub files for GitHub Pages...");
+    let count = 0;
+    
+    Object.entries(redirectMap).forEach(([oldPath, newPath]) => {
+        const cleanOld = oldPath.replace(/^\//, '').replace(/\/$/, '');
+        if (!cleanOld) return;
+        
+        const targetDir = cleanOld;
+        const targetFile = path.join(targetDir, 'index.html');
+        
+        // Don't overwrite actual substantive content
+        if (fs.existsSync(targetFile)) {
+            const existing = fs.readFileSync(targetFile, 'utf8');
+            if (!existing.includes('http-equiv="refresh"')) {
+                return;
+            }
+        }
+        
+        fs.mkdirSync(targetDir, { recursive: true });
+        
+        const fullNewPath = newPath.startsWith('/') ? newPath : `/${newPath}`;
+        const canonicalUrl = `${SITE_URL}${newPath.replace(/^\//, '')}`;
+        
+        const stubHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0; url=${fullNewPath}">
+    <link rel="canonical" href="${canonicalUrl}">
+    <meta name="robots" content="index, follow">
+    <title>Redirecting... | Pubudu Electronics</title>
+    <script>window.location.replace("${fullNewPath}");</script>
+</head>
+<body style="font-family:sans-serif;text-align:center;padding:2rem;">
+    <p>Redirecting to <a href="${fullNewPath}">${fullNewPath}</a>...</p>
+</body>
+</html>`;
+
+        fs.writeFileSync(targetFile, stubHtml);
+        count++;
+    });
+    console.log(`✅ Generated ${count} physical redirect stub pages!`);
+}
+
+async function submitToIndexNow(urlList) {
+    if (!urlList || urlList.length === 0) return;
+    const key = "e8f4c1d6b2a048e9a5c372f1b4d6938a";
+    const batch = urlList.slice(0, 1000);
+    const body = JSON.stringify({
+        host: "ichouse.lk",
+        key: key,
+        keyLocation: `https://ichouse.lk/${key}.txt`,
+        urlList: batch
+    });
+    console.log(`📡 Submitting ${batch.length} changed URLs to IndexNow...`);
+    
+    return new Promise((resolve) => {
+        const req = https.request({
+            hostname: 'api.indexnow.org',
+            port: 443,
+            path: '/indexnow',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                'Content-Length': Buffer.byteLength(body)
+            },
+            timeout: 10000
+        }, (res) => {
+            console.log(`📡 IndexNow response status: ${res.statusCode}`);
+            resolve(res.statusCode);
+        });
+        req.on('error', (err) => {
+            console.warn('⚠️ IndexNow submission warning:', err.message);
+            resolve(null);
+        });
+        req.on('timeout', () => {
+            req.destroy();
+            resolve(null);
+        });
+        req.write(body);
+        req.end();
+    });
 }
 
 function generateRobots() {
     const content = `User-agent: *
 Allow: /
+Disallow: /admin.html
+Disallow: /google*.html
+
 Sitemap: ${SITE_URL}sitemap.xml
 `;
     fs.writeFileSync('robots.txt', content);
@@ -792,6 +1041,9 @@ function updateRedirects(products) {
     } catch (err) {
         console.error("❌ Error injecting redirectMap into 404.html:", err.message);
     }
+
+    // 3. Generate physical 301/meta-refresh HTML stubs for GitHub Pages
+    generateRedirectStubs(redirectMap);
 }
 
 async function run() {
@@ -799,20 +1051,14 @@ async function run() {
         const products = await fetchProducts();
         generateRobots();
 
-        const baseHtml = fs.readFileSync('index.html', 'utf8');
-        const generatedBaseHtml = baseHtml.replace(/<!-- HOMEPAGE_CONTENT_START -->[\s\S]*?<!-- HOMEPAGE_CONTENT_END -->/, '');
-        const urls = [];
+        const manifest = loadManifest();
+        const changedUrls = [];
 
-        // Clean up old directories
-        console.log("🧹 Cleaning up old generated folders...");
-        if (fs.existsSync('products')) {
-            console.log("  - Removing old products/ folder");
-            fs.rmSync('products', { recursive: true, force: true });
-        }
-        if (fs.existsSync('category')) {
-            console.log("  - Removing old category/ folder");
-            fs.rmSync('category', { recursive: true, force: true });
-        }
+        const baseHtml = fs.readFileSync('index.html', 'utf8');
+        const generatedBaseHtml = baseHtml
+            .replace(/<!-- HOMEPAGE_CONTENT_START -->[\s\S]*?<!-- HOMEPAGE_CONTENT_END -->/, '')
+            .replace(/<script type="application\/ld\+json" id="product-structured-data"><\/script>/g, '');
+        const urls = [];
 
         // 1. Generate Product Pages
         console.log("📁 Generating Product Pages with real content...");
@@ -827,6 +1073,13 @@ async function run() {
             const pDir = subCatSlug ? path.join(mainCatSlug, subCatSlug, slug) : path.join(mainCatSlug, slug);
             
             fs.mkdirSync(pDir, { recursive: true });
+
+            // Track changes in manifest
+            const pHash = computeProductHash(p);
+            if (!manifest.urls[pUrl] || manifest.urls[pUrl].hash !== pHash) {
+                manifest.urls[pUrl] = { hash: pHash, lastmod: LAST_MOD };
+                changedUrls.push(pUrl);
+            }
 
             const cleanTitle = (p.title || '').replace(/"/g, '&quot;');
             const rawDesc = p.description || "";
@@ -879,7 +1132,6 @@ async function run() {
                 fs.writeFileSync(path.join(pDir, 'index.html'), page);
             } catch (err) {
                 console.error(`❌ Error generating page for product ${p.id} (${p.title}):`, err.message);
-                // Continue to next product instead of crashing the whole process
             }
         });
         console.log(`✅ ${products.length} product pages generated with real content!`);
@@ -936,13 +1188,23 @@ async function run() {
             });
         });
 
-        // Update index.html with static category links
-        const staticLinksHtml = Object.keys(categoryMap).map(cat => `<a href="/${createSEOSlug(cat)}/">${cat}</a>`).join('\n');
-        let newIndexHtml = baseHtml.replace(/<div id="seo-category-links"[^>]*>[\s\S]*?<\/div>/, `<div id="seo-category-links" style="display:none;">\n${staticLinksHtml}\n</div>`);
+        // Update index.html with static category links (styled and visible)
+        const staticLinksHtml = Object.keys(categoryMap).map(cat => `<a href="/${createSEOSlug(cat)}/" style="color:#94a3b8;text-decoration:none;">${cat}</a>`).join('\n');
+        let newIndexHtml = baseHtml.replace(/<div id="seo-category-links"[^>]*>[\s\S]*?<\/div>/, `<div id="seo-category-links" style="display:flex;flex-wrap:wrap;gap:0.4rem 0.8rem;font-size:0.82rem;">\n${staticLinksHtml}\n</div>`);
         fs.writeFileSync('index.html', newIndexHtml);
 
         updateRedirects(products);
-        generateSitemap(products, urls);
+        generateHtmlSitemap(products, categoryMap);
+        generateSitemap(products, urls, manifest);
+        saveManifest(manifest);
+
+        if (changedUrls.length > 0) {
+            console.log(`🚀 Found ${changedUrls.length} new or updated product URLs. Submitting to IndexNow...`);
+            await submitToIndexNow(changedUrls);
+        } else {
+            console.log("ℹ️ No product changes detected since last build. Sitemaps kept stable.");
+        }
+
         console.log("✨ All tasks completed successfully!");
         console.log(`📊 Summary: ${products.length} product pages + ${urls.length} category pages generated`);
     } catch (e) {

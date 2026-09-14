@@ -1,1080 +1,1080 @@
-﻿{
-    "urls":  {
-                 "https://ichouse.lk/":  {
-                                             "hash":  "",
-                                             "lastmod":  "2026-09-14"
-                                         },
-                 "https://ichouse.lk/delivery.html":  {
-                                                          "hash":  "",
-                                                          "lastmod":  "2026-09-14"
-                                                      },
-                 "https://ichouse.lk/faq.html":  {
-                                                     "hash":  "",
-                                                     "lastmod":  "2026-09-14"
-                                                 },
-                 "https://ichouse.lk/payment.html":  {
-                                                         "hash":  "",
-                                                         "lastmod":  "2026-09-14"
-                                                     },
-                 "https://ichouse.lk/privacy.html":  {
-                                                         "hash":  "",
-                                                         "lastmod":  "2026-09-14"
-                                                     },
-                 "https://ichouse.lk/return.html":  {
-                                                        "hash":  "",
-                                                        "lastmod":  "2026-09-14"
-                                                    },
-                 "https://ichouse.lk/terms.html":  {
-                                                       "hash":  "",
-                                                       "lastmod":  "2026-09-14"
-                                                   },
-                 "https://ichouse.lk/request-parts.html":  {
-                                                               "hash":  "",
-                                                               "lastmod":  "2026-09-14"
-                                                           },
-                 "https://ichouse.lk/cable/":  {
-                                                   "hash":  "",
-                                                   "lastmod":  "2026-09-14"
-                                               },
-                 "https://ichouse.lk/cable/audio-extension-cable/":  {
-                                                                         "hash":  "",
-                                                                         "lastmod":  "2026-09-14"
-                                                                     },
-                 "https://ichouse.lk/cable/printer-cable/":  {
-                                                                 "hash":  "",
-                                                                 "lastmod":  "2026-09-14"
-                                                             },
-                 "https://ichouse.lk/cable/power-supply-cable/":  {
-                                                                      "hash":  "",
-                                                                      "lastmod":  "2026-09-14"
-                                                                  },
-                 "https://ichouse.lk/module/":  {
-                                                    "hash":  "",
-                                                    "lastmod":  "2026-09-14"
-                                                },
-                 "https://ichouse.lk/module/thermal-senser/":  {
-                                                                   "hash":  "",
-                                                                   "lastmod":  "2026-09-14"
-                                                               },
-                 "https://ichouse.lk/module/charging-module/":  {
-                                                                    "hash":  "",
-                                                                    "lastmod":  "2026-09-14"
-                                                                },
-                 "https://ichouse.lk/module/buck-converter/":  {
-                                                                   "hash":  "",
-                                                                   "lastmod":  "2026-09-14"
-                                                               },
-                 "https://ichouse.lk/module/battery-protection/":  {
-                                                                       "hash":  "",
-                                                                       "lastmod":  "2026-09-14"
-                                                                   },
-                 "https://ichouse.lk/module/photo-control-switch/":  {
-                                                                         "hash":  "",
-                                                                         "lastmod":  "2026-09-14"
-                                                                     },
-                 "https://ichouse.lk/module/relay-module/":  {
-                                                                 "hash":  "",
-                                                                 "lastmod":  "2026-09-14"
-                                                             },
-                 "https://ichouse.lk/module/photosensitive-sensor-module/":  {
-                                                                                 "hash":  "",
-                                                                                 "lastmod":  "2026-09-14"
-                                                                             },
-                 "https://ichouse.lk/module/pir-motion/":  {
-                                                               "hash":  "",
-                                                               "lastmod":  "2026-09-14"
-                                                           },
-                 "https://ichouse.lk/module/boost-converter/":  {
-                                                                    "hash":  "",
-                                                                    "lastmod":  "2026-09-14"
-                                                                },
-                 "https://ichouse.lk/module/light-sensor-relay-module/":  {
-                                                                              "hash":  "",
-                                                                              "lastmod":  "2026-09-14"
-                                                                          },
-                 "https://ichouse.lk/bms/":  {
-                                                 "hash":  "",
-                                                 "lastmod":  "2026-09-14"
-                                             },
-                 "https://ichouse.lk/bms/liion-bms/":  {
-                                                           "hash":  "",
-                                                           "lastmod":  "2026-09-14"
-                                                       },
-                 "https://ichouse.lk/bms/lfp-bms/":  {
-                                                         "hash":  "",
-                                                         "lastmod":  "2026-09-14"
-                                                     },
-                 "https://ichouse.lk/power-adapter/":  {
-                                                           "hash":  "",
-                                                           "lastmod":  "2026-09-14"
-                                                       },
-                 "https://ichouse.lk/power-adapter/12v-power-adapter/":  {
-                                                                             "hash":  "",
-                                                                             "lastmod":  "2026-09-14"
-                                                                         },
-                 "https://ichouse.lk/power-adapter/9v-power-adapter/":  {
-                                                                            "hash":  "",
-                                                                            "lastmod":  "2026-09-14"
-                                                                        },
-                 "https://ichouse.lk/power-adapter/24v-power-adapter/":  {
-                                                                             "hash":  "",
-                                                                             "lastmod":  "2026-09-14"
-                                                                         },
-                 "https://ichouse.lk/fuse/":  {
-                                                  "hash":  "",
-                                                  "lastmod":  "2026-09-14"
-                                              },
-                 "https://ichouse.lk/fuse/glass-fuses/":  {
-                                                              "hash":  "",
-                                                              "lastmod":  "2026-09-14"
-                                                          },
-                 "https://ichouse.lk/fuse/ceramic-fuses/":  {
-                                                                "hash":  "",
-                                                                "lastmod":  "2026-09-14"
-                                                            },
-                 "https://ichouse.lk/ic/":  {
-                                                "hash":  "",
-                                                "lastmod":  "2026-09-14"
-                                            },
-                 "https://ichouse.lk/ic/melody-ic/":  {
-                                                          "hash":  "",
-                                                          "lastmod":  "2026-09-14"
-                                                      },
-                 "https://ichouse.lk/ic/pwmcontroller/":  {
-                                                              "hash":  "",
-                                                              "lastmod":  "2026-09-14"
-                                                          },
-                 "https://ichouse.lk/ic/darlington-driver/":  {
-                                                                  "hash":  "",
-                                                                  "lastmod":  "2026-09-14"
-                                                              },
-                 "https://ichouse.lk/ic/audio-ic/":  {
-                                                         "hash":  "",
-                                                         "lastmod":  "2026-09-14"
-                                                     },
-                 "https://ichouse.lk/transistor/":  {
-                                                        "hash":  "",
-                                                        "lastmod":  "2026-09-14"
-                                                    },
-                 "https://ichouse.lk/transistor/npn-transistor/":  {
-                                                                       "hash":  "",
-                                                                       "lastmod":  "2026-09-14"
-                                                                   },
-                 "https://ichouse.lk/transistor/pnp-transistor/":  {
-                                                                       "hash":  "",
-                                                                       "lastmod":  "2026-09-14"
-                                                                   },
-                 "https://ichouse.lk/mosfet/":  {
-                                                    "hash":  "",
-                                                    "lastmod":  "2026-09-14"
-                                                },
-                 "https://ichouse.lk/mosfet/nchannel/":  {
-                                                             "hash":  "",
-                                                             "lastmod":  "2026-09-14"
-                                                         },
-                 "https://ichouse.lk/diode/":  {
-                                                   "hash":  "",
-                                                   "lastmod":  "2026-09-14"
-                                               },
-                 "https://ichouse.lk/diode/dual-schottky-rectifier-diode/":  {
-                                                                                 "hash":  "",
-                                                                                 "lastmod":  "2026-09-14"
-                                                                             },
-                 "https://ichouse.lk/diode/ultrafast-rectifier-diode/":  {
-                                                                             "hash":  "",
-                                                                             "lastmod":  "2026-09-14"
-                                                                         },
-                 "https://ichouse.lk/diode/schottky-diode/":  {
-                                                                  "hash":  "",
-                                                                  "lastmod":  "2026-09-14"
-                                                              },
-                 "https://ichouse.lk/jack-base/":  {
-                                                       "hash":  "",
-                                                       "lastmod":  "2026-09-14"
-                                                   },
-                 "https://ichouse.lk/jack-base/dc-female-base/":  {
-                                                                      "hash":  "",
-                                                                      "lastmod":  "2026-09-14"
-                                                                  },
-                 "https://ichouse.lk/jack-base/35mm-handfree-headphone-jack-base-pcb-mount/":  {
-                                                                                                   "hash":  "",
-                                                                                                   "lastmod":  "2026-09-14"
-                                                                                               },
-                 "https://ichouse.lk/project-box/":  {
-                                                         "hash":  "",
-                                                         "lastmod":  "2026-09-14"
-                                                     },
-                 "https://ichouse.lk/project-box/plastic-project-box/":  {
-                                                                             "hash":  "",
-                                                                             "lastmod":  "2026-09-14"
-                                                                         },
-                 "https://ichouse.lk/plug-top/":  {
-                                                      "hash":  "",
-                                                      "lastmod":  "2026-09-14"
-                                                  },
-                 "https://ichouse.lk/plug-top/square-pin-plug-top/":  {
-                                                                          "hash":  "",
-                                                                          "lastmod":  "2026-09-14"
-                                                                      },
-                 "https://ichouse.lk/push-button/":  {
-                                                         "hash":  "",
-                                                         "lastmod":  "2026-09-14"
-                                                     },
-                 "https://ichouse.lk/push-button/momentary-push-button-switch/":  {
-                                                                                      "hash":  "",
-                                                                                      "lastmod":  "2026-09-14"
-                                                                                  },
-                 "https://ichouse.lk/jack/":  {
-                                                  "hash":  "",
-                                                  "lastmod":  "2026-09-14"
-                                              },
-                 "https://ichouse.lk/jack/tv-antenna-coaxial-jack-plug/":  {
-                                                                               "hash":  "",
-                                                                               "lastmod":  "2026-09-14"
-                                                                           },
-                 "https://ichouse.lk/speaker-part/":  {
-                                                          "hash":  "",
-                                                          "lastmod":  "2026-09-14"
-                                                      },
-                 "https://ichouse.lk/speaker-part/4pin-speaker-input-terminal-plate/":  {
-                                                                                            "hash":  "",
-                                                                                            "lastmod":  "2026-09-14"
-                                                                                        },
-                 "https://ichouse.lk/charger/":  {
-                                                     "hash":  "",
-                                                     "lastmod":  "2026-09-14"
-                                                 },
-                 "https://ichouse.lk/charger/18650-charger/":  {
-                                                                   "hash":  "",
-                                                                   "lastmod":  "2026-09-14"
-                                                               },
-                 "https://ichouse.lk/charger/liion-charger/":  {
-                                                                   "hash":  "",
-                                                                   "lastmod":  "2026-09-14"
-                                                               },
-                 "https://ichouse.lk/capacitor/":  {
-                                                       "hash":  "",
-                                                       "lastmod":  "2026-09-14"
-                                                   },
-                 "https://ichouse.lk/capacitor/polyester-film-capacitor/":  {
-                                                                                "hash":  "",
-                                                                                "lastmod":  "2026-09-14"
-                                                                            },
-                 "https://ichouse.lk/capacitor/ceramic-capacitor/":  {
-                                                                         "hash":  "",
-                                                                         "lastmod":  "2026-09-14"
-                                                                     },
-                 "https://ichouse.lk/transformer/":  {
-                                                         "hash":  "",
-                                                         "lastmod":  "2026-09-14"
-                                                     },
-                 "https://ichouse.lk/transformer/12v-transformer/":  {
-                                                                         "hash":  "",
-                                                                         "lastmod":  "2026-09-14"
-                                                                     },
-                 "https://ichouse.lk/transformer/4v-transformer/":  {
-                                                                        "hash":  "",
-                                                                        "lastmod":  "2026-09-14"
-                                                                    },
-                 "https://ichouse.lk/tool-machine/":  {
-                                                          "hash":  "",
-                                                          "lastmod":  "2026-09-14"
-                                                      },
-                 "https://ichouse.lk/tool-machine/hot-glue-gun/":  {
-                                                                       "hash":  "",
-                                                                       "lastmod":  "2026-09-14"
-                                                                   },
-                 "https://ichouse.lk/fan/":  {
-                                                 "hash":  "",
-                                                 "lastmod":  "2026-09-14"
-                                             },
-                 "https://ichouse.lk/fan/12v-fan/":  {
-                                                         "hash":  "",
-                                                         "lastmod":  "2026-09-14"
-                                                     },
-                 "https://ichouse.lk/fan/ac-230-fan/":  {
-                                                            "hash":  "",
-                                                            "lastmod":  "2026-09-14"
-                                                        },
-                 "https://ichouse.lk/solar/":  {
-                                                   "hash":  "",
-                                                   "lastmod":  "2026-09-14"
-                                               },
-                 "https://ichouse.lk/solar/mini-solar-panel/":  {
-                                                                    "hash":  "",
-                                                                    "lastmod":  "2026-09-14"
-                                                                },
-                 "https://ichouse.lk/solar/pwm-solar-charge-controller/":  {
-                                                                               "hash":  "",
-                                                                               "lastmod":  "2026-09-14"
-                                                                           },
-                 "https://ichouse.lk/voltmeter/":  {
-                                                       "hash":  "",
-                                                       "lastmod":  "2026-09-14"
-                                                   },
-                 "https://ichouse.lk/voltmeter/dc-voltmeter/":  {
-                                                                    "hash":  "",
-                                                                    "lastmod":  "2026-09-14"
-                                                                },
-                 "https://ichouse.lk/panel-meter/":  {
-                                                         "hash":  "",
-                                                         "lastmod":  "2026-09-14"
-                                                     },
-                 "https://ichouse.lk/panel-meter/ac-ammeter/":  {
-                                                                    "hash":  "",
-                                                                    "lastmod":  "2026-09-14"
-                                                                },
-                 "https://ichouse.lk/splitter/":  {
-                                                      "hash":  "",
-                                                      "lastmod":  "2026-09-14"
-                                                  },
-                 "https://ichouse.lk/splitter/3-way-splitter/":  {
-                                                                     "hash":  "",
-                                                                     "lastmod":  "2026-09-14"
-                                                                 },
-                 "https://ichouse.lk/splitter/2-way-splitter/":  {
-                                                                     "hash":  "",
-                                                                     "lastmod":  "2026-09-14"
-                                                                 },
-                 "https://ichouse.lk/network-switch/":  {
-                                                            "hash":  "",
-                                                            "lastmod":  "2026-09-14"
-                                                        },
-                 "https://ichouse.lk/network-switch/8port-switch/":  {
-                                                                         "hash":  "",
-                                                                         "lastmod":  "2026-09-14"
-                                                                     },
-                 "https://ichouse.lk/watt-hour-meter/":  {
-                                                             "hash":  "",
-                                                             "lastmod":  "2026-09-14"
-                                                         },
-                 "https://ichouse.lk/watt-hour-meter/single-phase-digital/":  {
-                                                                                  "hash":  "",
-                                                                                  "lastmod":  "2026-09-14"
-                                                                              },
-                 "https://ichouse.lk/relays/":  {
-                                                    "hash":  "",
-                                                    "lastmod":  "2026-09-14"
-                                                },
-                 "https://ichouse.lk/relays/solid-state-relays-ssr/":  {
-                                                                           "hash":  "",
-                                                                           "lastmod":  "2026-09-14"
-                                                                       },
-                 "https://ichouse.lk/relays/4-pin-relay/":  {
-                                                                "hash":  "",
-                                                                "lastmod":  "2026-09-14"
-                                                            },
-                 "https://ichouse.lk/relays/5pin-relay/":  {
-                                                               "hash":  "",
-                                                               "lastmod":  "2026-09-14"
-                                                           },
-                 "https://ichouse.lk/thyristors/":  {
-                                                        "hash":  "",
-                                                        "lastmod":  "2026-09-14"
-                                                    },
-                 "https://ichouse.lk/thyristors/triac/":  {
-                                                              "hash":  "",
-                                                              "lastmod":  "2026-09-14"
-                                                          },
-                 "https://ichouse.lk/igbt/":  {
-                                                  "hash":  "",
-                                                  "lastmod":  "2026-09-14"
-                                              },
-                 "https://ichouse.lk/igbt/nchannel/":  {
-                                                           "hash":  "",
-                                                           "lastmod":  "2026-09-14"
-                                                       },
-                 "https://ichouse.lk/led-lighting-parts-components/":  {
-                                                                           "hash":  "",
-                                                                           "lastmod":  "2026-09-14"
-                                                                       },
-                 "https://ichouse.lk/led-lighting-parts-components/led-cob-chips/":  {
-                                                                                         "hash":  "",
-                                                                                         "lastmod":  "2026-09-14"
-                                                                                     },
-                 "https://ichouse.lk/resistors/":  {
-                                                       "hash":  "",
-                                                       "lastmod":  "2026-09-14"
-                                                   },
-                 "https://ichouse.lk/resistors/ceramic-resistors/":  {
-                                                                         "hash":  "",
-                                                                         "lastmod":  "2026-09-14"
-                                                                     },
-                 "https://ichouse.lk/metal-case-power-supply/":  {
-                                                                     "hash":  "",
-                                                                     "lastmod":  "2026-09-14"
-                                                                 },
-                 "https://ichouse.lk/metal-case-power-supply/12v-power-supply/":  {
-                                                                                      "hash":  "",
-                                                                                      "lastmod":  "2026-09-14"
-                                                                                  },
-                 "https://ichouse.lk/rectifier/":  {
-                                                       "hash":  "",
-                                                       "lastmod":  "2026-09-14"
-                                                   },
-                 "https://ichouse.lk/rectifier/bridge-rectifier-diode-module/":  {
-                                                                                     "hash":  "",
-                                                                                     "lastmod":  "2026-09-14"
-                                                                                 },
-                 "https://ichouse.lk/infrared-cooker-parts/":  {
-                                                                   "hash":  "",
-                                                                   "lastmod":  "2026-09-14"
-                                                               },
-                 "https://ichouse.lk/infrared-cooker-parts/ntc-temperature-sensor/":  {
-                                                                                          "hash":  "",
-                                                                                          "lastmod":  "2026-09-14"
-                                                                                      },
-                 "https://ichouse.lk/motor/":  {
-                                                   "hash":  "",
-                                                   "lastmod":  "2026-09-14"
-                                               },
-                 "https://ichouse.lk/motor/dc-motor/":  {
-                                                            "hash":  "",
-                                                            "lastmod":  "2026-09-14"
-                                                        },
-                 "https://ichouse.lk/audio-amplifier/":  {
-                                                             "hash":  "",
-                                                             "lastmod":  "2026-09-14"
-                                                         },
-                 "https://ichouse.lk/audio-amplifier/stereo-amplifier-board/":  {
-                                                                                    "hash":  "",
-                                                                                    "lastmod":  "2026-09-14"
-                                                                                },
-                 "https://ichouse.lk/audio-amplifier/mono-classd-amplifier-module/":  {
-                                                                                          "hash":  "",
-                                                                                          "lastmod":  "2026-09-14"
-                                                                                      },
-                 "https://ichouse.lk/audio-amplifier/stereo-tape-head-preamplifier/":  {
-                                                                                           "hash":  "",
-                                                                                           "lastmod":  "2026-09-14"
-                                                                                       },
-                 "https://ichouse.lk/connecter/":  {
-                                                       "hash":  "",
-                                                       "lastmod":  "2026-09-14"
-                                                   },
-                 "https://ichouse.lk/connecter/type-c-connector/":  {
-                                                                        "hash":  "",
-                                                                        "lastmod":  "2026-09-14"
-                                                                    },
-                 "https://ichouse.lk/motor-speed-controller/":  {
-                                                                    "hash":  "",
-                                                                    "lastmod":  "2026-09-14"
-                                                                },
-                 "https://ichouse.lk/motor-speed-controller/mini-motor-speed-regulator/":  {
-                                                                                               "hash":  "",
-                                                                                               "lastmod":  "2026-09-14"
-                                                                                           },
-                 "https://ichouse.lk/glue-sticks-for-glue-gun/":  {
-                                                                      "hash":  "",
-                                                                      "lastmod":  "2026-09-14"
-                                                                  },
-                 "https://ichouse.lk/glue-sticks-for-glue-gun/7mm-300mm-glue-gun-glue-sticks/":  {
-                                                                                                     "hash":  "",
-                                                                                                     "lastmod":  "2026-09-14"
-                                                                                                 },
-                 "https://ichouse.lk/pcb/":  {
-                                                 "hash":  "",
-                                                 "lastmod":  "2026-09-14"
-                                             },
-                 "https://ichouse.lk/pcb/10-led-knight-rider-kit/":  {
-                                                                         "hash":  "",
-                                                                         "lastmod":  "2026-09-14"
-                                                                     },
-                 "https://ichouse.lk/cable/audio-extension-cable/35mm-aux-male-to-female-audio-extension-cable-red-color/":  {
-                                                                                                                                 "hash":  "",
-                                                                                                                                 "lastmod":  "2026-09-14"
-                                                                                                                             },
-                 "https://ichouse.lk/module/thermal-senser/xhw3001-ac-230v-digital-temperature-controller-thermostat/":  {
-                                                                                                                             "hash":  "",
-                                                                                                                             "lastmod":  "2026-09-14"
-                                                                                                                         },
-                 "https://ichouse.lk/bms/liion-bms/3s-10a-liion-battery-bms-protection-board/":  {
-                                                                                                     "hash":  "",
-                                                                                                     "lastmod":  "2026-09-14"
-                                                                                                 },
-                 "https://ichouse.lk/power-adapter/12v-power-adapter/12v-3a-3pin-smps-power-adapter/":  {
-                                                                                                            "hash":  "",
-                                                                                                            "lastmod":  "2026-09-14"
-                                                                                                        },
-                 "https://ichouse.lk/power-adapter/12v-power-adapter/12v-3a-2pin-switching-power-supply-adapter-acdc-transformer/":  {
-                                                                                                                                         "hash":  "",
-                                                                                                                                         "lastmod":  "2026-09-14"
-                                                                                                                                     },
-                 "https://ichouse.lk/power-adapter/9v-power-adapter/9v-2a-2pin-acdc-power-adapter/":  {
-                                                                                                          "hash":  "",
-                                                                                                          "lastmod":  "2026-09-14"
-                                                                                                      },
-                 "https://ichouse.lk/power-adapter/24v-power-adapter/24v-3a-acdc-power-adapter-with-dc-barrel-plug/":  {
-                                                                                                                           "hash":  "",
-                                                                                                                           "lastmod":  "2026-09-14"
-                                                                                                                       },
-                 "https://ichouse.lk/module/charging-module/tp4056-typec-lithium-battery-charging-module-with/":  {
-                                                                                                                      "hash":  "",
-                                                                                                                      "lastmod":  "2026-09-14"
-                                                                                                                  },
-                 "https://ichouse.lk/module/charging-module/tp4056-micro-usb-lithium-battery-charger-module-with/":  {
-                                                                                                                         "hash":  "",
-                                                                                                                         "lastmod":  "2026-09-14"
-                                                                                                                     },
-                 "https://ichouse.lk/bms/liion-bms/2s-lithium-battery-bms-protection-board-74v-liion-balance/":  {
-                                                                                                                     "hash":  "",
-                                                                                                                     "lastmod":  "2026-09-14"
-                                                                                                                 },
-                 "https://ichouse.lk/module/charging-module/tp5100-1s2s-lithium-battery-charger-module-2a-stepdown/":  {
-                                                                                                                           "hash":  "",
-                                                                                                                           "lastmod":  "2026-09-14"
-                                                                                                                       },
-                 "https://ichouse.lk/module/buck-converter/hw920-dcdc-buck-converter-adjustable-stepdown-power-supply/":  {
-                                                                                                                              "hash":  "",
-                                                                                                                              "lastmod":  "2026-09-14"
-                                                                                                                          },
-                 "https://ichouse.lk/module/battery-protection/m609-battery-low-voltage-cutoff-protection-module-with/":  {
-                                                                                                                              "hash":  "",
-                                                                                                                              "lastmod":  "2026-09-14"
-                                                                                                                          },
-                 "https://ichouse.lk/fuse/glass-fuses/5a-glass-fuse-5x20mm-250v-fast-blow-cartridge-fuse-for/":  {
-                                                                                                                     "hash":  "",
-                                                                                                                     "lastmod":  "2026-09-14"
-                                                                                                                 },
-                 "https://ichouse.lk/fuse/glass-fuses/10a-glass-fuse-5x20mm-250v-fast-blow-cartridge-fuse-for/":  {
-                                                                                                                      "hash":  "",
-                                                                                                                      "lastmod":  "2026-09-14"
-                                                                                                                  },
-                 "https://ichouse.lk/fuse/ceramic-fuses/5a-ceramic-fuse-5x20mm-250v-cartridge-fuse-for-electronic/":  {
-                                                                                                                          "hash":  "",
-                                                                                                                          "lastmod":  "2026-09-14"
-                                                                                                                      },
-                 "https://ichouse.lk/fuse/ceramic-fuses/10a-ceramic-fuse-5x20mm-250v-cartridge-fuse-for-electronic/":  {
-                                                                                                                           "hash":  "",
-                                                                                                                           "lastmod":  "2026-09-14"
-                                                                                                                       },
-                 "https://ichouse.lk/fuse/ceramic-fuses/13a-ceramic-fuse-250v-cartridge-fuse-high-temperature/":  {
-                                                                                                                      "hash":  "",
-                                                                                                                      "lastmod":  "2026-09-14"
-                                                                                                                  },
-                 "https://ichouse.lk/ic/melody-ic/um66t19lk-chun-pan-box-melody-ic-music-generator-chip-to92/":  {
-                                                                                                                     "hash":  "",
-                                                                                                                     "lastmod":  "2026-09-14"
-                                                                                                                 },
-                 "https://ichouse.lk/transistor/npn-transistor/d313-2sd313-npn-power-transistor-to220-for-amplifier-power/":  {
-                                                                                                                                  "hash":  "",
-                                                                                                                                  "lastmod":  "2026-09-14"
-                                                                                                                              },
-                 "https://ichouse.lk/transistor/npn-transistor/d882-2sd882-npn-power-transistor-to126-for-amplifier/":  {
-                                                                                                                            "hash":  "",
-                                                                                                                            "lastmod":  "2026-09-14"
-                                                                                                                        },
-                 "https://ichouse.lk/mosfet/nchannel/irf740-nchannel-power-mosfet-to220-400v-high-voltage/":  {
-                                                                                                                  "hash":  "",
-                                                                                                                  "lastmod":  "2026-09-14"
-                                                                                                              },
-                 "https://ichouse.lk/diode/dual-schottky-rectifier-diode/20100ct-20a-100v-dual-schottky-rectifier-diode-to220/":  {
-                                                                                                                                      "hash":  "",
-                                                                                                                                      "lastmod":  "2026-09-14"
-                                                                                                                                  },
-                 "https://ichouse.lk/jack-base/dc-female-base/dc-female-power-jack-panel-mount-socket-55x21mm-connector/":  {
-                                                                                                                                "hash":  "",
-                                                                                                                                "lastmod":  "2026-09-14"
-                                                                                                                            },
-                 "https://ichouse.lk/project-box/plastic-project-box/plastic-project-box-4-cm-85-cm-7-cm-enclosure-case/":  {
-                                                                                                                                "hash":  "",
-                                                                                                                                "lastmod":  "2026-09-14"
-                                                                                                                            },
-                 "https://ichouse.lk/project-box/plastic-project-box/plastic-doorbell-project-box-25-cm-14-cm-6-cm-wallmount/":  {
-                                                                                                                                     "hash":  "",
-                                                                                                                                     "lastmod":  "2026-09-14"
-                                                                                                                                 },
-                 "https://ichouse.lk/plug-top/square-pin-plug-top/uk-standard-3pin-fused-plug-top-250v-ac-heavy-duty/":  {
-                                                                                                                             "hash":  "",
-                                                                                                                             "lastmod":  "2026-09-14"
-                                                                                                                         },
-                 "https://ichouse.lk/push-button/momentary-push-button-switch/momentary-push-button-switch-push-on-release-off-normally/":  {
-                                                                                                                                                "hash":  "",
-                                                                                                                                                "lastmod":  "2026-09-14"
-                                                                                                                                            },
-                 "https://ichouse.lk/jack/tv-antenna-coaxial-jack-plug/tv-antenna-coaxial-jack-plug-connector-rf-tv-aerial-male/":  {
-                                                                                                                                        "hash":  "",
-                                                                                                                                        "lastmod":  "2026-09-14"
-                                                                                                                                    },
-                 "https://ichouse.lk/speaker-part/4pin-speaker-input-terminal-plate/4pin-speaker-input-terminal-plate-audio-amplifier-speaker/":  {
-                                                                                                                                                      "hash":  "",
-                                                                                                                                                      "lastmod":  "2026-09-14"
-                                                                                                                                                  },
-                 "https://ichouse.lk/jack-base/35mm-handfree-headphone-jack-base-pcb-mount/35mm-handfree-headphone-jack-base-pcb-mount-audio-socket/":  {
-                                                                                                                                                            "hash":  "",
-                                                                                                                                                            "lastmod":  "2026-09-14"
-                                                                                                                                                        },
-                 "https://ichouse.lk/project-box/plastic-project-box/mini-plastic-project-box-enclosure-6425cm-black-electronic/":  {
-                                                                                                                                        "hash":  "",
-                                                                                                                                        "lastmod":  "2026-09-14"
-                                                                                                                                    },
-                 "https://ichouse.lk/charger/18650-charger/18650-single-battery-charger-42v-1a-liion-universal-smart/":  {
-                                                                                                                             "hash":  "",
-                                                                                                                             "lastmod":  "2026-09-14"
-                                                                                                                         },
-                 "https://ichouse.lk/charger/liion-charger/liion-universal-battery-charger-dual-slot-42v-smart-charger/":  {
-                                                                                                                               "hash":  "",
-                                                                                                                               "lastmod":  "2026-09-14"
-                                                                                                                           },
-                 "https://ichouse.lk/capacitor/polyester-film-capacitor/182j-polyester-film-capacitor-18nf-100v-radial-lead-green/":  {
-                                                                                                                                          "hash":  "",
-                                                                                                                                          "lastmod":  "2026-09-14"
-                                                                                                                                      },
-                 "https://ichouse.lk/capacitor/polyester-film-capacitor/153j-polyester-film-capacitor-0015f-100v-radial-lead-green/":  {
-                                                                                                                                           "hash":  "",
-                                                                                                                                           "lastmod":  "2026-09-14"
-                                                                                                                                       },
-                 "https://ichouse.lk/capacitor/polyester-film-capacitor/223k-polyester-film-capacitor-0022f-10-tolerance-radial/":  {
-                                                                                                                                        "hash":  "",
-                                                                                                                                        "lastmod":  "2026-09-14"
-                                                                                                                                    },
-                 "https://ichouse.lk/capacitor/polyester-film-capacitor/223j-polyester-film-capacitor-0022f-500v-radial-lead/":  {
-                                                                                                                                     "hash":  "",
-                                                                                                                                     "lastmod":  "2026-09-14"
-                                                                                                                                 },
-                 "https://ichouse.lk/transformer/12v-transformer/220v-to-12v-x2-14a-ac-transformer-dual-output-power-supply/":  {
-                                                                                                                                    "hash":  "",
-                                                                                                                                    "lastmod":  "2026-09-14"
-                                                                                                                                },
-                 "https://ichouse.lk/transformer/12v-transformer/220v-to-6v-065a-step-down-transformer-single-output-power/":  {
-                                                                                                                                   "hash":  "",
-                                                                                                                                   "lastmod":  "2026-09-14"
-                                                                                                                               },
-                 "https://ichouse.lk/transformer/4v-transformer/230v-to-4v-400ma-step-down-transformer-single-output-power/":  {
-                                                                                                                                   "hash":  "",
-                                                                                                                                   "lastmod":  "2026-09-14"
-                                                                                                                               },
-                 "https://ichouse.lk/transformer/12v-transformer/230v-to-12v-1a-step-down-transformer-single-output-power/":  {
-                                                                                                                                  "hash":  "",
-                                                                                                                                  "lastmod":  "2026-09-14"
-                                                                                                                              },
-                 "https://ichouse.lk/tool-machine/hot-glue-gun/boaisen-hj20w-hot-melt-glue-gun-100240v-electric-craft-diy/":  {
-                                                                                                                                  "hash":  "",
-                                                                                                                                  "lastmod":  "2026-09-14"
-                                                                                                                              },
-                 "https://ichouse.lk/fan/12v-fan/igo-jg8025-12v-dc-cooling-fan-80x80x25mm-panel-cabinet/":  {
-                                                                                                                "hash":  "",
-                                                                                                                "lastmod":  "2026-09-14"
-                                                                                                            },
-                 "https://ichouse.lk/solar/mini-solar-panel/mini-solar-emergency-light-panel-usb-rechargeable-compact/":  {
-                                                                                                                              "hash":  "",
-                                                                                                                              "lastmod":  "2026-09-14"
-                                                                                                                          },
-                 "https://ichouse.lk/solar/mini-solar-panel/mini-solar-panel-with-dc-motor-small-diy-solar-power-kit/":  {
-                                                                                                                             "hash":  "",
-                                                                                                                             "lastmod":  "2026-09-14"
-                                                                                                                         },
-                 "https://ichouse.lk/transformer/12v-transformer/12v-x2-300ma-step-down-transformer-ac-230v-to-dual-12v/":  {
-                                                                                                                                "hash":  "",
-                                                                                                                                "lastmod":  "2026-09-14"
-                                                                                                                            },
-                 "https://ichouse.lk/voltmeter/dc-voltmeter/dc-030v-red-led-digital-voltmeter-panel-meter-3-digit/":  {
-                                                                                                                          "hash":  "",
-                                                                                                                          "lastmod":  "2026-09-14"
-                                                                                                                      },
-                 "https://ichouse.lk/cable/printer-cable/3m-printer-cable-highspeed-data-transfer-cord/":  {
-                                                                                                               "hash":  "",
-                                                                                                               "lastmod":  "2026-09-14"
-                                                                                                           },
-                 "https://ichouse.lk/transistor/npn-transistor/13007-power-transistor-mje13007-j130072-equivalent-high/":  {
-                                                                                                                               "hash":  "",
-                                                                                                                               "lastmod":  "2026-09-14"
-                                                                                                                           },
-                 "https://ichouse.lk/panel-meter/ac-ammeter/sf72-analog-ac-ammeter-3005a-72x72mm-panel-meter-current/":  {
-                                                                                                                             "hash":  "",
-                                                                                                                             "lastmod":  "2026-09-14"
-                                                                                                                         },
-                 "https://ichouse.lk/splitter/3-way-splitter/mx254a-3-way-cable-splitter-51000mhz-digital-tv-signal/":  {
-                                                                                                                            "hash":  "",
-                                                                                                                            "lastmod":  "2026-09-14"
-                                                                                                                        },
-                 "https://ichouse.lk/capacitor/ceramic-capacitor/ceramic-capacitor-10pf-50wv-k-tolerance-through-hole/":  {
-                                                                                                                              "hash":  "",
-                                                                                                                              "lastmod":  "2026-09-14"
-                                                                                                                          },
-                 "https://ichouse.lk/cable/printer-cable/1m-usb-printer-cable-usb-a-to-usb-b-highspeed-data-cable/":  {
-                                                                                                                          "hash":  "",
-                                                                                                                          "lastmod":  "2026-09-14"
-                                                                                                                      },
-                 "https://ichouse.lk/network-switch/8port-switch/tplink-tlsf1008d-8port-fast-ethernet-switch-10100mbps/":  {
-                                                                                                                               "hash":  "",
-                                                                                                                               "lastmod":  "2026-09-14"
-                                                                                                                           },
-                 "https://ichouse.lk/splitter/2-way-splitter/sd72-2-way-coaxial-splitter-fm-vhf-uhf-power-pass-cable-tv/":  {
-                                                                                                                                "hash":  "",
-                                                                                                                                "lastmod":  "2026-09-14"
-                                                                                                                            },
-                 "https://ichouse.lk/power-adapter/12v-power-adapter/12v-5a-dc-power-adapter-sri-lanka-hans-ac-to-dc-charger-60w/":  {
-                                                                                                                                         "hash":  "",
-                                                                                                                                         "lastmod":  "2026-09-14"
-                                                                                                                                     },
-                 "https://ichouse.lk/transistor/npn-transistor/e13009l-power-transistor-400v-12a-to3p-smps-transistor-sri/":  {
-                                                                                                                                  "hash":  "",
-                                                                                                                                  "lastmod":  "2026-09-14"
-                                                                                                                              },
-                 "https://ichouse.lk/mosfet/nchannel/7n65f-mosfet-650v-7a-to220-nchannel-power-transistor-sri/":  {
-                                                                                                                      "hash":  "",
-                                                                                                                      "lastmod":  "2026-09-14"
-                                                                                                                  },
-                 "https://ichouse.lk/diode/dual-schottky-rectifier-diode/mbr30100pt-schottky-diode-100v-30a-to247-dual-rectifier-sri/":  {
-                                                                                                                                             "hash":  "",
-                                                                                                                                             "lastmod":  "2026-09-14"
-                                                                                                                                         },
-                 "https://ichouse.lk/ic/pwmcontroller/uc3843an-pwm-controller-ic-smps-power-supply-ic-sri-lanka/":  {
-                                                                                                                        "hash":  "",
-                                                                                                                        "lastmod":  "2026-09-14"
-                                                                                                                    },
-                 "https://ichouse.lk/mosfet/nchannel/60r380f-mosfet-transistor-high-voltage-power-mosfet-600v-8a/":  {
-                                                                                                                         "hash":  "",
-                                                                                                                         "lastmod":  "2026-09-14"
-                                                                                                                     },
-                 "https://ichouse.lk/mosfet/nchannel/slh60r041gtdi-mosfet-600v-41a-power-transistor-to247-high/":  {
-                                                                                                                       "hash":  "",
-                                                                                                                       "lastmod":  "2026-09-14"
-                                                                                                                   },
-                 "https://ichouse.lk/diode/ultrafast-rectifier-diode/rhro30120-ultrafast-rectifier-diode-30a-1200v-to247-high/":  {
-                                                                                                                                      "hash":  "",
-                                                                                                                                      "lastmod":  "2026-09-14"
-                                                                                                                                  },
-                 "https://ichouse.lk/watt-hour-meter/single-phase-digital/single-phase-digital-watt-hour-meter-lsg121l-220v-560a-kwh/":  {
-                                                                                                                                             "hash":  "",
-                                                                                                                                             "lastmod":  "2026-09-14"
-                                                                                                                                         },
-                 "https://ichouse.lk/ic/darlington-driver/uln2004apg-darlington-transistor-array-ic-7-channel-relay/":  {
-                                                                                                                            "hash":  "",
-                                                                                                                            "lastmod":  "2026-09-14"
-                                                                                                                        },
-                 "https://ichouse.lk/relays/solid-state-relays-ssr/ssr80da-solid-state-relay-80a-332v-dc-to-24380v-ac-high/":  {
-                                                                                                                                   "hash":  "",
-                                                                                                                                   "lastmod":  "2026-09-14"
-                                                                                                                               },
-                 "https://ichouse.lk/relays/4-pin-relay/jd1912-12v-80a-4-pin-relay-heavy-duty-automotive-power/":  {
-                                                                                                                       "hash":  "",
-                                                                                                                       "lastmod":  "2026-09-14"
-                                                                                                                   },
-                 "https://ichouse.lk/thyristors/triac/bt136-triac-600v-4a-to220-ac-power-control-switch-for/":  {
-                                                                                                                    "hash":  "",
-                                                                                                                    "lastmod":  "2026-09-14"
-                                                                                                                },
-                 "https://ichouse.lk/transistor/npn-transistor/d2058-npn-power-transistor-60v-5a-40w-to220-2sd2058/":  {
-                                                                                                                           "hash":  "",
-                                                                                                                           "lastmod":  "2026-09-14"
-                                                                                                                       },
-                 "https://ichouse.lk/transistor/pnp-transistor/buy-2sb1366-b1366-pnp-power-transistor-to220f-in-sri-lanka/":  {
-                                                                                                                                  "hash":  "",
-                                                                                                                                  "lastmod":  "2026-09-14"
-                                                                                                                              },
-                 "https://ichouse.lk/igbt/nchannel/mp50n65ed-igbt-650v-50a-to247-power-transistor-high-speed/":  {
-                                                                                                                     "hash":  "",
-                                                                                                                     "lastmod":  "2026-09-14"
-                                                                                                                 },
-                 "https://ichouse.lk/led-lighting-parts-components/led-cob-chips/12w-cob-led-chip-36v-300ma-cool-white-6000k6500k/":  {
-                                                                                                                                          "hash":  "",
-                                                                                                                                          "lastmod":  "2026-09-14"
-                                                                                                                                      },
-                 "https://ichouse.lk/led-lighting-parts-components/led-cob-chips/7w-cob-led-chip-2123v-300ma-cool-white-6000k6500k-high/":  {
-                                                                                                                                                "hash":  "",
-                                                                                                                                                "lastmod":  "2026-09-14"
-                                                                                                                                            },
-                 "https://ichouse.lk/led-lighting-parts-components/led-cob-chips/5w-cob-led-chip-15v17v-300ma-6000k6500k-high-brightness-led/":  {
-                                                                                                                                                     "hash":  "",
-                                                                                                                                                     "lastmod":  "2026-09-14"
-                                                                                                                                                 },
-                 "https://ichouse.lk/led-lighting-parts-components/led-cob-chips/5w-warm-white-cob-led-chip-3000k3200k-15v17v-300ma-high/":  {
-                                                                                                                                                 "hash":  "",
-                                                                                                                                                 "lastmod":  "2026-09-14"
-                                                                                                                                             },
-                 "https://ichouse.lk/resistors/ceramic-resistors/10w-12k-ceramic-cement-resistor-wirewound-high-power-1200/":  {
-                                                                                                                                   "hash":  "",
-                                                                                                                                   "lastmod":  "2026-09-14"
-                                                                                                                               },
-                 "https://ichouse.lk/resistors/ceramic-resistors/10w-15k-ceramic-cement-resistor-wirewound-high-power-1500/":  {
-                                                                                                                                   "hash":  "",
-                                                                                                                                   "lastmod":  "2026-09-14"
-                                                                                                                               },
-                 "https://ichouse.lk/resistors/ceramic-resistors/5w-82k-ceramic-cement-resistor-5-j-high-power-wirewound/":  {
-                                                                                                                                 "hash":  "",
-                                                                                                                                 "lastmod":  "2026-09-14"
-                                                                                                                             },
-                 "https://ichouse.lk/resistors/ceramic-resistors/33k-10w-ceramic-power-resistor-5-j-high-watt-wirewound/":  {
-                                                                                                                                "hash":  "",
-                                                                                                                                "lastmod":  "2026-09-14"
-                                                                                                                            },
-                 "https://ichouse.lk/resistors/ceramic-resistors/10w-082-ceramic-power-resistor-10-tolerance-high-watt/":  {
-                                                                                                                               "hash":  "",
-                                                                                                                               "lastmod":  "2026-09-14"
-                                                                                                                           },
-                 "https://ichouse.lk/resistors/ceramic-resistors/10w-22-ceramic-resistor-wirewound-high-power-22-ohm/":  {
-                                                                                                                             "hash":  "",
-                                                                                                                             "lastmod":  "2026-09-14"
-                                                                                                                         },
-                 "https://ichouse.lk/resistors/ceramic-resistors/7w-68-cement-resistor-wirewound-power-resistor-high-power/":  {
-                                                                                                                                   "hash":  "",
-                                                                                                                                   "lastmod":  "2026-09-14"
-                                                                                                                               },
-                 "https://ichouse.lk/resistors/ceramic-resistors/10w-33k-ceramic-wirewound-resistor-33k-ohm-j-5-high-power/":  {
-                                                                                                                                   "hash":  "",
-                                                                                                                                   "lastmod":  "2026-09-14"
-                                                                                                                               },
-                 "https://ichouse.lk/resistors/ceramic-resistors/15w-39-cement-resistor-wirewound-high-power-ceramic/":  {
-                                                                                                                             "hash":  "",
-                                                                                                                             "lastmod":  "2026-09-14"
-                                                                                                                         },
-                 "https://ichouse.lk/resistors/ceramic-resistors/7w-62-ceramic-wirewound-resistor-cement-type-high-power/":  {
-                                                                                                                                 "hash":  "",
-                                                                                                                                 "lastmod":  "2026-09-14"
-                                                                                                                             },
-                 "https://ichouse.lk/resistors/ceramic-resistors/7w-22-ohm-ceramic-wirewound-resistor-10-tolerance-high/":  {
-                                                                                                                                "hash":  "",
-                                                                                                                                "lastmod":  "2026-09-14"
-                                                                                                                            },
-                 "https://ichouse.lk/resistors/ceramic-resistors/7w-068-ohm-cement-resistor-068-k-high-power-wirewound/":  {
-                                                                                                                               "hash":  "",
-                                                                                                                               "lastmod":  "2026-09-14"
-                                                                                                                           },
-                 "https://ichouse.lk/resistors/ceramic-resistors/7w-047-ceramic-wirewound-resistor-10-tolerance-high-power/":  {
-                                                                                                                                   "hash":  "",
-                                                                                                                                   "lastmod":  "2026-09-14"
-                                                                                                                               },
-                 "https://ichouse.lk/resistors/ceramic-resistors/10w-180-ohm-cement-resistor-180-j-5-high-power-wirewound/":  {
-                                                                                                                                  "hash":  "",
-                                                                                                                                  "lastmod":  "2026-09-14"
-                                                                                                                              },
-                 "https://ichouse.lk/resistors/ceramic-resistors/15w-27-wirewound-cement-resistor-high-power-27-ohm-resistor/":  {
-                                                                                                                                     "hash":  "",
-                                                                                                                                     "lastmod":  "2026-09-14"
-                                                                                                                                 },
-                 "https://ichouse.lk/resistors/ceramic-resistors/7w-82-ceramic-cement-resistor-10-high-power-wirewound/":  {
-                                                                                                                               "hash":  "",
-                                                                                                                               "lastmod":  "2026-09-14"
-                                                                                                                           },
-                 "https://ichouse.lk/resistors/ceramic-resistors/15w-130-ohm-cement-resistor-5-j-high-power-wirewound/":  {
-                                                                                                                              "hash":  "",
-                                                                                                                              "lastmod":  "2026-09-14"
-                                                                                                                          },
-                 "https://ichouse.lk/resistors/ceramic-resistors/10w-39-cement-power-resistor-wirewound-high-wattage-39-ohm/":  {
-                                                                                                                                    "hash":  "",
-                                                                                                                                    "lastmod":  "2026-09-14"
-                                                                                                                                },
-                 "https://ichouse.lk/module/thermal-senser/hw557-v61-digital-thermostat-module-12v-temperature/":  {
-                                                                                                                       "hash":  "",
-                                                                                                                       "lastmod":  "2026-09-14"
-                                                                                                                   },
-                 "https://ichouse.lk/relays/4-pin-relay/jd2912-24v-40a-4pin-automotive-relay-heavy-duty-power-relay/":  {
-                                                                                                                            "hash":  "",
-                                                                                                                            "lastmod":  "2026-09-14"
-                                                                                                                        },
-                 "https://ichouse.lk/relays/5pin-relay/jd2914-24v-40a-5pin-automotive-relay-heavy-duty-spdt-relay/":  {
-                                                                                                                          "hash":  "",
-                                                                                                                          "lastmod":  "2026-09-14"
-                                                                                                                      },
-                 "https://ichouse.lk/capacitor/ceramic-capacitor/ceramic-disc-capacitor-473-50v-y5v-0047uf-47nf-radial/":  {
-                                                                                                                               "hash":  "",
-                                                                                                                               "lastmod":  "2026-09-14"
-                                                                                                                           },
-                 "https://ichouse.lk/metal-case-power-supply/12v-power-supply/12v-20a-switching-power-supply-metal-case-ac-to-dc/":  {
-                                                                                                                                         "hash":  "",
-                                                                                                                                         "lastmod":  "2026-09-14"
-                                                                                                                                     },
-                 "https://ichouse.lk/metal-case-power-supply/12v-power-supply/12v-30a-switching-power-supply-sri-lanka-fws2026-ac-to-dc/":  {
-                                                                                                                                                "hash":  "",
-                                                                                                                                                "lastmod":  "2026-09-14"
-                                                                                                                                            },
-                 "https://ichouse.lk/ic/pwmcontroller/uc3846n-pwm-controller-ic-dip16-smps-power-supply-control/":  {
-                                                                                                                        "hash":  "",
-                                                                                                                        "lastmod":  "2026-09-14"
-                                                                                                                    },
-                 "https://ichouse.lk/module/photo-control-switch/as10-220v-automatic-day-night-sensor-switch-10a-street/":  {
-                                                                                                                                "hash":  "",
-                                                                                                                                "lastmod":  "2026-09-14"
-                                                                                                                            },
-                 "https://ichouse.lk/fan/ac-230-fan/sunon-sf8025at-220v-ac-cooling-fan-80x80x25mm-industrial/":  {
-                                                                                                                     "hash":  "",
-                                                                                                                     "lastmod":  "2026-09-14"
-                                                                                                                 },
-                 "https://ichouse.lk/module/thermal-senser/xhw3001-digital-temperature-controller-12v-thermostat/":  {
-                                                                                                                         "hash":  "",
-                                                                                                                         "lastmod":  "2026-09-14"
-                                                                                                                     },
-                 "https://ichouse.lk/ic/melody-ic/um3561a-siren-sound-generator-ic-original-dip8-alarm-tone/":  {
-                                                                                                                    "hash":  "",
-                                                                                                                    "lastmod":  "2026-09-14"
-                                                                                                                },
-                 "https://ichouse.lk/transistor/pnp-transistor/2sa1941-original-toshiba-pnp-power-transistor-high-power/":  {
-                                                                                                                                "hash":  "",
-                                                                                                                                "lastmod":  "2026-09-14"
-                                                                                                                            },
-                 "https://ichouse.lk/transistor/npn-transistor/toshiba-c5198-npn-power-transistor-original-audio-amplifier/":  {
-                                                                                                                                   "hash":  "",
-                                                                                                                                   "lastmod":  "2026-09-14"
-                                                                                                                               },
-                 "https://ichouse.lk/module/relay-module/4-channel-5v-relay-module-board-for-arduino-esp32-raspberry/":  {
-                                                                                                                             "hash":  "",
-                                                                                                                             "lastmod":  "2026-09-14"
-                                                                                                                         },
-                 "https://ichouse.lk/module/photosensitive-sensor-module/ldr-light-sensor-module-lm393-adjustable-photosensitive/":  {
-                                                                                                                                         "hash":  "",
-                                                                                                                                         "lastmod":  "2026-09-14"
-                                                                                                                                     },
-                 "https://ichouse.lk/ic/audio-ic/tl064cn-quad-jfet-operational-amplifier-ic-original-dip14/":  {
-                                                                                                                   "hash":  "",
-                                                                                                                   "lastmod":  "2026-09-14"
-                                                                                                               },
-                 "https://ichouse.lk/mosfet/nchannel/irf3205-nchannel-power-mosfet-transistor-to220-high-current/":  {
-                                                                                                                         "hash":  "",
-                                                                                                                         "lastmod":  "2026-09-14"
-                                                                                                                     },
-                 "https://ichouse.lk/transistor/pnp-transistor/2sb1369-pnp-power-transistor-original-to3p-package-audio/":  {
-                                                                                                                                "hash":  "",
-                                                                                                                                "lastmod":  "2026-09-14"
-                                                                                                                            },
-                 "https://ichouse.lk/transistor/npn-transistor/2sc3200-npn-power-transistor-original-c3200-high-voltage/":  {
-                                                                                                                                "hash":  "",
-                                                                                                                                "lastmod":  "2026-09-14"
-                                                                                                                            },
-                 "https://ichouse.lk/igbt/nchannel/rjh60f5-igbt-transistor-600v-60a-to247-original-power-igbt/":  {
-                                                                                                                      "hash":  "",
-                                                                                                                      "lastmod":  "2026-09-14"
-                                                                                                                  },
-                 "https://ichouse.lk/rectifier/bridge-rectifier-diode-module/shd50sb100-50a-1000v-bridge-rectifier-diode-module-high/":  {
-                                                                                                                                             "hash":  "",
-                                                                                                                                             "lastmod":  "2026-09-14"
-                                                                                                                                         },
-                 "https://ichouse.lk/module/pir-motion/pir-motion-sensor-switch-220v-ac-automatic-light-control/":  {
-                                                                                                                        "hash":  "",
-                                                                                                                        "lastmod":  "2026-09-14"
-                                                                                                                    },
-                 "https://ichouse.lk/infrared-cooker-parts/ntc-temperature-sensor/infrared-cooker-thermal-sensor-ntc-temperature-sensor-probe/":  {
-                                                                                                                                                      "hash":  "",
-                                                                                                                                                      "lastmod":  "2026-09-14"
-                                                                                                                                                  },
-                 "https://ichouse.lk/solar/pwm-solar-charge-controller/30a-pwm-solar-charge-controller-12v24v-lcd-display-solar/":  {
-                                                                                                                                        "hash":  "",
-                                                                                                                                        "lastmod":  "2026-09-14"
-                                                                                                                                    },
-                 "https://ichouse.lk/module/boost-converter/xl6009-dcdc-adjustable-stepup-boost-converter-module-3v32v/":  {
-                                                                                                                               "hash":  "",
-                                                                                                                               "lastmod":  "2026-09-14"
-                                                                                                                           },
-                 "https://ichouse.lk/module/boost-converter/150w-dcdc-boost-converter-module-10v32v-to-12v35v/":  {
-                                                                                                                      "hash":  "",
-                                                                                                                      "lastmod":  "2026-09-14"
-                                                                                                                  },
-                 "https://ichouse.lk/cable/power-supply-cable/youkiloon-up01-lite-power-supply-cable-with-alligator-clips/":  {
-                                                                                                                                  "hash":  "",
-                                                                                                                                  "lastmod":  "2026-09-14"
-                                                                                                                              },
-                 "https://ichouse.lk/bms/liion-bms/4s-40a-lithium-battery-protection-board-bms-with-balance/":  {
-                                                                                                                    "hash":  "",
-                                                                                                                    "lastmod":  "2026-09-14"
-                                                                                                                },
-                 "https://ichouse.lk/motor/dc-motor/dc7512lsg-230v-dc-motor-with-coupling-and-mount-original/":  {
-                                                                                                                     "hash":  "",
-                                                                                                                     "lastmod":  "2026-09-14"
-                                                                                                                 },
-                 "https://ichouse.lk/module/pir-motion/adjustable-pir-motion-sensor-switch-220v-ac-6a-auto-light/":  {
-                                                                                                                         "hash":  "",
-                                                                                                                         "lastmod":  "2026-09-14"
-                                                                                                                     },
-                 "https://ichouse.lk/mosfet/nchannel/irfz44n-nchannel-power-mosfet-55v-49a-to220-original/":  {
-                                                                                                                  "hash":  "",
-                                                                                                                  "lastmod":  "2026-09-14"
-                                                                                                              },
-                 "https://ichouse.lk/bms/liion-bms/6s-12a-lithium-battery-protection-board-bms-hx6s12a-liion/":  {
-                                                                                                                     "hash":  "",
-                                                                                                                     "lastmod":  "2026-09-14"
-                                                                                                                 },
-                 "https://ichouse.lk/module/buck-converter/lm2596-dcdc-adjustable-step-down-buck-converter-module/":  {
-                                                                                                                          "hash":  "",
-                                                                                                                          "lastmod":  "2026-09-14"
-                                                                                                                      },
-                 "https://ichouse.lk/module/buck-converter/hw133a-mp1584en-dcdc-step-down-buck-converter-module-3a/":  {
-                                                                                                                           "hash":  "",
-                                                                                                                           "lastmod":  "2026-09-14"
-                                                                                                                       },
-                 "https://ichouse.lk/thyristors/triac/btb16800b-triac-16a-800v-to220-original-stmicroelectronics/":  {
-                                                                                                                         "hash":  "",
-                                                                                                                         "lastmod":  "2026-09-14"
-                                                                                                                     },
-                 "https://ichouse.lk/diode/schottky-diode/mbr30200pt-schottky-barrier-rectifier-diode-30a-200v-to247/":  {
-                                                                                                                             "hash":  "",
-                                                                                                                             "lastmod":  "2026-09-14"
-                                                                                                                         },
-                 "https://ichouse.lk/module/light-sensor-relay-module/xhm131-6v-dc-light-sensor-relay-module-with-external-ldr/":  {
-                                                                                                                                       "hash":  "",
-                                                                                                                                       "lastmod":  "2026-09-14"
-                                                                                                                                   },
-                 "https://ichouse.lk/module/light-sensor-relay-module/12v-dc-light-sensor-relay-switch-module-xhm131-with-ldr/":  {
-                                                                                                                                      "hash":  "",
-                                                                                                                                      "lastmod":  "2026-09-14"
-                                                                                                                                  },
-                 "https://ichouse.lk/audio-amplifier/stereo-amplifier-board/xha232-tpa3110-230w-stereo-classd-digital-audio-amplifier/":  {
-                                                                                                                                              "hash":  "",
-                                                                                                                                              "lastmod":  "2026-09-14"
-                                                                                                                                          },
-                 "https://ichouse.lk/audio-amplifier/mono-classd-amplifier-module/hw327a-tpa3118d2-60w-mono-classd-amplifier-module-sri-lanka/":  {
-                                                                                                                                                      "hash":  "",
-                                                                                                                                                      "lastmod":  "2026-09-14"
-                                                                                                                                                  },
-                 "https://ichouse.lk/audio-amplifier/stereo-tape-head-preamplifier/la3161-stereo-pre-amp-head-912v-dc-stereo-tape-head/":  {
-                                                                                                                                               "hash":  "",
-                                                                                                                                               "lastmod":  "2026-09-14"
-                                                                                                                                           },
-                 "https://ichouse.lk/charger/18650-charger/42v-300ma-smart-liion-18650-battery-charger-single-cell/":  {
-                                                                                                                           "hash":  "",
-                                                                                                                           "lastmod":  "2026-09-14"
-                                                                                                                       },
-                 "https://ichouse.lk/bms/liion-bms/3s-20a-bms-126v-lithium-battery-protection-board-for-18650/":  {
-                                                                                                                      "hash":  "",
-                                                                                                                      "lastmod":  "2026-09-14"
-                                                                                                                  },
-                 "https://ichouse.lk/bms/liion-bms/6s-12a-liion-bms-battery-protection-board-222v-252v-18650/":  {
-                                                                                                                     "hash":  "",
-                                                                                                                     "lastmod":  "2026-09-14"
-                                                                                                                 },
-                 "https://ichouse.lk/bms/liion-bms/4s-liion-bms-battery-protection-board-148v-168v-18650-4s/":  {
-                                                                                                                    "hash":  "",
-                                                                                                                    "lastmod":  "2026-09-14"
-                                                                                                                },
-                 "https://ichouse.lk/connecter/type-c-connector/usb-typec-female-2-wire-panel-mount-power-socket-usbc/":  {
-                                                                                                                              "hash":  "",
-                                                                                                                              "lastmod":  "2026-09-14"
-                                                                                                                          },
-                 "https://ichouse.lk/module/charging-module/3a-usb-typec-fast-charging-module-ip2312-1s-liion-battery/":  {
-                                                                                                                              "hash":  "",
-                                                                                                                              "lastmod":  "2026-09-14"
-                                                                                                                          },
-                 "https://ichouse.lk/motor-speed-controller/mini-motor-speed-regulator/hw687-dc-motor-speed-controller-45v35v-5a-pwm-mini-motor/":  {
-                                                                                                                                                        "hash":  "",
-                                                                                                                                                        "lastmod":  "2026-09-14"
-                                                                                                                                                    },
-                 "https://ichouse.lk/glue-sticks-for-glue-gun/7mm-300mm-glue-gun-glue-sticks/7mm-300mm-hot-melt-glue-sticks-1kg-7080pcs-grade-a-high/":  {
-                                                                                                                                                             "hash":  "",
-                                                                                                                                                             "lastmod":  "2026-09-14"
-                                                                                                                                                         },
-                 "https://ichouse.lk/pcb/10-led-knight-rider-kit/10-led-knight-rider-kitt-running-light-no-soldering-diy-kit/":  {
-                                                                                                                                     "hash":  "",
-                                                                                                                                     "lastmod":  "2026-09-14"
-                                                                                                                                 },
-                 "https://ichouse.lk/audio-amplifier/stereo-amplifier-board/pam8610-210w-stereo-classd-audio-amplifier-module-12v-mini/":  {
-                                                                                                                                               "hash":  "",
-                                                                                                                                               "lastmod":  "2026-09-14"
-                                                                                                                                           },
-                 "https://ichouse.lk/bms/liion-bms/1s-37v-liion-bms-protection-board-18650-battery-overcharge/":  {
-                                                                                                                      "hash":  "",
-                                                                                                                      "lastmod":  "2026-09-14"
-                                                                                                                  },
-                 "https://ichouse.lk/solar/mini-solar-panel/3v-100ma-mini-solar-panel-small-solar-cell-for-diy-projects/":  {
-                                                                                                                                "hash":  "",
-                                                                                                                                "lastmod":  "2026-09-14"
-                                                                                                                            },
-                 "https://ichouse.lk/bms/lfp-bms/4s-100a-lifepo4-bms-battery-protection-balancing-board/":  {
-                                                                                                                "hash":  "",
-                                                                                                                "lastmod":  "2026-09-14"
-                                                                                                            },
-                 "https://ichouse.lk/sitemap.html":  {
-                                                         "hash":  "",
-                                                         "lastmod":  "2026-09-14"
-                                                     }
-             }
+{
+  "urls": {
+    "https://ichouse.lk/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/delivery.html": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/faq.html": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/payment.html": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/privacy.html": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/return.html": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/terms.html": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/request-parts.html": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/sitemap.html": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/cable/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/cable/audio-extension-cable/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/cable/printer-cable/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/cable/power-supply-cable/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/module/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/module/thermal-senser/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/module/charging-module/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/module/buck-converter/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/module/battery-protection/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/module/photo-control-switch/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/module/relay-module/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/module/photosensitive-sensor-module/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/module/pir-motion/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/module/boost-converter/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/module/light-sensor-relay-module/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/bms/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/bms/liion-bms/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/bms/lfp-bms/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/power-adapter/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/power-adapter/12v-power-adapter/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/power-adapter/9v-power-adapter/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/power-adapter/24v-power-adapter/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/fuse/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/fuse/glass-fuses/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/fuse/ceramic-fuses/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/ic/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/ic/melody-ic/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/ic/pwmcontroller/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/ic/darlington-driver/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/ic/audio-ic/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/transistor/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/transistor/npn-transistor/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/transistor/pnp-transistor/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/mosfet/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/mosfet/nchannel/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/diode/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/diode/dual-schottky-rectifier-diode/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/diode/ultrafast-rectifier-diode/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/diode/schottky-diode/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/jack-base/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/jack-base/dc-female-base/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/jack-base/35mm-handfree-headphone-jack-base-pcb-mount/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/project-box/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/project-box/plastic-project-box/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/plug-top/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/plug-top/square-pin-plug-top/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/push-button/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/push-button/momentary-push-button-switch/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/jack/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/jack/tv-antenna-coaxial-jack-plug/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/speaker-part/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/speaker-part/4pin-speaker-input-terminal-plate/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/charger/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/charger/18650-charger/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/charger/liion-charger/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/capacitor/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/capacitor/polyester-film-capacitor/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/capacitor/ceramic-capacitor/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/transformer/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/transformer/12v-transformer/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/transformer/4v-transformer/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/tool-machine/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/tool-machine/hot-glue-gun/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/fan/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/fan/12v-fan/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/fan/ac-230-fan/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/solar/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/solar/mini-solar-panel/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/solar/pwm-solar-charge-controller/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/voltmeter/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/voltmeter/dc-voltmeter/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/panel-meter/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/panel-meter/ac-ammeter/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/splitter/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/splitter/3-way-splitter/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/splitter/2-way-splitter/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/network-switch/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/network-switch/8port-switch/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/watt-hour-meter/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/watt-hour-meter/single-phase-digital/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/relays/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/relays/solid-state-relays-ssr/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/relays/4-pin-relay/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/relays/5pin-relay/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/thyristors/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/thyristors/triac/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/igbt/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/igbt/nchannel/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/led-lighting-parts-components/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/led-lighting-parts-components/led-cob-chips/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/resistors/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/resistors/ceramic-resistors/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/metal-case-power-supply/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/metal-case-power-supply/12v-power-supply/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/rectifier/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/rectifier/bridge-rectifier-diode-module/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/infrared-cooker-parts/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/infrared-cooker-parts/ntc-temperature-sensor/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/motor/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/motor/dc-motor/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/audio-amplifier/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/audio-amplifier/stereo-amplifier-board/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/audio-amplifier/mono-classd-amplifier-module/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/audio-amplifier/stereo-tape-head-preamplifier/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/connecter/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/connecter/type-c-connector/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/motor-speed-controller/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/motor-speed-controller/mini-motor-speed-regulator/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/glue-sticks-for-glue-gun/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/glue-sticks-for-glue-gun/7mm-300mm-glue-gun-glue-sticks/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/pcb/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/pcb/10-led-knight-rider-kit/": {
+      "hash": "",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/cable/audio-extension-cable/35mm-aux-male-to-female-audio-extension-cable-red-color/": {
+      "hash": "3136a4152e0b14da82e29a40cc9a9401",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/module/thermal-senser/xhw3001-ac-230v-digital-temperature-controller-thermostat/": {
+      "hash": "fc59a401b54700ba9792606eb18071f8",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/bms/liion-bms/3s-10a-liion-battery-bms-protection-board/": {
+      "hash": "5d4517e949b33c14f6c589763d505168",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/power-adapter/12v-power-adapter/12v-3a-3pin-smps-power-adapter/": {
+      "hash": "c560646203de9b1831e0e78fd705dc7e",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/power-adapter/12v-power-adapter/12v-3a-2pin-switching-power-supply-adapter-acdc-transformer/": {
+      "hash": "c5f0f9419e59eb732336df64dde4468f",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/power-adapter/9v-power-adapter/9v-2a-2pin-acdc-power-adapter/": {
+      "hash": "49821f01ff5322b5c061b8be174da318",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/power-adapter/24v-power-adapter/24v-3a-acdc-power-adapter-with-dc-barrel-plug/": {
+      "hash": "b921da0db6acf6787655b6cef490f6c7",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/module/charging-module/tp4056-typec-lithium-battery-charging-module-with/": {
+      "hash": "2e27753b4a21aa3febde78f166466105",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/module/charging-module/tp4056-micro-usb-lithium-battery-charger-module-with/": {
+      "hash": "fdf06d502ee4ddb73a4f53d4c1347ac7",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/bms/liion-bms/2s-lithium-battery-bms-protection-board-74v-liion-balance/": {
+      "hash": "de7a1861b171269c0bbbf64e6bdf33ed",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/module/charging-module/tp5100-1s2s-lithium-battery-charger-module-2a-stepdown/": {
+      "hash": "da3a09847d136cc09343bf86ff3697d8",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/module/buck-converter/hw920-dcdc-buck-converter-adjustable-stepdown-power-supply/": {
+      "hash": "b1a3e4bf8267e9e6df1a0f9f71b350f8",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/module/battery-protection/m609-battery-low-voltage-cutoff-protection-module-with/": {
+      "hash": "f302f62dd37386cda68c27ca4bc062ad",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/fuse/glass-fuses/5a-glass-fuse-5x20mm-250v-fast-blow-cartridge-fuse-for/": {
+      "hash": "0368394125e3c7c3f02e52d9ed053e4f",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/fuse/glass-fuses/10a-glass-fuse-5x20mm-250v-fast-blow-cartridge-fuse-for/": {
+      "hash": "09f5607aa68587aebec6ae9b5a07df28",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/fuse/ceramic-fuses/5a-ceramic-fuse-5x20mm-250v-cartridge-fuse-for-electronic/": {
+      "hash": "75a346d35581d169c84369ec716fa5ed",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/fuse/ceramic-fuses/10a-ceramic-fuse-5x20mm-250v-cartridge-fuse-for-electronic/": {
+      "hash": "8b1a81be59254453391036d00680d67c",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/fuse/ceramic-fuses/13a-ceramic-fuse-250v-cartridge-fuse-high-temperature/": {
+      "hash": "933db854a26ce48c7ec29810db84f85c",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/ic/melody-ic/um66t19lk-chun-pan-box-melody-ic-music-generator-chip-to92/": {
+      "hash": "db99ec2271d6bbce90dd585f42a7a819",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/transistor/npn-transistor/d313-2sd313-npn-power-transistor-to220-for-amplifier-power/": {
+      "hash": "4bc4d1c9e5585a9af7078424e1de6e5d",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/transistor/npn-transistor/d882-2sd882-npn-power-transistor-to126-for-amplifier/": {
+      "hash": "f2cf80e397144d3f36176d742dd2ec57",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/mosfet/nchannel/irf740-nchannel-power-mosfet-to220-400v-high-voltage/": {
+      "hash": "f46c8f1577738fec2ac41c993a99de36",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/diode/dual-schottky-rectifier-diode/20100ct-20a-100v-dual-schottky-rectifier-diode-to220/": {
+      "hash": "5aefa4a6066ac4bd82cd390ccdc41fc7",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/jack-base/dc-female-base/dc-female-power-jack-panel-mount-socket-55x21mm-connector/": {
+      "hash": "3a9ded75a798e5f4114556a0c2a7ce18",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/project-box/plastic-project-box/plastic-project-box-4-cm-85-cm-7-cm-enclosure-case/": {
+      "hash": "f5f9cc4ba5ca7723f5bffba289e55de5",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/project-box/plastic-project-box/plastic-doorbell-project-box-25-cm-14-cm-6-cm-wallmount/": {
+      "hash": "163a86d085bff204c46e6b6ce2328206",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/plug-top/square-pin-plug-top/uk-standard-3pin-fused-plug-top-250v-ac-heavy-duty/": {
+      "hash": "ebbf02db7415c9c6cee20f25a22ee4ef",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/push-button/momentary-push-button-switch/momentary-push-button-switch-push-on-release-off-normally/": {
+      "hash": "fc9c69824e8e08d45151e9959e901fb4",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/jack/tv-antenna-coaxial-jack-plug/tv-antenna-coaxial-jack-plug-connector-rf-tv-aerial-male/": {
+      "hash": "0de5a7ae8fff656b1299d5676f71de09",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/speaker-part/4pin-speaker-input-terminal-plate/4pin-speaker-input-terminal-plate-audio-amplifier-speaker/": {
+      "hash": "520eb002ba368b9bc5da707af4382205",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/jack-base/35mm-handfree-headphone-jack-base-pcb-mount/35mm-handfree-headphone-jack-base-pcb-mount-audio-socket/": {
+      "hash": "d9af649577e70343d37e9f4e56e28e0e",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/project-box/plastic-project-box/mini-plastic-project-box-enclosure-6425cm-black-electronic/": {
+      "hash": "a109aecadc77e89ee16f3eeeb1d8c113",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/charger/18650-charger/18650-single-battery-charger-42v-1a-liion-universal-smart/": {
+      "hash": "b8581649754a6d2a19af7a404a1cc355",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/charger/liion-charger/liion-universal-battery-charger-dual-slot-42v-smart-charger/": {
+      "hash": "cd1c6957d5b8d20b2752da2afdbc0b88",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/capacitor/polyester-film-capacitor/182j-polyester-film-capacitor-18nf-100v-radial-lead-green/": {
+      "hash": "6eee7d697f34b5d3ff467851e4b01f7b",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/capacitor/polyester-film-capacitor/153j-polyester-film-capacitor-0015f-100v-radial-lead-green/": {
+      "hash": "7707073bce0182936c005f901a637a94",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/capacitor/polyester-film-capacitor/223k-polyester-film-capacitor-0022f-10-tolerance-radial/": {
+      "hash": "1564c071c0fbbd3c2dbcc37ed6e74a58",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/capacitor/polyester-film-capacitor/223j-polyester-film-capacitor-0022f-500v-radial-lead/": {
+      "hash": "e4f87f92a64599314145932cafb98759",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/transformer/12v-transformer/220v-to-12v-x2-14a-ac-transformer-dual-output-power-supply/": {
+      "hash": "705f29c478f5bf9aa5d93bdbebae1100",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/transformer/12v-transformer/220v-to-6v-065a-step-down-transformer-single-output-power/": {
+      "hash": "6c543deb2433eeb8202139cede03f22a",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/transformer/4v-transformer/230v-to-4v-400ma-step-down-transformer-single-output-power/": {
+      "hash": "1f0b9153f11c53a022674d730737cd2f",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/transformer/12v-transformer/230v-to-12v-1a-step-down-transformer-single-output-power/": {
+      "hash": "d98964b571b552d9dd4223d4154b45e6",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/tool-machine/hot-glue-gun/boaisen-hj20w-hot-melt-glue-gun-100240v-electric-craft-diy/": {
+      "hash": "76d0eb25496b2f1144d1fe5f19c39da6",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/fan/12v-fan/igo-jg8025-12v-dc-cooling-fan-80x80x25mm-panel-cabinet/": {
+      "hash": "8c5ba86bf6f59c99ac930e179e3a439e",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/solar/mini-solar-panel/mini-solar-emergency-light-panel-usb-rechargeable-compact/": {
+      "hash": "300d1404e469db99db149fb602fb55cd",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/solar/mini-solar-panel/mini-solar-panel-with-dc-motor-small-diy-solar-power-kit/": {
+      "hash": "1eadb5e92eab848294bfaf59455f8d4f",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/transformer/12v-transformer/12v-x2-300ma-step-down-transformer-ac-230v-to-dual-12v/": {
+      "hash": "c741e35597ab3968c289ea5847845dea",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/voltmeter/dc-voltmeter/dc-030v-red-led-digital-voltmeter-panel-meter-3-digit/": {
+      "hash": "4d79ee21bf762625dbbf5076ed043592",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/cable/printer-cable/3m-printer-cable-highspeed-data-transfer-cord/": {
+      "hash": "02bbe509d69d414661bf88558374e5dc",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/transistor/npn-transistor/13007-power-transistor-mje13007-j130072-equivalent-high/": {
+      "hash": "d443314cb7578fb15c5c5c2b647ebb4c",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/panel-meter/ac-ammeter/sf72-analog-ac-ammeter-3005a-72x72mm-panel-meter-current/": {
+      "hash": "9d09e94c9731bf356a6a5b5f5f2ca8da",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/splitter/3-way-splitter/mx254a-3-way-cable-splitter-51000mhz-digital-tv-signal/": {
+      "hash": "08808aaf67b4c75b85b997fb2afd56c0",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/capacitor/ceramic-capacitor/ceramic-capacitor-10pf-50wv-k-tolerance-through-hole/": {
+      "hash": "9c5c38442e8d80654938679ef9a4bdff",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/cable/printer-cable/1m-usb-printer-cable-usb-a-to-usb-b-highspeed-data-cable/": {
+      "hash": "3ce7e80cd218697227f018c985a394d5",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/network-switch/8port-switch/tplink-tlsf1008d-8port-fast-ethernet-switch-10100mbps/": {
+      "hash": "345ad37fb1b36503b9b2e11fa77a8225",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/splitter/2-way-splitter/sd72-2-way-coaxial-splitter-fm-vhf-uhf-power-pass-cable-tv/": {
+      "hash": "fd725873ffe260dbb13233c969653a0d",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/power-adapter/12v-power-adapter/12v-5a-dc-power-adapter-sri-lanka-hans-ac-to-dc-charger-60w/": {
+      "hash": "a873a03575509681e43eeca31cd90e7c",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/transistor/npn-transistor/e13009l-power-transistor-400v-12a-to3p-smps-transistor-sri/": {
+      "hash": "63a38bd59bac8544e73a1dc63b4ca8b5",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/mosfet/nchannel/7n65f-mosfet-650v-7a-to220-nchannel-power-transistor-sri/": {
+      "hash": "892af2b1a00cc6a8faff646a2439a5c7",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/diode/dual-schottky-rectifier-diode/mbr30100pt-schottky-diode-100v-30a-to247-dual-rectifier-sri/": {
+      "hash": "0069cb6ec9a513d0f8aaaf57aca37a64",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/ic/pwmcontroller/uc3843an-pwm-controller-ic-smps-power-supply-ic-sri-lanka/": {
+      "hash": "223c8112db7cde99c28c771d214fed2b",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/mosfet/nchannel/60r380f-mosfet-transistor-high-voltage-power-mosfet-600v-8a/": {
+      "hash": "ae6436b50455a34feddedcf4695ab0db",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/mosfet/nchannel/slh60r041gtdi-mosfet-600v-41a-power-transistor-to247-high/": {
+      "hash": "521f7ab23fe877e32eb2cf0f2a0af49f",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/diode/ultrafast-rectifier-diode/rhro30120-ultrafast-rectifier-diode-30a-1200v-to247-high/": {
+      "hash": "f984262908bd827881cf01fd4de76fd7",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/watt-hour-meter/single-phase-digital/single-phase-digital-watt-hour-meter-lsg121l-220v-560a-kwh/": {
+      "hash": "fa017e1df31e54de84b4175b28475593",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/ic/darlington-driver/uln2004apg-darlington-transistor-array-ic-7-channel-relay/": {
+      "hash": "e8eb10d11279e48125b96aec00d66a69",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/relays/solid-state-relays-ssr/ssr80da-solid-state-relay-80a-332v-dc-to-24380v-ac-high/": {
+      "hash": "9f59afc823baa47939b001c085891de6",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/relays/4-pin-relay/jd1912-12v-80a-4-pin-relay-heavy-duty-automotive-power/": {
+      "hash": "5d5eec339b2ecd36770100b2fcd35230",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/thyristors/triac/bt136-triac-600v-4a-to220-ac-power-control-switch-for/": {
+      "hash": "796e529932cb7f9a5ec4a8e337d9edd7",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/transistor/npn-transistor/d2058-npn-power-transistor-60v-5a-40w-to220-2sd2058/": {
+      "hash": "559173e0d07129c40487954eebb38051",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/transistor/pnp-transistor/buy-2sb1366-b1366-pnp-power-transistor-to220f-in-sri-lanka/": {
+      "hash": "9693fe279c93c6c4c5f253def28aed99",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/igbt/nchannel/mp50n65ed-igbt-650v-50a-to247-power-transistor-high-speed/": {
+      "hash": "c9245c07b7e5c6f04a943cc8724ffef4",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/led-lighting-parts-components/led-cob-chips/12w-cob-led-chip-36v-300ma-cool-white-6000k6500k/": {
+      "hash": "f7ccfdbe1ef72fdfb1df04d85c574da9",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/led-lighting-parts-components/led-cob-chips/7w-cob-led-chip-2123v-300ma-cool-white-6000k6500k-high/": {
+      "hash": "05133541f7cb80446debd672ac4967ee",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/led-lighting-parts-components/led-cob-chips/5w-cob-led-chip-15v17v-300ma-6000k6500k-high-brightness-led/": {
+      "hash": "e8425a990e3e374fbac4765113b8e68b",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/led-lighting-parts-components/led-cob-chips/5w-warm-white-cob-led-chip-3000k3200k-15v17v-300ma-high/": {
+      "hash": "64b3c01555d5ac2864db05940f1f1de9",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/resistors/ceramic-resistors/10w-12k-ceramic-cement-resistor-wirewound-high-power-1200/": {
+      "hash": "1a23243b4e01f615553ec765e82b98f0",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/resistors/ceramic-resistors/10w-15k-ceramic-cement-resistor-wirewound-high-power-1500/": {
+      "hash": "48e2d8523cfee1a46d7da3d2755ba91f",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/resistors/ceramic-resistors/5w-82k-ceramic-cement-resistor-5-j-high-power-wirewound/": {
+      "hash": "654e4e50b3ef1a16b95bbd0852482c46",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/resistors/ceramic-resistors/33k-10w-ceramic-power-resistor-5-j-high-watt-wirewound/": {
+      "hash": "17d4b6eba5b8d7a7f6673ab57278846a",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/resistors/ceramic-resistors/10w-082-ceramic-power-resistor-10-tolerance-high-watt/": {
+      "hash": "132a24b66ecbee0f1597cd8be648798e",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/resistors/ceramic-resistors/10w-22-ceramic-resistor-wirewound-high-power-22-ohm/": {
+      "hash": "d142923be80fad2f36dfd4cee05f7174",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/resistors/ceramic-resistors/7w-68-cement-resistor-wirewound-power-resistor-high-power/": {
+      "hash": "940791b9d2d5a051c22903ad6e19edd5",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/resistors/ceramic-resistors/10w-33k-ceramic-wirewound-resistor-33k-ohm-j-5-high-power/": {
+      "hash": "0496dc27b4f1ece60a134b42ade47782",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/resistors/ceramic-resistors/15w-39-cement-resistor-wirewound-high-power-ceramic/": {
+      "hash": "ef3601de12637570f30a017d38ced00b",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/resistors/ceramic-resistors/7w-62-ceramic-wirewound-resistor-cement-type-high-power/": {
+      "hash": "a389e17e68fbb11970bdc541139c0294",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/resistors/ceramic-resistors/7w-22-ohm-ceramic-wirewound-resistor-10-tolerance-high/": {
+      "hash": "5453b3c5ac12ec9d2b36d5c9d26a1fc1",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/resistors/ceramic-resistors/7w-068-ohm-cement-resistor-068-k-high-power-wirewound/": {
+      "hash": "2568ea596d72b08e876992ddb2ac76b2",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/resistors/ceramic-resistors/7w-047-ceramic-wirewound-resistor-10-tolerance-high-power/": {
+      "hash": "62d7bb6834e2398bce5fe05f40e9238f",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/resistors/ceramic-resistors/10w-180-ohm-cement-resistor-180-j-5-high-power-wirewound/": {
+      "hash": "e4eafd0b38e199a6f74a02310687c7f4",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/resistors/ceramic-resistors/15w-27-wirewound-cement-resistor-high-power-27-ohm-resistor/": {
+      "hash": "1fe09456b1a929ef6edbc078fa89fa57",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/resistors/ceramic-resistors/7w-82-ceramic-cement-resistor-10-high-power-wirewound/": {
+      "hash": "dfcf50da3b05c23cfcdaf1f27cc3e638",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/resistors/ceramic-resistors/15w-130-ohm-cement-resistor-5-j-high-power-wirewound/": {
+      "hash": "300718d6bbf24ccf1b5207a28d52d8d1",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/resistors/ceramic-resistors/10w-39-cement-power-resistor-wirewound-high-wattage-39-ohm/": {
+      "hash": "2657c83544271450dab5b5eb3c9f65af",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/module/thermal-senser/hw557-v61-digital-thermostat-module-12v-temperature/": {
+      "hash": "31c30f2c1b16f98fc8e38609fc2fd7cc",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/relays/4-pin-relay/jd2912-24v-40a-4pin-automotive-relay-heavy-duty-power-relay/": {
+      "hash": "d811943a4155e8a1895d5ca25a92294a",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/relays/5pin-relay/jd2914-24v-40a-5pin-automotive-relay-heavy-duty-spdt-relay/": {
+      "hash": "734bfc40c07fe3d884777d6b2cc2a317",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/capacitor/ceramic-capacitor/ceramic-disc-capacitor-473-50v-y5v-0047uf-47nf-radial/": {
+      "hash": "f09d410faebdcc59766bcae73eefb200",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/metal-case-power-supply/12v-power-supply/12v-20a-switching-power-supply-metal-case-ac-to-dc/": {
+      "hash": "85a184e62041a4311ffe330d1125e24b",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/metal-case-power-supply/12v-power-supply/12v-30a-switching-power-supply-sri-lanka-fws2026-ac-to-dc/": {
+      "hash": "25dc1e72c1fea0d6c0be7784cebda053",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/ic/pwmcontroller/uc3846n-pwm-controller-ic-dip16-smps-power-supply-control/": {
+      "hash": "278a6fd864cc832b55932a2f5e9cce84",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/module/photo-control-switch/as10-220v-automatic-day-night-sensor-switch-10a-street/": {
+      "hash": "09d947ba3e879b0632abdf547ccb4dab",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/fan/ac-230-fan/sunon-sf8025at-220v-ac-cooling-fan-80x80x25mm-industrial/": {
+      "hash": "0655388b38dbc085e1e50e8e720891f6",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/module/thermal-senser/xhw3001-digital-temperature-controller-12v-thermostat/": {
+      "hash": "b21cb1d589f22eba4c90eb3af174096a",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/ic/melody-ic/um3561a-siren-sound-generator-ic-original-dip8-alarm-tone/": {
+      "hash": "517f25654d0ffcc7563f6416e21ff07d",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/transistor/pnp-transistor/2sa1941-original-toshiba-pnp-power-transistor-high-power/": {
+      "hash": "5bafb8d8c2ed76f8a9fc85966087c2fe",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/transistor/npn-transistor/toshiba-c5198-npn-power-transistor-original-audio-amplifier/": {
+      "hash": "a8882906380c44a97e31bdf579d886c3",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/module/relay-module/4-channel-5v-relay-module-board-for-arduino-esp32-raspberry/": {
+      "hash": "c73d47a641f3406172c8d0d50edd4ae5",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/module/photosensitive-sensor-module/ldr-light-sensor-module-lm393-adjustable-photosensitive/": {
+      "hash": "aaacccfdd9962fa473cf1768c79a9194",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/ic/audio-ic/tl064cn-quad-jfet-operational-amplifier-ic-original-dip14/": {
+      "hash": "950294b87510338519a96b49e80b637a",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/mosfet/nchannel/irf3205-nchannel-power-mosfet-transistor-to220-high-current/": {
+      "hash": "55eac95b2deec288c92a268c50ea71fb",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/transistor/pnp-transistor/2sb1369-pnp-power-transistor-original-to3p-package-audio/": {
+      "hash": "dd7ee569d2f16cc267e9f3a6126cccf3",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/transistor/npn-transistor/2sc3200-npn-power-transistor-original-c3200-high-voltage/": {
+      "hash": "a45f587c446e694304533a313b463afe",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/igbt/nchannel/rjh60f5-igbt-transistor-600v-60a-to247-original-power-igbt/": {
+      "hash": "9dd346e1660fc5e6e3e019906cbb6f5a",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/rectifier/bridge-rectifier-diode-module/shd50sb100-50a-1000v-bridge-rectifier-diode-module-high/": {
+      "hash": "8f3eedbdd291012aef64936312bf44d3",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/module/pir-motion/pir-motion-sensor-switch-220v-ac-automatic-light-control/": {
+      "hash": "73bb57e49f82366fa35484767451719e",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/infrared-cooker-parts/ntc-temperature-sensor/infrared-cooker-thermal-sensor-ntc-temperature-sensor-probe/": {
+      "hash": "1a625bd66ba1984ddc855f642a110bc9",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/solar/pwm-solar-charge-controller/30a-pwm-solar-charge-controller-12v24v-lcd-display-solar/": {
+      "hash": "11fe5cb46b0fdca2e14aaf2836260365",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/module/boost-converter/xl6009-dcdc-adjustable-stepup-boost-converter-module-3v32v/": {
+      "hash": "a5b4db67807d17a50fbe85d13681fd80",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/module/boost-converter/150w-dcdc-boost-converter-module-10v32v-to-12v35v/": {
+      "hash": "8599d0590c76a29a44529ee8da50bdc4",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/cable/power-supply-cable/youkiloon-up01-lite-power-supply-cable-with-alligator-clips/": {
+      "hash": "3fdd68ed3849c5ebb66bcfe4b95b9e18",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/bms/liion-bms/4s-40a-lithium-battery-protection-board-bms-with-balance/": {
+      "hash": "74222355919f7e6a76ed841978bfba47",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/motor/dc-motor/dc7512lsg-230v-dc-motor-with-coupling-and-mount-original/": {
+      "hash": "98b43c83be33973e7d0db274de98e9de",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/module/pir-motion/adjustable-pir-motion-sensor-switch-220v-ac-6a-auto-light/": {
+      "hash": "b6778014abbf716b956db627343585be",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/mosfet/nchannel/irfz44n-nchannel-power-mosfet-55v-49a-to220-original/": {
+      "hash": "4043c43a727394f07d5edb65f71236ed",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/bms/liion-bms/6s-12a-lithium-battery-protection-board-bms-hx6s12a-liion/": {
+      "hash": "00ae3507000fbef407020b0aecb4e189",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/module/buck-converter/lm2596-dcdc-adjustable-step-down-buck-converter-module/": {
+      "hash": "5acbb3eaab6920befc714ac1d2138d73",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/module/buck-converter/hw133a-mp1584en-dcdc-step-down-buck-converter-module-3a/": {
+      "hash": "d734cc0180e9a0de246216ba2caec0b9",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/thyristors/triac/btb16800b-triac-16a-800v-to220-original-stmicroelectronics/": {
+      "hash": "b6943b4ce2779ea46cec45e8b6cd25d7",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/diode/schottky-diode/mbr30200pt-schottky-barrier-rectifier-diode-30a-200v-to247/": {
+      "hash": "884c9ca219adb9226db5da4009f78170",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/module/light-sensor-relay-module/xhm131-6v-dc-light-sensor-relay-module-with-external-ldr/": {
+      "hash": "0abceab2f45fb4f8b137723023f898b4",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/module/light-sensor-relay-module/12v-dc-light-sensor-relay-switch-module-xhm131-with-ldr/": {
+      "hash": "dee0881fcbcfa02e04d73e6ab7be277b",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/audio-amplifier/stereo-amplifier-board/xha232-tpa3110-230w-stereo-classd-digital-audio-amplifier/": {
+      "hash": "aed8b86e45c2feb136ea92f029397ef0",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/audio-amplifier/mono-classd-amplifier-module/hw327a-tpa3118d2-60w-mono-classd-amplifier-module-sri-lanka/": {
+      "hash": "de8dd54761ad045a0576ffd3144ae027",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/audio-amplifier/stereo-tape-head-preamplifier/la3161-stereo-pre-amp-head-912v-dc-stereo-tape-head/": {
+      "hash": "578bb6ec7e13e8d7c06edb0f0ecb83cd",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/charger/18650-charger/42v-300ma-smart-liion-18650-battery-charger-single-cell/": {
+      "hash": "09c6469637076f904532069fdd5e98f5",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/bms/liion-bms/3s-20a-bms-126v-lithium-battery-protection-board-for-18650/": {
+      "hash": "1f0d774890cec6c9b3890d97b7f6d420",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/bms/liion-bms/6s-12a-liion-bms-battery-protection-board-222v-252v-18650/": {
+      "hash": "31fcda20977df5135ad20133dc7ecae0",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/bms/liion-bms/4s-liion-bms-battery-protection-board-148v-168v-18650-4s/": {
+      "hash": "05ca586661e4d1fb2520458c2349871d",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/connecter/type-c-connector/usb-typec-female-2-wire-panel-mount-power-socket-usbc/": {
+      "hash": "a7eac50a95b40cc9008495b154461ff4",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/module/charging-module/3a-usb-typec-fast-charging-module-ip2312-1s-liion-battery/": {
+      "hash": "0704bcbd012dbab8723b98ad6151ab2e",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/motor-speed-controller/mini-motor-speed-regulator/hw687-dc-motor-speed-controller-45v35v-5a-pwm-mini-motor/": {
+      "hash": "a7c662c72b4f5cf4f7b2683487a6b0e8",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/glue-sticks-for-glue-gun/7mm-300mm-glue-gun-glue-sticks/7mm-300mm-hot-melt-glue-sticks-1kg-7080pcs-grade-a-high/": {
+      "hash": "5141ba1a43dd77a9ef2429847143a6d9",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/pcb/10-led-knight-rider-kit/10-led-knight-rider-kitt-running-light-no-soldering-diy-kit/": {
+      "hash": "a6729ba5974447ff7360509d7b345118",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/audio-amplifier/stereo-amplifier-board/pam8610-210w-stereo-classd-audio-amplifier-module-12v-mini/": {
+      "hash": "3bbae3de4411e17819adfcbebf6c138e",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/bms/liion-bms/1s-37v-liion-bms-protection-board-18650-battery-overcharge/": {
+      "hash": "f7261c349132ca9febdb0feee585040c",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/solar/mini-solar-panel/3v-100ma-mini-solar-panel-small-solar-cell-for-diy-projects/": {
+      "hash": "605fab72b83f33195ac9608ad4133750",
+      "lastmod": "2026-09-14"
+    },
+    "https://ichouse.lk/bms/lfp-bms/4s-100a-lifepo4-bms-battery-protection-balancing-board/": {
+      "hash": "3855dbb969c8aec42fdee3e9cb6c7d83",
+      "lastmod": "2026-09-14"
+    }
+  }
 }

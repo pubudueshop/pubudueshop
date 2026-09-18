@@ -247,7 +247,7 @@
                 <div class="md:w-3/5 p-8 flex flex-col">
                     <!-- Stock Badge -->
                     <div class="mb-3">
-                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-green-100 text-green-800">In Stock</span>
+                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-red-100 text-red-800">Out of Stock</span>
                         <span class="ml-2 px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">12v Power Adapter</span>
                     </div>
 
@@ -317,11 +317,8 @@
                         </div>
                         <div class="flex-1 min-w-[200px] flex flex-col gap-2">
                             
-                            <button onclick="if(window.addToCart) addToCart('1771474769411', getSelectedQty())" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold h-12 rounded-lg shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-2 active:scale-95">
-                                <i class="fas fa-cart-plus"></i> Add to Cart
-                            </button>
-                            <button onclick="if(window.addToCart) { addToCart('1771474769411', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold h-12 rounded-lg shadow-lg shadow-green-200 transition-all flex items-center justify-center gap-2 active:scale-95">
-                                <i class="fab fa-whatsapp"></i> Buy via WhatsApp
+                            <button disabled class="w-full bg-gray-200 text-gray-500 font-bold h-12 rounded-lg cursor-not-allowed flex items-center justify-center gap-2">
+                                <i class="fas fa-ban"></i> Out of Stock
                             </button>
                             
                         </div>
@@ -358,16 +355,16 @@
                     <table class="w-full text-left">
                         <tbody>
             <tr class="bg-white">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">New</td>
-            </tr>
-            <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Model</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">DC12030012A</td>
             </tr>
-            <tr class="bg-white">
+            <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
+            </tr>
+            <tr class="bg-white">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b"></td>
             </tr>
             <tr class="bg-gray-50">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
@@ -419,24 +416,21 @@
 <!-- Mobile Sticky Bottom Bar -->
 <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 md:hidden flex gap-4 z-[2000] shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
     
-    <button onclick="if(window.addToCart) addToCart('1771474769411', getSelectedQty())" class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
-        <i class="fas fa-cart-plus"></i> Cart
-    </button>
-    <button onclick="if(window.addToCart) { addToCart('1771474769411', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="flex-1 bg-green-500 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
-        <i class="fab fa-whatsapp"></i> Buy
+    <button disabled class="flex-1 bg-gray-100 text-gray-400 font-bold py-3 rounded-lg flex items-center justify-center gap-2 cursor-not-allowed">
+        <i class="fas fa-ban"></i> Out of Stock
     </button>
     
 </div>
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Power Adapter","item":"https://ichouse.lk/power-adapter/"},{"@type":"ListItem","position":3,"name":"12v Power Adapter","item":"https://ichouse.lk/power-adapter/12v-power-adapter/"},{"@type":"ListItem","position":4,"name":"12V 3A 3-Pin SMPS Power Adapter","item":"https://ichouse.lk/power-adapter/12v-power-adapter/12v-3a-3pin-smps-power-adapter/"}]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"12V 3A 3-Pin SMPS Power Adapter","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1771473555/12v3a_smps_2_1_hemcyk.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1771473555/24v_eee_1_x0qikw.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1771474596/24v_eee_2_ruqvek.png"],"description":"High-quality 12V 3A SMPS power adapter with 3-pin AC plug, delivering stable and efficient DC output for electronic devices. Features built-in protection against over-voltage, over-current, and short circuit for safe operation. Ideal for routers, CCTV cameras, LED strips, and DIY electronics projects.","sku":"DC12030012A","itemCondition":"https://schema.org/NewCondition","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/power-adapter/12v-power-adapter/12v-3a-3pin-smps-power-adapter/","priceCurrency":"LKR","price":950,"priceValidUntil":"2027-12-31","itemCondition":"https://schema.org/NewCondition","availability":"https://schema.org/InStock","hasMerchantReturnPolicy":{"@type":"MerchantReturnPolicy","applicableCountry":"LK","returnPolicyCategory":"https://schema.org/MerchantReturnFiniteReturnWindow","merchantReturnDays":7,"returnMethod":"https://schema.org/ReturnByMail","returnFees":"https://schema.org/FreeReturn"},"shippingDetails":{"@type":"OfferShippingDetails","shippingRate":{"@type":"MonetaryAmount","value":"350","currency":"LKR"},"shippingDestination":{"@type":"DefinedRegion","addressCountry":"LK"},"deliveryTime":{"@type":"ShippingDeliveryTime","handlingTime":{"@type":"QuantitativeValue","minValue":0,"maxValue":1,"unitCode":"d"},"transitTime":{"@type":"QuantitativeValue","minValue":1,"maxValue":3,"unitCode":"d"}}},"seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"12V 3A 3-Pin SMPS Power Adapter","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1771473555/12v3a_smps_2_1_hemcyk.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1771473555/24v_eee_1_x0qikw.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1771474596/24v_eee_2_ruqvek.png"],"description":"High-quality 12V 3A SMPS power adapter with 3-pin AC plug, delivering stable and efficient DC output for electronic devices. Features built-in protection against over-voltage, over-current, and short circuit for safe operation. Ideal for routers, CCTV cameras, LED strips, and DIY electronics projects.","sku":"DC12030012A","itemCondition":"https://schema.org/NewCondition","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/power-adapter/12v-power-adapter/12v-3a-3pin-smps-power-adapter/","priceCurrency":"LKR","price":950,"priceValidUntil":"2027-12-31","itemCondition":"https://schema.org/NewCondition","availability":"https://schema.org/OutOfStock","hasMerchantReturnPolicy":{"@type":"MerchantReturnPolicy","applicableCountry":"LK","returnPolicyCategory":"https://schema.org/MerchantReturnFiniteReturnWindow","merchantReturnDays":7,"returnMethod":"https://schema.org/ReturnByMail","returnFees":"https://schema.org/FreeReturn"},"shippingDetails":{"@type":"OfferShippingDetails","shippingRate":{"@type":"MonetaryAmount","value":"350","currency":"LKR"},"shippingDestination":{"@type":"DefinedRegion","addressCountry":"LK"},"deliveryTime":{"@type":"ShippingDeliveryTime","handlingTime":{"@type":"QuantitativeValue","minValue":0,"maxValue":1,"unitCode":"d"},"transitTime":{"@type":"QuantitativeValue","minValue":1,"maxValue":3,"unitCode":"d"}}},"seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
 <script>
 // Pre-load product data so cart works instantly without waiting for Firebase
 window._currentModalProduct = {
     id: '1771474769411',
     title: "12V 3A 3-Pin SMPS Power Adapter",
     price: 950,
-    stock: 10,
+    stock: 99,
     image: "https://res.cloudinary.com/dqwdov5ab/image/upload/v1771473555/12v3a_smps_2_1_hemcyk.png",
     mainCategory: "Power Adapter",
     subCategory: "12v Power Adapter"

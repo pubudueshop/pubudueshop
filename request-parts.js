@@ -27,8 +27,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Form Submission Logic ---
     if (form) {
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
+            // Rate Limiting Check: Prevent spam requests (30 seconds cooldown)
+            const LAST_REQ_KEY = 'last_part_request_timestamp';
+            const lastReqTime = localStorage.getItem(LAST_REQ_KEY);
+            const now = Date.now();
+            if (lastReqTime && (now - parseInt(lastReqTime, 10)) < 30000) {
+                const remaining = Math.ceil((30000 - (now - parseInt(lastReqTime, 10))) / 1000);
+                alert(`Please wait ${remaining} seconds before submitting another part request.`);
+                return;
+            }
 
             const submitBtn = form.querySelector('button[type="submit"]');
             const originalBtnText = submitBtn.innerHTML;
@@ -36,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Set loading state
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+            localStorage.setItem(LAST_REQ_KEY, now.toString());
 
             // Get field values
             const name = document.getElementById('name').value;

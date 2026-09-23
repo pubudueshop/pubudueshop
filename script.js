@@ -1,3 +1,14 @@
+// Security: Safe HTML sanitization using DOMPurify with plain text fallback
+function safeHTML(content) {
+    if (!content) return '';
+    if (typeof DOMPurify !== 'undefined') {
+        return DOMPurify.sanitize(content);
+    }
+    const div = document.createElement('div');
+    div.textContent = content;
+    return div.innerHTML;
+}
+
 // ✅ FIX: missing function
 function downloadInvoice() {
     window.print();
@@ -770,6 +781,17 @@ async function openInvoice(customerData) {
         return;
     }
 
+    // Rate Limiting Check: Prevent rapid duplicate order submissions (15 seconds cooldown)
+    const LAST_ORDER_KEY = 'last_order_timestamp';
+    const lastOrderTime = localStorage.getItem(LAST_ORDER_KEY);
+    const now = Date.now();
+    if (lastOrderTime && (now - parseInt(lastOrderTime, 10)) < 15000) {
+        const remaining = Math.ceil((15000 - (now - parseInt(lastOrderTime, 10))) / 1000);
+        showToast(`Please wait ${remaining}s before generating a new order.`, "error");
+        return;
+    }
+    localStorage.setItem(LAST_ORDER_KEY, now.toString());
+
     const invoiceModal = document.getElementById('invoice-modal');
     const invoiceDate = document.getElementById('invoice-date');
     const invoiceIdText = document.getElementById('invoice-id');
@@ -787,7 +809,7 @@ async function openInvoice(customerData) {
     invoiceDate.textContent = `Date: ${date.toLocaleDateString()}`;
     invoiceIdText.textContent = `Invoice ID: #${invoiceId}`;
 
-    // Fill Customer Data
+    // Fill Customer Data safely with textContent
     invoiceUserName.textContent = customerData.name;
     invoiceUserAddress.textContent = customerData.address;
     invoiceUserCityDistrict.textContent = `${customerData.city}, ${customerData.district}`;
@@ -795,7 +817,7 @@ async function openInvoice(customerData) {
 
     invoiceItems.innerHTML = cart.map(item => `
         <tr>
-            <td>${item.title}</td>
+            <td>${safeHTML(item.title)}</td>
             <td>${item.quantity}</td>
             <td>LKR ${item.price.toLocaleString()}</td>
             <td>LKR ${(item.price * item.quantity).toLocaleString()}</td>
@@ -1978,7 +2000,7 @@ function openProductDetails(id) {
 
     // Description
     if (detailDescription) {
-        detailDescription.innerHTML = product.longDescription || product.description;
+        detailDescription.innerHTML = safeHTML(product.longDescription || product.description);
     }
 
     // Features
@@ -1987,7 +2009,7 @@ function openProductDetails(id) {
             detailFeatures.innerHTML = product.features.map(f => `
                 <li class="flex items-center gap-2">
                     <i class="fas fa-check-circle text-green-500 text-xs"></i>
-                    <span>${f}</span>
+                    <span>${safeHTML(f)}</span>
                 </li>
             `).join('');
         } else {

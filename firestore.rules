@@ -2,15 +2,11 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    function adminEmailLower() {
-      return (request.auth != null && request.auth.token.email is string)
-        ? request.auth.token.email.lower()
-        : '';
-    }
-
     function isShopAdmin() {
-      return adminEmailLower() == "pubudurox530@gmail.com" ||
-             adminEmailLower() == "pubudueshop@gmail.com";
+      return request.auth != null && (
+        request.auth.uid == "oH6HjEXzEnUiy6K5xaSukAobMsC2" ||
+        request.auth.uid == "5SnWGgzV1qUTtiUWxlcBFxIy1MB2"
+      );
     }
     
     // --- PART REQUESTS RULES ---
@@ -29,6 +25,11 @@ service cloud.firestore {
       
       // Only authorized admins can read or manage orders
       allow read, update, delete: if isShopAdmin();
+    }
+
+    // --- USERS RULES (Users can read/write only their own data) ---
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
     }
     
     // --- SHOP & PRODUCTS RULES ---

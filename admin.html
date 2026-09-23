@@ -1011,11 +1011,10 @@
             const googleBtn = document.getElementById('google-btn');
             const userEmailBadge = document.getElementById('user-email');
 
-            // SECURITY: ONLY THESE EMAILS CAN ACCESS THE ADMIN DASHBOARD
-            // Add your Gmail address here!
-            const ALLOWED_ADMINS = [
-                "pubudurox530@gmail.com",
-                "pubudueshop@gmail.com"
+            // SECURITY: ONLY THESE FIREBASE UIDS CAN ACCESS THE ADMIN DASHBOARD
+            const ALLOWED_ADMIN_UIDS = [
+                "oH6HjEXzEnUiy6K5xaSukAobMsC2",
+                "5SnWGgzV1qUTtiUWxlcBFxIy1MB2"
             ];
 
             let auth = null;
@@ -1028,15 +1027,11 @@
                     // Listen for auth state changes
                     auth.onAuthStateChanged((user) => {
                         if (user) {
-                            // SECURITY NOTE: Client-side validation is NOT sufficient for sensitive data.
-                            // In a production environment, you MUST use Firebase Security Rules (firestore.rules)
-                            // to restrict write access to the 'shop' collection to only specific user UIDs/emails.
-                            // This JS check is only for UI convenience to redirect unauthorized users.
-                            if (ALLOWED_ADMINS.includes(user.email.toLowerCase())) {
+                            if (ALLOWED_ADMIN_UIDS.includes(user.uid)) {
                                 showAdmin(user);
                             } else {
                                 auth.signOut();
-                                showError("Access Denied. Your email is not authorized.");
+                                showError("Access Denied. Your account is not authorized.");
                             }
                         } else {
                             showLogin();
@@ -1050,11 +1045,11 @@
                             auth = firebase.auth();
                             auth.onAuthStateChanged((user) => {
                                 if (user) {
-                                    if (ALLOWED_ADMINS.includes(user.email.toLowerCase())) {
+                                    if (ALLOWED_ADMIN_UIDS.includes(user.uid)) {
                                         showAdmin(user);
                                     } else {
                                         auth.signOut();
-                                        showError("Access Denied. Your email is not on the admin list.");
+                                        showError("Access Denied. Your account is not on the admin list.");
                                     }
                                 } else {
                                     showLogin();

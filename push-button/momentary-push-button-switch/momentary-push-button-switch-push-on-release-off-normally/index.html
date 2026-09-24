@@ -249,7 +249,7 @@
                 <div class="md:w-3/5 p-8 flex flex-col">
                     <!-- Stock Badge -->
                     <div class="mb-3">
-                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-green-100 text-green-800">In Stock</span>
+                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-red-100 text-red-800">Out of Stock</span>
                         <span class="ml-2 px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">Momentary Push Button Switch</span>
                     </div>
 
@@ -319,11 +319,8 @@
                         </div>
                         <div class="flex-1 min-w-[200px] flex flex-col gap-2">
                             
-                            <button onclick="if(window.addToCart) addToCart('1772080410128', getSelectedQty())" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold h-12 rounded-lg shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-2 active:scale-95">
-                                <i class="fas fa-cart-plus"></i> Add to Cart
-                            </button>
-                            <button onclick="if(window.addToCart) { addToCart('1772080410128', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold h-12 rounded-lg shadow-lg shadow-green-200 transition-all flex items-center justify-center gap-2 active:scale-95">
-                                <i class="fab fa-whatsapp"></i> Buy via WhatsApp
+                            <button disabled class="w-full bg-gray-200 text-gray-500 font-bold h-12 rounded-lg cursor-not-allowed flex items-center justify-center gap-2">
+                                <i class="fas fa-ban"></i> Out of Stock
                             </button>
                             
                         </div>
@@ -364,16 +361,16 @@
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">N/A</td>
             </tr>
             <tr class="bg-gray-50">
-                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
-                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand New</td>
-            </tr>
-            <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Brand</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Generic</td>
             </tr>
-            <tr class="bg-gray-50">
+            <tr class="bg-white">
                 <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Category</td>
                 <td class="px-4 py-3 text-sm text-gray-600 border-b">Momentary Push Button Switch</td>
+            </tr>
+            <tr class="bg-gray-50">
+                <td class="px-4 py-3 text-sm font-semibold text-gray-700 border-b">Condition</td>
+                <td class="px-4 py-3 text-sm text-gray-600 border-b">Brand new</td>
             </tr></tbody>
                     </table>
                 </div>
@@ -421,24 +418,21 @@
 <!-- Mobile Sticky Bottom Bar -->
 <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 md:hidden flex gap-4 z-[2000] shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
     
-    <button onclick="if(window.addToCart) addToCart('1772080410128', getSelectedQty())" class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
-        <i class="fas fa-cart-plus"></i> Cart
-    </button>
-    <button onclick="if(window.addToCart) { addToCart('1772080410128', getSelectedQty()); if(window.toggleCart) toggleCart(true); }" class="flex-1 bg-green-500 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 active:scale-95 min-h-[48px]">
-        <i class="fab fa-whatsapp"></i> Buy
+    <button disabled class="flex-1 bg-gray-100 text-gray-400 font-bold py-3 rounded-lg flex items-center justify-center gap-2 cursor-not-allowed">
+        <i class="fas fa-ban"></i> Out of Stock
     </button>
     
 </div>
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ichouse.lk/"},{"@type":"ListItem","position":2,"name":"Push Button","item":"https://ichouse.lk/push-button/"},{"@type":"ListItem","position":3,"name":"Momentary Push Button Switch","item":"https://ichouse.lk/push-button/momentary-push-button-switch/"},{"@type":"ListItem","position":4,"name":"Momentary Push Button Switch – Push ON R…","item":"https://ichouse.lk/push-button/momentary-push-button-switch/momentary-push-button-switch-push-on-release-off-normally/"}]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"Momentary Push Button Switch – Push ON Release OFF | Normally Open (NO) Power Switch","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1772080254/pushb1_1_sumpdf.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1772080253/pushb3_1_rm6anx.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1772080253/pushb2_1_qauvrf.png"],"description":"High-quality momentary push button switch designed for Push ON and Release OFF operation (Normally Open – NO). Power works only while the button is pressed and turns off when released. Ideal for electric bells, DIY projects, testing equipment, machinery control, and temporary power applications. Durable plastic body with secure screw terminals for easy wiring and reliable performance. Perfect for 12V, 24V, and low-voltage electrical circuits.","sku":"PE-1772080410128","itemCondition":"https://schema.org/NewCondition","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/push-button/momentary-push-button-switch/momentary-push-button-switch-push-on-release-off-normally/","priceCurrency":"LKR","price":20,"priceValidUntil":"2027-12-31","itemCondition":"https://schema.org/NewCondition","availability":"https://schema.org/InStock","hasMerchantReturnPolicy":{"@type":"MerchantReturnPolicy","applicableCountry":"LK","returnPolicyCategory":"https://schema.org/MerchantReturnFiniteReturnWindow","merchantReturnDays":7,"returnMethod":"https://schema.org/ReturnByMail","returnFees":"https://schema.org/FreeReturn"},"shippingDetails":{"@type":"OfferShippingDetails","shippingRate":{"@type":"MonetaryAmount","value":"350","currency":"LKR"},"shippingDestination":{"@type":"DefinedRegion","addressCountry":"LK"},"deliveryTime":{"@type":"ShippingDeliveryTime","handlingTime":{"@type":"QuantitativeValue","minValue":0,"maxValue":1,"unitCode":"d"},"transitTime":{"@type":"QuantitativeValue","minValue":1,"maxValue":3,"unitCode":"d"}}},"seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"Momentary Push Button Switch – Push ON Release OFF | Normally Open (NO) Power Switch","image":["https://res.cloudinary.com/dqwdov5ab/image/upload/v1772080254/pushb1_1_sumpdf.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1772080253/pushb3_1_rm6anx.png","https://res.cloudinary.com/dqwdov5ab/image/upload/v1772080253/pushb2_1_qauvrf.png"],"description":"High-quality momentary push button switch designed for Push ON and Release OFF operation (Normally Open – NO). Power works only while the button is pressed and turns off when released. Ideal for electric bells, DIY projects, testing equipment, machinery control, and temporary power applications. Durable plastic body with secure screw terminals for easy wiring and reliable performance. Perfect for 12V, 24V, and low-voltage electrical circuits.","sku":"PE-1772080410128","itemCondition":"https://schema.org/NewCondition","brand":{"@type":"Brand","name":"Pubudu Electronics"},"offers":{"@type":"Offer","url":"https://ichouse.lk/push-button/momentary-push-button-switch/momentary-push-button-switch-push-on-release-off-normally/","priceCurrency":"LKR","price":20,"priceValidUntil":"2027-12-31","itemCondition":"https://schema.org/NewCondition","availability":"https://schema.org/OutOfStock","hasMerchantReturnPolicy":{"@type":"MerchantReturnPolicy","applicableCountry":"LK","returnPolicyCategory":"https://schema.org/MerchantReturnFiniteReturnWindow","merchantReturnDays":7,"returnMethod":"https://schema.org/ReturnByMail","returnFees":"https://schema.org/FreeReturn"},"shippingDetails":{"@type":"OfferShippingDetails","shippingRate":{"@type":"MonetaryAmount","value":"350","currency":"LKR"},"shippingDestination":{"@type":"DefinedRegion","addressCountry":"LK"},"deliveryTime":{"@type":"ShippingDeliveryTime","handlingTime":{"@type":"QuantitativeValue","minValue":0,"maxValue":1,"unitCode":"d"},"transitTime":{"@type":"QuantitativeValue","minValue":1,"maxValue":3,"unitCode":"d"}}},"seller":{"@type":"Organization","name":"Pubudu Electronics"}}}</script>
 <script>
 // Pre-load product data so cart works instantly without waiting for Firebase
 window._currentModalProduct = {
     id: '1772080410128',
     title: "Momentary Push Button Switch – Push ON Release OFF | Normally Open (NO) Power Switch",
     price: 20,
-    stock: 10,
+    stock: 99,
     image: "https://res.cloudinary.com/dqwdov5ab/image/upload/v1772080254/pushb1_1_sumpdf.png",
     mainCategory: "Push Button",
     subCategory: "Momentary Push Button Switch"

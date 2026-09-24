@@ -1012,11 +1012,23 @@
             const googleBtn = document.getElementById('google-btn');
             const userEmailBadge = document.getElementById('user-email');
 
-            // SECURITY: ONLY THESE FIREBASE UIDS CAN ACCESS THE ADMIN DASHBOARD
+            // SECURITY: ONLY THESE FIREBASE UIDS / EMAILS CAN ACCESS THE ADMIN DASHBOARD
             const ALLOWED_ADMIN_UIDS = [
                 "oH6HjEXzEnUiy6K5xaSukAobMsC2",
                 "5SnWGgzV1qUTtiUWxlcBFxIy1MB2"
             ];
+
+            // You can also add authorized Google admin email addresses here
+            const ALLOWED_ADMIN_EMAILS = [
+                "pubudurox530@gmail.com"
+            ];
+
+            function isAuthorizedAdmin(user) {
+                if (!user) return false;
+                if (ALLOWED_ADMIN_UIDS.includes(user.uid)) return true;
+                if (user.email && ALLOWED_ADMIN_EMAILS.map(e => e.toLowerCase().trim()).includes(user.email.toLowerCase().trim())) return true;
+                return false;
+            }
 
             let auth = null;
 
@@ -1028,11 +1040,13 @@
                     // Listen for auth state changes
                     auth.onAuthStateChanged((user) => {
                         if (user) {
-                            if (ALLOWED_ADMIN_UIDS.includes(user.uid)) {
+                            if (isAuthorizedAdmin(user)) {
                                 showAdmin(user);
                             } else {
+                                const userIdentifier = user.email ? `${user.email} (UID: ${user.uid})` : `UID: ${user.uid}`;
+                                console.warn("Unauthorized login attempt:", userIdentifier);
                                 auth.signOut();
-                                showError("Access Denied. Your account is not authorized.");
+                                showError(`Access Denied: ${userIdentifier} is not authorized to access the admin panel.`);
                             }
                         } else {
                             showLogin();
@@ -1046,11 +1060,13 @@
                             auth = firebase.auth();
                             auth.onAuthStateChanged((user) => {
                                 if (user) {
-                                    if (ALLOWED_ADMIN_UIDS.includes(user.uid)) {
+                                    if (isAuthorizedAdmin(user)) {
                                         showAdmin(user);
                                     } else {
+                                        const userIdentifier = user.email ? `${user.email} (UID: ${user.uid})` : `UID: ${user.uid}`;
+                                        console.warn("Unauthorized login attempt:", userIdentifier);
                                         auth.signOut();
-                                        showError("Access Denied. Your account is not on the admin list.");
+                                        showError(`Access Denied: ${userIdentifier} is not authorized to access the admin panel.`);
                                     }
                                 } else {
                                     showLogin();

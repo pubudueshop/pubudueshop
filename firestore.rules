@@ -5,7 +5,8 @@ service cloud.firestore {
     function isShopAdmin() {
       return request.auth != null && (
         request.auth.uid == "oH6HjEXzEnUiy6K5xaSukAobMsC2" ||
-        request.auth.uid == "5SnWGgzV1qUTtiUWxlcBFxIy1MB2"
+        request.auth.uid == "5SnWGgzV1qUTtiUWxlcBFxIy1MB2" ||
+        request.auth.token.email == "pubudurox530@gmail.com"
       );
     }
     

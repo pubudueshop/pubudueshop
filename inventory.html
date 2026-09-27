@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Manager Pro - Pubudu Electronics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
+</head>
+<body>
+    <!-- Print Container (outside #app to prevent parent display:none inheritance) -->
+    <div id="printable-invoice-container" class="print-only-container"></div>
+
+    <!-- 🔐 Secure Firebase Authentication Overlay -->
+    <div id="auth-overlay">
+        <div class="auth-card">
+            <div class="auth-brand">
+                <div class="auth-icon-circle">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h2>Inventory Pro</h2>
+                <p>Sign in to access Pubudu Electronics inventory & sales</p>
+            </div>
+
+            <div id="auth-error-msg" class="auth-error-msg">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <span id="auth-error-text">Invalid email or password</span>
+            </div>
+
+            <form id="auth-login-form" class="auth-form" autocomplete="on">
+                <div class="auth-form-group">
+                    <label for="auth-email">Email Address</label>
+                    <div class="auth-input-wrapper">
+                        <i class="fa-solid fa-envelope auth-input-icon"></i>
+                        <input type="email" id="auth-email" class="auth-input" placeholder="admin@ichouse.lk" required autocomplete="username">
+                    </div>
+                </div>
+
+                <div class="auth-form-group">
+                    <label for="auth-password">Password</label>
+                    <div class="auth-input-wrapper">
+                        <i class="fa-solid fa-lock auth-input-icon"></i>
+                        <input type="password" id="auth-password" class="auth-input" placeholder="••••••••" required autocomplete="current-password">
+                        <button type="button" id="auth-toggle-password" class="auth-password-toggle" title="Show/Hide Password" aria-label="Toggle password visibility">
+                            <i class="fa-regular fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" id="auth-submit-btn" class="auth-btn-submit">
+                    <i class="fa-solid fa-right-to-bracket"></i> Sign In to Inventory
+                </button>
+            </form>
+
+            <div style="text-align: center; margin-top: 4px; border-top: 1px solid var(--panel-border); padding-top: 14px;">
+                <p style="font-size: 0.78rem; color: var(--text-muted); display: flex; align-items: center; justify-content: center; gap: 6px;">
+                    <i class="fa-solid fa-lock" style="color: var(--accent-green); font-size: 0.75rem;"></i> End-to-End Encrypted Cloud Access
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="app">
+        <!-- ⚠️ Delete Confirmation Modal -->
+        <div id="delete-confirm-modal" class="overlay hidden">
+            <div class="overlay-content glass-panel" style="max-width: 420px; text-align: center;">
+                <div style="width: 64px; height: 64px; background: rgba(239,68,68,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; border: 2px solid rgba(239,68,68,0.4);">
+                    <i class="fa-solid fa-trash" style="font-size: 1.6rem; color: #ef4444;"></i>
+                </div>
+                <h2 style="color: #ef4444; font-size: 1.3rem; margin-bottom: 6px; justify-content: center;">Delete Item?</h2>
+                <p id="delete-modal-item-name" style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); margin-bottom: 4px;"></p>
+                <p id="delete-modal-item-info" style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;"></p>
+                <div id="delete-modal-warning" style="display: none; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: 10px; padding: 10px 14px; margin-bottom: 16px; font-size: 0.82rem; color: #ef4444; text-align: left;">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <strong> Warning:</strong> This item has active sales records. Deleting it will permanently remove all associated data.
+                </div>
+                <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px;">
+                    <i class="fa-solid fa-hand-point-down"></i> Press and hold the button below to confirm deletion.
+                </p>
+                <!-- Hold-to-Delete Button -->
+                <div style="position: relative; width: 100%; height: 48px; margin-bottom: 14px;">
+                    <div id="delete-hold-progress" style="position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: rgba(239,68,68,0.25); border-radius: 10px; transition: none; pointer-events: none;"></div>
+                    <button id="delete-hold-btn"
+                        style="position: relative; width: 100%; height: 48px; background: rgba(239,68,68,0.12); border: 2px solid rgba(239,68,68,0.5); color: #ef4444; border-radius: 10px; font-size: 0.95rem; font-weight: 700; cursor: pointer; font-family: inherit; z-index: 1; user-select: none; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        <i class="fa-solid fa-trash-can"></i>
+                        <span id="delete-hold-btn-text">Hold to Delete</span>
+                    </button>
+                </div>
+                <button type="button" class="btn btn-secondary w-100" onclick="closeDeleteModal()">
+                    <i class="fa-solid fa-xmark"></i> Cancel — Keep Item
+                </button>
+            </div>
+        </div>
+
+        <!-- Sell Item Modal -->
+        <div id="sell-modal" class="overlay hidden">
+            <div class="overlay-content glass-panel" style="max-width: 480px; max-height: 90vh; overflow-y: auto;">
+                <h2 style="color: var(--accent-green); justify-content: center;"><i class="fa-solid fa-cash-register"></i> Sell Item</h2>
+                <p id="sell-modal-item-name" style="margin-bottom: 12px; font-weight: 600; font-size: 1.1rem;"></p>
+                <div id="sell-modal-photo-container" style="display: none; justify-content: center; margin-bottom: 15px;"></div>
+                <form id="sell-form">
+                    <input type="hidden" id="sell-item-id">
+                    <input type="hidden" id="sell-item-buy-price">
+                    <input type="hidden" id="sell-current-qty">
+                    <input type="hidden" id="sell-current-revenue">
+                    <input type="hidden" id="sell-max-qty">
+                    
+                    <div class="form-row">
+                        <div class="form-group" style="text-align: left;">
+                            <label for="sell-input-qty">Sell Qty (Max: <span id="sell-max-display"></span>)</label>
+                            <input type="number" id="sell-input-qty" required min="1" step="1">
+                        </div>
+                        <div class="form-group" style="text-align: left;">
+                            <label for="sell-input-price">1 Pcs Sell Price (Rs)</label>
+                            <input type="number" id="sell-input-price" required min="0" step="0.01">
+                        </div>
+                    </div>
+                    <div class="form-group" style="text-align: left;">
+                        <label for="sell-input-date">Sale Date</label>
+                        <input type="date" id="sell-input-date" required>
+                    </div>
+
+                    <!-- How to Sell (Sales Channel) -->
+                    <div class="form-group" style="text-align: left;">
+                        <label for="sell-input-channel"><i class="fa-solid fa-store" style="color: var(--accent-blue);"></i> Sales Channel</label>
+                        <select id="sell-input-channel" required>
+                            <option value="Online - Website (ichouse.lk)">🌐 Online - Website (ichouse.lk)</option>
+                            <option value="Retail / In-Store">🏪 Retail / In-Store (Direct)</option>
+                            <option value="Online - WhatsApp / Phone">💬 Online - WhatsApp / Phone</option>
+                            <option value="Online - Facebook / Social">📱 Online - Facebook / Social</option>
+                            <option value="Daraz">📦 Daraz</option>
+                            <option value="Wholesale">🏢 Wholesale</option>
+                            <option value="Phone Order">📞 Phone Order</option>
+                            <option value="Other">✏️ Other...</option>
+                        </select>
+                    </div>
+
+                    <!-- How to Get Payment -->
+                    <div class="form-row">
+                        <div class="form-group" style="text-align: left;">
+                            <label for="sell-input-payment"><i class="fa-solid fa-money-bill-wave" style="color: var(--accent-green);"></i> Payment Method</label>
+                            <select id="sell-input-payment" required>
+                                <option value="Cash">💵 Cash</option>
+                                <option value="Bank Transfer">🏦 Bank Transfer / Online</option>
+                                <option value="Card Payment">💳 Card (Credit / Debit)</option>
+                                <option value="Cash on Delivery (COD)">📦 Cash on Delivery (COD)</option>
+                                <option value="Credit / Pay Later">⏳ Credit / Pay Later</option>
+                                <option value="Other">✏️ Other...</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="text-align: left;">
+                            <label for="sell-payment-status"><i class="fa-solid fa-circle-check" style="color: var(--accent-green);"></i> Payment Status</label>
+                            <select id="sell-payment-status">
+                                <option value="Paid">✅ Paid (Completed)</option>
+                                <option value="Pending">⏳ Pending / To Collect</option>
+                                <option value="Due">⚠️ Credit / Due</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- How to Deliver -->
+                    <div class="form-group" style="text-align: left;">
+                        <label for="sell-input-delivery"><i class="fa-solid fa-truck-fast" style="color: var(--accent-purple);"></i> Delivery Method</label>
+                        <select id="sell-input-delivery" required>
+                            <option value="Courier Service">🚚 Courier (DOMEX / Prompt / Koombiyo)</option>
+                            <option value="Hand Delivery / Pickup">🤝 Hand Delivery / Store Pickup</option>
+                            <option value="Postal Service">📮 Postal Service</option>
+                            <option value="Other">✏️ Other...</option>
+                        </select>
+                    </div>
+
+                    <!-- Note -->
+                    <div class="form-group" style="text-align: left;">
+                        <label for="sell-input-note"><i class="fa-solid fa-note-sticky" style="color: var(--accent-orange);"></i> Note / Tracking Ref</label>
+                        <input type="text" id="sell-input-note" placeholder="e.g. Courier tracking #, customer name">
+                    </div>
+
+                    <div style="display: flex; gap: 12px; margin-top: 20px;">
+                        <button type="button" class="btn btn-secondary w-100" onclick="closeSellModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary w-100" style="background-color: var(--accent-green);">Confirm Sale</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <header class="glass-header">
+            <div class="logo" style="display: flex; flex-direction: column; align-items: flex-start; gap: 2px;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <i class="fa-solid fa-boxes-stacked" style="color: var(--accent-blue);"></i>
+                    <h1 style="font-size: 1.6rem; margin-bottom: 0;">Inventory Pro</h1>
+                </div>
+                <a href="/" style="font-size: 0.85rem; color: var(--text-muted); text-decoration: none; margin-left: 36px;">← Back to Website (ichouse.lk)</a>
+            </div>
+            <div class="header-actions" style="display: flex; align-items: center; gap: 10px;">
+                <button id="export-pdf-btn" class="btn btn-secondary">
+                    <i class="fa-solid fa-file-pdf"></i> Export PDF
+                </button>
+                <div id="user-profile-widget" class="user-profile-widget" style="display: none;">
+                    <div class="user-avatar-circle" id="user-avatar-initial">U</div>
+                    <span class="user-email-text" id="user-email-display">admin@ichouse.lk</span>
+                    <button id="btn-logout" class="btn-signout" type="button" title="Sign out">
+                        <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation Tab Bar -->
+        <nav class="nav-tab-bar">
+            <button id="tab-btn-inventory" class="nav-tab-btn active" onclick="switchMainTab('inventory')">
+                <i class="fa-solid fa-boxes-stacked"></i> Inventory & Stock
+            </button>
+            <button id="tab-btn-sales" class="nav-tab-btn" onclick="switchMainTab('sales')">
+                <i class="fa-solid fa-cash-register"></i> Sales & Orders
+            </button>
+            <button id="tab-btn-costs" class="nav-tab-btn" onclick="switchMainTab('costs')">
+                <i class="fa-solid fa-receipt"></i> Cost & Expenses
+            </button>
+            <button id="tab-btn-profit" class="nav-tab-btn" onclick="switchMainTab('profit')">
+                <i class="fa-solid fa-chart-line"></i> Profit & Tax Analytics
+            </button>
+        </nav>
+
+        <main>
+            <!-- Inventory View -->
+            <div id="inventory-view-tab" class="section-container">
+                <!-- Dashboard Stats -->
+                <section class="dashboard">
+                    <div class="stat-card glass-panel">
+                        <div class="stat-icon blue"><i class="fa-solid fa-cube"></i></div>
+                        <div class="stat-info">
+                            <h3>Total Items</h3>
+                            <p id="stat-total-items">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-panel">
+                        <div class="stat-icon orange"><i class="fa-solid fa-cart-shopping"></i></div>
+                        <div class="stat-info">
+                            <h3>Total Investment</h3>
+                            <p id="stat-total-investment">Rs 0.00</p>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-panel">
+                        <div class="stat-icon green"><i class="fa-solid fa-tags"></i></div>
+                        <div class="stat-info">
+                            <h3>Total Sales Revenue</h3>
+                            <p id="stat-total-revenue">Rs 0.00</p>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-panel">
+                        <div class="stat-icon purple"><i class="fa-solid fa-chart-line"></i></div>
+                        <div class="stat-info">
+                            <h3>Net Profit</h3>
+                            <p id="stat-total-profit">Rs 0.00</p>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="content-grid">
+                    <!-- Add Item Form -->
+                    <section class="form-section glass-panel">
+                        <h2><i class="fa-solid fa-plus-circle"></i> Add New Stock Item</h2>
+                        <form id="add-item-form">
+                            <div class="form-group">
+                                <label for="item-name">Item Name</label>
+                                <input type="text" id="item-name" required placeholder="e.g. PAM8610 Stereo Amplifier">
+                            </div>
+                            <div class="form-group">
+                                <label for="buy-shop">Buy Shop / Supplier</label>
+                                <input type="text" id="buy-shop" required placeholder="e.g. First Electronics">
+                            </div>
+                            <div class="form-group">
+                                <label for="item-category">Category</label>
+                                <select id="item-category" required>
+                                    <option value="Electronics">Electronics</option>
+                                    <option value="Audio Amplifier">Audio Amplifier</option>
+                                    <option value="BMS & Battery">BMS & Battery</option>
+                                    <option value="Sensors & Modules">Sensors & Modules</option>
+                                    <option value="Power Supply">Power Supply</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="buy-qty">Buy Qty</label>
+                                    <input type="number" id="buy-qty" required min="1" step="1" value="10">
+                                </div>
+                                <div class="form-group">
+                                    <label for="buy-price">Unit Buy Price (Rs)</label>
+                                    <input type="number" id="buy-price" required min="0" step="0.01" placeholder="0.00">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="buy-date">Date</label>
+                                <input type="date" id="buy-date" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fa-solid fa-check"></i> Save to Cloud Inventory
+                            </button>
+                        </form>
+                    </section>
+
+                    <!-- Inventory Table -->
+                    <section class="table-section glass-panel">
+                        <div class="table-header" style="flex-direction: column; align-items: flex-start; gap: 12px;">
+                            <h2><i class="fa-solid fa-list"></i> Real-Time Inventory Records</h2>
+                            <div class="filter-controls-container">
+                                <div class="search-box-wrapper">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                    <input type="text" id="search-input" placeholder="Search item, category, supplier...">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table id="inventory-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Item Name</th>
+                                        <th>Supplier</th>
+                                        <th>Buy Qty</th>
+                                        <th>Buy Price</th>
+                                        <th>Sold Qty</th>
+                                        <th>Revenue</th>
+                                        <th>Available Stock</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="inventory-tbody"></tbody>
+                            </table>
+                            <div id="empty-state" class="empty-state hidden">
+                                <i class="fa-solid fa-box-open"></i>
+                                <p>No inventory records found in Firestore.</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- jsPDF and AutoTable -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+
+    <!-- Cloud Application Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCcef2oXdA1kTT1wTAeiULtSmcWgkoJi84",
+            authDomain: "pubudu-inventry.firebaseapp.com",
+            projectId: "pubudu-inventry",
+            storageBucket: "pubudu-inventry.firebasestorage.app",
+            messagingSenderId: "601399563724",
+            appId: "1:601399563724:web:cfc226b1ea0689b3c4b969",
+            measurementId: "G-EBS12LV37T"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        let inventoryData = [];
+
+        // Auth handling
+        const authOverlay = document.getElementById('auth-overlay');
+        const loginForm = document.getElementById('auth-login-form');
+        const userProfile = document.getElementById('user-profile-widget');
+        const userEmailDisplay = document.getElementById('user-email-display');
+        const btnLogout = document.getElementById('btn-logout');
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                authOverlay.classList.add('hidden');
+                userProfile.style.display = 'inline-flex';
+                userEmailDisplay.textContent = user.email || 'Admin';
+                listenInventory();
+            } else {
+                authOverlay.classList.remove('hidden');
+                userProfile.style.display = 'none';
+            }
+        });
+
+        if (loginForm) {
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = document.getElementById('auth-email').value.trim();
+                const password = document.getElementById('auth-password').value;
+                try {
+                    await signInWithEmailAndPassword(auth, email, password);
+                } catch (err) {
+                    const errEl = document.getElementById('auth-error-msg');
+                    document.getElementById('auth-error-text').textContent = err.message;
+                    errEl.classList.add('visible');
+                }
+            });
+        }
+
+        if (btnLogout) {
+            btnLogout.addEventListener('click', () => signOut(auth));
+        }
+
+        // Live Firestore Listener
+        function listenInventory() {
+            const q = query(collection(db, "inventory"), orderBy("date", "desc"));
+            onSnapshot(q, (snapshot) => {
+                inventoryData = [];
+                snapshot.forEach(d => inventoryData.push({ id: d.id, ...d.data() }));
+                renderTable();
+                updateDashboard();
+            });
+        }
+
+        function formatCurrency(val) {
+            return new Intl.NumberFormat('en-LK', { style: 'currency', currency: 'LKR' }).format(val || 0);
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('inventory-tbody');
+            const empty = document.getElementById('empty-state');
+            const searchVal = (document.getElementById('search-input')?.value || '').toLowerCase().trim();
+
+            const filtered = inventoryData.filter(i => {
+                if (!searchVal) return true;
+                return (i.name || '').toLowerCase().includes(searchVal) ||
+                       (i.category || '').toLowerCase().includes(searchVal) ||
+                       (i.shop || '').toLowerCase().includes(searchVal);
+            });
+
+            if (filtered.length === 0) {
+                empty.classList.remove('hidden');
+                tbody.parentElement.classList.add('hidden');
+                return;
+            }
+
+            empty.classList.add('hidden');
+            tbody.parentElement.classList.remove('hidden');
+            tbody.innerHTML = '';
+
+            filtered.forEach(item => {
+                const totalBuyQty = item.buyQty || 0;
+                const sellQty = item.sellQty || 0;
+                const stockLeft = Math.max(0, totalBuyQty - sellQty);
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${item.date || '-'}</td>
+                    <td><strong>${item.name}</strong> <span class="category-badge badge-blue">${item.category || 'General'}</span></td>
+                    <td>${item.shop || '-'}</td>
+                    <td>${totalBuyQty}</td>
+                    <td>${formatCurrency(item.buyPrice)}</td>
+                    <td>${sellQty > 0 ? sellQty : '-'}</td>
+                    <td>${formatCurrency(item.totalRevenue || 0)}</td>
+                    <td>
+                        <span class="badge ${stockLeft > 0 ? 'badge-stock' : 'badge-sold'}">
+                            ${stockLeft > 0 ? `${stockLeft} in stock` : 'Sold Out'}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn btn-sell" onclick="openSellModal('${item.id}', '${item.name.replace(/'/g, "\\'")}', ${stockLeft}, ${sellQty}, ${item.totalRevenue || 0}, ${item.buyPrice})" ${stockLeft <= 0 ? 'disabled' : ''}>
+                            <i class="fa-solid fa-cash-register"></i> Sell
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function updateDashboard() {
+            let totalInvestment = 0;
+            let totalRevenue = 0;
+            inventoryData.forEach(i => {
+                totalInvestment += (i.buyQty || 0) * (i.buyPrice || 0);
+                totalRevenue += (i.totalRevenue || 0);
+            });
+
+            document.getElementById('stat-total-items').textContent = inventoryData.length;
+            document.getElementById('stat-total-investment').textContent = formatCurrency(totalInvestment);
+            document.getElementById('stat-total-revenue').textContent = formatCurrency(totalRevenue);
+            document.getElementById('stat-total-profit').textContent = formatCurrency(totalRevenue - (totalInvestment * 0.6));
+        }
+
+        // Add Item Form
+        const addForm = document.getElementById('add-item-form');
+        if (addForm) {
+            addForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const name = document.getElementById('item-name').value.trim();
+                const shop = document.getElementById('buy-shop').value.trim();
+                const category = document.getElementById('item-category').value;
+                const buyQty = parseInt(document.getElementById('buy-qty').value, 10);
+                const buyPrice = parseFloat(document.getElementById('buy-price').value);
+                const date = document.getElementById('buy-date').value || new Date().toISOString().split('T')[0];
+
+                try {
+                    await addDoc(collection(db, "inventory"), {
+                        name, shop, category, buyQty, buyPrice,
+                        sellQty: 0, totalRevenue: 0,
+                        status: 'in_stock',
+                        date,
+                        batches: [{ shop, buyQty, buyPrice, date }],
+                        sales: [],
+                        timestamp: new Date().toISOString()
+                    });
+                    addForm.reset();
+                    document.getElementById('buy-date').valueAsDate = new Date();
+                } catch (err) {
+                    alert("Error adding item: " + err.message);
+                }
+            });
+        }
+
+        // Search Input Listener
+        document.getElementById('search-input')?.addEventListener('input', renderTable);
+        document.getElementById('buy-date').valueAsDate = new Date();
+    </script>
+</body>
+</html>

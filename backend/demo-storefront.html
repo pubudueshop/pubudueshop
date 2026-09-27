@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pubudu Electronics - Live Storefront & Stock Demo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: rgba(30, 41, 59, 0.85);
+      --border: rgba(255, 255, 255, 0.12);
+      --accent-blue: #3b82f6;
+      --accent-green: #10b981;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+    body { background-color: var(--bg); color: var(--text); padding: 30px 20px; min-height: 100vh; }
+    .container { max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
+    .header { text-align: center; margin-bottom: 10px; }
+    .header h1 { font-size: 2rem; color: var(--accent-blue); margin-bottom: 6px; }
+    .header p { color: var(--text-muted); font-size: 0.95rem; }
+    .grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; }
+    @media(max-width: 800px) { .grid { grid-template-columns: 1fr; } }
+    .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+    .card h2 { font-size: 1.2rem; color: var(--text); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+    .form-group { margin-bottom: 14px; text-align: left; }
+    label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; }
+    input, select { width: 100%; padding: 10px 14px; background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border); border-radius: 8px; color: #fff; font-size: 0.92rem; outline: none; }
+    input:focus, select:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 20px; font-weight: 600; font-size: 0.95rem; border: none; border-radius: 8px; cursor: pointer; transition: all 0.2s; width: 100%; }
+    .btn-primary { background: var(--accent-green); color: #fff; }
+    .btn-primary:hover { background: #059669; transform: translateY(-1px); }
+    .btn-secondary { background: rgba(255,255,255,0.08); color: var(--text); border: 1px solid var(--border); }
+    .btn-secondary:hover { background: rgba(255,255,255,0.15); }
+    .product-list { display: flex; flex-direction: column; gap: 10px; max-height: 480px; overflow-y: auto; }
+    .product-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: rgba(0,0,0,0.25); border: 1px solid var(--border); border-radius: 10px; transition: border-color 0.2s; }
+    .product-item:hover { border-color: var(--accent-blue); }
+    .stock-tag { font-size: 0.75rem; font-weight: 700; padding: 2px 8px; border-radius: 6px; }
+    .stock-green { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+    .stock-red { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+    .response-box { margin-top: 14px; padding: 12px; background: rgba(0,0,0,0.4); border-radius: 8px; font-family: monospace; font-size: 0.82rem; color: #34d399; white-space: pre-wrap; display: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1><i class="fa-solid fa-microchip"></i> Pubudu Electronics Storefront Sync</h1>
+      <p>Test Live Product Catalog & Instant Inventory Stock Deduction</p>
+    </div>
+
+    <div class="grid">
+      <!-- Live Catalog View -->
+      <div class="card">
+        <h2><i class="fa-solid fa-store" style="color: var(--accent-blue);"></i> Live Storefront Products</h2>
+        <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+          <input type="text" id="search-input" placeholder="Search product name or category..." oninput="loadProducts()">
+          <button type="button" class="btn btn-secondary" style="width: auto;" onclick="loadProducts()"><i class="fa-solid fa-rotate"></i></button>
+        </div>
+        <div id="product-list" class="product-list">
+          <div style="text-align: center; color: var(--text-muted); padding: 30px 0;">
+            <i class="fa-solid fa-spinner fa-spin" style="font-size: 1.5rem;"></i>
+            <p style="margin-top: 8px;">Loading live products from backend...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Checkout Form -->
+      <div class="card">
+        <h2><i class="fa-solid fa-cart-shopping" style="color: var(--accent-green);"></i> Online Customer Checkout</h2>
+        <form id="checkout-form" onsubmit="handleCheckout(event)">
+          <div class="form-group">
+            <label for="sel-item">Select Product to Buy</label>
+            <select id="sel-item" required onchange="handleItemSelect()">
+              <option value="">-- Choose in-stock product --</option>
+            </select>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="form-group">
+              <label for="buy-qty">Quantity</label>
+              <input type="number" id="buy-qty" value="1" min="1" required>
+            </div>
+            <div class="form-group">
+              <label for="unit-price">Unit Price (LKR)</label>
+              <input type="number" id="unit-price" placeholder="Rs 0.00" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="cust-name">Customer Name</label>
+            <input type="text" id="cust-name" placeholder="Kasun Perera" required value="Indika Basnayaka">
+          </div>
+
+          <div class="form-group">
+            <label for="cust-phone">Customer Phone</label>
+            <input type="text" id="cust-phone" placeholder="077 123 4567" required value="0715932492">
+          </div>
+
+          <div class="form-group">
+            <label for="cust-address">Delivery Address</label>
+            <input type="text" id="cust-address" placeholder="No. 27, Moragolla Watta, Handessa" value="27, Moragolla Watta, Handessa">
+          </div>
+
+          <div class="form-group">
+            <label for="pay-method">Payment Method</label>
+            <select id="pay-method">
+              <option value="Cash on Delivery (COD)">Cash on Delivery (COD)</option>
+              <option value="Bank Transfer">Bank Transfer / Online</option>
+              <option value="Card Payment">Credit / Debit Card</option>
+            </select>
+          </div>
+
+          <button type="submit" id="submit-btn" class="btn btn-primary">
+            <i class="fa-solid fa-lock"></i> Place Order & Auto-Deduct Stock
+          </button>
+        </form>
+
+        <div id="response-box" class="response-box"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="client-sdk.js"></script>
+  <script>
+    let cachedProducts = [];
+
+    async function loadProducts() {
+      const listEl = document.getElementById('product-list');
+      const selectEl = document.getElementById('sel-item');
+      const searchVal = (document.getElementById('search-input')?.value || '').trim();
+
+      try {
+        const data = await PubuduStore.getProducts({ search: searchVal });
+        cachedProducts = data.products || [];
+
+        if (cachedProducts.length === 0) {
+          listEl.innerHTML = '<div style="text-align:center; padding:30px; color:var(--text-muted);">No products found in inventory.</div>';
+          selectEl.innerHTML = '<option value="">-- No products available --</option>';
+          return;
+        }
+
+        // Render product items
+        listEl.innerHTML = cachedProducts.map(p => `
+          <div class="product-item">
+            <div>
+              <strong style="font-size: 0.95rem;">${p.name}</strong>
+              <div style="font-size: 0.78rem; color: var(--text-muted);">${p.category} | Buy: Rs ${p.buyPrice}</div>
+            </div>
+            <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
+              <span class="stock-tag ${p.isInStock ? 'stock-green' : 'stock-red'}">
+                ${p.isInStock ? `${p.availableStock} in stock` : 'Sold Out'}
+              </span>
+              <button type="button" class="btn btn-secondary" style="padding: 3px 10px; font-size: 0.75rem; width: auto;" onclick="selectProduct('${p.id}')">
+                Select
+              </button>
+            </div>
+          </div>
+        `).join('');
+
+        // Populate dropdown
+        selectEl.innerHTML = '<option value="">-- Choose in-stock product --</option>' + 
+          cachedProducts.filter(p => p.isInStock).map(p => `
+            <option value="${p.id}">${p.name} (${p.availableStock} pcs available)</option>
+          `).join('');
+
+      } catch (err) {
+        listEl.innerHTML = `
+          <div style="text-align:center; padding:20px; color:#f87171;">
+            <p><strong>Could not connect to backend server.</strong></p>
+            <p style="font-size:0.8rem; margin-top:4px; color:var(--text-muted);">Ensure backend is running (<code>npm start</code> in <code>backend/</code> folder).</p>
+          </div>
+        `;
+      }
+    }
+
+    function selectProduct(id) {
+      const selectEl = document.getElementById('sel-item');
+      if (selectEl) {
+        selectEl.value = id;
+        handleItemSelect();
+      }
+    }
+
+    function handleItemSelect() {
+      const id = document.getElementById('sel-item').value;
+      const product = cachedProducts.find(p => p.id === id);
+      if (product) {
+        document.getElementById('unit-price').value = product.sellPrice || product.buyPrice || '';
+        document.getElementById('buy-qty').max = product.availableStock;
+      }
+    }
+
+    async function handleCheckout(e) {
+      e.preventDefault();
+      const submitBtn = document.getElementById('submit-btn');
+      const respBox = document.getElementById('response-box');
+      const origText = submitBtn.innerHTML;
+
+      submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing Order...';
+      submitBtn.disabled = true;
+
+      const orderPayload = {
+        customerName: document.getElementById('cust-name').value.trim(),
+        customerPhone: document.getElementById('cust-phone').value.trim(),
+        customerAddress: document.getElementById('cust-address').value.trim(),
+        paymentMethod: document.getElementById('pay-method').value,
+        channel: 'Online - Website (ichouse.lk)',
+        items: [{
+          itemId: document.getElementById('sel-item').value,
+          qty: parseInt(document.getElementById('buy-qty').value, 10),
+          unitPrice: parseFloat(document.getElementById('unit-price').value)
+        }]
+      };
+
+      try {
+        const result = await PubuduStore.placeOrder(orderPayload);
+        respBox.style.display = 'block';
+
+        if (result.success) {
+          respBox.style.color = '#34d399';
+          respBox.textContent = `✅ ORDER COMPLETED SUCCESSFULLY!\nOrder ID: ${result.order.orderId}\nTotal: Rs ${result.order.grandTotal.toLocaleString()}\nStock auto-deducted in Firebase Firestore!`;
+          loadProducts(); // Refresh live catalog
+        } else {
+          respBox.style.color = '#f87171';
+          respBox.textContent = `❌ ORDER FAILED: ${result.error}`;
+        }
+      } catch (err) {
+        respBox.style.display = 'block';
+        respBox.style.color = '#f87171';
+        respBox.textContent = `❌ Connection Error: ${err.message}`;
+      } finally {
+        submitBtn.innerHTML = origText;
+        submitBtn.disabled = false;
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', loadProducts);
+  </script>
+</body>
+</html>

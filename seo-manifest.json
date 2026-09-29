@@ -637,7 +637,7 @@
       "lastmod": "2026-09-14"
     },
     "https://ichouse.lk/transformer/12v-transformer/220v-to-12v-x2-14a-ac-transformer-dual-output-power-supply/": {
-      "hash": "a42de9f36fab09d30445f59df9b7bf56",
+      "hash": "43cd089b3feb2fa20bdb6e7cb4e10a6b",
       "lastmod": "2026-09-29"
     },
     "https://ichouse.lk/transformer/12v-transformer/220v-to-6v-065a-step-down-transformer-single-output-power/": {
@@ -801,7 +801,7 @@
       "lastmod": "2026-09-15"
     },
     "https://ichouse.lk/resistors/ceramic-resistors/33k-10w-ceramic-power-resistor-5-j-high-watt-wirewound/": {
-      "hash": "d2aada2b7d8e5b170ba4acb95ed04d9c",
+      "hash": "17d4b6eba5b8d7a7f6673ab57278846a",
       "lastmod": "2026-09-29"
     },
     "https://ichouse.lk/resistors/ceramic-resistors/10w-082-ceramic-power-resistor-10-tolerance-high-watt/": {
@@ -945,7 +945,7 @@
       "lastmod": "2026-09-14"
     },
     "https://ichouse.lk/module/pir-motion/pir-motion-sensor-switch-220v-ac-automatic-light-control/": {
-      "hash": "6d373de0a6f6fb505116b1c7ce17fe93",
+      "hash": "61c5fbe79d9d3b1ca3c8fb54a2d1b54e",
       "lastmod": "2026-09-29"
     },
     "https://ichouse.lk/infrared-cooker-parts/ntc-temperature-sensor/infrared-cooker-thermal-sensor-ntc-temperature-sensor-probe/": {
@@ -1013,27 +1013,27 @@
       "lastmod": "2026-09-22"
     },
     "https://ichouse.lk/audio-amplifier/stereo-amplifier-board/xha232-tpa3110-230w-stereo-classd-digital-audio-amplifier/": {
-      "hash": "df3427f932d828cc8ebd459872774bb3",
+      "hash": "236b63b8b00f3fa6f51db43cdf6ac1a4",
       "lastmod": "2026-09-29"
     },
     "https://ichouse.lk/audio-amplifier/mono-classd-amplifier-module/hw327a-tpa3118d2-60w-mono-classd-amplifier-module-sri-lanka/": {
-      "hash": "67be5aff5131610b1b0aaa4f4543580a",
+      "hash": "99dc4e101a5ba4c63b0f4af36bb09dc2",
       "lastmod": "2026-09-29"
     },
     "https://ichouse.lk/audio-amplifier/stereo-tape-head-preamplifier/la3161-stereo-pre-amp-head-912v-dc-stereo-tape-head/": {
-      "hash": "c225b6431393e31a3c05526b12363d1a",
+      "hash": "f99147083479273e9ce7e9d20d70068c",
       "lastmod": "2026-09-29"
     },
     "https://ichouse.lk/charger/18650-charger/42v-300ma-smart-liion-18650-battery-charger-single-cell/": {
-      "hash": "d9814d62c24c38fbdb400de9a0e1b2da",
+      "hash": "899933b82ac9eddca74db3248a549495",
       "lastmod": "2026-09-29"
     },
     "https://ichouse.lk/bms/liion-bms/3s-20a-bms-126v-lithium-battery-protection-board-for-18650/": {
-      "hash": "dea472dc4f4f13e5e05f4e2c4c79b741",
+      "hash": "76d762f7cf571ff4cbe323a84a270387",
       "lastmod": "2026-09-29"
     },
     "https://ichouse.lk/bms/liion-bms/6s-12a-liion-bms-battery-protection-board-222v-252v-18650/": {
-      "hash": "3994714724ba4f55cfbd8f5d5fabe0d5",
+      "hash": "db6494ffdfff7d46e0a0e2da7dd007ee",
       "lastmod": "2026-09-29"
     },
     "https://ichouse.lk/bms/liion-bms/4s-liion-bms-battery-protection-board-148v-168v-18650-4s/": {
@@ -1041,7 +1041,7 @@
       "lastmod": "2026-09-28"
     },
     "https://ichouse.lk/connecter/type-c-connector/usb-typec-female-2-wire-panel-mount-power-socket-usbc/": {
-      "hash": "a7eac50a95b40cc9008495b154461ff4",
+      "hash": "bca1373ed780f2e8c6153ffc2279aa0e",
       "lastmod": "2026-09-29"
     },
     "https://ichouse.lk/module/charging-module/3a-usb-typec-fast-charging-module-ip2312-1s-liion-battery/": {
@@ -1073,8 +1073,8 @@
       "lastmod": "2026-09-25"
     },
     "https://ichouse.lk/bms/lfp-bms/4s-100a-lifepo4-bms-battery-protection-balancing-board/": {
-      "hash": "3855dbb969c8aec42fdee3e9cb6c7d83",
-      "lastmod": "2026-09-28"
+      "hash": "1f826dfdee21d257d82a61b7ef4cd631",
+      "lastmod": "2026-09-29"
     }
   }
 }

@@ -767,10 +767,60 @@ async function saveOrderToFirestore(customerData, invoiceId, cartItems, totalAmo
     try {
         const ref = await db.collection("orders").add(orderData);
         // console.log("Order saved to Firestore:", ref.id);
+        sendOrderEmailNotification(orderData);
         return ref.id;
     } catch (error) {
         console.error("Error logging order:", error);
+        // Still attempt email notification even if cloud DB fails
+        sendOrderEmailNotification(orderData);
         return null;
+    }
+}
+
+// --- Send Order Email Notification to Shop Owner ---
+async function sendOrderEmailNotification(orderData) {
+    const NOTIFICATION_EMAIL = "pubudurox530@gmail.com";
+    try {
+        const itemsFormatted = (orderData.items || []).map((item, index) => {
+            let line = `${index + 1}. ${item.title}`;
+            if (item.selectedVariations && typeof item.selectedVariations === 'object') {
+                const vars = Object.entries(item.selectedVariations).map(([k, v]) => `${k}: ${v}`).join(", ");
+                if (vars) line += ` (${vars})`;
+            }
+            line += ` x ${item.quantity} = LKR ${(item.price * item.quantity).toLocaleString()}`;
+            return line;
+        }).join("\n");
+
+        const cust = orderData.customer || {};
+        const phone = cust.phone1 + (cust.phone2 ? ` / ${cust.phone2}` : "");
+        const address = `${cust.address || ''}, ${cust.city || ''}, ${cust.district || ''}`;
+
+        const payload = {
+            _subject: `🛒 New Order Placed: #${orderData.invoiceId} (LKR ${Number(orderData.total || 0).toLocaleString()})`,
+            _template: "table",
+            _captcha: "false",
+            "Invoice ID": `#${orderData.invoiceId}`,
+            "Customer Name": cust.name || "N/A",
+            "Phone Number": phone || "N/A",
+            "Delivery Address": address,
+            "Items Ordered": itemsFormatted,
+            "Subtotal": `LKR ${Number(orderData.subtotal || 0).toLocaleString()}`,
+            "Shipping Fee": `LKR ${Number(orderData.shipping || 0).toLocaleString()}`,
+            "Grand Total": `LKR ${Number(orderData.total || 0).toLocaleString()}`,
+            "Order Status": orderData.status || "Pending",
+            "Order Date": new Date().toLocaleString("en-GB", { timeZone: "Asia/Colombo" })
+        };
+
+        await fetch(`https://formsubmit.co/ajax/${NOTIFICATION_EMAIL}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
+    } catch (err) {
+        console.warn("Failed to send order email notification:", err);
     }
 }
 

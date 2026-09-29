@@ -75,6 +75,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 await db.collection("requests").add(requestData);
                 console.log("Request saved to database");
 
+                // Send Email Notification to Shop Owner
+                sendPartRequestEmail(requestData);
+
                 // Construct WhatsApp Message
                 const waPhone = "94789155130"; // Shop Number
                 const waMessage = `*NEW PART REQUEST - ichouse.lk*%0A%0A` +
@@ -131,3 +134,34 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+// --- Send Email Notification to Shop Owner ---
+async function sendPartRequestEmail(data) {
+    const NOTIFICATION_EMAIL = "pubudurox530@gmail.com";
+    try {
+        await fetch(`https://formsubmit.co/ajax/${NOTIFICATION_EMAIL}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                _subject: `🔧 New Part Request - ${data.partNumber || data.category || 'Component'}`,
+                _template: "table",
+                _captcha: "false",
+                "Customer Name": data.name || "N/A",
+                "Phone Number": data.phone || "N/A",
+                "WhatsApp Number": data.whatsapp || "Not provided",
+                "Email Address": data.email || "Not provided",
+                "Part Number / Name": data.partNumber || "Not specified",
+                "Category": data.category || "General",
+                "Quantity Required": data.quantity || 1,
+                "District": data.district || "N/A",
+                "Message / Notes": data.message || "None",
+                "Submission Time": new Date().toLocaleString("en-GB", { timeZone: "Asia/Colombo" })
+            })
+        });
+    } catch (e) {
+        console.warn("Failed to send part request email notification:", e);
+    }
+}

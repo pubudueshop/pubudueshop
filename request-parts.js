@@ -27,6 +27,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Form Submission Logic ---
     if (form) {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
             // Rate Limiting Check: Prevent spam requests (30 seconds cooldown)
             const LAST_REQ_KEY = 'last_part_request_timestamp';
             const lastReqTime = localStorage.getItem(LAST_REQ_KEY);
@@ -38,23 +41,25 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const submitBtn = form.querySelector('button[type="submit"]');
-            const originalBtnText = submitBtn.innerHTML;
-            
+            const originalBtnText = submitBtn ? submitBtn.innerHTML : 'Send Request via WhatsApp';
+
             // Set loading state
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
+            }
             localStorage.setItem(LAST_REQ_KEY, now.toString());
 
             // Get field values
-            const name = document.getElementById('name').value;
-            const phone = document.getElementById('phone').value;
-            const whatsapp = document.getElementById('whatsapp').value;
-            const email = document.getElementById('email').value;
-            const partNumber = document.getElementById('part-number').value;
-            const category = document.getElementById('category').value;
-            const quantity = document.getElementById('quantity').value;
-            const district = document.getElementById('district').value;
-            const message = document.getElementById('message').value;
+            const name = (document.getElementById('name')?.value || '').trim();
+            const phone = (document.getElementById('phone')?.value || '').trim();
+            const whatsapp = (document.getElementById('whatsapp')?.value || '').trim();
+            const email = (document.getElementById('email')?.value || '').trim();
+            const partNumber = (document.getElementById('part-number')?.value || '').trim();
+            const category = (document.getElementById('category')?.value || '').trim();
+            const quantity = (document.getElementById('quantity')?.value || '1').trim();
+            const district = (document.getElementById('district')?.value || '').trim();
+            const message = (document.getElementById('message')?.value || '').trim();
 
             const requestData = {
                 name,
@@ -70,45 +75,66 @@ document.addEventListener('DOMContentLoaded', () => {
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             };
 
+            // Construct WhatsApp Message
+            const waPhone = "94789155130"; // Shop Number
+            const waText = 
+                `*NEW PART REQUEST - ichouse.lk*\n\n` +
+                `*Customer:* ${name}\n` +
+                `*Phone:* ${phone}\n` +
+                (whatsapp ? `*WhatsApp:* ${whatsapp}\n` : '') +
+                (email ? `*Email:* ${email}\n` : '') +
+                `*District:* ${district}\n\n` +
+                `*Part Details:*\n` +
+                `• Part No: ${partNumber}\n` +
+                `• Category: ${category}\n` +
+                `• Quantity: ${quantity}\n` +
+                (message ? `\n*Message:* ${message}\n\n` : '\n') +
+                `_Sent via ichouse.lk Request Form_`;
+
+            const waUrl = `https://wa.me/${waPhone}?text=${encodeURIComponent(waText)}`;
+
             try {
-                // Save to Firebase
-                await db.collection("requests").add(requestData);
-                console.log("Request saved to database");
+                // Ensure auth if not ready
+                if (!auth.currentUser) {
+                    await auth.signInAnonymously().catch(() => {});
+                }
 
-                // Send Email Notification to Shop Owner
-                sendPartRequestEmail(requestData);
+                // Save to Firebase (with timeout fallback so user is never blocked)
+                await Promise.race([
+                    db.collection("requests").add(requestData),
+                    new Promise((_, reject) => setTimeout(() => reject(new Error('DB Timeout')), 4000))
+                ]).catch(err => {
+                    console.warn("Could not save part request to database:", err);
+                });
+                console.log("Request processed");
 
-                // Construct WhatsApp Message
-                const waPhone = "94789155130"; // Shop Number
-                const waMessage = `*NEW PART REQUEST - ichouse.lk*%0A%0A` +
-                    `*Customer:* ${name}%0A` +
-                    `*Phone:* ${phone}%0A` +
-                    `*WhatsApp:* ${whatsapp}%0A` +
-                    `*District:* ${district}%0A%0A` +
-                    `*Part Details:*%0A` +
-                    `• Part No: ${partNumber}%0A` +
-                    `• Category: ${category}%0A` +
-                    `• Quantity: ${quantity}%0A%0A` +
-                    `*Message:* ${message}%0A%0A` +
-                    `_Sent via ichouse.lk Request Form_`;
+                // Send Email Notification to Shop Owner in background
+                sendPartRequestEmail(requestData).catch(e => console.warn("Email notify failed:", e));
 
-                const waUrl = `https://wa.me/${waPhone}?text=${waMessage}`;
+                // Update WhatsApp link in success modal
+                const modalWaLink = document.getElementById('modal-wa-link');
+                if (modalWaLink) {
+                    modalWaLink.href = waUrl;
+                }
 
-                // Show success notification
+                // Show success notification & trigger WhatsApp
                 if (successModal) {
                     successModal.classList.remove('hidden');
                     setTimeout(() => {
                         window.open(waUrl, '_blank');
-                    }, 1500);
+                    }, 800);
                 } else {
                     window.open(waUrl, '_blank');
                 }
             } catch (error) {
-                console.error("Error saving request:", error);
-                alert("Something went wrong. Please try again or contact us via WhatsApp.");
+                console.error("Error processing request:", error);
+                // Even on error, allow user to continue to WhatsApp
+                window.open(waUrl, '_blank');
             } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalBtnText;
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                }
             }
         });
     }

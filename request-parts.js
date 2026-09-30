@@ -137,18 +137,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // --- Send Email Notification to Shop Owner ---
 async function sendPartRequestEmail(data) {
-    const NOTIFICATION_EMAIL = "pubudurox530@gmail.com";
+    const WEB3_ACCESS_KEY = "b4d1e7b0-2eb0-4ca6-b5de-9e5d5c8a5c67";
     try {
-        await fetch(`https://formsubmit.co/ajax/${NOTIFICATION_EMAIL}`, {
+        await fetch("https://api.web3forms.com/submit", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "application/json"
             },
             body: JSON.stringify({
-                _subject: `🔧 New Part Request - ${data.partNumber || data.category || 'Component'}`,
-                _template: "table",
-                _captcha: "false",
+                access_key: WEB3_ACCESS_KEY,
+                subject: `🔧 New Part Request - ${data.partNumber || data.category || 'Component'}`,
+                from_name: "Pubudu Electronics Web",
                 "Customer Name": data.name || "N/A",
                 "Phone Number": data.phone || "N/A",
                 "WhatsApp Number": data.whatsapp || "Not provided",

@@ -778,8 +778,13 @@ async function saveOrderToFirestore(customerData, invoiceId, cartItems, totalAmo
 }
 
 // --- Send Order Email Notification to Shop Owner ---
+const sentOrderEmails = new Set();
 async function sendOrderEmailNotification(orderData) {
-    const NOTIFICATION_EMAIL = "pubudurox530@gmail.com";
+    if (!orderData || !orderData.invoiceId) return;
+    if (sentOrderEmails.has(orderData.invoiceId)) return;
+    sentOrderEmails.add(orderData.invoiceId);
+
+    const WEB3_ACCESS_KEY = "b4d1e7b0-2eb0-4ca6-b5de-9e5d5c8a5c67";
     try {
         const itemsFormatted = (orderData.items || []).map((item, index) => {
             let line = `${index + 1}. ${item.title}`;
@@ -792,13 +797,13 @@ async function sendOrderEmailNotification(orderData) {
         }).join("\n");
 
         const cust = orderData.customer || {};
-        const phone = cust.phone1 + (cust.phone2 ? ` / ${cust.phone2}` : "");
+        const phone = (cust.phone1 || "") + (cust.phone2 ? ` / ${cust.phone2}` : "");
         const address = `${cust.address || ''}, ${cust.city || ''}, ${cust.district || ''}`;
 
         const payload = {
-            _subject: `🛒 New Order Placed: #${orderData.invoiceId} (LKR ${Number(orderData.total || 0).toLocaleString()})`,
-            _template: "table",
-            _captcha: "false",
+            access_key: WEB3_ACCESS_KEY,
+            subject: `🛒 New Order Placed: #${orderData.invoiceId} (LKR ${Number(orderData.total || 0).toLocaleString()})`,
+            from_name: "Pubudu Electronics Web",
             "Invoice ID": `#${orderData.invoiceId}`,
             "Customer Name": cust.name || "N/A",
             "Phone Number": phone || "N/A",
@@ -811,7 +816,7 @@ async function sendOrderEmailNotification(orderData) {
             "Order Date": new Date().toLocaleString("en-GB", { timeZone: "Asia/Colombo" })
         };
 
-        await fetch(`https://formsubmit.co/ajax/${NOTIFICATION_EMAIL}`, {
+        const res = await fetch("https://api.web3forms.com/submit", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -819,6 +824,8 @@ async function sendOrderEmailNotification(orderData) {
             },
             body: JSON.stringify(payload)
         });
+        const result = await res.json();
+        console.log("Web3Forms Order Notification:", result);
     } catch (err) {
         console.warn("Failed to send order email notification:", err);
     }
@@ -877,6 +884,17 @@ async function openInvoice(customerData) {
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const SHIPPING_FEE = 500;
     const grandTotal = subtotal + SHIPPING_FEE;
+
+    // Send order email notification immediately
+    sendOrderEmailNotification({
+        invoiceId: invoiceId,
+        customer: customerData,
+        items: [...cart],
+        subtotal: subtotal,
+        shipping: SHIPPING_FEE,
+        total: grandTotal,
+        status: "Pending"
+    });
 
     const orderDocId = await saveOrderToFirestore(customerData, invoiceId, [...cart], grandTotal);
     window.currentOrderDocId = orderDocId;

@@ -1,0 +1,47 @@
+# Pubudu Electronics (ichouse.lk)
+
+> Leading online and physical electronic components store in Sri Lanka, supplying original ICs, transistors, MOSFETs, Arduino/ESP32 modules, relays, power adapters, sensors, and DIY electronics with island-wide delivery.
+
+## Overview
+- **Brand / Store Name:** Pubudu Electronics
+- **Official Website:** https://ichouse.lk/
+- **Physical Address:** Weliweriya, Gampaha District, Western Province, Sri Lanka
+- **Contact Hotline / WhatsApp:** +94 78 915 5130
+- **Business Hours:** Monday – Sunday: 08:00 – 20:00 (Sri Lanka Time / IST)
+- **Target Audience:** Electronics engineers, robotics hobbyists, students, repair technicians, and makers in Sri Lanka and worldwide.
+
+## Delivery & Payment in Sri Lanka
+- **Island-wide Delivery:** Available across all 25 districts of Sri Lanka (Colombo, Gampaha, Kandy, Galle, Jaffna, Kurunegala, Matara, etc.) via prompt courier service.
+- **Delivery Timeline:** 1 to 3 business days across Sri Lanka.
+- **Payment Options:**
+  - Cash on Delivery (COD)
+  - Bank Transfer / Online Banking
+  - LANKAQR
+- **Pickup Option:** Local pickup available at Weliweriya, Gampaha.
+- **Returns & Warranty:** 7-day merchant return window for eligible components. Pre-tested components before dispatch.
+
+## Product Categories & Direct Links
+- [Semiconductors & ICs](https://ichouse.lk/ic/): Voltage regulators, audio ICs, timer ICs, logic gates, operational amplifiers, melody ICs.
+- [Transistors](https://ichouse.lk/transistor/): NPN/PNP bipolar junction transistors, power transistors (e.g., 2SC, 2SD series).
+- [MOSFETs](https://ichouse.lk/mosfet/): High voltage and logic-level N-channel and P-channel power MOSFETs.
+- [IGBTs](https://ichouse.lk/igbt/): High-power insulated-gate bipolar transistors for induction cookers, inverters, and welders.
+- [Arduino & IoT Modules](https://ichouse.lk/module/): Relay boards, step-down (buck) converters, step-up (boost) converters, battery chargers (TP4056, TP5100), thermostat modules.
+- [BMS & Battery Protection](https://ichouse.lk/bms/): 1S to 6S Li-ion and LiFePO4 battery management and balance protection boards.
+- [Relays](https://ichouse.lk/relays/): 5V, 12V, 24V automotive and PCB power relays (10A to 40A).
+- [Capacitors](https://ichouse.lk/capacitor/): Electrolytic, polyester film, and ceramic disc capacitors.
+- [Resistors](https://ichouse.lk/resistors/): Metal film, carbon film, and high-wattage ceramic cement wirewound resistors.
+- [Power Adapters & SMPS](https://ichouse.lk/power-adapter/): 5V, 9V, 12V, 24V switching power supplies and metal cage industrial power adapters.
+- [Solar & Energy Products](https://ichouse.lk/solar/): PWM solar charge controllers, mini solar panels, emergency solar lights.
+- [Cooling Fans](https://ichouse.lk/fan/): 12V / 24V DC brushless cooling fans for enclosures and electronics.
+- [Meters & Panel Displays](https://ichouse.lk/panel-meter/): Digital voltmeters, ammeters, and single-phase digital watt-hour meters.
+- [Transformers](https://ichouse.lk/transformer/): Step-down AC power transformers (230V to 6V, 9V, 12V, 24V dual/single output).
+- [Diodes & Bridge Rectifiers](https://ichouse.lk/rectifier/): Fast-recovery diodes, Schottky, Zener, and heavy-duty bridge rectifier modules.
+- [Cables & Connectors](https://ichouse.lk/connecter/): Audio jacks, DC sockets, terminal blocks, coaxial splitters, USB Type-C sockets.
+
+## Key Information Pages
+- [Delivery Details](https://ichouse.lk/delivery.html): Complete guide to delivery times, courier options, and island-wide rates.
+- [Payment Methods](https://ichouse.lk/payment.html): Details on Bank Transfer, LANKAQR, and COD payment terms.
+- [Frequently Asked Questions (FAQ)](https://ichouse.lk/faq.html): Answers on ordering, pickup, testing, and technical support.
+- [Custom Parts Request](https://ichouse.lk/request-parts.html): Form to request rare or unlisted electronic components.
+- [Return & Refund Policy](https://ichouse.lk/return.html): 7-day return procedure and replacement criteria.
+- [XML Sitemap](https://ichouse.lk/sitemap.xml): Full URL list for search and indexing bots.

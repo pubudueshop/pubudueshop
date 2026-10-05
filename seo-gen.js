@@ -895,6 +895,34 @@ Allow: /
 Disallow: /admin.html
 Disallow: /google*.html
 
+# AI Search Engines & Crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
 Sitemap: ${SITE_URL}sitemap.xml
 `;
     fs.writeFileSync('robots.txt', content);

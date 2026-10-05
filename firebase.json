@@ -4055,6 +4055,36 @@
                 "source": "/products/4s-100a-lifepo4-bms-battery-protection-balancing-b-1788926291230/",
                 "destination": "/bms/lfp-bms/4s-100a-lifepo4-bms-battery-protection-balancing-board/",
                 "type": 301
+            },
+            {
+                "source": "/products/max8880eutt-aahr-sot236-ldo-voltage-regulator-ic-2-1791172289968",
+                "destination": "/ic/lowdropout-linear-regulator-ldo/max8880eutt-aahr-sot236-ldo-voltage-regulator-ic-200ma/",
+                "type": 301
+            },
+            {
+                "source": "/products/max8880eutt-aahr-sot236-ldo-voltage-regulator-ic-2-1791172289968/",
+                "destination": "/ic/lowdropout-linear-regulator-ldo/max8880eutt-aahr-sot236-ldo-voltage-regulator-ic-200ma/",
+                "type": 301
+            },
+            {
+                "source": "/ic/lowdropout-linear-regulator-ldo/max8880eutt-aahr-sot236-ldo-voltage-regulator-ic-200ma-adjus",
+                "destination": "/ic/lowdropout-linear-regulator-ldo/max8880eutt-aahr-sot236-ldo-voltage-regulator-ic-200ma/",
+                "type": 301
+            },
+            {
+                "source": "/ic/lowdropout-linear-regulator-ldo/max8880eutt-aahr-sot236-ldo-voltage-regulator-ic-200ma-adjus/",
+                "destination": "/ic/lowdropout-linear-regulator-ldo/max8880eutt-aahr-sot236-ldo-voltage-regulator-ic-200ma/",
+                "type": 301
+            },
+            {
+                "source": "/ic/lowdropout-linear-regulator-ldo/max8880eutt-aahr-sot236-ldo-voltage-regulator-ic-200ma-adjustable-125v5v-sri-lanka",
+                "destination": "/ic/lowdropout-linear-regulator-ldo/max8880eutt-aahr-sot236-ldo-voltage-regulator-ic-200ma/",
+                "type": 301
+            },
+            {
+                "source": "/ic/lowdropout-linear-regulator-ldo/max8880eutt-aahr-sot236-ldo-voltage-regulator-ic-200ma-adjustable-125v5v-sri-lanka/",
+                "destination": "/ic/lowdropout-linear-regulator-ldo/max8880eutt-aahr-sot236-ldo-voltage-regulator-ic-200ma/",
+                "type": 301
             }
         ]
     },

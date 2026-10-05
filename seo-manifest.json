@@ -637,7 +637,7 @@
       "lastmod": "2026-09-14"
     },
     "https://ichouse.lk/transformer/12v-transformer/220v-to-12v-x2-14a-ac-transformer-dual-output-power-supply/": {
-      "hash": "c394256067578dad77f0c61aa276a8f9",
+      "hash": "a42de9f36fab09d30445f59df9b7bf56",
       "lastmod": "2026-10-05"
     },
     "https://ichouse.lk/transformer/12v-transformer/220v-to-6v-065a-step-down-transformer-single-output-power/": {
@@ -945,7 +945,7 @@
       "lastmod": "2026-09-14"
     },
     "https://ichouse.lk/module/pir-motion/pir-motion-sensor-switch-220v-ac-automatic-light-control/": {
-      "hash": "61db7ebecfc57843265833775c821842",
+      "hash": "85942648ed499bbb3a0bf34eb6853266",
       "lastmod": "2026-10-05"
     },
     "https://ichouse.lk/infrared-cooker-parts/ntc-temperature-sensor/infrared-cooker-thermal-sensor-ntc-temperature-sensor-probe/": {
@@ -1013,7 +1013,7 @@
       "lastmod": "2026-09-22"
     },
     "https://ichouse.lk/audio-amplifier/stereo-amplifier-board/xha232-tpa3110-230w-stereo-classd-digital-audio-amplifier/": {
-      "hash": "9d428cc3c553a3249d7e16650ccb0a63",
+      "hash": "a3d41702bc27434dd6d0bd29eb5d15bb",
       "lastmod": "2026-10-05"
     },
     "https://ichouse.lk/audio-amplifier/mono-classd-amplifier-module/hw327a-tpa3118d2-60w-mono-classd-amplifier-module-sri-lanka/": {
@@ -1025,7 +1025,7 @@
       "lastmod": "2026-10-05"
     },
     "https://ichouse.lk/charger/18650-charger/42v-300ma-smart-liion-18650-battery-charger-single-cell/": {
-      "hash": "6a1f5a5c6cfc39526216537e37bdb932",
+      "hash": "ca7cfcf2fa343dc0fea281249512d230",
       "lastmod": "2026-10-05"
     },
     "https://ichouse.lk/bms/liion-bms/3s-20a-bms-126v-lithium-battery-protection-board-for-18650/": {
@@ -1033,11 +1033,11 @@
       "lastmod": "2026-10-04"
     },
     "https://ichouse.lk/bms/liion-bms/6s-12a-liion-bms-battery-protection-board-222v-252v-18650/": {
-      "hash": "d330ffb2b21fba421b916e045b159cca",
+      "hash": "db6494ffdfff7d46e0a0e2da7dd007ee",
       "lastmod": "2026-10-05"
     },
     "https://ichouse.lk/bms/liion-bms/4s-liion-bms-battery-protection-board-148v-168v-18650-4s/": {
-      "hash": "83e87e96acdb46b41c17926825ee1c04",
+      "hash": "05ca586661e4d1fb2520458c2349871d",
       "lastmod": "2026-10-05"
     },
     "https://ichouse.lk/connecter/type-c-connector/usb-typec-female-2-wire-panel-mount-power-socket-usbc/": {
@@ -1057,8 +1057,8 @@
       "lastmod": "2026-10-05"
     },
     "https://ichouse.lk/pcb/10-led-knight-rider-kit/10-led-knight-rider-kitt-running-light-no-soldering-diy-kit/": {
-      "hash": "a6729ba5974447ff7360509d7b345118",
-      "lastmod": "2026-10-04"
+      "hash": "55411df90d46a51d7c679153136e94b7",
+      "lastmod": "2026-10-05"
     },
     "https://ichouse.lk/audio-amplifier/stereo-amplifier-board/pam8610-210w-stereo-classd-audio-amplifier-module-12v-mini/": {
       "hash": "3bbae3de4411e17819adfcbebf6c138e",
@@ -1073,8 +1073,12 @@
       "lastmod": "2026-10-02"
     },
     "https://ichouse.lk/bms/lfp-bms/4s-100a-lifepo4-bms-battery-protection-balancing-board/": {
-      "hash": "3855dbb969c8aec42fdee3e9cb6c7d83",
-      "lastmod": "2026-10-01"
+      "hash": "b0cdb122040d06884c5b8a101cda850a",
+      "lastmod": "2026-10-05"
+    },
+    "https://ichouse.lk/ic/lowdropout-linear-regulator-ldo/max8880eutt-aahr-sot236-ldo-voltage-regulator-ic-200ma/": {
+      "hash": "6268e81443547712e1bd64cb593c4527",
+      "lastmod": "2026-10-05"
     }
   }
 }

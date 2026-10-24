@@ -201,6 +201,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ichouse.lk/ic/battery-charger-controller-ic/</loc>
+    <lastmod>2026-09-01</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ichouse.lk/transistor/</loc>
     <lastmod>2026-09-14</lastmod>
     <priority>0.8</priority>
@@ -1272,7 +1277,7 @@
   </url>
   <url>
     <loc>https://ichouse.lk/audio-amplifier/stereo-amplifier-board/xha232-tpa3110-230w-stereo-classd-digital-audio-amplifier/</loc>
-    <lastmod>2026-10-21</lastmod>
+    <lastmod>2026-10-24</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
@@ -1353,6 +1358,11 @@
   <url>
     <loc>https://ichouse.lk/ic/lowdropout-linear-regulator-ldo/max8880eutt-aahr-sot236-ldo-voltage-regulator-ic-200ma/</loc>
     <lastmod>2026-10-05</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/ic/battery-charger-controller-ic/max1737eei-lithiumion-battery-charger-controller-ic-28pin/</loc>
+    <lastmod>2026-10-24</lastmod>
     <priority>0.9</priority>
   </url>
 </urlset>

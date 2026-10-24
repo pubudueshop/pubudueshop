@@ -4085,6 +4085,36 @@
                 "source": "/ic/lowdropout-linear-regulator-ldo/max8880eutt-aahr-sot236-ldo-voltage-regulator-ic-200ma-adjustable-125v5v-sri-lanka/",
                 "destination": "/ic/lowdropout-linear-regulator-ldo/max8880eutt-aahr-sot236-ldo-voltage-regulator-ic-200ma/",
                 "type": 301
+            },
+            {
+                "source": "/products/max1737eei-lithiumion-battery-charger-controller-i-1792824092610",
+                "destination": "/ic/battery-charger-controller-ic/max1737eei-lithiumion-battery-charger-controller-ic-28pin/",
+                "type": 301
+            },
+            {
+                "source": "/products/max1737eei-lithiumion-battery-charger-controller-i-1792824092610/",
+                "destination": "/ic/battery-charger-controller-ic/max1737eei-lithiumion-battery-charger-controller-ic-28pin/",
+                "type": 301
+            },
+            {
+                "source": "/ic/battery-charger-controller-ic/max1737eei-lithiumion-battery-charger-controller-ic-28pin-qs",
+                "destination": "/ic/battery-charger-controller-ic/max1737eei-lithiumion-battery-charger-controller-ic-28pin/",
+                "type": 301
+            },
+            {
+                "source": "/ic/battery-charger-controller-ic/max1737eei-lithiumion-battery-charger-controller-ic-28pin-qs/",
+                "destination": "/ic/battery-charger-controller-ic/max1737eei-lithiumion-battery-charger-controller-ic-28pin/",
+                "type": 301
+            },
+            {
+                "source": "/ic/battery-charger-controller-ic/max1737eei-lithiumion-battery-charger-controller-ic-28pin-qsop",
+                "destination": "/ic/battery-charger-controller-ic/max1737eei-lithiumion-battery-charger-controller-ic-28pin/",
+                "type": 301
+            },
+            {
+                "source": "/ic/battery-charger-controller-ic/max1737eei-lithiumion-battery-charger-controller-ic-28pin-qsop/",
+                "destination": "/ic/battery-charger-controller-ic/max1737eei-lithiumion-battery-charger-controller-ic-28pin/",
+                "type": 301
             }
         ]
     },

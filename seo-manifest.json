@@ -637,7 +637,7 @@
       "lastmod": "2026-09-14"
     },
     "https://ichouse.lk/transformer/12v-transformer/220v-to-12v-x2-14a-ac-transformer-dual-output-power-supply/": {
-      "hash": "2bd3f59d4813552dbd2e2502bf7e95cf",
+      "hash": "a42de9f36fab09d30445f59df9b7bf56",
       "lastmod": "2026-10-26"
     },
     "https://ichouse.lk/transformer/12v-transformer/220v-to-6v-065a-step-down-transformer-single-output-power/": {
@@ -681,8 +681,8 @@
       "lastmod": "2026-09-14"
     },
     "https://ichouse.lk/transistor/npn-transistor/13007-power-transistor-mje13007-j130072-equivalent-high/": {
-      "hash": "d443314cb7578fb15c5c5c2b647ebb4c",
-      "lastmod": "2026-10-24"
+      "hash": "95db398016094f29c02f2e4470f49e04",
+      "lastmod": "2026-10-26"
     },
     "https://ichouse.lk/panel-meter/ac-ammeter/sf72-analog-ac-ammeter-3005a-72x72mm-panel-meter-current/": {
       "hash": "9d09e94c9731bf356a6a5b5f5f2ca8da",
@@ -845,7 +845,7 @@
       "lastmod": "2026-09-29"
     },
     "https://ichouse.lk/resistors/ceramic-resistors/15w-27-wirewound-cement-resistor-high-power-27-ohm-resistor/": {
-      "hash": "5e0089a6ba16947ce0ab6d621837e8ad",
+      "hash": "1fe09456b1a929ef6edbc078fa89fa57",
       "lastmod": "2026-10-26"
     },
     "https://ichouse.lk/resistors/ceramic-resistors/7w-82-ceramic-cement-resistor-10-high-power-wirewound/": {
@@ -945,7 +945,7 @@
       "lastmod": "2026-09-14"
     },
     "https://ichouse.lk/module/pir-motion/pir-motion-sensor-switch-220v-ac-automatic-light-control/": {
-      "hash": "6d373de0a6f6fb505116b1c7ce17fe93",
+      "hash": "8fafe20f81163eecd787c413fbca6d02",
       "lastmod": "2026-10-26"
     },
     "https://ichouse.lk/infrared-cooker-parts/ntc-temperature-sensor/infrared-cooker-thermal-sensor-ntc-temperature-sensor-probe/": {
@@ -953,7 +953,7 @@
       "lastmod": "2026-10-02"
     },
     "https://ichouse.lk/solar/pwm-solar-charge-controller/30a-pwm-solar-charge-controller-12v24v-lcd-display-solar/": {
-      "hash": "cb93a156997f33f64212efd92fe3c64c",
+      "hash": "11fe5cb46b0fdca2e14aaf2836260365",
       "lastmod": "2026-10-26"
     },
     "https://ichouse.lk/module/boost-converter/xl6009-dcdc-adjustable-stepup-boost-converter-module-3v32v/": {
@@ -1013,7 +1013,7 @@
       "lastmod": "2026-09-22"
     },
     "https://ichouse.lk/audio-amplifier/stereo-amplifier-board/xha232-tpa3110-230w-stereo-classd-digital-audio-amplifier/": {
-      "hash": "f8c0fc6de10729fb6c18abe1a5bfedc1",
+      "hash": "02d0652751a679a84971974bd750c916",
       "lastmod": "2026-10-26"
     },
     "https://ichouse.lk/audio-amplifier/mono-classd-amplifier-module/hw327a-tpa3118d2-60w-mono-classd-amplifier-module-sri-lanka/": {
@@ -1021,20 +1021,20 @@
       "lastmod": "2026-10-26"
     },
     "https://ichouse.lk/audio-amplifier/stereo-tape-head-preamplifier/la3161-stereo-pre-amp-head-912v-dc-stereo-tape-head/": {
-      "hash": "f99147083479273e9ce7e9d20d70068c",
+      "hash": "f5234e75851ddb378ca788efb67bd534",
       "lastmod": "2026-10-26"
     },
     "https://ichouse.lk/charger/18650-charger/42v-300ma-smart-liion-18650-battery-charger-single-cell/": {
-      "hash": "af4f29130997e241c4dd5454e9494093",
+      "hash": "69f9610411b7357f31778ac57263852a",
       "lastmod": "2026-10-26"
     },
     "https://ichouse.lk/bms/liion-bms/3s-20a-bms-126v-lithium-battery-protection-board-for-18650/": {
-      "hash": "1dac0780c3449621715d130d89cd686e",
+      "hash": "61603d12d566b9592ec7b2aa4e156110",
       "lastmod": "2026-10-26"
     },
     "https://ichouse.lk/bms/liion-bms/6s-12a-liion-bms-battery-protection-board-222v-252v-18650/": {
-      "hash": "db6494ffdfff7d46e0a0e2da7dd007ee",
-      "lastmod": "2026-10-24"
+      "hash": "16775b89f6e8c3f5e2030b87514afc3a",
+      "lastmod": "2026-10-26"
     },
     "https://ichouse.lk/bms/liion-bms/4s-liion-bms-battery-protection-board-148v-168v-18650-4s/": {
       "hash": "05ca586661e4d1fb2520458c2349871d",
@@ -1045,11 +1045,11 @@
       "lastmod": "2026-10-23"
     },
     "https://ichouse.lk/module/charging-module/3a-usb-typec-fast-charging-module-ip2312-1s-liion-battery/": {
-      "hash": "0704bcbd012dbab8723b98ad6151ab2e",
+      "hash": "1f681ecde24704e1c43f8c21dad360de",
       "lastmod": "2026-10-26"
     },
     "https://ichouse.lk/motor-speed-controller/mini-motor-speed-regulator/hw687-dc-motor-speed-controller-45v35v-5a-pwm-mini-motor/": {
-      "hash": "c9a26d24d8bb89fb92f40cbe8be3f595",
+      "hash": "a7c662c72b4f5cf4f7b2683487a6b0e8",
       "lastmod": "2026-10-26"
     },
     "https://ichouse.lk/glue-sticks-for-glue-gun/7mm-300mm-glue-gun-glue-sticks/7mm-300mm-hot-melt-glue-sticks-1kg-7080pcs-grade-a-high/": {

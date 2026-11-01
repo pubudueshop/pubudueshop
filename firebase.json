@@ -4115,6 +4115,36 @@
                 "source": "/ic/battery-charger-controller-ic/max1737eei-lithiumion-battery-charger-controller-ic-28pin-qsop/",
                 "destination": "/ic/battery-charger-controller-ic/max1737eei-lithiumion-battery-charger-controller-ic-28pin/",
                 "type": 301
+            },
+            {
+                "source": "/products/a3983slpt-stepper-motor-driver-ic-allegro-original-1793504457642",
+                "destination": "/ic/stepper-motor-driver-ic/a3983slpt-stepper-motor-driver-ic-allegro-original-tssop24/",
+                "type": 301
+            },
+            {
+                "source": "/products/a3983slpt-stepper-motor-driver-ic-allegro-original-1793504457642/",
+                "destination": "/ic/stepper-motor-driver-ic/a3983slpt-stepper-motor-driver-ic-allegro-original-tssop24/",
+                "type": 301
+            },
+            {
+                "source": "/ic/stepper-motor-driver-ic/a3983slpt-stepper-motor-driver-ic-allegro-original-tssop24-m",
+                "destination": "/ic/stepper-motor-driver-ic/a3983slpt-stepper-motor-driver-ic-allegro-original-tssop24/",
+                "type": 301
+            },
+            {
+                "source": "/ic/stepper-motor-driver-ic/a3983slpt-stepper-motor-driver-ic-allegro-original-tssop24-m/",
+                "destination": "/ic/stepper-motor-driver-ic/a3983slpt-stepper-motor-driver-ic-allegro-original-tssop24/",
+                "type": 301
+            },
+            {
+                "source": "/ic/stepper-motor-driver-ic/a3983slpt-stepper-motor-driver-ic-allegro-original-tssop24-microstepping-controller",
+                "destination": "/ic/stepper-motor-driver-ic/a3983slpt-stepper-motor-driver-ic-allegro-original-tssop24/",
+                "type": 301
+            },
+            {
+                "source": "/ic/stepper-motor-driver-ic/a3983slpt-stepper-motor-driver-ic-allegro-original-tssop24-microstepping-controller/",
+                "destination": "/ic/stepper-motor-driver-ic/a3983slpt-stepper-motor-driver-ic-allegro-original-tssop24/",
+                "type": 301
             }
         ]
     },

@@ -75,6 +75,7 @@ foreach ($p in $prods) {
       "name": "$title",
       "image": "$img",
       "description": "$shortDesc",
+      "sku": "PE-$id",
       "brand": { "@type": "Brand", "name": "ichouse.lk" },
       "offers": {
         "@type": "Offer",

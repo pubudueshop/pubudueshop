@@ -170,13 +170,16 @@ function injectProductContent(page, product, pageUrl) {
         }))
     };
 
+    const cleanModel = product.modelNumber ? product.modelNumber.replace(/[\?]/g, '').trim() : '';
+
     const productJsonLd = {
         "@context": "https://schema.org",
         "@type": "Product",
         "name": product.title,
         "image": (product.images && product.images.length > 0) ? product.images : [product.image],
         "description": rawDesc.substring(0, 5000),
-        "sku": product.modelNumber || `PE-${product.id}`,
+        "sku": `PE-${product.id}`,
+        ...(cleanModel ? { "mpn": cleanModel } : {}),
         "itemCondition": "https://schema.org/NewCondition",
         "brand": { "@type": "Brand", "name": product.brand || "Pubudu Electronics" },
         "offers": {

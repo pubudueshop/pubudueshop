@@ -1,328 +1,328 @@
-﻿{
-    "urls":  {
-                 "https://ichouse.lk/":  {
-                                             "hash":  "",
-                                             "lastmod":  "2026-11-10"
-                                         },
-                 "https://ichouse.lk/delivery.html":  {
-                                                          "hash":  "",
-                                                          "lastmod":  "2026-11-10"
-                                                      },
-                 "https://ichouse.lk/faq.html":  {
-                                                     "hash":  "",
-                                                     "lastmod":  "2026-11-10"
-                                                 },
-                 "https://ichouse.lk/payment.html":  {
-                                                         "hash":  "",
-                                                         "lastmod":  "2026-11-10"
-                                                     },
-                 "https://ichouse.lk/privacy.html":  {
-                                                         "hash":  "",
-                                                         "lastmod":  "2026-11-10"
-                                                     },
-                 "https://ichouse.lk/return.html":  {
-                                                        "hash":  "",
-                                                        "lastmod":  "2026-11-10"
-                                                    },
-                 "https://ichouse.lk/terms.html":  {
-                                                       "hash":  "",
-                                                       "lastmod":  "2026-11-10"
-                                                   },
-                 "https://ichouse.lk/request-parts.html":  {
-                                                               "hash":  "",
-                                                               "lastmod":  "2026-11-10"
-                                                           },
-                 "https://ichouse.lk/sitemap.html":  {
-                                                         "hash":  "",
-                                                         "lastmod":  "2026-11-10"
-                                                     },
-                 "https://ichouse.lk/voltage-regulators-power-management/pwm-controller-ics/uc3843an-pwm-controller-ic-smps-power-supply-ic-sri-lanka/":  {
-                                                                                                                                                              "hash":  "",
-                                                                                                                                                              "lastmod":  "2026-11-10"
-                                                                                                                                                          },
-                 "https://ichouse.lk/motor-drivers-power-control/darlington-transistor-arrays-motor-driver-ics/uln2004apg-darlington-transistor-array-ic-7-channel-relay/":  {
-                                                                                                                                                                                 "hash":  "",
-                                                                                                                                                                                 "lastmod":  "2026-11-10"
-                                                                                                                                                                             },
-                 "https://ichouse.lk/voltage-regulators-power-management/pwm-controller-ics/uc3846n-pwm-controller-ic-dip16-smps-power-supply-control/":  {
-                                                                                                                                                              "hash":  "",
-                                                                                                                                                              "lastmod":  "2026-11-10"
-                                                                                                                                                          },
-                 "https://ichouse.lk/audio-amplifier-ics/sound-generator-melody-generator-ics/um3561a-siren-sound-generator-ic-original-dip8-alarm-tone/":  {
-                                                                                                                                                                "hash":  "",
-                                                                                                                                                                "lastmod":  "2026-11-10"
-                                                                                                                                                            },
-                 "https://ichouse.lk/linear-analog-ics/operational-amplifiers-opamps/tl064cn-quad-jfet-operational-amplifier-ic-original-dip14/":  {
-                                                                                                                                                       "hash":  "",
-                                                                                                                                                       "lastmod":  "2026-11-10"
-                                                                                                                                                   },
-                 "https://ichouse.lk/voltage-regulators-power-management/linear-voltage-regulators/max8880eutt-aahr-sot236-ldo-voltage-regulator-ic-200ma/":  {
-                                                                                                                                                                  "hash":  "",
-                                                                                                                                                                  "lastmod":  "2026-11-10"
-                                                                                                                                                              },
-                 "https://ichouse.lk/voltage-regulators-power-management/battery-charger-management-ics/max1737eei-lithiumion-battery-charger-controller-ic-28pin/":  {
-                                                                                                                                                                          "hash":  "",
-                                                                                                                                                                          "lastmod":  "2026-11-10"
-                                                                                                                                                                      },
-                 "https://ichouse.lk/motor-drivers-power-control/stepper-motor-drivers/a3983slpt-stepper-motor-driver-ic-allegro-original-tssop24/":  {
-                                                                                                                                                          "hash":  "",
-                                                                                                                                                          "lastmod":  "2026-11-10"
-                                                                                                                                                      },
-                 "https://ichouse.lk/memory-ics/":  {
-                                                        "hash":  "",
-                                                        "lastmod":  "2026-11-10"
-                                                    },
-                 "https://ichouse.lk/memory-ics/eeprom/":  {
-                                                               "hash":  "",
-                                                               "lastmod":  "2026-11-10"
-                                                           },
-                 "https://ichouse.lk/memory-ics/flash-memory/":  {
-                                                                     "hash":  "",
-                                                                     "lastmod":  "2026-11-10"
-                                                                 },
-                 "https://ichouse.lk/memory-ics/sram-dram/":  {
-                                                                  "hash":  "",
-                                                                  "lastmod":  "2026-11-10"
-                                                              },
-                 "https://ichouse.lk/microcontrollers-processors/":  {
-                                                                         "hash":  "",
-                                                                         "lastmod":  "2026-11-10"
-                                                                     },
-                 "https://ichouse.lk/microcontrollers-processors/arduino-avr-pic-arm-esp/":  {
-                                                                                                 "hash":  "",
-                                                                                                 "lastmod":  "2026-11-10"
-                                                                                             },
-                 "https://ichouse.lk/microcontrollers-processors/8051-zilog-other-mcus/":  {
-                                                                                               "hash":  "",
-                                                                                               "lastmod":  "2026-11-10"
-                                                                                           },
-                 "https://ichouse.lk/protection-supervisor-ics/":  {
-                                                                       "hash":  "",
-                                                                       "lastmod":  "2026-11-10"
-                                                                   },
-                 "https://ichouse.lk/protection-supervisor-ics/reset-supervisor-ics/":  {
-                                                                                            "hash":  "",
-                                                                                            "lastmod":  "2026-11-10"
-                                                                                        },
-                 "https://ichouse.lk/protection-supervisor-ics/battery-protection-ics/":  {
-                                                                                              "hash":  "",
-                                                                                              "lastmod":  "2026-11-10"
-                                                                                          },
-                 "https://ichouse.lk/protection-supervisor-ics/overvoltage-surge-protection/":  {
-                                                                                                    "hash":  "",
-                                                                                                    "lastmod":  "2026-11-10"
-                                                                                                },
-                 "https://ichouse.lk/sensors-special-ics/":  {
-                                                                 "hash":  "",
-                                                                 "lastmod":  "2026-11-10"
-                                                             },
-                 "https://ichouse.lk/sensors-special-ics/temperature-sensors/":  {
-                                                                                     "hash":  "",
-                                                                                     "lastmod":  "2026-11-10"
-                                                                                 },
-                 "https://ichouse.lk/sensors-special-ics/current-voltage-sensors/":  {
-                                                                                         "hash":  "",
-                                                                                         "lastmod":  "2026-11-10"
-                                                                                     },
-                 "https://ichouse.lk/sensors-special-ics/adc-dac-converters/":  {
-                                                                                    "hash":  "",
-                                                                                    "lastmod":  "2026-11-10"
-                                                                                },
-                 "https://ichouse.lk/sensors-special-ics/hall-effect-sensors/":  {
-                                                                                     "hash":  "",
-                                                                                     "lastmod":  "2026-11-10"
-                                                                                 },
-                 "https://ichouse.lk/optocouplers-isolation-ics/":  {
-                                                                        "hash":  "",
-                                                                        "lastmod":  "2026-11-10"
-                                                                    },
-                 "https://ichouse.lk/optocouplers-isolation-ics/optocouplers/":  {
-                                                                                     "hash":  "",
-                                                                                     "lastmod":  "2026-11-10"
-                                                                                 },
-                 "https://ichouse.lk/optocouplers-isolation-ics/digital-isolators/":  {
-                                                                                          "hash":  "",
-                                                                                          "lastmod":  "2026-11-10"
-                                                                                      },
-                 "https://ichouse.lk/motor-drivers-power-control/":  {
-                                                                         "hash":  "",
-                                                                         "lastmod":  "2026-11-10"
-                                                                     },
-                 "https://ichouse.lk/motor-drivers-power-control/dc-motor-drivers/":  {
-                                                                                          "hash":  "",
-                                                                                          "lastmod":  "2026-11-10"
-                                                                                      },
-                 "https://ichouse.lk/motor-drivers-power-control/stepper-motor-drivers/":  {
-                                                                                               "hash":  "",
-                                                                                               "lastmod":  "2026-11-10"
-                                                                                           },
-                 "https://ichouse.lk/motor-drivers-power-control/gate-drivers-igbt-drivers/":  {
-                                                                                                   "hash":  "",
-                                                                                                   "lastmod":  "2026-11-10"
-                                                                                               },
-                 "https://ichouse.lk/motor-drivers-power-control/ipm-power-control-modules/":  {
-                                                                                                   "hash":  "",
-                                                                                                   "lastmod":  "2026-11-10"
-                                                                                               },
-                 "https://ichouse.lk/motor-drivers-power-control/darlington-transistor-arrays-motor-driver-ics/":  {
-                                                                                                                       "hash":  "",
-                                                                                                                       "lastmod":  "2026-11-10"
-                                                                                                                   },
-                 "https://ichouse.lk/logic-gates-digital-ics/":  {
-                                                                     "hash":  "",
-                                                                     "lastmod":  "2026-11-10"
-                                                                 },
-                 "https://ichouse.lk/logic-gates-digital-ics/74hc-74ls-series/":  {
-                                                                                      "hash":  "",
-                                                                                      "lastmod":  "2026-11-10"
-                                                                                  },
-                 "https://ichouse.lk/logic-gates-digital-ics/cd4000-cmos-series/":  {
-                                                                                        "hash":  "",
-                                                                                        "lastmod":  "2026-11-10"
-                                                                                    },
-                 "https://ichouse.lk/logic-gates-digital-ics/flipflops-counters/":  {
-                                                                                        "hash":  "",
-                                                                                        "lastmod":  "2026-11-10"
-                                                                                    },
-                 "https://ichouse.lk/interface-communication-ics/":  {
-                                                                         "hash":  "",
-                                                                         "lastmod":  "2026-11-10"
-                                                                     },
-                 "https://ichouse.lk/interface-communication-ics/rs232-rs485/":  {
-                                                                                     "hash":  "",
-                                                                                     "lastmod":  "2026-11-10"
-                                                                                 },
-                 "https://ichouse.lk/interface-communication-ics/can-bus/":  {
-                                                                                 "hash":  "",
-                                                                                 "lastmod":  "2026-11-10"
-                                                                             },
-                 "https://ichouse.lk/interface-communication-ics/usb-interface/":  {
-                                                                                       "hash":  "",
-                                                                                       "lastmod":  "2026-11-10"
-                                                                                   },
-                 "https://ichouse.lk/interface-communication-ics/ethernet-network-ics/":  {
-                                                                                              "hash":  "",
-                                                                                              "lastmod":  "2026-11-10"
-                                                                                          },
-                 "https://ichouse.lk/voltage-regulators-power-management/":  {
-                                                                                 "hash":  "",
-                                                                                 "lastmod":  "2026-11-10"
-                                                                             },
-                 "https://ichouse.lk/voltage-regulators-power-management/linear-voltage-regulators/":  {
-                                                                                                           "hash":  "",
-                                                                                                           "lastmod":  "2026-11-10"
-                                                                                                       },
-                 "https://ichouse.lk/voltage-regulators-power-management/switching-regulators-dcdc/":  {
-                                                                                                           "hash":  "",
-                                                                                                           "lastmod":  "2026-11-10"
-                                                                                                       },
-                 "https://ichouse.lk/voltage-regulators-power-management/pwm-controller-ics/":  {
-                                                                                                    "hash":  "",
-                                                                                                    "lastmod":  "2026-11-10"
-                                                                                                },
-                 "https://ichouse.lk/voltage-regulators-power-management/battery-charger-management-ics/":  {
-                                                                                                                "hash":  "",
-                                                                                                                "lastmod":  "2026-11-10"
-                                                                                                            },
-                 "https://ichouse.lk/timers-oscillators/":  {
-                                                                "hash":  "",
-                                                                "lastmod":  "2026-11-10"
-                                                            },
-                 "https://ichouse.lk/timers-oscillators/timer-ics/":  {
-                                                                          "hash":  "",
-                                                                          "lastmod":  "2026-11-10"
-                                                                      },
-                 "https://ichouse.lk/timers-oscillators/clock-ics-pulse-generators/":  {
-                                                                                           "hash":  "",
-                                                                                           "lastmod":  "2026-11-10"
-                                                                                       },
-                 "https://ichouse.lk/rf-wireless-ics/":  {
-                                                             "hash":  "",
-                                                             "lastmod":  "2026-11-10"
-                                                         },
-                 "https://ichouse.lk/rf-wireless-ics/wifi-bluetooth/":  {
-                                                                            "hash":  "",
-                                                                            "lastmod":  "2026-11-10"
-                                                                        },
-                 "https://ichouse.lk/rf-wireless-ics/rf-transceiver-ics/":  {
-                                                                                "hash":  "",
-                                                                                "lastmod":  "2026-11-10"
-                                                                            },
-                 "https://ichouse.lk/rf-wireless-ics/fm-radio-receiver-ics/":  {
-                                                                                   "hash":  "",
-                                                                                   "lastmod":  "2026-11-10"
-                                                                               },
-                 "https://ichouse.lk/display-driver-ics/":  {
-                                                                "hash":  "",
-                                                                "lastmod":  "2026-11-10"
-                                                            },
-                 "https://ichouse.lk/display-driver-ics/led-display-drivers/":  {
-                                                                                    "hash":  "",
-                                                                                    "lastmod":  "2026-11-10"
-                                                                                },
-                 "https://ichouse.lk/display-driver-ics/lcd-drivers/":  {
-                                                                            "hash":  "",
-                                                                            "lastmod":  "2026-11-10"
-                                                                        },
-                 "https://ichouse.lk/display-driver-ics/oled-display-controllers/":  {
-                                                                                         "hash":  "",
-                                                                                         "lastmod":  "2026-11-10"
-                                                                                     },
-                 "https://ichouse.lk/audio-amplifier-ics/":  {
-                                                                 "hash":  "",
-                                                                 "lastmod":  "2026-11-10"
-                                                             },
-                 "https://ichouse.lk/audio-amplifier-ics/audio-power-amplifiers/":  {
-                                                                                        "hash":  "",
-                                                                                        "lastmod":  "2026-11-10"
-                                                                                    },
-                 "https://ichouse.lk/audio-amplifier-ics/class-d-amplifiers/":  {
-                                                                                    "hash":  "",
-                                                                                    "lastmod":  "2026-11-10"
-                                                                                },
-                 "https://ichouse.lk/audio-amplifier-ics/audio-preamplifiers/":  {
-                                                                                     "hash":  "",
-                                                                                     "lastmod":  "2026-11-10"
-                                                                                 },
-                 "https://ichouse.lk/audio-amplifier-ics/audio-processing-codecs/":  {
-                                                                                         "hash":  "",
-                                                                                         "lastmod":  "2026-11-10"
-                                                                                     },
-                 "https://ichouse.lk/audio-amplifier-ics/sound-generator-melody-generator-ics/":  {
-                                                                                                      "hash":  "",
-                                                                                                      "lastmod":  "2026-11-10"
-                                                                                                  },
-                 "https://ichouse.lk/linear-analog-ics/":  {
-                                                               "hash":  "",
-                                                               "lastmod":  "2026-11-10"
-                                                           },
-                 "https://ichouse.lk/linear-analog-ics/operational-amplifiers-opamps/":  {
-                                                                                             "hash":  "",
-                                                                                             "lastmod":  "2026-11-10"
-                                                                                         },
-                 "https://ichouse.lk/linear-analog-ics/comparators/":  {
-                                                                           "hash":  "",
-                                                                           "lastmod":  "2026-11-10"
-                                                                       },
-                 "https://ichouse.lk/linear-analog-ics/instrumentation-amplifiers/":  {
-                                                                                          "hash":  "",
-                                                                                          "lastmod":  "2026-11-10"
-                                                                                      },
-                 "https://ichouse.lk/mosfet-igbt-driver-ics/":  {
-                                                                    "hash":  "",
-                                                                    "lastmod":  "2026-11-10"
-                                                                },
-                 "https://ichouse.lk/mosfet-igbt-driver-ics/mosfet-drivers/":  {
-                                                                                   "hash":  "",
-                                                                                   "lastmod":  "2026-11-10"
-                                                                               },
-                 "https://ichouse.lk/mosfet-igbt-driver-ics/igbt-drivers/":  {
-                                                                                 "hash":  "",
-                                                                                 "lastmod":  "2026-11-10"
-                                                                             },
-                 "https://ichouse.lk/mosfet-igbt-driver-ics/half-full-bridge-drivers/":  {
-                                                                                             "hash":  "",
-                                                                                             "lastmod":  "2026-11-10"
-                                                                                         }
-             }
+{
+  "urls": {
+    "https://ichouse.lk/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/delivery.html": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/faq.html": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/payment.html": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/privacy.html": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/return.html": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/terms.html": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/request-parts.html": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/sitemap.html": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/voltage-regulators-power-management/pwm-controller-ics/uc3843an-pwm-controller-ic-smps-power-supply-ic-sri-lanka/": {
+      "hash": "223c8112db7cde99c28c771d214fed2b",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/motor-drivers-power-control/darlington-transistor-arrays-motor-driver-ics/uln2004apg-darlington-transistor-array-ic-7-channel-relay/": {
+      "hash": "e8eb10d11279e48125b96aec00d66a69",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/voltage-regulators-power-management/pwm-controller-ics/uc3846n-pwm-controller-ic-dip16-smps-power-supply-control/": {
+      "hash": "278a6fd864cc832b55932a2f5e9cce84",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/audio-amplifier-ics/sound-generator-melody-generator-ics/um3561a-siren-sound-generator-ic-original-dip8-alarm-tone/": {
+      "hash": "517f25654d0ffcc7563f6416e21ff07d",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/linear-analog-ics/operational-amplifiers-opamps/tl064cn-quad-jfet-operational-amplifier-ic-original-dip14/": {
+      "hash": "950294b87510338519a96b49e80b637a",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/voltage-regulators-power-management/linear-voltage-regulators/max8880eutt-aahr-sot236-ldo-voltage-regulator-ic-200ma/": {
+      "hash": "6268e81443547712e1bd64cb593c4527",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/voltage-regulators-power-management/battery-charger-management-ics/max1737eei-lithiumion-battery-charger-controller-ic-28pin/": {
+      "hash": "5cdbac698234789648217920b4e0f875",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/motor-drivers-power-control/stepper-motor-drivers/a3983slpt-stepper-motor-driver-ic-allegro-original-tssop24/": {
+      "hash": "65dbfa85a2ce63c505d940dfc2184de6",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/memory-ics/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/memory-ics/eeprom/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/memory-ics/flash-memory/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/memory-ics/sram-dram/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/microcontrollers-processors/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/microcontrollers-processors/arduino-avr-pic-arm-esp/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/microcontrollers-processors/8051-zilog-other-mcus/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/protection-supervisor-ics/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/protection-supervisor-ics/reset-supervisor-ics/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/protection-supervisor-ics/battery-protection-ics/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/protection-supervisor-ics/overvoltage-surge-protection/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/sensors-special-ics/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/sensors-special-ics/temperature-sensors/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/sensors-special-ics/current-voltage-sensors/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/sensors-special-ics/adc-dac-converters/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/sensors-special-ics/hall-effect-sensors/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/optocouplers-isolation-ics/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/optocouplers-isolation-ics/optocouplers/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/optocouplers-isolation-ics/digital-isolators/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/motor-drivers-power-control/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/motor-drivers-power-control/dc-motor-drivers/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/motor-drivers-power-control/stepper-motor-drivers/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/motor-drivers-power-control/gate-drivers-igbt-drivers/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/motor-drivers-power-control/ipm-power-control-modules/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/motor-drivers-power-control/darlington-transistor-arrays-motor-driver-ics/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/logic-gates-digital-ics/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/logic-gates-digital-ics/74hc-74ls-series/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/logic-gates-digital-ics/cd4000-cmos-series/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/logic-gates-digital-ics/flipflops-counters/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/interface-communication-ics/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/interface-communication-ics/rs232-rs485/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/interface-communication-ics/can-bus/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/interface-communication-ics/usb-interface/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/interface-communication-ics/ethernet-network-ics/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/voltage-regulators-power-management/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/voltage-regulators-power-management/linear-voltage-regulators/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/voltage-regulators-power-management/switching-regulators-dcdc/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/voltage-regulators-power-management/pwm-controller-ics/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/voltage-regulators-power-management/battery-charger-management-ics/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/timers-oscillators/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/timers-oscillators/timer-ics/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/timers-oscillators/clock-ics-pulse-generators/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/rf-wireless-ics/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/rf-wireless-ics/wifi-bluetooth/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/rf-wireless-ics/rf-transceiver-ics/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/rf-wireless-ics/fm-radio-receiver-ics/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/display-driver-ics/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/display-driver-ics/led-display-drivers/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/display-driver-ics/lcd-drivers/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/display-driver-ics/oled-display-controllers/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/audio-amplifier-ics/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/audio-amplifier-ics/audio-power-amplifiers/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/audio-amplifier-ics/class-d-amplifiers/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/audio-amplifier-ics/audio-preamplifiers/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/audio-amplifier-ics/audio-processing-codecs/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/audio-amplifier-ics/sound-generator-melody-generator-ics/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/linear-analog-ics/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/linear-analog-ics/operational-amplifiers-opamps/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/linear-analog-ics/comparators/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/linear-analog-ics/instrumentation-amplifiers/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/mosfet-igbt-driver-ics/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/mosfet-igbt-driver-ics/mosfet-drivers/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/mosfet-igbt-driver-ics/igbt-drivers/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    },
+    "https://ichouse.lk/mosfet-igbt-driver-ics/half-full-bridge-drivers/": {
+      "hash": "",
+      "lastmod": "2026-11-10"
+    }
+  }
 }

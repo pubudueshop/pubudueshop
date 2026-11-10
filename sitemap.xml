@@ -1,327 +1,408 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://ichouse.lk/</loc>
     <lastmod>2026-11-10</lastmod>
     <priority>1.0</priority>
-  </url>  <url>
+  </url>
+  <url>
     <loc>https://ichouse.lk/delivery.html</loc>
     <lastmod>2026-11-10</lastmod>
     <priority>0.5</priority>
-  </url>  <url>
+  </url>
+  <url>
     <loc>https://ichouse.lk/faq.html</loc>
     <lastmod>2026-11-10</lastmod>
     <priority>0.5</priority>
-  </url>  <url>
+  </url>
+  <url>
     <loc>https://ichouse.lk/payment.html</loc>
     <lastmod>2026-11-10</lastmod>
     <priority>0.5</priority>
-  </url>  <url>
+  </url>
+  <url>
     <loc>https://ichouse.lk/privacy.html</loc>
     <lastmod>2026-11-10</lastmod>
     <priority>0.5</priority>
-  </url>  <url>
+  </url>
+  <url>
     <loc>https://ichouse.lk/return.html</loc>
     <lastmod>2026-11-10</lastmod>
     <priority>0.5</priority>
-  </url>  <url>
+  </url>
+  <url>
     <loc>https://ichouse.lk/terms.html</loc>
     <lastmod>2026-11-10</lastmod>
     <priority>0.5</priority>
-  </url>  <url>
+  </url>
+  <url>
     <loc>https://ichouse.lk/request-parts.html</loc>
     <lastmod>2026-11-10</lastmod>
     <priority>0.5</priority>
-  </url>  <url>
+  </url>
+  <url>
     <loc>https://ichouse.lk/sitemap.html</loc>
     <lastmod>2026-11-10</lastmod>
     <priority>0.5</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/voltage-regulators-power-management/pwm-controller-ics/uc3843an-pwm-controller-ic-smps-power-supply-ic-sri-lanka/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/motor-drivers-power-control/darlington-transistor-arrays-motor-driver-ics/uln2004apg-darlington-transistor-array-ic-7-channel-relay/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/voltage-regulators-power-management/pwm-controller-ics/uc3846n-pwm-controller-ic-dip16-smps-power-supply-control/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/audio-amplifier-ics/sound-generator-melody-generator-ics/um3561a-siren-sound-generator-ic-original-dip8-alarm-tone/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/linear-analog-ics/operational-amplifiers-opamps/tl064cn-quad-jfet-operational-amplifier-ic-original-dip14/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/voltage-regulators-power-management/linear-voltage-regulators/max8880eutt-aahr-sot236-ldo-voltage-regulator-ic-200ma/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/voltage-regulators-power-management/battery-charger-management-ics/max1737eei-lithiumion-battery-charger-controller-ic-28pin/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/motor-drivers-power-control/stepper-motor-drivers/a3983slpt-stepper-motor-driver-ic-allegro-original-tssop24/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/memory-ics/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.8</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/memory-ics/eeprom/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/memory-ics/flash-memory/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/memory-ics/sram-dram/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/microcontrollers-processors/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.8</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/microcontrollers-processors/arduino-avr-pic-arm-esp/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/microcontrollers-processors/8051-zilog-other-mcus/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/protection-supervisor-ics/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.8</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/protection-supervisor-ics/reset-supervisor-ics/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/protection-supervisor-ics/battery-protection-ics/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/protection-supervisor-ics/overvoltage-surge-protection/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/sensors-special-ics/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.8</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/sensors-special-ics/temperature-sensors/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/sensors-special-ics/current-voltage-sensors/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/sensors-special-ics/adc-dac-converters/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/sensors-special-ics/hall-effect-sensors/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/optocouplers-isolation-ics/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.8</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/optocouplers-isolation-ics/optocouplers/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/optocouplers-isolation-ics/digital-isolators/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/motor-drivers-power-control/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.8</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/motor-drivers-power-control/dc-motor-drivers/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/motor-drivers-power-control/stepper-motor-drivers/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/motor-drivers-power-control/gate-drivers-igbt-drivers/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/motor-drivers-power-control/ipm-power-control-modules/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/motor-drivers-power-control/darlington-transistor-arrays-motor-driver-ics/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/logic-gates-digital-ics/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.8</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/logic-gates-digital-ics/74hc-74ls-series/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/logic-gates-digital-ics/cd4000-cmos-series/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/logic-gates-digital-ics/flipflops-counters/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/interface-communication-ics/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.8</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/interface-communication-ics/rs232-rs485/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/interface-communication-ics/can-bus/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/interface-communication-ics/usb-interface/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/interface-communication-ics/ethernet-network-ics/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
+  </url>
+  <url>
     <loc>https://ichouse.lk/voltage-regulators-power-management/</loc>
     <lastmod>2026-11-10</lastmod>
     <priority>0.8</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/voltage-regulators-power-management/linear-voltage-regulators/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/voltage-regulators-power-management/switching-regulators-dcdc/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
+  </url>
+  <url>
     <loc>https://ichouse.lk/voltage-regulators-power-management/pwm-controller-ics/</loc>
     <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/voltage-regulators-power-management/linear-voltage-regulators/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ichouse.lk/voltage-regulators-power-management/battery-charger-management-ics/</loc>
     <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/timers-oscillators/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/voltage-regulators-power-management/switching-regulators-dcdc/</loc>
     <lastmod>2026-11-10</lastmod>
     <priority>0.8</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/timers-oscillators/timer-ics/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/timers-oscillators/clock-ics-pulse-generators/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/rf-wireless-ics/</loc>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/motor-drivers-power-control/</loc>
     <lastmod>2026-11-10</lastmod>
     <priority>0.8</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/rf-wireless-ics/wifi-bluetooth/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/rf-wireless-ics/rf-transceiver-ics/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/rf-wireless-ics/fm-radio-receiver-ics/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/display-driver-ics/</loc>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/motor-drivers-power-control/darlington-transistor-arrays-motor-driver-ics/</loc>
     <lastmod>2026-11-10</lastmod>
     <priority>0.8</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/display-driver-ics/led-display-drivers/</loc>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/motor-drivers-power-control/stepper-motor-drivers/</loc>
     <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/display-driver-ics/lcd-drivers/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/motor-drivers-power-control/dc-motor-drivers/</loc>
     <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/display-driver-ics/oled-display-controllers/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/motor-drivers-power-control/gate-drivers-igbt-drivers/</loc>
     <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/motor-drivers-power-control/ipm-power-control-modules/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ichouse.lk/audio-amplifier-ics/</loc>
     <lastmod>2026-11-10</lastmod>
     <priority>0.8</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/audio-amplifier-ics/audio-power-amplifiers/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/audio-amplifier-ics/class-d-amplifiers/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/audio-amplifier-ics/audio-preamplifiers/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
-    <loc>https://ichouse.lk/audio-amplifier-ics/audio-processing-codecs/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
+  </url>
+  <url>
     <loc>https://ichouse.lk/audio-amplifier-ics/sound-generator-melody-generator-ics/</loc>
     <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/audio-amplifier-ics/audio-power-amplifiers/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/audio-amplifier-ics/class-d-amplifiers/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/audio-amplifier-ics/audio-preamplifiers/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/audio-amplifier-ics/audio-processing-codecs/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ichouse.lk/linear-analog-ics/</loc>
     <lastmod>2026-11-10</lastmod>
     <priority>0.8</priority>
-  </url>  <url>
+  </url>
+  <url>
     <loc>https://ichouse.lk/linear-analog-ics/operational-amplifiers-opamps/</loc>
     <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ichouse.lk/linear-analog-ics/comparators/</loc>
     <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ichouse.lk/linear-analog-ics/instrumentation-amplifiers/</loc>
     <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/microcontrollers-processors/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/microcontrollers-processors/arduino-avr-pic-arm-esp/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/microcontrollers-processors/8051-zilog-other-mcus/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/interface-communication-ics/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/interface-communication-ics/rs232-rs485/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/interface-communication-ics/can-bus/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/interface-communication-ics/usb-interface/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/interface-communication-ics/ethernet-network-ics/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/optocouplers-isolation-ics/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/optocouplers-isolation-ics/optocouplers/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/optocouplers-isolation-ics/digital-isolators/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/sensors-special-ics/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/sensors-special-ics/temperature-sensors/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/sensors-special-ics/current-voltage-sensors/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/sensors-special-ics/adc-dac-converters/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/sensors-special-ics/hall-effect-sensors/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ichouse.lk/mosfet-igbt-driver-ics/</loc>
     <lastmod>2026-11-10</lastmod>
     <priority>0.8</priority>
-  </url>  <url>
+  </url>
+  <url>
     <loc>https://ichouse.lk/mosfet-igbt-driver-ics/mosfet-drivers/</loc>
     <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ichouse.lk/mosfet-igbt-driver-ics/igbt-drivers/</loc>
     <lastmod>2026-11-10</lastmod>
-    <priority>0.9</priority>
-  </url>  <url>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ichouse.lk/mosfet-igbt-driver-ics/half-full-bridge-drivers/</loc>
     <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/timers-oscillators/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/timers-oscillators/timer-ics/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/timers-oscillators/clock-ics-pulse-generators/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/display-driver-ics/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/display-driver-ics/led-display-drivers/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/display-driver-ics/lcd-drivers/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/display-driver-ics/oled-display-controllers/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/protection-supervisor-ics/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/protection-supervisor-ics/reset-supervisor-ics/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/protection-supervisor-ics/battery-protection-ics/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/protection-supervisor-ics/overvoltage-surge-protection/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/memory-ics/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/memory-ics/eeprom/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/memory-ics/flash-memory/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/memory-ics/sram-dram/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/rf-wireless-ics/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/rf-wireless-ics/wifi-bluetooth/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/rf-wireless-ics/rf-transceiver-ics/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/rf-wireless-ics/fm-radio-receiver-ics/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/logic-gates-digital-ics/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/logic-gates-digital-ics/74hc-74ls-series/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/logic-gates-digital-ics/cd4000-cmos-series/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/logic-gates-digital-ics/flipflops-counters/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/voltage-regulators-power-management/pwm-controller-ics/uc3843an-pwm-controller-ic-smps-power-supply-ic-sri-lanka/</loc>
+    <lastmod>2026-11-10</lastmod>
     <priority>0.9</priority>
-  </url></urlset>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/motor-drivers-power-control/darlington-transistor-arrays-motor-driver-ics/uln2004apg-darlington-transistor-array-ic-7-channel-relay/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/voltage-regulators-power-management/pwm-controller-ics/uc3846n-pwm-controller-ic-dip16-smps-power-supply-control/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/audio-amplifier-ics/sound-generator-melody-generator-ics/um3561a-siren-sound-generator-ic-original-dip8-alarm-tone/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/linear-analog-ics/operational-amplifiers-opamps/tl064cn-quad-jfet-operational-amplifier-ic-original-dip14/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/voltage-regulators-power-management/linear-voltage-regulators/max8880eutt-aahr-sot236-ldo-voltage-regulator-ic-200ma/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/voltage-regulators-power-management/battery-charger-management-ics/max1737eei-lithiumion-battery-charger-controller-ic-28pin/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ichouse.lk/motor-drivers-power-control/stepper-motor-drivers/a3983slpt-stepper-motor-driver-ic-allegro-original-tssop24/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.9</priority>
+  </url>
+</urlset>

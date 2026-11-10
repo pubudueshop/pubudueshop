@@ -912,7 +912,7 @@ async function sendOrderEmailNotification(orderData) {
         const payload = {
             access_key: WEB3_ACCESS_KEY,
             subject: `🛒 New Order Placed: #${orderData.invoiceId} (LKR ${Number(orderData.total || 0).toLocaleString()})`,
-            from_name: "Pubudu Electronics Web",
+            from_name: "IC House Sri Lanka Web",
             "Invoice ID": `#${orderData.invoiceId}`,
             "Customer Name": cust.name || "N/A",
             "Phone Number": phone || "N/A",

@@ -609,7 +609,7 @@ function injectCategoryContent(page, cat, subCat, products, catUrl) {
     <p style="color:#64748b;margin-bottom:1.5rem;">Browse our collection of ${categoryName} components available in Sri Lanka with fast island-wide delivery.</p>
     ${categoryProducts.length > 0
         ? `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.5rem;margin-bottom:2rem;">${productListHtml}</div>`
-        : '<p style="color:#94a3b8;">Products loading...</p>'
+        : '<p style="color:#64748b;padding:1.5rem 0;">Browse our upcoming stock of original components in Sri Lanka with fast island-wide delivery. Contact us on WhatsApp for orders or part requests.</p>'
     }
     <hr style="border:none;border-top:1px solid #e2e8f0;margin:1.5rem 0;">
     <p style="color:#64748b;font-size:0.85rem;">📦 Fast island-wide delivery | 📞 <a href="tel:+94789155130" style="color:#3b82f6;">+94 78 915 5130</a> | 🏪 Weliweriya, Gampaha</p>
@@ -1112,18 +1112,18 @@ async function run() {
                 changedUrls.push(pUrl);
             }
 
-            const cleanTitle = (p.title || '').replace(/"/g, '&quot;');
-            const rawDesc = p.description || "";
-            const shortDesc = rawDesc.substring(0, 130).replace(/"/g, '&quot;');
-            const seoDesc = `Buy ${cleanTitle} in Sri Lanka at Pubudu Electronics. ${shortDesc}`.substring(0, 160);
+            // Dynamic IC Product Title & Description Template
+            const rawTitle = (p.title || '').replace(/"/g, '&quot;');
+            const coreName = rawTitle.replace(/\s*\|\s*.*$/, '').replace(/\s*–\s*.*$/, '').replace(/\s+DIP-?\d+.*$/i, '').trim();
+            const fullTitle = `${coreName} Price in Sri Lanka | IC House`;
+
+            let pkgStr = '';
+            const pkgMatch = (rawTitle + ' ' + (p.description || '')).match(/\b(DIP-?\d+|SOP-?\d+|SOIC-?\d+|TSSOP-?\d+|QSOP-?\d+|\d+-Pin QSOP|SOT-?\d+(?:-\d+)?|TO-?\d+[A-Z0-9]*|QFN-?\d+|QFP-?\d+)\b/i);
+            if (pkgMatch) pkgStr = ` (${pkgMatch[1]})`;
+            const partNum = (p.modelNumber || (coreName.split(/\s+/)[0])).toUpperCase().trim();
+            const seoDesc = `Buy original ${partNum}${pkgStr} in Sri Lanka. Check pinout, datasheet, and specs. Fast islandwide delivery from IC House.`;
             
             let page = generatedBaseHtml;
-
-            // Meta SEO
-            const titleSuffix = " | Pubudu Electronics";
-            const maxTitleLen = 60 - titleSuffix.length;
-            const displayTitle = cleanTitle.length > maxTitleLen ? cleanTitle.substring(0, maxTitleLen - 1) + '…' : cleanTitle;
-            const fullTitle = displayTitle + titleSuffix;
 
             page = page.replace(/<title>.*?<\/title>/s, `<title>${fullTitle}</title>`);
             page = page.replace(/<meta name="description"\s+content=".*?"/s, `<meta name="description" content="${seoDesc}"`);
@@ -1175,6 +1175,157 @@ async function run() {
             if (p.subCategory) categoryMap[p.mainCategory].add(p.subCategory);
         });
 
+        // Official 15 IC Main Categories and Subcategories
+        const officialICCategories = {
+            "Microcontrollers & Processors": [
+                "Arduino / AVR / PIC / ARM / ESP",
+                "8051 / Zilog / Other MCUs"
+            ],
+            "Interface & Communication ICs": [
+                "RS232 / RS485",
+                "CAN Bus",
+                "USB Interface",
+                "Ethernet / Network ICs"
+            ],
+            "Linear / Analog ICs": [
+                "Operational Amplifiers (Op-Amps)",
+                "Comparators",
+                "Instrumentation Amplifiers"
+            ],
+            "Audio Amplifier ICs": [
+                "Audio Power Amplifiers",
+                "Class D Amplifiers",
+                "Audio Preamplifiers",
+                "Audio Processing / Codecs",
+                "Sound Generator / Melody Generator ICs"
+            ],
+            "Optocouplers & Isolation ICs": [
+                "Optocouplers",
+                "Digital Isolators"
+            ],
+            "Sensors & Special ICs": [
+                "Temperature Sensors",
+                "Current / Voltage Sensors",
+                "ADC / DAC Converters",
+                "Hall Effect Sensors"
+            ],
+            "MOSFET & IGBT Driver ICs": [
+                "MOSFET Drivers",
+                "IGBT Drivers",
+                "Half / Full Bridge Drivers"
+            ],
+            "Timers & Oscillators": [
+                "Timer ICs",
+                "Clock ICs / Pulse Generators"
+            ],
+            "Display & Driver ICs": [
+                "LED Display Drivers",
+                "LCD Drivers",
+                "OLED / Display Controllers"
+            ],
+            "Protection & Supervisor ICs": [
+                "Reset / Supervisor ICs",
+                "Battery Protection ICs",
+                "Overvoltage / Surge Protection"
+            ],
+            "Memory ICs": [
+                "EEPROM",
+                "Flash Memory",
+                "SRAM / DRAM"
+            ],
+            "Voltage Regulators & Power Management": [
+                "Linear Voltage Regulators",
+                "Switching Regulators / DC-DC",
+                "PWM Controller ICs",
+                "Battery Charger / Management ICs"
+            ],
+            "Motor Drivers & Power Control": [
+                "DC Motor Drivers",
+                "Stepper Motor Drivers",
+                "Gate Drivers / IGBT Drivers",
+                "IPM / Power Control Modules",
+                "Darlington Transistor Arrays / Motor Driver ICs"
+            ],
+            "RF & Wireless ICs": [
+                "Wi-Fi / Bluetooth",
+                "RF Transceiver ICs",
+                "FM / Radio Receiver ICs"
+            ],
+            "Logic Gates & Digital ICs": [
+                "74HC / 74LS Series",
+                "CD4000 CMOS Series",
+                "Flip-Flops / Counters"
+            ]
+        };
+
+        Object.entries(officialICCategories).forEach(([cat, subs]) => {
+            if (!categoryMap[cat]) categoryMap[cat] = new Set();
+            subs.forEach(s => categoryMap[cat].add(s));
+        });
+
+        const categorySEOMap = {
+            "Voltage Regulators & Power Management": {
+                title: "Voltage Regulator ICs in Sri Lanka | LM7805, LM317 & Switching Regulators - IC House",
+                desc: "Buy high-quality Voltage Regulator ICs in Sri Lanka. Wide range of Linear, LDO, and Buck/Boost regulators with datasheets at IC House."
+            },
+            "Microcontrollers & Processors": {
+                title: "Microcontroller ICs & Boards | AVR, PIC, ESP32 & ARM in Sri Lanka - IC House",
+                desc: "Shop Microcontrollers in Sri Lanka. Original ATmega, PIC, ESP32, and STM32 ICs available at the best prices with islandwide cash on delivery."
+            },
+            "Linear / Analog ICs": {
+                title: "Linear & Analog ICs in Sri Lanka | Op-Amps, Comparators & Audio - IC House",
+                desc: "Buy Linear and Analog ICs in Sri Lanka. Original Operational Amplifiers (Op-Amps), Comparators, and precision analog chips with datasheets at IC House."
+            },
+            "Motor Drivers & Power Control": {
+                title: "Motor Driver ICs in Sri Lanka | Stepper, DC Motor & Gate Drivers - IC House",
+                desc: "Shop Motor Driver and Power Control ICs in Sri Lanka. Stepper motor drivers, DC drivers, H-Bridge, and Darlington transistor arrays at IC House."
+            },
+            "Audio Amplifier ICs": {
+                title: "Audio Amplifier ICs in Sri Lanka | Power Amplifiers & Sound Chips - IC House",
+                desc: "Buy original Audio Amplifier ICs in Sri Lanka. Class-D amplifier ICs, pre-amps, power audio chips, and sound generators at IC House with fast delivery."
+            },
+            "Logic Gates & Digital ICs": {
+                title: "Logic Gates & Digital ICs in Sri Lanka | 74HC & CD4000 Series - IC House",
+                desc: "Shop Digital ICs and Logic Gates in Sri Lanka. Original 74HC, 74LS, and CD4000 series AND, OR, NOT, Flip-Flops & Counter ICs at IC House."
+            },
+            "Interface & Communication ICs": {
+                title: "Interface & Communication ICs in Sri Lanka | RS485, CAN & USB - IC House",
+                desc: "Buy Interface and Communication ICs in Sri Lanka. RS232, RS485, CAN Bus transceivers, and USB controller chips with datasheets at IC House."
+            },
+            "Timers & Oscillators": {
+                title: "Timer & Oscillator ICs in Sri Lanka | NE555 & Clock Generators - IC House",
+                desc: "Buy Timer ICs and Oscillators in Sri Lanka. Original NE555 precision timers, RTC chips, and clock generator ICs with islandwide delivery from IC House."
+            },
+            "Optocouplers & Isolation ICs": {
+                title: "Optocoupler & Isolator ICs in Sri Lanka | PC817 & Digital Isolators - IC House",
+                desc: "Shop Optocouplers and Isolation ICs in Sri Lanka. High-voltage optical isolators, phototransistor outputs, and digital isolators at IC House."
+            },
+            "MOSFET & IGBT Driver ICs": {
+                title: "MOSFET & IGBT Driver ICs in Sri Lanka | Gate Drivers & Bridge ICs - IC House",
+                desc: "Buy high-speed MOSFET and IGBT Driver ICs in Sri Lanka. Half-bridge, full-bridge, and high-voltage gate drivers for inverters & SMPS at IC House."
+            },
+            "Sensors & Special ICs": {
+                title: "Sensor & Special ICs in Sri Lanka | Temperature & ADC/DAC Chips - IC House",
+                desc: "Shop Sensor ICs and Special Application Chips in Sri Lanka. Temperature sensors, ADC/DAC converters, and Hall effect ICs at IC House."
+            },
+            "Memory ICs": {
+                title: "Memory ICs in Sri Lanka | EEPROM, Flash & SRAM Chips - IC House",
+                desc: "Buy original Memory ICs in Sri Lanka. I2C/SPI EEPROM, NOR/NAND Flash, and SRAM chips with datasheets and fast islandwide delivery from IC House."
+            },
+            "Display & Driver ICs": {
+                title: "Display Driver ICs in Sri Lanka | LED, LCD & OLED Drivers - IC House",
+                desc: "Shop Display Driver ICs in Sri Lanka. Original 7-segment LED drivers, LCD controllers, and matrix driver ICs with datasheets at IC House."
+            },
+            "Protection & Supervisor ICs": {
+                title: "Protection & Supervisor ICs in Sri Lanka | BMS & Voltage Reset - IC House",
+                desc: "Buy Protection and Supervisor ICs in Sri Lanka. Battery management ICs, voltage supervisors, and overvoltage protection chips at IC House."
+            },
+            "RF & Wireless ICs": {
+                title: "RF & Wireless ICs in Sri Lanka | Wi-Fi, Bluetooth & Transceivers - IC House",
+                desc: "Shop RF and Wireless ICs in Sri Lanka. 2.4GHz transceivers, Bluetooth, Wi-Fi SOCs, and wireless communication chips at IC House."
+            }
+        };
+
         Object.keys(categoryMap).forEach(cat => {
             const catSlug = createSEOSlug(cat);
             const catUrl = `${SITE_URL}${catSlug}/`;
@@ -1183,10 +1334,14 @@ async function run() {
             urls.push(catUrl);
 
             let catPage = generatedBaseHtml;
-            const catSeoTitle = `${cat} | Pubudu Electronics Sri Lanka`.substring(0, 60);
-            const catSeoDesc = `Shop original ${cat} in Sri Lanka at Pubudu Electronics. Best prices on premium electronic components. Island-wide delivery.`;
+            const mappedSEO = categorySEOMap[cat] || {
+                title: `${cat} in Sri Lanka | IC House`,
+                desc: `Buy original ${cat} components in Sri Lanka with datasheets and pinouts. Fast islandwide delivery from IC House.`
+            };
+            const catSeoTitle = mappedSEO.title;
+            const catSeoDesc = mappedSEO.desc;
             catPage = catPage.replace(/<title>.*?<\/title>/s, `<title>${catSeoTitle}</title>`);
-            catPage = catPage.replace(/<meta name="description" content=".*?"/s, `<meta name="description" content="${catSeoDesc}"`);
+            catPage = catPage.replace(/<meta name="description"\s+content=".*?"/s, `<meta name="description" content="${catSeoDesc}"`);
             catPage = catPage.replace(/<link rel="canonical" href=".*?"/s, `<link rel="canonical" href="${catUrl}"`);
             catPage = fixLinks(catPage);
             catPage = catPage.replace('<body', `<body data-category="${cat}"`);
@@ -1204,10 +1359,10 @@ async function run() {
                 urls.push(subUrl);
 
                 let subPage = generatedBaseHtml;
-                const subSeoTitle = `${sub} | ${cat} | Pubudu Electronics`.substring(0, 60);
-                const subSeoDesc = `Buy ${sub} (${cat}) in Sri Lanka. Premium quality electronic components with fast delivery. Trusted by engineers.`;
+                const subSeoTitle = `${sub} (${cat}) in Sri Lanka | IC House`;
+                const subSeoDesc = `Buy original ${sub} (${cat}) in Sri Lanka with datasheets and pinouts. Fast islandwide delivery from IC House.`;
                 subPage = subPage.replace(/<title>.*?<\/title>/s, `<title>${subSeoTitle}</title>`);
-                subPage = subPage.replace(/<meta name="description" content=".*?"/s, `<meta name="description" content="${subSeoDesc}"`);
+                subPage = subPage.replace(/<meta name="description"\s+content=".*?"/s, `<meta name="description" content="${subSeoDesc}"`);
                 subPage = subPage.replace(/<link rel="canonical" href=".*?"/s, `<link rel="canonical" href="${subUrl}"`);
                 subPage = fixLinks(subPage);
                 subPage = subPage.replace('<body', `<body data-category="${cat}" data-subcategory="${sub}"`);

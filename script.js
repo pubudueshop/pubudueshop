@@ -29,21 +29,125 @@ function updateModalQty(delta) {
     const el = document.getElementById('modal-qty-value');
     if (el) el.textContent = modalQty;
 }
-// Category Structure (Initial defaults)
+// Standard IC Categories
+const standardICCategories = [
+    "Microcontrollers & Processors",
+    "Interface & Communication ICs",
+    "Linear / Analog ICs",
+    "Audio Amplifier ICs",
+    "Optocouplers & Isolation ICs",
+    "Sensors & Special ICs",
+    "MOSFET & IGBT Driver ICs",
+    "Timers & Oscillators",
+    "Display & Driver ICs",
+    "Protection & Supervisor ICs",
+    "Memory ICs",
+    "Voltage Regulators & Power Management",
+    "Motor Drivers & Power Control",
+    "RF & Wireless ICs",
+    "Logic Gates & Digital ICs"
+];
+window.standardICCategories = standardICCategories;
+
+// Category Structure (Official IC House Categories)
 let categoryData = {
-    "Microcontrollers": ["Arduino Compatible", "ESP8266 Series", "ESP32 Series", "Raspberry Pi", "STM32 Boards"],
-    "Modules": ["Relay Modules", "Bluetooth Modules", "WiFi Modules", "GPS Modules", "Motor Drivers"],
-    "Power & Volt": ["12V Adapters", "24V Adapters", "5V Adapters", "Adjustable Power Supply", "Transformers"],
-    "Passive Components": ["Resistors", "Capacitors", "Inductors", "Potentiometers", "Diodes"],
-    "Sensors": ["Temperature & Humidity", "Motion Sensors", "Distance Sensors", "Gas Sensors"],
+    "Microcontrollers & Processors": [
+        "Arduino / AVR / PIC / ARM / ESP",
+        "8051 / Zilog / Other MCUs"
+    ],
+    "Interface & Communication ICs": [
+        "RS232 / RS485",
+        "CAN Bus",
+        "USB Interface",
+        "Ethernet / Network ICs"
+    ],
+    "Linear / Analog ICs": [
+        "Operational Amplifiers (Op-Amps)",
+        "Comparators",
+        "Instrumentation Amplifiers"
+    ],
+    "Audio Amplifier ICs": [
+        "Audio Power Amplifiers",
+        "Class D Amplifiers",
+        "Audio Preamplifiers",
+        "Audio Processing / Codecs",
+        "Sound Generator / Melody Generator ICs"
+    ],
+    "Optocouplers & Isolation ICs": [
+        "Optocouplers",
+        "Digital Isolators"
+    ],
+    "Sensors & Special ICs": [
+        "Temperature Sensors",
+        "Current / Voltage Sensors",
+        "ADC / DAC Converters",
+        "Hall Effect Sensors"
+    ],
+    "MOSFET & IGBT Driver ICs": [
+        "MOSFET Drivers",
+        "IGBT Drivers",
+        "Half / Full Bridge Drivers"
+    ],
+    "Timers & Oscillators": [
+        "Timer ICs",
+        "Clock ICs / Pulse Generators"
+    ],
+    "Display & Driver ICs": [
+        "LED Display Drivers",
+        "LCD Drivers",
+        "OLED / Display Controllers"
+    ],
+    "Protection & Supervisor ICs": [
+        "Reset / Supervisor ICs",
+        "Battery Protection ICs",
+        "Overvoltage / Surge Protection"
+    ],
+    "Memory ICs": [
+        "EEPROM",
+        "Flash Memory",
+        "SRAM / DRAM"
+    ],
+    "Voltage Regulators & Power Management": [
+        "Linear Voltage Regulators",
+        "Switching Regulators / DC-DC",
+        "PWM Controller ICs",
+        "Battery Charger / Management ICs"
+    ],
+    "Motor Drivers & Power Control": [
+        "DC Motor Drivers",
+        "Stepper Motor Drivers",
+        "Gate Drivers / IGBT Drivers",
+        "IPM / Power Control Modules",
+        "Darlington Transistor Arrays / Motor Driver ICs"
+    ],
+    "RF & Wireless ICs": [
+        "Wi-Fi / Bluetooth",
+        "RF Transceiver ICs",
+        "FM / Radio Receiver ICs"
+    ],
+    "Logic Gates & Digital ICs": [
+        "74HC / 74LS Series",
+        "CD4000 CMOS Series",
+        "Flip-Flops / Counters"
+    ]
 };
 
 const categoryIcons = {
-    "Microcontrollers": "fas fa-microchip",
-    "Modules": "fas fa-cube",
-    "Power & Volt": "fas fa-plug",
-    "Passive Components": "fas fa-project-diagram",
-    "Sensors": "fas fa-broadcast-tower"
+    "Microcontrollers & Processors": "fas fa-microchip",
+    "Interface & Communication ICs": "fas fa-network-wired",
+    "Linear / Analog ICs": "fas fa-wave-square",
+    "Audio Amplifier ICs": "fas fa-volume-up",
+    "Optocouplers & Isolation ICs": "fas fa-shield-alt",
+    "Sensors & Special ICs": "fas fa-satellite-dish",
+    "MOSFET & IGBT Driver ICs": "fas fa-bolt",
+    "Timers & Oscillators": "fas fa-stopwatch",
+    "Display & Driver ICs": "fas fa-desktop",
+    "Protection & Supervisor ICs": "fas fa-lock",
+    "Memory ICs": "fas fa-memory",
+    "Voltage Regulators & Power Management": "fas fa-bolt",
+    "Motor Drivers & Power Control": "fas fa-cogs",
+    "RF & Wireless ICs": "fas fa-wifi",
+    "Logic Gates & Digital ICs": "fas fa-project-diagram"
 };
 
 // Start with an empty list
@@ -70,10 +174,16 @@ async function loadCategories() {
     // 1. Local Fallback First
     const stored = localStorage.getItem('eshop_categories');
     if (stored) {
-        const localData = JSON.parse(stored);
-        Object.keys(categoryData).forEach(key => delete categoryData[key]);
-        Object.assign(categoryData, localData);
-        if (window.populateCategoryUI) window.populateCategoryUI();
+        try {
+            const localData = JSON.parse(stored);
+            if (localData && Object.keys(localData).length > 0) {
+                Object.keys(categoryData).forEach(key => delete categoryData[key]);
+                Object.assign(categoryData, localData);
+                if (window.populateCategoryUI) window.populateCategoryUI();
+            }
+        } catch (e) {
+            console.warn("Could not parse stored categories", e);
+        }
     }
 
     // 2. Real-time Cloud Sync
@@ -85,7 +195,6 @@ async function loadCategories() {
                 if (JSON.stringify(newData) !== JSON.stringify(categoryData)) {
                     Object.keys(categoryData).forEach(key => delete categoryData[key]);
                     Object.assign(categoryData, newData);
-                    // console.log("Categories updated from Cloud (Live)");
                     localStorage.setItem('eshop_categories', JSON.stringify(categoryData));
                     
                     // Refresh UI components that use category data
@@ -102,8 +211,8 @@ async function loadCategories() {
 // Product Data Management
 let products = [];
 let db = null;
-const defaultDocumentTitle = "Pubudu Electronics | Premium Electronic Components in Sri Lanka";
-const defaultMetaDescription = "Premium electronic components in Sri Lanka. Shop Arduino, sensors, and modules at the best prices. Fast island-wide delivery. Trusted by makers and engineers.";
+const defaultDocumentTitle = "IC House Sri Lanka | Buy Integrated Circuits & Microcontrollers Online";
+const defaultMetaDescription = "Sri Lanka's leading store for Integrated Circuits (ICs). Buy Microcontrollers, Op-Amps, Voltage Regulators, Logic Gates & Power ICs with fast islandwide delivery.";
 
 // FIREBASE CONFIGURATION (REPLACE WITH YOUR OWN FROM FIREBASE CONSOLE)
 // 1. Go to console.firebase.google.com
@@ -2236,14 +2345,23 @@ function openProductDetails(id) {
         };
     }
 
-    // SEO: Update document title, meta description, and inject JSON-LD
-    document.title = `${product.title} | Pubudu Electronics`;
+    // SEO: Dynamic IC Product Title & Description Template
+    const coreName = (product.title || '').replace(/\s*\|\s*.*$/, '').replace(/\s*–\s*.*$/, '').replace(/\s+DIP-?\d+.*$/i, '').trim();
+    const seoProductTitle = `${coreName} Price in Sri Lanka | IC House`;
+
+    let pkgStr = '';
+    const pkgMatch = (product.title + ' ' + (product.description || '')).match(/\b(DIP-?\d+|SOP-?\d+|SOIC-?\d+|TSSOP-?\d+|QSOP-?\d+|\d+-Pin QSOP|SOT-?\d+(?:-\d+)?|TO-?\d+[A-Z0-9]*|QFN-?\d+|QFP-?\d+)\b/i);
+    if (pkgMatch) pkgStr = ` (${pkgMatch[1]})`;
+    const partNum = (product.modelNumber || (coreName.split(/\s+/)[0])).toUpperCase().trim();
+    const seoProductDesc = `Buy original ${partNum}${pkgStr} in Sri Lanka. Check pinout, datasheet, and specs. Fast islandwide delivery from IC House.`;
+
+    document.title = seoProductTitle;
 
     // Update Meta Tags
     const metaTags = {
-        'description': product.description || product.longDescription,
-        'og:title': `${product.title} | Pubudu Electronics`,
-        'og:description': product.description || product.longDescription,
+        'description': seoProductDesc,
+        'og:title': seoProductTitle,
+        'og:description': seoProductDesc,
         'og:url': finalUrl,
         'og:image': product.image
     };

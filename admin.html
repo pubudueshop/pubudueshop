@@ -795,6 +795,23 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- IC-Focused Categories Info Card -->
+                    <div style="margin-top: 1.5rem; padding: 1.25rem; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; border-left: 4px solid #16a34a;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                            <div>
+                                <h4 style="margin: 0 0 0.35rem 0; font-size: 1rem; color: #166534; display: flex; align-items: center; gap: 0.5rem;">
+                                    <i class="fas fa-microchip" style="color: #16a34a;"></i> 100% IC Specialized Shop (15 Main Categories Active)
+                                </h4>
+                                <p style="margin: 0; font-size: 0.8rem; color: #15803d;">
+                                    Microcontrollers & Processors • Voltage Regulators & Power Management • Linear / Analog ICs • Motor Drivers & Power Control • Audio Amplifier ICs • Logic Gates & Digital ICs • Interface & Communication ICs • Sensors & Special ICs • Optocouplers & Isolation ICs • MOSFET & IGBT Drivers • Timers & Oscillators • Display Drivers • Protection ICs • Memory ICs • RF & Wireless ICs
+                                </p>
+                            </div>
+                            <span style="background: #dcfce7; color: #166534; font-size: 0.8rem; font-weight: 700; padding: 0.4rem 0.8rem; border-radius: 9999px; border: 1px solid #86efac;">
+                                <i class="fas fa-check-circle"></i> IC Focus Active
+                            </span>
+                        </div>
+                    </div>
                 </div>
 
                 <hr style="margin: 2rem 0; border: none; border-top: 1px solid var(--border);">
@@ -1296,6 +1313,59 @@
                     renderAdminCategories();
                 }
             }
+
+            const standardICCategories = [
+                "Microcontrollers & Processors",
+                "Linear / Analog ICs",
+                "Timers & Oscillators",
+                "Voltage Regulators & Power Management",
+                "Logic Gates & Digital ICs",
+                "Motor Drivers & Power Control",
+                "Interface & Communication ICs",
+                "Audio Amplifier ICs",
+                "Sensors & Special ICs",
+                "Memory ICs",
+                "Display & Driver ICs",
+                "Optocouplers & Isolation ICs",
+                "MOSFET & IGBT Driver ICs",
+                "Protection & Supervisor ICs",
+                "RF & Wireless ICs"
+            ];
+            window.standardICCategories = standardICCategories;
+
+            async function seedICCategories(mode) {
+                try {
+                    let count = 0;
+                    if (mode === 'sub') {
+                        if (!categoryData['IC']) categoryData['IC'] = [];
+                        standardICCategories.forEach(sub => {
+                            if (!categoryData['IC'].includes(sub)) {
+                                categoryData['IC'].push(sub);
+                                count++;
+                            }
+                        });
+                        await saveCategories();
+                        populateCategoryUI();
+                        renderAdminCategories();
+                        alert(`Success: Synced ${count} new IC categories into "IC" subcategories and saved to Firestore!`);
+                    } else if (mode === 'main') {
+                        standardICCategories.forEach(cat => {
+                            if (!categoryData[cat]) {
+                                categoryData[cat] = [];
+                                count++;
+                            }
+                        });
+                        await saveCategories();
+                        populateCategoryUI();
+                        renderAdminCategories();
+                        alert(`Success: Created ${count} new Main Categories and saved to Firestore!`);
+                    }
+                } catch (err) {
+                    console.error("Error seeding IC categories:", err);
+                    alert("Error saving categories: " + err.message);
+                }
+            }
+            window.seedICCategories = seedICCategories;
 
             function updateSubCats() {
                 const selected = mainCatSelect.value;

@@ -1113,7 +1113,8 @@ async function run() {
             }
 
             // Dynamic IC Product Title & Description Template
-            const rawTitle = (p.title || '').replace(/"/g, '&quot;');
+            const cleanTitle = (p.title || '').replace(/"/g, '&quot;');
+            const rawTitle = cleanTitle;
             const coreName = rawTitle.replace(/\s*\|\s*.*$/, '').replace(/\s*–\s*.*$/, '').replace(/\s+DIP-?\d+.*$/i, '').trim();
             const fullTitle = `${coreName} Price in Sri Lanka | IC House`;
 

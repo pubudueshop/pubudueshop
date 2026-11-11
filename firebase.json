@@ -295,6 +295,36 @@
                 "source": "/motor-drivers-power-control/stepper-motor-drivers/a3983slpt-stepper-motor-driver-ic-allegro-original-tssop24-microstepping-controller/",
                 "destination": "/motor-drivers-power-control/stepper-motor-drivers/a3983slpt-stepper-motor-driver-ic-allegro-original-tssop24/",
                 "type": 301
+            },
+            {
+                "source": "/products/panasonic-mip2h2-power-supply-ic-dip7-original-ele-1794376528075",
+                "destination": "/voltage-regulators-power-management/acdc-smps-power-supply-ics/panasonic-mip2h2-power-supply-ic-dip7-original-electronic/",
+                "type": 301
+            },
+            {
+                "source": "/products/panasonic-mip2h2-power-supply-ic-dip7-original-ele-1794376528075/",
+                "destination": "/voltage-regulators-power-management/acdc-smps-power-supply-ics/panasonic-mip2h2-power-supply-ic-dip7-original-electronic/",
+                "type": 301
+            },
+            {
+                "source": "/voltage-regulators-power-management/acdc-smps-power-supply-ics/panasonic-mip2h2-power-supply-ic-dip7-original-electronic-co",
+                "destination": "/voltage-regulators-power-management/acdc-smps-power-supply-ics/panasonic-mip2h2-power-supply-ic-dip7-original-electronic/",
+                "type": 301
+            },
+            {
+                "source": "/voltage-regulators-power-management/acdc-smps-power-supply-ics/panasonic-mip2h2-power-supply-ic-dip7-original-electronic-co/",
+                "destination": "/voltage-regulators-power-management/acdc-smps-power-supply-ics/panasonic-mip2h2-power-supply-ic-dip7-original-electronic/",
+                "type": 301
+            },
+            {
+                "source": "/voltage-regulators-power-management/acdc-smps-power-supply-ics/panasonic-mip2h2-power-supply-ic-dip7-original-electronic-component",
+                "destination": "/voltage-regulators-power-management/acdc-smps-power-supply-ics/panasonic-mip2h2-power-supply-ic-dip7-original-electronic/",
+                "type": 301
+            },
+            {
+                "source": "/voltage-regulators-power-management/acdc-smps-power-supply-ics/panasonic-mip2h2-power-supply-ic-dip7-original-electronic-component/",
+                "destination": "/voltage-regulators-power-management/acdc-smps-power-supply-ics/panasonic-mip2h2-power-supply-ic-dip7-original-electronic/",
+                "type": 301
             }
         ]
     },

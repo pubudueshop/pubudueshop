@@ -215,8 +215,14 @@ a {
     position: sticky;
     top: 0;
     z-index: 1000;
-    padding: 0.75rem 0;
-    transition: var(--transition);
+    padding: 0.5rem 0;
+    transition: box-shadow 0.3s ease, background 0.3s ease;
+}
+
+/* Slight shadow on scroll — via JS class, no layout shift */
+.navbar.scrolled {
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
 }
 
 /* =============================================
@@ -548,26 +554,26 @@ a {
     align-items: center;
     text-decoration: none;
     line-height: 1;
+    flex-shrink: 0;
 }
 
 .nav-logo-img {
-    height: 42px;
-    max-height: 42px;
+    height: 32px;
+    max-height: 32px;
     width: auto;
     object-fit: contain;
     display: block;
-    transition: transform 0.2s ease, opacity 0.2s ease;
+    transition: opacity 0.2s ease;
 }
 
 .nav-logo-link:hover .nav-logo-img {
-    transform: scale(1.02);
-    opacity: 0.95;
+    opacity: 0.80;
 }
 
 @media (max-width: 768px) {
     .nav-logo-img {
-        height: 34px;
-        max-height: 34px;
+        height: 26px;
+        max-height: 26px;
     }
 }
 
@@ -3208,16 +3214,7 @@ body.modal-open {
     transform: translateY(0);
 }
 
-.sticky-navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    background: white;
-    box-shadow: var(--shadow-md);
-    animation: slideDown 0.3s ease-out;
-}
+/* .sticky-navbar class removed — navbar uses CSS position:sticky; no JS layout-shift */
 
 /* Browse All Products Banner */
 .browse-banner {

@@ -2425,18 +2425,23 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// Sticky Header Logic (Sync Desktop & Mobile)
+// Sticky Header Logic — navbar is already position:sticky via CSS.
+// We only add a 'scrolled' class for a subtle shadow; no layout shift.
 window.addEventListener('scroll', () => {
     const navbar = document.querySelector('.navbar');
     const mobileSearch = document.querySelector('.sticky-search-mobile');
     const scrollY = window.scrollY;
 
-    if (scrollY > 150) {
-        if (navbar) navbar.classList.add('sticky-navbar');
-        if (mobileSearch && window.innerWidth < 768) mobileSearch.style.display = 'block';
-    } else {
-        if (navbar) navbar.classList.remove('sticky-navbar');
-        if (mobileSearch) mobileSearch.style.display = 'none';
+    if (navbar) {
+        if (scrollY > 10) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    }
+
+    if (mobileSearch && window.innerWidth < 768) {
+        // mobile search bar is handled separately by window.onscroll below
     }
 });
 

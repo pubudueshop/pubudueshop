@@ -568,8 +568,8 @@ a {
 }
 
 .nav-logo-img {
-    height: 32px;
-    max-height: 32px;
+    height: 35px;
+    max-height: 35px;
     width: auto;
     object-fit: contain;
     display: block;
@@ -582,8 +582,8 @@ a {
 
 @media (max-width: 768px) {
     .nav-logo-img {
-        height: 26px;
-        max-height: 26px;
+        height: 30px;
+        max-height: 30px;
     }
 }
 

@@ -227,6 +227,7 @@ const firebaseConfig = {
     messagingSenderId: "12742630809",
     appId: "1:12742630809:web:68eab94d5c8b4257784708"
 };
+window.firebaseConfig = firebaseConfig;
 
 const SITE_URL = "https://ichouse.lk/";
 
@@ -240,7 +241,10 @@ function initFirebase() {
         customerAuth = firebase.auth(); // ← assign auth
 
         // Anonymous sign-in so checkout can create Firestore orders (rules require auth)
-        if (customerAuth) {
+        // CRITICAL: Never sign in anonymously on the admin page, otherwise it creates an infinite auth-rejection loop!
+        const isAdminPage = !!document.getElementById('admin-page') || 
+                            window.location.pathname.toLowerCase().includes('admin');
+        if (customerAuth && !isAdminPage) {
             customerAuth.onAuthStateChanged((user) => {
                 if (!user) {
                     customerAuth.signInAnonymously().catch(e => console.error("Anon Auth Error:", e));

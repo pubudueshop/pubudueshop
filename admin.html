@@ -15,9 +15,9 @@
 
     <!-- Firebase SDKs -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js" defer></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js" defer></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <style>
         body {
             padding-top: 0;
@@ -503,9 +503,9 @@
 
             <div class="divider">OR</div>
 
-            <button onclick="loginWithGoogle()" class="btn-google" id="google-btn">
-                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18">
-                Continue with Google
+            <button type="button" onclick="loginWithGoogle()" class="btn-google" id="google-btn">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" alt="Google">
+                <span>Continue with Google</span>
             </button>
 
             <div id="login-error" class="login-error"></div>
@@ -1043,8 +1043,11 @@
 
             function isAuthorizedAdmin(user) {
                 if (!user) return false;
-                if (ALLOWED_ADMIN_UIDS.includes(user.uid)) return true;
-                if (user.email && ALLOWED_ADMIN_EMAILS.map(e => e.toLowerCase().trim()).includes(user.email.toLowerCase().trim())) return true;
+                if (user.uid && ALLOWED_ADMIN_UIDS.includes(user.uid)) return true;
+                if (user.email) {
+                    const normalized = user.email.toLowerCase().trim();
+                    if (ALLOWED_ADMIN_EMAILS.some(e => e.toLowerCase().trim() === normalized)) return true;
+                }
                 return false;
             }
 
@@ -1052,17 +1055,62 @@
 
             // Initialize Firebase Auth
             function initAuth() {
-                if (typeof firebase !== 'undefined' && firebase.apps.length > 0) {
+                if (auth) return auth;
+
+                if (typeof firebase === 'undefined') {
+                    console.warn("[Admin Auth] Firebase SDK not ready yet.");
+                    return null;
+                }
+
+                try {
+                    if (!firebase.apps.length) {
+                        const config = (typeof firebaseConfig !== 'undefined' && firebaseConfig) 
+                                     ? firebaseConfig 
+                                     : (window.firebaseConfig || {
+                                            apiKey: "AIzaSyDl9N6YmDJI9bhhdkeUQPUxWKxIhZhryus",
+                                            authDomain: "pubudueshop-cde28.firebaseapp.com",
+                                            projectId: "pubudueshop-cde28",
+                                            storageBucket: "pubudueshop-cde28.firebasestorage.app",
+                                            messagingSenderId: "12742630809",
+                                            appId: "1:12742630809:web:68eab94d5c8b4257784708"
+                                        });
+                        firebase.initializeApp(config);
+                    }
                     auth = firebase.auth();
+                    console.log("[Admin Auth] Auth initialized.");
+
+                    // Handle redirect sign-in result (if returning from redirect)
+                    auth.getRedirectResult().then((result) => {
+                        if (result && result.user) {
+                            console.log("[Admin Auth] Redirect sign-in success:", result.user.email);
+                            if (isAuthorizedAdmin(result.user)) {
+                                showAdmin(result.user);
+                            } else {
+                                const userIdentifier = result.user.email ? `${result.user.email} (UID: ${result.user.uid})` : `UID: ${result.user.uid}`;
+                                auth.signOut();
+                                showError(`Access Denied: ${userIdentifier} is not authorized to access the admin panel.`);
+                            }
+                        }
+                    }).catch((err) => {
+                        console.error("[Admin Auth] Redirect result error:", err);
+                        showError("Google Redirect Sign-In failed: " + err.message);
+                    });
 
                     // Listen for auth state changes
                     auth.onAuthStateChanged((user) => {
+                        console.log("[Admin Auth] onAuthStateChanged:", user ? (user.email || user.uid) : "null");
                         if (user) {
+                            // Ignore anonymous customer sessions
+                            if (user.isAnonymous) {
+                                console.warn("[Admin Auth] Ignoring anonymous customer auth on admin panel.");
+                                auth.signOut();
+                                return;
+                            }
                             if (isAuthorizedAdmin(user)) {
                                 showAdmin(user);
                             } else {
                                 const userIdentifier = user.email ? `${user.email} (UID: ${user.uid})` : `UID: ${user.uid}`;
-                                console.warn("Unauthorized login attempt:", userIdentifier);
+                                console.warn("[Admin Auth] Unauthorized login attempt:", userIdentifier);
                                 auth.signOut();
                                 showError(`Access Denied: ${userIdentifier} is not authorized to access the admin panel.`);
                             }
@@ -1070,35 +1118,17 @@
                             showLogin();
                         }
                     });
-                } else {
-                    // Firebase not initialized, try initializing
-                    if (typeof firebase !== 'undefined' && firebaseConfig.apiKey !== "YOUR_API_KEY") {
-                        try {
-                            firebase.initializeApp(firebaseConfig);
-                            auth = firebase.auth();
-                            auth.onAuthStateChanged((user) => {
-                                if (user) {
-                                    if (isAuthorizedAdmin(user)) {
-                                        showAdmin(user);
-                                    } else {
-                                        const userIdentifier = user.email ? `${user.email} (UID: ${user.uid})` : `UID: ${user.uid}`;
-                                        console.warn("Unauthorized login attempt:", userIdentifier);
-                                        auth.signOut();
-                                        showError(`Access Denied: ${userIdentifier} is not authorized to access the admin panel.`);
-                                    }
-                                } else {
-                                    showLogin();
-                                }
-                            });
-                        } catch (e) {
-                            console.error("Auth init error:", e);
-                            showLogin();
-                        }
-                    } else {
-                        showLogin();
-                    }
+
+                    return auth;
+                } catch (e) {
+                    console.error("[Admin Auth] Error initializing auth:", e);
+                    showError("Auth initialization failed: " + e.message);
+                    return null;
                 }
             }
+
+            // Immediately initialize auth
+            initAuth();
 
             function showLogin() {
                 loginPage.style.display = 'flex';
@@ -1112,31 +1142,65 @@
             }
 
             async function loginWithGoogle() {
+                if (googleBtn && googleBtn.disabled) return;
+                console.log("[Admin Auth] loginWithGoogle clicked");
+
                 if (!auth) {
-                    showError('Firebase Auth not initialized. Check your Firebase config.');
+                    initAuth();
+                }
+                if (!auth) {
+                    showError('Authentication service is still initializing. Please wait a second and try again.');
                     return;
                 }
-                googleBtn.disabled = true;
+
+                if (googleBtn) googleBtn.disabled = true;
                 loginError.classList.remove('show');
+
                 try {
                     const provider = new firebase.auth.GoogleAuthProvider();
+                    provider.setCustomParameters({ prompt: 'select_account' });
+                    console.log("[Admin Auth] Opening Google sign-in popup...");
                     await auth.signInWithPopup(provider);
-                    // onAuthStateChanged will handle the redirect and admin check
+                    console.log("[Admin Auth] Google sign-in popup returned successfully");
                 } catch (error) {
-                    showError("Google Sign-In failed: " + error.message);
+                    console.error("[Admin Auth] Google Sign-In error:", error);
+                    if (error.code === 'auth/popup-blocked' || error.code === 'auth/cancelled-popup-request') {
+                        try {
+                            console.log("[Admin Auth] Popup blocked or cancelled, trying redirect...");
+                            const provider = new firebase.auth.GoogleAuthProvider();
+                            provider.setCustomParameters({ prompt: 'select_account' });
+                            await auth.signInWithRedirect(provider);
+                            return;
+                        } catch (redirectErr) {
+                            showError("Google Sign-In failed: " + redirectErr.message);
+                        }
+                    } else if (error.code === 'auth/popup-closed-by-user') {
+                        console.log("[Admin Auth] Popup was closed by user.");
+                    } else {
+                        showError("Google Sign-In failed: " + (error.message || error));
+                    }
                 } finally {
-                    googleBtn.disabled = false;
+                    if (googleBtn) googleBtn.disabled = false;
                 }
+            }
+            window.loginWithGoogle = loginWithGoogle;
+
+            if (googleBtn) {
+                googleBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    loginWithGoogle();
+                });
             }
 
             function showAdmin(user) {
                 loginPage.style.display = 'none';
                 adminPage.classList.add('active');
                 document.body.style.background = '#f1f5f9';
-                userEmailBadge.innerHTML = `<i class="fas fa-user"></i> ${user.email}`;
+                userEmailBadge.innerHTML = `<i class="fas fa-user"></i> ${user.email || user.uid}`;
                 initAdmin();
                 setTimeout(function () {
                     if (typeof loadOrders === 'function') loadOrders();
+                    if (typeof loadRequests === 'function') loadRequests();
                 }, 250);
             }
 
@@ -1151,6 +1215,9 @@
                 const password = document.getElementById('login-password').value;
 
                 try {
+                    if (!auth) {
+                        initAuth();
+                    }
                     if (!auth) {
                         throw new Error('Firebase Auth not initialized. Check your Firebase config.');
                     }
@@ -2423,11 +2490,14 @@
 
             // Initialize
             document.addEventListener('DOMContentLoaded', async () => {
-                if (window.loadProducts) {
-                    await window.loadProducts();
-                }
                 initAuth();
-                loadRequests(); // Load requests on startup
+                if (window.loadProducts) {
+                    try {
+                        await window.loadProducts();
+                    } catch (e) {
+                        console.error("[Admin] Error loading products:", e);
+                    }
+                }
             });
         </script>
 </body>

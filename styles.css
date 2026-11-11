@@ -531,6 +531,7 @@ a {
         display: flex;
         align-items: center;
         gap: 0.75rem;
+        margin-left: auto;
     }
 }
 
@@ -541,6 +542,34 @@ a {
 }
 
 
+
+.nav-logo-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    line-height: 1;
+}
+
+.nav-logo-img {
+    height: 42px;
+    max-height: 42px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.nav-logo-link:hover .nav-logo-img {
+    transform: scale(1.02);
+    opacity: 0.95;
+}
+
+@media (max-width: 768px) {
+    .nav-logo-img {
+        height: 34px;
+        max-height: 34px;
+    }
+}
 
 .logo {
     font-size: 1.5rem;
@@ -561,6 +590,7 @@ a {
     display: flex;
     gap: 1.5rem;
     align-items: center;
+    margin-left: auto;
 }
 
 .mobile-only {

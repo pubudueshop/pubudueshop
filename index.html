@@ -15,6 +15,10 @@
     
     /* Makes the mobile cart button look clickable */
     #cart-btn-top { cursor: pointer; position: relative; }
+    .nav-links { margin-left: auto; }
+    @media (max-width: 768px) {
+        .nav-actions { margin-left: auto; }
+    }
 </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -154,8 +158,10 @@
 
     <nav class="navbar">
         <div class="container">
-            
-            
+            <a href="/" class="nav-logo-link" id="nav-logo" title="Home - IC House" aria-label="IC House Home">
+                <img src="/assets/logo.jpg" alt="IC House Sri Lanka" class="nav-logo-img">
+            </a>
+
             <div class="nav-actions">
                 <button id="cart-btn-top" class="nav-icon-btn hide-desktop">
                     <i class="fas fa-shopping-cart"></i>

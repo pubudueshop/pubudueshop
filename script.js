@@ -1369,6 +1369,7 @@ function updateURL(mainCat, subCat, productId, searchQuery) {
 // Initialize Filters with URL Support
 // skipInitialRender: pass true when called right after loadProducts() to avoid a redundant render
 function initFilters(skipInitialRender = false) {
+    if (!filterContainer) return;
     // Don't clear innerHTML as it removes the search bar
     const existingMain = document.getElementById('category-filter');
     const existingSub = document.getElementById('subcategory-filter');
@@ -1487,8 +1488,10 @@ function initFilters(skipInitialRender = false) {
         updateURL(mainSelect.value, e.target.value);
     });
 
-    filterContainer.appendChild(mainSelect);
-    filterContainer.appendChild(subSelect);
+    if (filterContainer) {
+        filterContainer.appendChild(mainSelect);
+        filterContainer.appendChild(subSelect);
+    }
 
     // Initial Render based on URL
     if (initialMain !== 'all' || initialSub !== 'all' || initialSearch !== '' || viewMode === 'products') {

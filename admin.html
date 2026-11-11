@@ -1381,31 +1381,34 @@
                 }
             }
 
-            const standardICCategories = [
-                "Microcontrollers & Processors",
-                "Linear / Analog ICs",
-                "Timers & Oscillators",
-                "Voltage Regulators & Power Management",
-                "Logic Gates & Digital ICs",
-                "Motor Drivers & Power Control",
-                "Interface & Communication ICs",
-                "Audio Amplifier ICs",
-                "Sensors & Special ICs",
-                "Memory ICs",
-                "Display & Driver ICs",
-                "Optocouplers & Isolation ICs",
-                "MOSFET & IGBT Driver ICs",
-                "Protection & Supervisor ICs",
-                "RF & Wireless ICs"
-            ];
-            window.standardICCategories = standardICCategories;
+            // Fallback IC categories list if not loaded from script.js
+            if (!window.standardICCategories) {
+                window.standardICCategories = [
+                    "Microcontrollers & Processors",
+                    "Linear / Analog ICs",
+                    "Timers & Oscillators",
+                    "Voltage Regulators & Power Management",
+                    "Logic Gates & Digital ICs",
+                    "Motor Drivers & Power Control",
+                    "Interface & Communication ICs",
+                    "Audio Amplifier ICs",
+                    "Sensors & Special ICs",
+                    "Memory ICs",
+                    "Display & Driver ICs",
+                    "Optocouplers & Isolation ICs",
+                    "MOSFET & IGBT Driver ICs",
+                    "Protection & Supervisor ICs",
+                    "RF & Wireless ICs"
+                ];
+            }
 
             async function seedICCategories(mode) {
                 try {
                     let count = 0;
+                    const icCategories = window.standardICCategories || [];
                     if (mode === 'sub') {
                         if (!categoryData['IC']) categoryData['IC'] = [];
-                        standardICCategories.forEach(sub => {
+                        icCategories.forEach(sub => {
                             if (!categoryData['IC'].includes(sub)) {
                                 categoryData['IC'].push(sub);
                                 count++;
@@ -1416,7 +1419,7 @@
                         renderAdminCategories();
                         alert(`Success: Synced ${count} new IC categories into "IC" subcategories and saved to Firestore!`);
                     } else if (mode === 'main') {
-                        standardICCategories.forEach(cat => {
+                        icCategories.forEach(cat => {
                             if (!categoryData[cat]) {
                                 categoryData[cat] = [];
                                 count++;

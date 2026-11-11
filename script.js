@@ -1591,11 +1591,13 @@ function showAllProducts(query = null) {
     
     const hero = document.querySelector('.hero');
     const featured = document.getElementById('home-featured');
+    const categoryNav = document.getElementById('category-navigator-section');
     const about = document.getElementById('about');
     const browseBanner = document.getElementById('browse-all-banner');
     const requestBanners = document.querySelectorAll('.request-banner-section');
     if (hero) hero.style.display = 'none';
     if (featured) featured.style.display = 'none';
+    if (categoryNav) categoryNav.style.display = 'none';
     if (about) about.style.display = 'none'; // hide about section when showing products
     if (browseBanner) browseBanner.style.display = 'none';
     requestBanners.forEach(b => b.style.display = 'none');

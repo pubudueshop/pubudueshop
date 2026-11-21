@@ -77,6 +77,18 @@ async function fetchProducts() {
                             if (f.keywords && f.keywords.arrayValue && f.keywords.arrayValue.values) {
                                 keywords = f.keywords.arrayValue.values.map(v => v.stringValue).filter(Boolean);
                             }
+                            // Parse tags
+                            let tags = [];
+                            if (f.tags && f.tags.arrayValue && f.tags.arrayValue.values) {
+                                tags = f.tags.arrayValue.values.map(v => v.stringValue).filter(Boolean);
+                            }
+                            // Parse focus keyword
+                            let focusKeyword = (f.focusKeyword ? f.focusKeyword.stringValue : (f.primaryKeyword ? f.primaryKeyword.stringValue : ''));
+                            // Parse secondary keywords
+                            let secondaryKeywords = [];
+                            if (f.secondaryKeywords && f.secondaryKeywords.arrayValue && f.secondaryKeywords.arrayValue.values) {
+                                secondaryKeywords = f.secondaryKeywords.arrayValue.values.map(v => v.stringValue).filter(Boolean);
+                            }
                             // Parse features
                             let features = [];
                             if (f.features && f.features.arrayValue && f.features.arrayValue.values) {
@@ -104,6 +116,9 @@ async function fetchProducts() {
                                 image: images[0] || (f.image ? f.image.stringValue : ''),
                                 images: images,
                                 keywords: keywords,
+                                tags: tags,
+                                focusKeyword: focusKeyword,
+                                secondaryKeywords: secondaryKeywords,
                                 features: features,
                                 specs: specs,
                                 videoUrl: (f.videoUrl ? f.videoUrl.stringValue : '')
@@ -296,8 +311,17 @@ function injectProductContent(page, product, pageUrl) {
                         ${product.modelNumber ? `<span class="bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-full"><i class="fas fa-barcode mr-1"></i> ${product.modelNumber}</span>` : ''}
                     </div>
 
-                    <!-- SEO Keyword Tags -->
-                    ${product.keywords && product.keywords.length > 0 ? `
+                    <!-- Product Tags & Keywords -->
+                    ${(product.tags && product.tags.length > 0) ? `
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        ${product.tags.map(tag => `
+                            <a href="/?search=${encodeURIComponent(tag)}" 
+                               style="font-size:0.75rem;font-weight:600;color:#2563eb;background:#eff6ff;border:1px solid #bfdbfe;padding:4px 10px;border-radius:20px;text-decoration:none;transition:all 0.2s;"
+                               onmouseover="this.style.background='#2563eb';this.style.color='white'"
+                               onmouseout="this.style.background='#eff6ff';this.style.color='#2563eb'">
+                                #${tag}
+                            </a>`).join('')}
+                    </div>` : (product.keywords && product.keywords.length > 0 ? `
                     <div class="flex flex-wrap gap-2 mb-6">
                         ${product.keywords.slice(0, 6).map(kw => `
                             <a href="/?search=${encodeURIComponent(kw)}" 
@@ -306,7 +330,7 @@ function injectProductContent(page, product, pageUrl) {
                                onmouseout="this.style.background='#eff6ff';this.style.color='#2563eb'">
                                 ${kw}
                             </a>`).join('')}
-                    </div>` : ''}
+                    </div>` : '')}
 
                     <!-- Quantity + Buttons -->
                     <div class="mt-auto flex flex-wrap items-end gap-4">
@@ -1130,8 +1154,21 @@ async function run() {
             page = page.replace(/<meta name="description"\s+content=".*?"/s, `<meta name="description" content="${seoDesc}"`);
             page = page.replace(/<link rel="canonical"\s+href=".*?"/s, `<link rel="canonical" href="${pUrl}"`);
             
-            // Keywords meta - product specific
-            const productKeywords = [cleanTitle, p.mainCategory, p.subCategory, p.brand, p.modelNumber, 'Sri Lanka', 'buy Sri Lanka', 'Pubudu Electronics', 'electronic components Sri Lanka'].filter(Boolean).join(', ');
+            // Keywords meta - product specific (combining focus keyword, tags, category, and secondary keywords)
+            const productKeywords = Array.from(new Set([
+                p.focusKeyword,
+                cleanTitle,
+                ...(p.tags || []),
+                p.mainCategory,
+                p.subCategory,
+                p.brand,
+                p.modelNumber,
+                ...(p.secondaryKeywords || p.keywords || []),
+                'Sri Lanka',
+                'buy Sri Lanka',
+                'Pubudu Electronics',
+                'electronic components Sri Lanka'
+            ].filter(Boolean))).join(', ');
             page = page.replace(/<meta name="keywords"\s+content=".*?"/s, `<meta name="keywords" content="${productKeywords}"`);
             
             // OG Tags

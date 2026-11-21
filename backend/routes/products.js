@@ -45,6 +45,9 @@ router.get('/', async (req, res) => {
         availableStock: availableStock,
         isInStock: availableStock > 0,
         photos: data.photos || [],
+        tags: data.tags || [],
+        focusKeyword: data.focusKeyword || data.primaryKeyword || '',
+        secondaryKeywords: data.secondaryKeywords || data.keywords || [],
         date: data.date || ''
       });
     });
@@ -64,7 +67,10 @@ router.get('/', async (req, res) => {
       products = products.filter(p => 
         p.name.toLowerCase().includes(q) || 
         p.category.toLowerCase().includes(q) || 
-        p.shop.toLowerCase().includes(q)
+        p.shop.toLowerCase().includes(q) ||
+        (p.focusKeyword && p.focusKeyword.toLowerCase().includes(q)) ||
+        (Array.isArray(p.tags) && p.tags.some(t => t.toLowerCase().includes(q))) ||
+        (Array.isArray(p.secondaryKeywords) && p.secondaryKeywords.some(k => k.toLowerCase().includes(q)))
       );
     }
 
@@ -109,6 +115,9 @@ router.get('/:id', async (req, res) => {
         availableStock: availableStock,
         isInStock: availableStock > 0,
         photos: data.photos || [],
+        tags: data.tags || [],
+        focusKeyword: data.focusKeyword || data.primaryKeyword || '',
+        secondaryKeywords: data.secondaryKeywords || data.keywords || [],
         date: data.date
       }
     });
@@ -126,7 +135,7 @@ router.post('/', async (req, res) => {
   try {
     if (!db) return res.status(500).json({ error: 'Database not initialized' });
 
-    const { name, shop, buyQty, buyPrice, category, date, photos } = req.body;
+    const { name, shop, buyQty, buyPrice, category, date, photos, tags, focusKeyword, secondaryKeywords } = req.body;
 
     if (!name || !buyQty || buyPrice === undefined) {
       return res.status(400).json({ success: false, error: 'Missing required fields: name, buyQty, buyPrice' });
@@ -152,6 +161,9 @@ router.post('/', async (req, res) => {
       date: itemDate,
       batches: [{ shop: shop || '', buyQty: qty, buyPrice: price, date: itemDate }],
       photos: Array.isArray(photos) ? photos : [],
+      tags: Array.isArray(tags) ? tags : [],
+      focusKeyword: focusKeyword || '',
+      secondaryKeywords: Array.isArray(secondaryKeywords) ? secondaryKeywords : [],
       sales: [],
       timestamp: new Date().toISOString()
     });

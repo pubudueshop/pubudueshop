@@ -1023,15 +1023,72 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label style="display: flex; justify-content: space-between; align-items: center;">
-                            SEO Keywords (comma separated)
-                            <button type="button" onclick="generateSEOKeywords()"
-                                style="font-size: 0.7rem; background: var(--secondary); color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer;">
-                                <i class="fas fa-wand-magic-sparkles"></i> Generate 10 SL Keywords
+                    <!-- ===== PRODUCT TAGS & SEO KEYWORDS ===== -->
+                    <div class="form-section-seo" style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 10px; padding: 1.25rem; margin-bottom: 1.25rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.6rem; flex-wrap: wrap; gap: 8px;">
+                            <div>
+                                <h3 style="margin: 0; font-size: 1rem; font-weight: 700; color: #0f172a; display: flex; align-items: center; gap: 8px;">
+                                    <i class="fas fa-tags" style="color: var(--primary);"></i> Product Tags &amp; SEO Keywords
+                                </h3>
+                                <p style="margin: 2px 0 0 0; font-size: 0.75rem; color: var(--text-light);">
+                                    Optimize product discovery, related ICs recommendations, and Google Sri Lanka rankings.
+                                </p>
+                            </div>
+                            <button type="button" onclick="generateSmartSEOAndTags()"
+                                style="font-size: 0.75rem; background: var(--secondary); color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 5px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                                <i class="fas fa-wand-magic-sparkles"></i> Auto-Generate All
                             </button>
-                        </label>
-                        <input type="text" id="prod-keywords" placeholder="e.g. arduino, sensor, wifi, module">
+                        </div>
+
+                        <!-- 1. Product Tags -->
+                        <div class="form-group" style="margin-bottom: 1.25rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                                <label style="margin: 0; font-weight: 600; font-size: 0.9rem;">
+                                    Product Tags
+                                </label>
+                                <span id="prod-tags-count-badge" style="font-size: 0.72rem; padding: 2px 8px; border-radius: 12px; background: #e2e8f0; color: #475569; font-weight: 600;">
+                                    0 Tags (Recommended: 5–10)
+                                </span>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                <input type="text" id="prod-tags-input" placeholder="Type tags separated by commas (e.g. SG3525A, PWM Controller IC, DIP-16, Inverter IC, SMPS Controller)" style="flex: 1;" onkeydown="handleTagInputKeydown(event)" onblur="handleTagInputBlur()">
+                                <button type="button" onclick="addTagFromInput()" style="padding: 0 1.2rem; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: 600; white-space: nowrap;">
+                                    <i class="fas fa-plus"></i> Add
+                                </button>
+                            </div>
+                            <!-- Tag Chips Container -->
+                            <div id="prod-tags-container" style="display: flex; flex-wrap: wrap; gap: 6px; min-height: 38px; padding: 8px; background: white; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 0.35rem; align-items: center;">
+                                <span id="tags-empty-placeholder" style="color: #94a3b8; font-size: 0.8rem; font-style: italic; padding: 2px 4px;">No tags added yet. Type tags above (comma-separated) or click Auto-Generate.</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <p style="font-size: 0.75rem; color: var(--text-light); margin: 0;">
+                                    <i class="fas fa-info-circle"></i> Used for internal discovery, filtering &amp; related products. Click tag to edit, &times; to delete.
+                                </p>
+                                <button type="button" onclick="clearProductTags()" style="background: none; border: none; color: #ef4444; font-size: 0.72rem; cursor: pointer; text-decoration: underline; padding: 0;">Clear All</button>
+                            </div>
+                        </div>
+
+                        <!-- 2. Primary Focus Keyword -->
+                        <div class="form-group" style="margin-bottom: 1.25rem;">
+                            <label style="font-weight: 600; font-size: 0.9rem; margin-bottom: 0.4rem;">
+                                Primary Focus Keyword
+                            </label>
+                            <input type="text" id="prod-focus-keyword" placeholder="e.g. SG3525A PWM Controller IC">
+                            <p style="font-size: 0.75rem; color: var(--text-light); margin-top: 0.25rem; margin-bottom: 0;">
+                                <i class="fas fa-bullseye"></i> One primary target search term for Google Sri Lanka search ranking.
+                            </p>
+                        </div>
+
+                        <!-- 3. Secondary SEO Keywords -->
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label style="font-weight: 600; font-size: 0.9rem; margin-bottom: 0.4rem;">
+                                Secondary SEO Keywords (comma separated)
+                            </label>
+                            <input type="text" id="prod-keywords" placeholder="e.g. sg3525a price in sri lanka, buy pwm controller ic sl, dip-16 inverter ic colombo">
+                            <p style="font-size: 0.75rem; color: var(--text-light); margin-top: 0.25rem; margin-bottom: 0;">
+                                <i class="fas fa-search"></i> Long-tail keywords &amp; Sri Lankan buyer queries for meta keywords and search discovery.
+                            </p>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Video Link (YouTube/Facebook - Optional)</label>
@@ -1316,11 +1373,16 @@
                 renderAdminCategories();
                 renderAdminList();
 
-                // Auto-generate keywords when title is entered
+                // Auto-generate tags & SEO keywords when title is entered if empty
                 document.getElementById('prod-title').addEventListener('blur', () => {
                     const keywordsInput = document.getElementById('prod-keywords');
-                    if (keywordsInput && keywordsInput.value.trim() === '') {
-                        generateSEOKeywords();
+                    const focusInput = document.getElementById('prod-focus-keyword');
+                    if (
+                        (!keywordsInput || keywordsInput.value.trim() === '') &&
+                        (!focusInput || focusInput.value.trim() === '') &&
+                        (!currentProductTags || currentProductTags.length === 0)
+                    ) {
+                        generateSmartSEOAndTags();
                     }
                 });
             }
@@ -1484,17 +1546,28 @@
                 [...products].reverse().forEach(p => {
                     const item = document.createElement('div');
                     item.className = 'list-item';
+                    const tagsCount = Array.isArray(p.tags) ? p.tags.length : 0;
+                    const focusBadge = (p.focusKeyword || p.primaryKeyword)
+                        ? `<span style="font-size:0.72rem;background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:4px;border:1px solid #fde68a;display:inline-flex;align-items:center;gap:3px;"><i class="fas fa-bullseye"></i> ${escapeAdminHtml(p.focusKeyword || p.primaryKeyword)}</span>`
+                        : '';
+                    const tagsBadge = tagsCount > 0
+                        ? `<span style="font-size:0.72rem;background:#e0f2fe;color:#0369a1;padding:1px 6px;border-radius:4px;border:1px solid #bae6fd;display:inline-flex;align-items:center;gap:3px;"><i class="fas fa-tags"></i> ${tagsCount} Tag${tagsCount === 1 ? '' : 's'}</span>`
+                        : '';
                     item.innerHTML = `
                     <div style="display: flex; align-items: center; gap: 1rem;">
                         <img src="${p.image}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;" onerror="this.src='https://via.placeholder.com/50'">
                         <div>
-                            <div style="font-weight: 600;">${p.title}</div>
-                            <div style="font-size: 0.85rem; color: var(--text-light);">${p.mainCategory} > ${p.subCategory} | Stock: ${p.stock}</div>
+                            <div style="font-weight: 600;">${escapeAdminHtml(p.title)}</div>
+                            <div style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 3px;">${escapeAdminHtml(p.mainCategory)} &gt; ${escapeAdminHtml(p.subCategory)} | Stock: ${p.stock}</div>
+                            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                                ${focusBadge}
+                                ${tagsBadge}
+                            </div>
                         </div>
                     </div>
                     <div class="item-actions">
-                        <button onclick="editProduct(${p.id})" class="btn-edit"><i class="fas fa-edit"></i></button>
-                        <button onclick="deleteProduct(${p.id})" class="btn-danger"><i class="fas fa-trash"></i></button>
+                        <button onclick="editProduct(${p.id})" class="btn-edit" title="Edit Product"><i class="fas fa-edit"></i></button>
+                        <button onclick="deleteProduct(${p.id})" class="btn-danger" title="Delete Product"><i class="fas fa-trash"></i></button>
                     </div>
                 `;
                     listContainer.appendChild(item);
@@ -1777,11 +1850,147 @@
             }
             // ===== END RICH TEXT EDITOR =====
 
+            // ===== PRODUCT TAGS MANAGEMENT =====
+            let currentProductTags = [];
+
+            function renderProductTagBadges() {
+                const container = document.getElementById('prod-tags-container');
+                const badge = document.getElementById('prod-tags-count-badge');
+                if (!container) return;
+
+                if (currentProductTags.length === 0) {
+                    container.innerHTML = '<span id="tags-empty-placeholder" style="color: #94a3b8; font-size: 0.8rem; font-style: italic; padding: 2px 4px;">No tags added yet. Type tags above (comma-separated) or click Auto-Generate.</span>';
+                } else {
+                    container.innerHTML = currentProductTags.map((tag, idx) => `
+                        <span class="product-tag-chip" style="display: inline-flex; align-items: center; gap: 6px; background: #eff6ff; color: #1d4ed8; padding: 4px 10px; border-radius: 16px; font-size: 0.8rem; font-weight: 600; border: 1px solid #bfdbfe; transition: all 0.2s;" title="Click to edit, click × to delete">
+                            <span onclick="editProductTag(${idx})" style="cursor: pointer;" title="Click to edit tag">${escapeAdminHtml(tag)}</span>
+                            <button type="button" onclick="removeProductTag(${idx})" style="background: none; border: none; color: #2563eb; cursor: pointer; font-size: 1.1rem; line-height: 1; padding: 0 2px; font-weight: 700;" title="Delete tag">&times;</button>
+                        </span>
+                    `).join('');
+                }
+
+                if (badge) {
+                    const count = currentProductTags.length;
+                    badge.textContent = `${count} Tag${count === 1 ? '' : 's'} (Recommended: 5–10)`;
+                    if (count >= 5 && count <= 10) {
+                        badge.style.background = '#dcfce7';
+                        badge.style.color = '#15803d';
+                    } else if (count > 0) {
+                        badge.style.background = '#fef3c7';
+                        badge.style.color = '#b45309';
+                    } else {
+                        badge.style.background = '#e2e8f0';
+                        badge.style.color = '#475569';
+                    }
+                }
+            }
+            window.renderProductTagBadges = renderProductTagBadges;
+
+            function addProductTagsFromText(rawText) {
+                if (!rawText) return;
+                const pieces = rawText.split(',').map(t => t.trim()).filter(t => t.length > 0);
+                pieces.forEach(t => {
+                    const exists = currentProductTags.some(existing => existing.toLowerCase() === t.toLowerCase());
+                    if (!exists) {
+                        currentProductTags.push(t);
+                    }
+                });
+                renderProductTagBadges();
+            }
+            window.addProductTagsFromText = addProductTagsFromText;
+
+            function addTagFromInput() {
+                const input = document.getElementById('prod-tags-input');
+                if (!input) return;
+                const val = input.value.trim();
+                if (val) {
+                    addProductTagsFromText(val);
+                    input.value = '';
+                }
+            }
+            window.addTagFromInput = addTagFromInput;
+
+            function handleTagInputKeydown(e) {
+                if (e.key === 'Enter' || e.key === ',') {
+                    e.preventDefault();
+                    addTagFromInput();
+                }
+            }
+            window.handleTagInputKeydown = handleTagInputKeydown;
+
+            function handleTagInputBlur() {
+                addTagFromInput();
+            }
+            window.handleTagInputBlur = handleTagInputBlur;
+
+            function removeProductTag(idx) {
+                if (idx >= 0 && idx < currentProductTags.length) {
+                    currentProductTags.splice(idx, 1);
+                    renderProductTagBadges();
+                }
+            }
+            window.removeProductTag = removeProductTag;
+
+            function editProductTag(idx) {
+                if (idx >= 0 && idx < currentProductTags.length) {
+                    const tag = currentProductTags[idx];
+                    currentProductTags.splice(idx, 1);
+                    renderProductTagBadges();
+                    const input = document.getElementById('prod-tags-input');
+                    if (input) {
+                        input.value = tag;
+                        input.focus();
+                    }
+                }
+            }
+            window.editProductTag = editProductTag;
+
+            function clearProductTags() {
+                currentProductTags = [];
+                renderProductTagBadges();
+            }
+            window.clearProductTags = clearProductTags;
+
+            function setProductTags(tagsArray) {
+                currentProductTags = [];
+                if (Array.isArray(tagsArray)) {
+                    tagsArray.forEach(t => {
+                        if (typeof t === 'string' && t.trim()) {
+                            const trimmed = t.trim();
+                            if (!currentProductTags.some(ex => ex.toLowerCase() === trimmed.toLowerCase())) {
+                                currentProductTags.push(trimmed);
+                            }
+                        }
+                    });
+                } else if (typeof tagsArray === 'string' && tagsArray.trim()) {
+                    addProductTagsFromText(tagsArray);
+                }
+                renderProductTagBadges();
+            }
+            window.setProductTags = setProductTags;
+
+            function getProductTags() {
+                return [...currentProductTags];
+            }
+            window.getProductTags = getProductTags;
+
+            function escapeAdminHtml(str) {
+                return (str || '').toString().replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' })[m]);
+            }
+            window.escapeAdminHtml = escapeAdminHtml;
+
             function openModal() {
                 form.reset();
                 document.getElementById('prod-id').value = '';
                 document.getElementById('modal-title').textContent = 'Add New Product';
                 updateImagePreview({ value: '' }); // Reset preview
+                clearProductTags();
+                const focusInput = document.getElementById('prod-focus-keyword');
+                if (focusInput) focusInput.value = '';
+                const kwInput = document.getElementById('prod-keywords');
+                if (kwInput) kwInput.value = '';
+                const tagsInput = document.getElementById('prod-tags-input');
+                if (tagsInput) tagsInput.value = '';
                 modal.classList.add('active');
             }
 
@@ -1840,7 +2049,17 @@
                 updateImagePreview({ value: images[0] || '' });
 
                 document.getElementById('prod-desc').value = p.description;
-                document.getElementById('prod-keywords').value = p.keywords ? p.keywords.join(', ') : '';
+
+                // Populate Product Tags & SEO Keywords
+                setProductTags(p.tags || []);
+                const focusInput = document.getElementById('prod-focus-keyword');
+                if (focusInput) focusInput.value = p.focusKeyword || p.primaryKeyword || '';
+                const secKeywords = (p.secondaryKeywords && p.secondaryKeywords.length) ? p.secondaryKeywords : (p.keywords || []);
+                const kwInput = document.getElementById('prod-keywords');
+                if (kwInput) kwInput.value = Array.isArray(secKeywords) ? secKeywords.join(', ') : secKeywords;
+                const tagsInput = document.getElementById('prod-tags-input');
+                if (tagsInput) tagsInput.value = '';
+
                 document.getElementById('prod-video').value = p.videoUrl && p.videoUrl !== '#' ? p.videoUrl : '';
 
                 mainCatSelect.value = p.mainCategory;
@@ -1851,38 +2070,135 @@
                 modal.classList.add('active');
             }
 
-            function generateSEOKeywords() {
+            function generateSmartSEOAndTags() {
                 const title = document.getElementById('prod-title').value.trim();
                 const mainCat = document.getElementById('prod-main-cat').value;
                 const subCat = document.getElementById('prod-sub-cat').value;
                 const brand = document.getElementById('prod-brand').value.trim();
+                const model = document.getElementById('prod-model').value.trim();
+                const desc = document.getElementById('prod-desc').value.trim();
 
                 if (!title) {
                     alert("Please enter a product title first!");
+                    document.getElementById('prod-title').focus();
                     return;
                 }
 
-                const base = title.toLowerCase();
-                let keywords = [
-                    base,
-                    `${base} price in sri lanka`,
-                    `${base} buy online sri lanka`,
-                    `${base} price sl`,
-                    `${base} electronic components sri lanka`,
-                    `${base} ${subCat.toLowerCase()}`,
-                    `${subCat.toLowerCase()} price sri lanka`,
-                    `buy ${base} online`,
-                    `best price for ${base} in sri lanka`,
-                    `${mainCat.toLowerCase()} shop sri lanka`
-                ];
+                // 1. Primary Focus Keyword
+                const cleanCore = title
+                    .replace(/\s*\|\s*.*$/, '')
+                    .replace(/\s*–\s*.*$/, '')
+                    .replace(/Price in Sri Lanka/gi, '')
+                    .replace(/Original/gi, '')
+                    .trim();
+                
+                let focusKw = '';
+                if (model && !cleanCore.toLowerCase().includes(model.toLowerCase())) {
+                    focusKw = `${model} ${cleanCore}`.trim();
+                } else {
+                    focusKw = cleanCore;
+                }
+                const focusInput = document.getElementById('prod-focus-keyword');
+                if (focusInput) focusInput.value = focusKw;
 
-                if (brand) {
-                    keywords.push(`${brand.toLowerCase()} ${base}`);
-                    keywords.push(`${brand.toLowerCase()} electronics sri lanka`);
+                // 2. Product Tags (5-10 tags)
+                const newTags = [];
+                const addTag = (t) => {
+                    if (!t) return;
+                    const clean = t.trim();
+                    if (clean && !newTags.some(ex => ex.toLowerCase() === clean.toLowerCase())) {
+                        newTags.push(clean);
+                    }
+                };
+
+                // Add Model / Part Number
+                if (model) addTag(model.toUpperCase());
+
+                // Package extraction (e.g. DIP-16, SOP-8, TO-220, etc.)
+                const pkgRegex = /\b(DIP-?\d+|SOP-?\d+|SOIC-?\d+|TSSOP-?\d+|QSOP-?\d+|SOT-?\d+(?:-\d+)?|TO-?\d+[A-Z0-9]*|QFN-?\d+|QFP-?\d+)\b/i;
+                const pkgMatch = (title + ' ' + desc).match(pkgRegex);
+                if (pkgMatch) {
+                    addTag(pkgMatch[1].toUpperCase());
                 }
 
-                document.getElementById('prod-keywords').value = keywords.join(', ');
+                // Sub Category
+                if (subCat && subCat !== 'Select Sub Category') {
+                    addTag(subCat);
+                    if (!subCat.toLowerCase().includes('ic') && !subCat.toLowerCase().includes('module')) {
+                        addTag(`${subCat} IC`);
+                    }
+                }
+
+                // Main Category
+                if (mainCat && mainCat !== 'Select Main Category') {
+                    addTag(mainCat);
+                }
+
+                // Brand
+                if (brand && brand.toLowerCase() !== 'generic') {
+                    addTag(brand);
+                }
+
+                // Functional category extraction from title / desc
+                const textToSearch = (title + ' ' + desc).toLowerCase();
+                const techWords = [
+                    { test: 'pwm', tag: 'PWM Controller' },
+                    { test: 'inverter', tag: 'Inverter IC' },
+                    { test: 'smps', tag: 'SMPS Controller' },
+                    { test: 'amplifier', tag: 'Audio Amplifier' },
+                    { test: 'regulator', tag: 'Voltage Regulator' },
+                    { test: 'buck', tag: 'Step Down Regulator' },
+                    { test: 'boost', tag: 'Step Up Converter' },
+                    { test: 'driver', tag: 'Driver IC' },
+                    { test: 'mosfet', tag: 'MOSFET Driver' },
+                    { test: 'optocoupler', tag: 'Optocoupler' },
+                    { test: 'microcontroller', tag: 'Microcontroller' },
+                    { test: 'timer', tag: 'Timer IC' },
+                    { test: 'op-amp', tag: 'Operational Amplifier' },
+                    { test: 'op amp', tag: 'Operational Amplifier' },
+                    { test: 'logic gate', tag: 'Logic IC' },
+                    { test: 'transceiver', tag: 'Interface IC' },
+                    { test: 'sensor', tag: 'Sensor IC' }
+                ];
+                techWords.forEach(tw => {
+                    if (textToSearch.includes(tw.test)) addTag(tw.tag);
+                });
+
+                // Fallbacks to reach recommended 5-10
+                if (newTags.length < 5) {
+                    addTag('Electronic Component');
+                    addTag('Integrated Circuit');
+                    addTag('Sri Lanka Electronics');
+                }
+
+                setProductTags(newTags.slice(0, 10));
+
+                // 3. Secondary SEO Keywords (10 targeted Sri Lanka buyer queries)
+                const base = (model || focusKw).toLowerCase();
+                const sc = (subCat || mainCat || '').toLowerCase();
+                let secKeywords = [
+                    `${base} price in sri lanka`,
+                    `buy ${base} online sri lanka`,
+                    `${base} price sl`,
+                    `${base} electronic components sri lanka`,
+                    pkgMatch ? `${base} ${pkgMatch[1].toLowerCase()} sri lanka` : `${base} buy online`,
+                    `${base} ${sc}`,
+                    `${sc} price sri lanka`,
+                    `best price for ${base} in sri lanka`,
+                    `${base} original ic house`,
+                    `${base} datasheet pinout sri lanka`
+                ];
+
+                if (brand && brand.toLowerCase() !== 'generic') {
+                    secKeywords.push(`${brand.toLowerCase()} ${base}`);
+                    secKeywords.push(`${brand.toLowerCase()} electronics sri lanka`);
+                }
+
+                const kwInput = document.getElementById('prod-keywords');
+                if (kwInput) kwInput.value = secKeywords.slice(0, 10).join(', ');
             }
+            window.generateSmartSEOAndTags = generateSmartSEOAndTags;
+            window.generateSEOKeywords = generateSmartSEOAndTags; // Backward compatibility
 
             // Form Submit
             form.addEventListener('submit', (e) => {
@@ -1899,6 +2215,19 @@
                     document.getElementById('prod-image-5').value
                 ].filter(url => url && url.trim() !== '');
 
+                // Product Tags & SEO Keywords
+                const tags = getProductTags();
+                const focusKeyword = document.getElementById('prod-focus-keyword') ? document.getElementById('prod-focus-keyword').value.trim() : '';
+                const secondaryKeywords = document.getElementById('prod-keywords')
+                    ? document.getElementById('prod-keywords').value.split(',').map(k => k.trim()).filter(k => k)
+                    : [];
+                
+                // Maintain full backward compatibility for `keywords`
+                const legacyKeywords = Array.from(new Set([
+                    ...(focusKeyword ? [focusKeyword] : []),
+                    ...secondaryKeywords
+                ]));
+
                 const newProduct = {
                     id: isEdit ? parseInt(id) : Date.now(),
                     title: document.getElementById('prod-title').value,
@@ -1912,7 +2241,11 @@
                     image: images[0] || '',
                     images: images,
                     description: document.getElementById('prod-desc').value,
-                    keywords: document.getElementById('prod-keywords').value.split(',').map(k => k.trim()).filter(k => k),
+                    tags: tags,
+                    focusKeyword: focusKeyword,
+                    primaryKeyword: focusKeyword,
+                    secondaryKeywords: secondaryKeywords,
+                    keywords: legacyKeywords.length > 0 ? legacyKeywords : secondaryKeywords,
                     longDescription: document.getElementById('prod-desc').value,
                     features: ["High Quality Component", document.getElementById('prod-condition').value + " Condition"],
                     specs: {

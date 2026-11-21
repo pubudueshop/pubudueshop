@@ -2000,19 +2000,54 @@ function productListingPath(p) {
     });
 })();
 
-/** Single picker for “similar” grid + modal related strip: subcategory → main → any. */
+/** Single picker for “similar” grid + modal related strip: product tags overlap → subcategory → main → any. */
 function similarPick(cur, limit) {
     limit = limit || 4;
     if (!cur || cur.id == null || !products.length) return [];
     const curId = String(cur.id);
     const subN = normCat(cur.subCategory);
     const mainN = normCat(cur.mainCategory);
+    const curTags = (Array.isArray(cur.tags) ? cur.tags : []).map(t => String(t).toLowerCase());
 
-    let out = shufflePick(
-        products.filter(function (p) { return String(p.id) !== curId && normCat(p.subCategory) === subN; }),
-        limit
-    );
+    let out = [];
 
+    // Priority 1: Match products sharing identical or related tags
+    if (curTags.length > 0) {
+        const taggedCandidates = products
+            .filter(p => String(p.id) !== curId && Array.isArray(p.tags) && p.tags.length > 0)
+            .map(p => {
+                const pTags = p.tags.map(t => String(t).toLowerCase());
+                const sharedCount = curTags.filter(ct => pTags.includes(ct)).length;
+                return { product: p, sharedCount };
+            })
+            .filter(item => item.sharedCount > 0)
+            .sort((a, b) => b.sharedCount - a.sharedCount);
+
+        if (taggedCandidates.length > 0) {
+            const tiers = {};
+            taggedCandidates.forEach(tc => {
+                tiers[tc.sharedCount] = tiers[tc.sharedCount] || [];
+                tiers[tc.sharedCount].push(tc.product);
+            });
+            Object.keys(tiers).sort((a, b) => Number(b) - Number(a)).forEach(count => {
+                if (out.length < limit) {
+                    out = out.concat(shufflePick(tiers[count], limit - out.length));
+                }
+            });
+        }
+    }
+
+    // Priority 2: Subcategory match
+    if (out.length < limit) {
+        const have = new Set(out.map(function (p) { return String(p.id); }));
+        have.add(curId);
+        out = out.concat(shufflePick(
+            products.filter(function (p) { return !have.has(String(p.id)) && normCat(p.subCategory) === subN; }),
+            limit - out.length
+        ));
+    }
+
+    // Priority 3: Main category match
     if (out.length < limit) {
         const have = new Set(out.map(function (p) { return String(p.id); }));
         have.add(curId);
@@ -2022,6 +2057,7 @@ function similarPick(cur, limit) {
         ));
     }
 
+    // Priority 4: Any other products
     if (out.length < limit) {
         const have = new Set(out.map(function (p) { return String(p.id); }));
         have.add(curId);
@@ -2210,10 +2246,12 @@ function renderProducts(mainCat = 'all', subCat = 'all', searchQuery = '', reset
                 const brand = (p.brand || '').toLowerCase();
                 const mainCategory = (p.mainCategory || '').toLowerCase();
                 const subCategory = (p.subCategory || '').toLowerCase();
+                const tags = Array.isArray(p.tags) ? p.tags.join(' ').toLowerCase() : '';
+                const focusKeyword = (p.focusKeyword || p.primaryKeyword || '').toLowerCase();
                 const keywords = Array.isArray(p.keywords) ? p.keywords.join(' ').toLowerCase() : '';
                 const specs = p.specs ? Object.values(p.specs).join(' ').toLowerCase() : '';
                 const desc = (p.description || '').toLowerCase();
-                const haystack = `${title} ${model} ${brand} ${mainCategory} ${subCategory} ${keywords} ${specs} ${desc}`;
+                const haystack = `${title} ${model} ${brand} ${mainCategory} ${subCategory} ${tags} ${focusKeyword} ${keywords} ${specs} ${desc}`;
                 
                 matchSearch = terms.every(term => haystack.includes(term));
             }
@@ -2419,6 +2457,28 @@ function openProductDetails(id) {
             modelDisplay.classList.remove('hidden');
         } else {
             modelDisplay.classList.add('hidden');
+        }
+    }
+
+    // Product Tags Display
+    if (detailTags) {
+        const displayTags = (Array.isArray(product.tags) && product.tags.length > 0)
+            ? product.tags
+            : (Array.isArray(product.keywords) ? product.keywords.slice(0, 8) : []);
+        
+        if (displayTags.length > 0) {
+            detailTags.innerHTML = displayTags.map(tag => `
+                <a href="/?search=${encodeURIComponent(tag)}" 
+                   class="inline-flex items-center text-xs font-semibold text-blue-600 bg-blue-50 hover:bg-blue-600 hover:text-white px-2.5 py-1 rounded-full border border-blue-100 transition-colors"
+                   title="Search tag: ${escapeHtmlAttr(tag)}"
+                   onclick="if(window.closeProductModal && (window.location.pathname === '/' || window.location.pathname.endsWith('index.html'))) { closeProductModal(); if(window.executeSearch){ const inp = document.getElementById('main-search-input'); if(inp) inp.value='${escapeHtmlAttr(tag)}'; executeSearch('${escapeHtmlAttr(tag)}'); } }">
+                    #${escapeHtmlText(tag)}
+                </a>
+            `).join('');
+            detailTags.classList.remove('hidden');
+        } else {
+            detailTags.innerHTML = '';
+            detailTags.classList.add('hidden');
         }
     }
 
@@ -3202,10 +3262,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const mainCat = (product.mainCategory || '').toLowerCase();
                     const subCat = (product.subCategory || '').toLowerCase();
                     const desc = (product.description || '').toLowerCase();
+                    const tags = Array.isArray(product.tags) ? product.tags.join(' ').toLowerCase() : '';
+                    const focusKeyword = (product.focusKeyword || product.primaryKeyword || '').toLowerCase();
                     const keywords = Array.isArray(product.keywords) ? product.keywords.join(' ').toLowerCase() : '';
                     const specs = product.specs ? Object.values(product.specs).join(' ').toLowerCase() : '';
 
-                    const haystack = `${title} ${model} ${brand} ${mainCat} ${subCat} ${keywords} ${specs} ${desc}`;
+                    const haystack = `${title} ${model} ${brand} ${mainCat} ${subCat} ${tags} ${focusKeyword} ${keywords} ${specs} ${desc}`;
 
                     // All search terms must match somewhere in the product info
                     const matchesAllTerms = terms.every(term => haystack.includes(term));
@@ -3222,6 +3284,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                     // Model match
                     if (model && (model === rawQuery || model.startsWith(rawQuery))) score += 60;
                     else if (model && model.includes(rawQuery)) score += 35;
+
+                    // Focus keyword boost
+                    if (focusKeyword && (focusKeyword === rawQuery || focusKeyword.startsWith(rawQuery))) score += 50;
+                    else if (focusKeyword && focusKeyword.includes(rawQuery)) score += 30;
+
+                    // Tags boost
+                    if (tags && tags.includes(rawQuery)) score += 25;
 
                     // Individual terms in title
                     const titleTermsCount = terms.filter(t => title.includes(t)).length;

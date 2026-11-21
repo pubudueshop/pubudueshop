@@ -163,6 +163,35 @@ foreach ($item in $rawProducts) {
     $brand = if ($f.brand.stringValue) { $f.brand.stringValue } else { "" }
     $image = if ($f.image.stringValue) { $f.image.stringValue } else { "" }
 
+    $tags = @()
+    if ($f.tags -and $f.tags.arrayValue.values) {
+        foreach ($tVal in $f.tags.arrayValue.values) {
+            if ($tVal.stringValue) { $tags += $tVal.stringValue }
+        }
+    }
+    $focusKeyword = if ($f.focusKeyword.stringValue) { $f.focusKeyword.stringValue } elseif ($f.primaryKeyword.stringValue) { $f.primaryKeyword.stringValue } else { "" }
+    $secondaryKeywords = @()
+    if ($f.secondaryKeywords -and $f.secondaryKeywords.arrayValue.values) {
+        foreach ($skVal in $f.secondaryKeywords.arrayValue.values) {
+            if ($skVal.stringValue) { $secondaryKeywords += $skVal.stringValue }
+        }
+    } elseif ($f.keywords -and $f.keywords.arrayValue.values) {
+        foreach ($kVal in $f.keywords.arrayValue.values) {
+            if ($kVal.stringValue) { $secondaryKeywords += $kVal.stringValue }
+        }
+    }
+
+    $tagsHtml = ""
+    if ($tags.Count -gt 0) {
+        $tagsHtml = '<div class="flex flex-wrap gap-1.5 mb-4">'
+        foreach ($tag in $tags) {
+            $encTag = [System.Net.WebUtility]::UrlEncode($tag)
+            $cleanTag = [System.Net.WebUtility]::HtmlEncode($tag)
+            $tagsHtml += "<a href=""$siteUrl?search=$encTag"" class=""inline-block text-xs font-semibold text-blue-600 bg-blue-50 hover:bg-blue-600 hover:text-white px-2.5 py-1 rounded-full border border-blue-100 transition-colors"">#$cleanTag</a>"
+        }
+        $tagsHtml += '</div>'
+    }
+
     $images = @()
     if ($f.images -and $f.images.arrayValue.values) {
         foreach ($imgVal in $f.images.arrayValue.values) {
@@ -313,6 +342,9 @@ foreach ($item in $rawProducts) {
                         $(if ($modelNumber) { "<span class=""bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-full""><i class=""fas fa-barcode mr-1""></i> $modelNumber</span>" })
                     </div>
 
+                    <!-- Product Tags -->
+                    $tagsHtml
+
                     <!-- Quantity + Buttons -->
                     <div class="mt-auto flex flex-wrap items-end gap-4">
                         <div class="flex flex-col gap-2">
@@ -421,7 +453,9 @@ window._currentModalProduct = {
     stock: $stock,
     image: $(ConvertTo-Json $image),
     mainCategory: $(ConvertTo-Json $mainCat),
-    subCategory: $(ConvertTo-Json $subCat)
+    subCategory: $(ConvertTo-Json $subCat),
+    tags: $(ConvertTo-Json $tags),
+    focusKeyword: $(ConvertTo-Json $focusKeyword)
 };
 
 function getSelectedQty() {
@@ -501,6 +535,12 @@ function closeZoom() {
     $page = [System.Text.RegularExpressions.Regex]::Replace($page, '(?s)<title>.*?</title>', "<title>$fullTitle</title>")
     $page = [System.Text.RegularExpressions.Regex]::Replace($page, '(?s)<meta name="description"\s+content=".*?"', "<meta name=`"description`" content=`"$seoDesc`"")
     $page = [System.Text.RegularExpressions.Regex]::Replace($page, '(?s)<link rel="canonical"\s+href=".*?"', "<link rel=`"canonical`" href=`"$pUrl`"")
+
+    $kwList = @($focusKeyword, $cleanTitle) + $tags + @($mainCat, $subCat, $brand, $modelNumber) + $secondaryKeywords + @("Sri Lanka", "buy Sri Lanka", "IC House", "Pubudu Electronics")
+    $metaKeywords = ($kwList | Where-Object { $_ -ne "" -and $_ -ne $null } | Select-Object -Unique) -join ', '
+    if ($page -match '<meta name="keywords"\s+content=".*?"') {
+        $page = [System.Text.RegularExpressions.Regex]::Replace($page, '<meta name="keywords"\s+content=".*?"', "<meta name=`"keywords`" content=`"$metaKeywords`"")
+    }
 
     $page = $page.Replace('property="og:url" content=""', "property=`"og:url`" content=`"$pUrl`"")
     $page = [System.Text.RegularExpressions.Regex]::Replace($page, 'property="og:title" id="og-title"\s+content=".*?"', "property=`"og:title`" id=`"og-title`" content=`"$fullTitle`"")

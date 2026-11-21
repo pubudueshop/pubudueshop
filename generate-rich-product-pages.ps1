@@ -21,6 +21,12 @@ function Render-MarkdownDesc($text) {
     }
 
     $normalized = $text -replace "\r\n", "`n" -replace "\r", "`n"
+    # Reunite any orphaned bullet symbols or numbers with their text on the SAME line
+    $prev = ""
+    while ($prev -ne $normalized) {
+        $prev = $normalized
+        $normalized = [System.Text.RegularExpressions.Regex]::Replace($normalized, '(?m)(^|\n)[ \t]*([\u2022\u25E6\u25AA\u25AB\u2013\u2014*+\-]|\d+[\.\)])[ \t]*\n+[ \t]*([^\n#|]+)', '$1$2 $3')
+    }
     $lines = $normalized -split "`n"
     $result = [System.Collections.Generic.List[string]]::new()
     $i = 0

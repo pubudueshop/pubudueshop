@@ -4409,6 +4409,11 @@ body.modal-open {
     padding-left: 4px;
 }
 
+.product-description li p {
+    margin: 0;
+    display: inline;
+}
+
 .product-description li:last-child {
     margin-bottom: 0;
 }

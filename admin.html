@@ -1575,32 +1575,85 @@
             // Clean messy formatting copied from ChatGPT or other web sources
             function cleanTextFromChatGPT(raw) {
                 if (!raw) return '';
-                let text = raw;
+                let text = String(raw);
 
                 // 1. Convert HTML tables if present
                 if (text.indexOf('<table') !== -1) {
                     text = convertHtmlTableToMarkdown(text);
                 }
 
-                // 2. Convert common HTML tags to markdown if user pasted HTML
+                // 2. Process list tags BEFORE processing paragraphs!
+                // This prevents ChatGPT's nested <li><p>Text</p></li> from splitting bullets onto separate lines.
+                text = text.replace(/<ol\b[^>]*>([\s\S]*?)<\/ol>/gi, function(match, olInner) {
+                    let count = 1;
+                    const items = [];
+                    olInner.replace(/<li\b[^>]*>([\s\S]*?)<\/li>/gi, function(m, liInner) {
+                        let clean = liInner
+                            .replace(/<\/?(p|div|span|font)\b[^>]*>/gi, ' ')
+                            .replace(/<br\s*\/?>/gi, ' ')
+                            .replace(/^[•\-\*\+\d+\.\)]\s*/, '')
+                            .replace(/\s+/g, ' ')
+                            .trim();
+                        if (clean) items.push((count++) + '. ' + clean);
+                        return '';
+                    });
+                    return '\n\n' + items.join('\n') + '\n\n';
+                });
+
+                text = text.replace(/<ul\b[^>]*>([\s\S]*?)<\/ul>/gi, function(match, ulInner) {
+                    const items = [];
+                    ulInner.replace(/<li\b[^>]*>([\s\S]*?)<\/li>/gi, function(m, liInner) {
+                        let clean = liInner
+                            .replace(/<\/?(p|div|span|font)\b[^>]*>/gi, ' ')
+                            .replace(/<br\s*\/?>/gi, ' ')
+                            .replace(/^[•\-\*\+]\s*/, '')
+                            .replace(/\s+/g, ' ')
+                            .trim();
+                        if (clean) items.push('• ' + clean);
+                        return '';
+                    });
+                    return '\n\n' + items.join('\n') + '\n\n';
+                });
+
+                text = text.replace(/<li\b[^>]*>([\s\S]*?)<\/li>/gi, function(m, liInner) {
+                    let clean = liInner
+                        .replace(/<\/?(p|div|span|font)\b[^>]*>/gi, ' ')
+                        .replace(/<br\s*\/?>/gi, ' ')
+                        .replace(/^[•\-\*\+]\s*/, '')
+                        .replace(/\s+/g, ' ')
+                        .trim();
+                    return '\n• ' + clean;
+                });
+
+                // 3. Convert remaining common HTML tags
                 text = text
-                    .replace(/<\s*h[12]\b[^>]*>(.*?)<\/\s*h[12]\s*>/gi, '\n## $1\n')
-                    .replace(/<\s*h[34]\b[^>]*>(.*?)<\/\s*h[34]\s*>/gi, '\n### $1\n')
+                    .replace(/<\s*h[12]\b[^>]*>(.*?)<\/\s*h[12]\s*>/gi, '\n\n## $1\n\n')
+                    .replace(/<\s*h[34]\b[^>]*>(.*?)<\/\s*h[34]\s*>/gi, '\n\n### $1\n\n')
                     .replace(/<\s*strong\b[^>]*>(.*?)<\/\s*strong\s*>/gi, '**$1**')
                     .replace(/<\s*b\b[^>]*>(.*?)<\/\s*b\s*>/gi, '**$1**')
                     .replace(/<\s*em\b[^>]*>(.*?)<\/\s*em\s*>/gi, '*$1*')
                     .replace(/<\s*i\b[^>]*>(.*?)<\/\s*i\s*>/gi, '*$1*')
-                    .replace(/<\s*li\b[^>]*>(.*?)<\/\s*li\s*>/gi, '\n• $1')
-                    .replace(/<\s*p\b[^>]*>(.*?)<\/\s*p\s*>/gi, '\n$1\n')
+                    .replace(/<\s*p\b[^>]*>(.*?)<\/\s*p\s*>/gi, '\n\n$1\n\n')
                     .replace(/<br\s*\/?>/gi, '\n')
-                    .replace(/<hr\s*\/?>/gi, '\n---\n')
+                    .replace(/<hr\s*\/?>/gi, '\n\n---\n\n')
                     .replace(/<[^>]+>/g, ''); // strip remaining tags
 
-                // 3. Normalize line breaks and multiple blank lines
+                // 4. Normalize line breaks
                 text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
-                // Remove trailing spaces on lines
+
+                // 5. CRITICAL FIX: Reunite any orphaned bullet symbols or numbering with their text on the SAME line!
+                const bulletCharClass = '[\\u2022\\u25E6\\u25AA\\u25AB\\u2013\\u2014*+\\-]';
+                const bulletReunionRegex = new RegExp('(^|\\n)[ \\t]*(' + bulletCharClass + '|\\d+[\\.\\)])[ \\t]*\\n+[ \\t]*([^\\n#|]+)', 'g');
+                let prev = '';
+                while (prev !== text) {
+                    prev = text;
+                    text = text.replace(bulletReunionRegex, function(match, prefix, bullet, itemText) {
+                        return prefix + bullet + ' ' + itemText.trim();
+                    });
+                }
+
+                // 6. Clean up trailing spaces and collapse excess blank lines
                 text = text.replace(/[ \t]+$/gm, '');
-                // Collapse 3 or more blank lines to double blank lines
                 text = text.replace(/\n{3,}/g, '\n\n');
 
                 return text.trim();
@@ -1625,8 +1678,8 @@
                         const htmlData = clipboardData.getData('text/html');
                         const plainText = clipboardData.getData('text/plain');
 
-                        // If rich text or HTML table was pasted from ChatGPT
-                        if (htmlData && (htmlData.indexOf('<table') !== -1 || htmlData.indexOf('<h') !== -1 || htmlData.indexOf('<ul') !== -1)) {
+                        // If rich HTML data was pasted
+                        if (htmlData && (htmlData.indexOf('<table') !== -1 || htmlData.indexOf('<h') !== -1 || htmlData.indexOf('<ul') !== -1 || htmlData.indexOf('<ol') !== -1 || htmlData.indexOf('<li') !== -1 || htmlData.indexOf('<p') !== -1)) {
                             e.preventDefault();
                             const cleaned = cleanTextFromChatGPT(htmlData);
                             const start = ta.selectionStart;
@@ -1635,16 +1688,14 @@
                             ta.selectionStart = ta.selectionEnd = start + cleaned.length;
                             updateDescPreview();
                         } else if (plainText) {
-                            // Normalize excessive blank lines in plain text paste
-                            const normalized = plainText.replace(/\r\n/g, '\n').replace(/\r/g, '\n').replace(/\n{3,}/g, '\n\n');
-                            if (normalized !== plainText) {
-                                e.preventDefault();
-                                const start = ta.selectionStart;
-                                const end = ta.selectionEnd;
-                                ta.value = ta.value.substring(0, start) + normalized + ta.value.substring(end);
-                                ta.selectionStart = ta.selectionEnd = start + normalized.length;
-                                updateDescPreview();
-                            }
+                            // Reunite any orphaned bullets and clean plain text paste
+                            e.preventDefault();
+                            const cleaned = cleanTextFromChatGPT(plainText);
+                            const start = ta.selectionStart;
+                            const end = ta.selectionEnd;
+                            ta.value = ta.value.substring(0, start) + cleaned + ta.value.substring(end);
+                            ta.selectionStart = ta.selectionEnd = start + cleaned.length;
+                            updateDescPreview();
                         }
                     });
                 }

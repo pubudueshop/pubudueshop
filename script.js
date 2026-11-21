@@ -59,7 +59,19 @@ function parseMarkdownTable(lines) {
 
 function parseMarkdownToDescriptionHtml(content) {
     if (!content) return '';
-    const text = String(content).replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+    let text = String(content).replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+
+    // CRITICAL FIX: Reunite any orphaned bullet symbols or numbers with their text on the SAME line!
+    const bulletCharClass = '[\\u2022\\u25E6\\u25AA\\u25AB\\u2013\\u2014*+\\-]';
+    const bulletReunionRegex = new RegExp('(^|\\n)[ \\t]*(' + bulletCharClass + '|\\d+[\\.\\)])[ \\t]*\\n+[ \\t]*([^\\n#|]+)', 'g');
+    let prev = '';
+    while (prev !== text) {
+        prev = text;
+        text = text.replace(bulletReunionRegex, function(match, prefix, bullet, itemText) {
+            return prefix + bullet + ' ' + itemText.trim();
+        });
+    }
+
     const lines = text.split('\n');
     const result = [];
     let i = 0;
@@ -113,10 +125,10 @@ function parseMarkdownToDescriptionHtml(content) {
         }
 
         // Bullet List: lines starting with •, -, *, +
-        if (/^[•\-\*\+]\s+/.test(line)) {
+        if (/^[•\-\*\+]\s*/.test(line) && line.replace(/^[•\-\*\+]\s*/, '').trim()) {
             let listHtml = '<ul>';
-            while (i < lines.length && /^[•\-\*\+]\s+/.test(lines[i].trim())) {
-                const itemText = lines[i].trim().replace(/^[•\-\*\+]\s+/, '');
+            while (i < lines.length && /^[•\-\*\+]\s*/.test(lines[i].trim()) && lines[i].trim().replace(/^[•\-\*\+]\s*/, '').trim()) {
+                const itemText = lines[i].trim().replace(/^[•\-\*\+]\s*/, '').trim();
                 listHtml += '<li>' + parseInlineMarkdown(itemText) + '</li>';
                 i++;
             }
@@ -126,10 +138,10 @@ function parseMarkdownToDescriptionHtml(content) {
         }
 
         // Numbered List: lines starting with digits like 1. or 1)
-        if (/^\d+[\.\)]\s+/.test(line)) {
+        if (/^\d+[\.\)]\s*/.test(line) && line.replace(/^\d+[\.\)]\s*/, '').trim()) {
             let numHtml = '<ol>';
-            while (i < lines.length && /^\d+[\.\)]\s+/.test(lines[i].trim())) {
-                const numItemText = lines[i].trim().replace(/^\d+[\.\)]\s+/, '');
+            while (i < lines.length && /^\d+[\.\)]\s*/.test(lines[i].trim()) && lines[i].trim().replace(/^\d+[\.\)]\s*/, '').trim()) {
+                const numItemText = lines[i].trim().replace(/^\d+[\.\)]\s*/, '').trim();
                 numHtml += '<li>' + parseInlineMarkdown(numItemText) + '</li>';
                 i++;
             }
@@ -168,6 +180,16 @@ function cleanHtmlDescription(rawHtml) {
     // Strip font and unnecessary span wrappers
     html = html.replace(/<\/?font\b[^>]*>/gi, '');
     html = html.replace(/<\/?span\b[^>]*>/gi, '');
+
+    // Unwrap <p> and <div> inside <li> to ensure bullets and text stay on the same line without extra spacing
+    html = html.replace(/<li\b[^>]*>([\s\S]*?)<\/li>/gi, function(match, inner) {
+        let clean = inner
+            .replace(/<\/?(p|div|font|span)\b[^>]*>/gi, '')
+            .replace(/<br\s*\/?>/gi, ' ')
+            .replace(/^[•\-\*\+]\s*/, '')
+            .trim();
+        return '<li>' + clean + '</li>';
+    });
 
     // Whitelist tags and strip noisy inline styles and unknown classes
     html = html.replace(/<([a-z0-9]+)\b([^>]*)>/gi, function(match, tag, attrs) {

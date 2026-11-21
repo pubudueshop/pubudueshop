@@ -1,4 +1,4 @@
-$ErrorActionPreference = 'Stop'
+﻿$ErrorActionPreference = 'Stop'
 
 function Create-Slug($str) {
     if (-not $str) { return "" }
@@ -11,15 +11,121 @@ function Create-Slug($str) {
 
 function Render-MarkdownDesc($text) {
     if (-not $text) { return '<p style="color:#94a3b8;">No description available.</p>' }
-    $escaped = [System.Net.WebUtility]::HtmlEncode($text)
-    $escaped = [System.Text.RegularExpressions.Regex]::Replace($escaped, '(?m)^## (.+)$', '</p><h3 style="font-size:1.05rem;font-weight:700;color:#1e293b;margin:14px 0 6px;">$1</h3><p style="margin:0;">')
-    $escaped = [System.Text.RegularExpressions.Regex]::Replace($escaped, '(?m)^# (.+)$', '</p><h2 style="font-size:1.2rem;font-weight:800;color:#1e293b;margin:16px 0 8px;">$1</h2><p style="margin:0;">')
-    $escaped = [System.Text.RegularExpressions.Regex]::Replace($escaped, '\*\*(.+?)\*\*', '<strong style="font-weight:700;color:#1e293b;">$1</strong>')
-    $escaped = [System.Text.RegularExpressions.Regex]::Replace($escaped, '(?m)^---$', '</p><hr style="border:none;border-top:1px solid #e2e8f0;margin:12px 0;"><p style="margin:0;">')
-    $escaped = [System.Text.RegularExpressions.Regex]::Replace($escaped, '(?m)^[•\-\*] (.+)$', '</p><div style="display:flex;gap:8px;margin:4px 0;"><span style="color:#2563eb;font-weight:700;flex-shrink:0;">•</span><span>$1</span></div><p style="margin:0;">')
-    $escaped = $escaped.Replace("`n`n", '</p><p style="margin:8px 0;">')
-    $escaped = $escaped.Replace("`n", '<br>')
-    return '<p style="margin:0;">' + $escaped + '</p>'
+    
+    # Check if text already has rich HTML
+    if ($text -match '<\s*(p|div|table|ul|ol|h[1-6]|blockquote)\b[^>]*>') {
+        $cleanHtml = $text -replace '<\s*h1\b[^>]*>', '<h2>' -replace '<\/\s*h1\s*>', '</h2>'
+        $cleanHtml = $cleanHtml -replace '(?i)<\/?font\b[^>]*>', '' -replace '(?i)<\/?span\b[^>]*>', ''
+        $cleanHtml = [System.Text.RegularExpressions.Regex]::Replace($cleanHtml, '(?i)(<table\b[^>]*>[\s\S]*?<\/table>)', '<div class="table-responsive">$1</div>')
+        return "<div class=`"product-description`">$cleanHtml</div>"
+    }
+
+    $normalized = $text -replace "\r\n", "`n" -replace "\r", "`n"
+    $lines = $normalized -split "`n"
+    $result = [System.Collections.Generic.List[string]]::new()
+    $i = 0
+
+    while ($i -lt $lines.Count) {
+        $line = $lines[$i].Trim()
+        if ([string]::IsNullOrWhiteSpace($line)) { $i++; continue }
+
+        if ($line -match '^(\*{3,}|-{3,}|_{3,})$') {
+            $result.Add('<hr>')
+            $i++; continue
+        }
+
+        if ($line -match '^###\s+(.+)$') {
+            $hText = [System.Net.WebUtility]::HtmlEncode($matches[1])
+            $result.Add("<h3>$hText</h3>")
+            $i++; continue
+        }
+
+        if ($line -match '^##?\s+(.+)$') {
+            $hText = [System.Net.WebUtility]::HtmlEncode($matches[1])
+            $result.Add("<h2>$hText</h2>")
+            $i++; continue
+        }
+
+        # Table detection
+        if ($line.Contains('|') -and ($i + 1 -lt $lines.Count) -and ($lines[$i+1] -match '^\s*\|?\s*:?-+:?\s*\|')) {
+            $tableLines = [System.Collections.Generic.List[string]]::new()
+            while ($i -lt $lines.Count -and $lines[$i].Contains('|')) {
+                $tableLines.Add($lines[$i])
+                $i++
+            }
+            if ($tableLines.Count -ge 2) {
+                $headRow = $tableLines[0].Trim().Trim('|') -split '\|'
+                $tblHtml = '<div class="table-responsive"><table class="spec-table"><thead><tr>'
+                foreach ($h in $headRow) {
+                    $tblHtml += '<th>' + [System.Net.WebUtility]::HtmlEncode($h.Trim()) + '</th>'
+                }
+                $tblHtml += '</tr></thead><tbody>'
+                for ($rowIdx = 2; $rowIdx -lt $tableLines.Count; $rowIdx++) {
+                    $cells = $tableLines[$rowIdx].Trim().Trim('|') -split '\|'
+                    if ($cells.Count -gt 0) {
+                        $tblHtml += '<tr>'
+                        foreach ($c in $cells) {
+                            $cText = [System.Net.WebUtility]::HtmlEncode($c.Trim()) -replace '\*\*([^*]+)\*\*', '<strong>$1</strong>'
+                            $tblHtml += "<td>$cText</td>"
+                        }
+                        $tblHtml += '</tr>'
+                    }
+                }
+                $tblHtml += '</tbody></table></div>'
+                $result.Add($tblHtml)
+            }
+            continue
+        }
+
+        # Bullet List
+        if ($line -match '^[•\-\*\+]\s+') {
+            $ulHtml = '<ul>'
+            while ($i -lt $lines.Count -and ($lines[$i].Trim() -match '^[•\-\*\+]\s+')) {
+                $item = $lines[$i].Trim() -replace '^[•\-\*\+]\s+', ''
+                $itemEnc = [System.Net.WebUtility]::HtmlEncode($item) -replace '\*\*([^*]+)\*\*', '<strong>$1</strong>'
+                $ulHtml += "<li>$itemEnc</li>"
+                $i++
+            }
+            $ulHtml += '</ul>'
+            $result.Add($ulHtml)
+            continue
+        }
+
+        # Numbered List
+        if ($line -match '^\d+[\.\)]\s+') {
+            $olHtml = '<ol>'
+            while ($i -lt $lines.Count -and ($lines[$i].Trim() -match '^\d+[\.\)]\s+')) {
+                $item = $lines[$i].Trim() -replace '^\d+[\.\)]\s+', ''
+                $itemEnc = [System.Net.WebUtility]::HtmlEncode($item) -replace '\*\*([^*]+)\*\*', '<strong>$1</strong>'
+                $olHtml += "<li>$itemEnc</li>"
+                $i++
+            }
+            $olHtml += '</ol>'
+            $result.Add($olHtml)
+            continue
+        }
+
+        # Paragraph
+        $paraLines = [System.Collections.Generic.List[string]]::new()
+        while ($i -lt $lines.Count) {
+            $cur = $lines[$i].Trim()
+            if ([string]::IsNullOrWhiteSpace($cur)) { break }
+            if ($cur -match '^#{1,4}\s+') { break }
+            if ($cur -match '^[•\-\*\+]\s+') { break }
+            if ($cur -match '^\d+[\.\)]\s+') { break }
+            if ($cur -match '^(\*{3,}|-{3,}|_{3,})$') { break }
+            if ($cur.Contains('|') -and ($i + 1 -lt $lines.Count) -and ($lines[$i+1] -match '^\s*\|?\s*:?-+:?\s*\|')) { break }
+
+            $pEnc = [System.Net.WebUtility]::HtmlEncode($cur) -replace '\*\*([^*]+)\*\*', '<strong>$1</strong>'
+            $paraLines.Add($pEnc)
+            $i++
+        }
+        if ($paraLines.Count -gt 0) {
+            $result.Add('<p>' + ($paraLines -join '<br>') + '</p>')
+        }
+    }
+
+    return "<div class=`"product-description`">" + ($result -join "`n") + "</div>"
 }
 
 Write-Host "Fetching inventory from Firebase..."

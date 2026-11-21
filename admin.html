@@ -962,37 +962,65 @@
                         <input type="url" id="prod-image-5" placeholder="https://...">
                     </div>
                     <div class="form-group">
-                        <label>Product Description</label>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                            <label style="margin:0;font-weight:700;">Product Description</label>
+                            <span style="font-size:0.75rem;background:#e0f2fe;color:#0284c7;padding:3px 10px;border-radius:12px;font-weight:600;">
+                                <i class="fas fa-wand-magic-sparkles"></i> ChatGPT Smart Paste Active
+                            </span>
+                        </div>
 
                         <!-- Rich Text Toolbar -->
-                        <div id="desc-toolbar" style="display:flex;flex-wrap:wrap;gap:4px;padding:8px;background:#f8fafc;border:1px solid #e2e8f0;border-bottom:none;border-radius:8px 8px 0 0;">
-                            <button type="button" onclick="descFormat('h2')" title="Heading" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:4px;background:white;cursor:pointer;font-weight:700;font-size:0.85rem;">H</button>
-                            <button type="button" onclick="descFormat('bold')" title="Bold" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:4px;background:white;cursor:pointer;font-weight:700;font-size:0.85rem;"><b>B</b></button>
-                            <button type="button" onclick="descFormat('bullet')" title="Bullet List" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:4px;background:white;cursor:pointer;font-size:0.85rem;">• List</button>
-                            <button type="button" onclick="descFormat('line')" title="Divider Line" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:4px;background:white;cursor:pointer;font-size:0.85rem;">— Line</button>
-                            <button type="button" onclick="descFormat('space')" title="Add Space" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:4px;background:white;cursor:pointer;font-size:0.85rem;">↕ Space</button>
-                            <span style="margin-left:auto;font-size:0.75rem;color:#94a3b8;align-self:center;">**bold** ## heading • bullet</span>
+                        <div id="desc-toolbar" style="display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:8px 10px;background:#f8fafc;border:1px solid #cbd5e1;border-bottom:none;border-radius:8px 8px 0 0;">
+                            <button type="button" onclick="descFormat('h2')" title="Main Heading (H2)" style="padding:5px 10px;border:1px solid #cbd5e1;border-radius:5px;background:white;cursor:pointer;font-weight:800;font-size:0.85rem;color:#0f172a;">H2</button>
+                            <button type="button" onclick="descFormat('h3')" title="Sub-Heading (H3)" style="padding:5px 10px;border:1px solid #cbd5e1;border-radius:5px;background:white;cursor:pointer;font-weight:700;font-size:0.85rem;color:#334155;">H3</button>
+                            <button type="button" onclick="descFormat('bold')" title="Bold Text (**text**)" style="padding:5px 10px;border:1px solid #cbd5e1;border-radius:5px;background:white;cursor:pointer;font-weight:800;font-size:0.85rem;color:#0f172a;"><b>B</b></button>
+                            <button type="button" onclick="descFormat('italic')" title="Italic Text (*text*)" style="padding:5px 10px;border:1px solid #cbd5e1;border-radius:5px;background:white;cursor:pointer;font-style:italic;font-size:0.85rem;color:#334155;"><i>I</i></button>
+                            <button type="button" onclick="descFormat('bullet')" title="Bullet List (• item)" style="padding:5px 10px;border:1px solid #cbd5e1;border-radius:5px;background:white;cursor:pointer;font-size:0.85rem;color:#334155;"><i class="fas fa-list-ul"></i> Bullet</button>
+                            <button type="button" onclick="descFormat('number')" title="Numbered List (1. item)" style="padding:5px 10px;border:1px solid #cbd5e1;border-radius:5px;background:white;cursor:pointer;font-size:0.85rem;color:#334155;"><i class="fas fa-list-ol"></i> Numbered</button>
+                            <button type="button" onclick="descFormat('table')" title="Insert Technical Specification Table" style="padding:5px 10px;border:1px solid #3b82f6;border-radius:5px;background:#eff6ff;color:#1d4ed8;cursor:pointer;font-weight:600;font-size:0.85rem;"><i class="fas fa-table"></i> Spec Table</button>
+                            <button type="button" onclick="descFormat('line')" title="Horizontal Divider Line" style="padding:5px 10px;border:1px solid #cbd5e1;border-radius:5px;background:white;cursor:pointer;font-size:0.85rem;color:#334155;">— Line</button>
+                            <button type="button" onclick="descFormat('space')" title="Add Paragraph Space" style="padding:5px 10px;border:1px solid #cbd5e1;border-radius:5px;background:white;cursor:pointer;font-size:0.85rem;color:#334155;">↕ Space</button>
+                            <button type="button" onclick="cleanDescFormatting()" title="Clean and format ChatGPT pasted text" style="padding:5px 10px;border:1px solid #10b981;border-radius:5px;background:#ecfdf5;color:#047857;cursor:pointer;font-weight:600;font-size:0.85rem;"><i class="fas fa-broom"></i> Clean ChatGPT</button>
+                            <span style="margin-left:auto;font-size:0.75rem;color:#64748b;">Supports ChatGPT tables, bullets &amp; headings</span>
                         </div>
 
                         <!-- Editor -->
-                        <textarea id="prod-desc" rows="8" required
+                        <textarea id="prod-desc" rows="10" required
                             oninput="updateDescPreview()"
-                            style="border-radius:0;border-top:none;font-family:monospace;font-size:0.9rem;resize:vertical;"
-                            placeholder="Write product description...&#10;&#10;## Heading&#10;**Bold text**&#10;• Bullet point&#10;Regular paragraph text"></textarea>
+                            style="border-radius:0;border:1px solid #cbd5e1;border-top:none;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;font-size:0.88rem;line-height:1.6;resize:vertical;padding:12px;"
+                            placeholder="Write product description or copy/paste directly from ChatGPT...&#10;&#10;## Key Features&#10;• High efficiency current-mode controller&#10;• Low start-up current (typ. 0.5 mA)&#10;&#10;## Technical Specifications&#10;| Parameter | Specification |&#10;|---|---|&#10;| IC Number | UC3843AN |&#10;| Package | DIP-8 |&#10;| Supply Voltage | 8.2V - 30V |"></textarea>
 
-                        <!-- Live Preview Toggle -->
-                        <div style="display:flex;align-items:center;gap:8px;margin-top:6px;">
-                            <button type="button" onclick="toggleDescPreview()" id="preview-toggle-btn"
-                                style="padding:4px 12px;border:1px solid #2563eb;border-radius:4px;background:white;color:#2563eb;cursor:pointer;font-size:0.8rem;font-weight:600;">
-                                👁 Show Preview
-                            </button>
-                            <span style="font-size:0.75rem;color:#94a3b8;">See how it looks on the product page</span>
+                        <!-- Live Preview Controls -->
+                        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:8px;">
+                            <div style="display:flex;align-items:center;gap:8px;">
+                                <button type="button" onclick="toggleDescPreview()" id="preview-toggle-btn"
+                                    style="padding:6px 14px;border:1px solid #2563eb;border-radius:6px;background:white;color:#2563eb;cursor:pointer;font-size:0.85rem;font-weight:700;">
+                                    👁 Show Preview
+                                </button>
+                                <span style="font-size:0.75rem;color:#64748b;">Real-time product page formatting preview</span>
+                            </div>
+                            <div id="preview-device-switch" style="display:none;align-items:center;gap:4px;">
+                                <span style="font-size:0.75rem;color:#64748b;font-weight:600;margin-right:4px;">Preview Device:</span>
+                                <button type="button" onclick="setPreviewDevice('desktop')" id="preview-btn-desktop" style="padding:4px 10px;border:1px solid #2563eb;background:#2563eb;color:white;border-radius:4px;font-size:0.75rem;font-weight:600;cursor:pointer;">
+                                    <i class="fas fa-desktop"></i> Desktop
+                                </button>
+                                <button type="button" onclick="setPreviewDevice('mobile')" id="preview-btn-mobile" style="padding:4px 10px;border:1px solid #cbd5e1;background:white;color:#475569;border-radius:4px;font-size:0.75rem;font-weight:600;cursor:pointer;">
+                                    <i class="fas fa-mobile-alt"></i> Mobile (375px)
+                                </button>
+                            </div>
                         </div>
 
                         <!-- Live Preview Panel -->
-                        <div id="desc-preview" style="display:none;margin-top:8px;padding:16px;border:2px solid #2563eb;border-radius:8px;background:white;min-height:80px;">
-                            <div style="font-size:0.7rem;font-weight:700;color:#2563eb;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">📄 Live Preview</div>
-                            <div id="desc-preview-content" style="font-size:0.95rem;color:#374151;line-height:1.7;"></div>
+                        <div id="desc-preview" style="display:none;margin-top:10px;padding:16px;border:2px solid #3b82f6;border-radius:10px;background:#f8fafc;">
+                            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;border-bottom:1px solid #e2e8f0;padding-bottom:8px;">
+                                <div style="font-size:0.75rem;font-weight:800;color:#1d4ed8;text-transform:uppercase;letter-spacing:1px;">
+                                    <i class="fas fa-eye mr-1"></i> Live Product Description Preview
+                                </div>
+                                <span id="preview-device-label" style="font-size:0.75rem;color:#64748b;font-weight:600;">Desktop Width (100%)</span>
+                            </div>
+                            <div id="desc-preview-container" style="width:100%;transition:max-width 0.3s ease;margin:0 auto;">
+                                <div id="desc-preview-content" class="product-description" style="background:white;padding:20px;border-radius:8px;border:1px solid #e2e8f0;min-height:90px;"></div>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -1474,7 +1502,7 @@
                 totalCount.textContent = products.length;
             }
 
-            // ===== RICH TEXT DESCRIPTION EDITOR =====
+            // ===== RICH TEXT DESCRIPTION EDITOR & SMART CHATGPT PASTE =====
             function descFormat(type) {
                 const ta = document.getElementById('prod-desc');
                 const start = ta.selectionStart;
@@ -1483,15 +1511,23 @@
                 let insert = '';
 
                 if (type === 'h2') {
-                    insert = `## ${selected || 'Heading'}`;
+                    insert = `\n## ${selected || 'Section Heading'}\n`;
+                } else if (type === 'h3') {
+                    insert = `\n### ${selected || 'Sub-Heading'}\n`;
                 } else if (type === 'bold') {
                     insert = `**${selected || 'bold text'}**`;
+                } else if (type === 'italic') {
+                    insert = `*${selected || 'italic text'}*`;
                 } else if (type === 'bullet') {
-                    insert = `• ${selected || 'item'}`;
+                    insert = `\n• ${selected || 'Feature bullet point'}`;
+                } else if (type === 'number') {
+                    insert = `\n1. ${selected || 'Numbered item'}`;
+                } else if (type === 'table') {
+                    insert = `\n\n| Parameter | Specification |\n|---|---|\n| IC Number | UC3843AN |\n| IC Type | PWM Controller |\n| Package | DIP-8 |\n| Application | SMPS |\n\n`;
                 } else if (type === 'line') {
-                    insert = `\n---\n`;
+                    insert = `\n\n---\n\n`;
                 } else if (type === 'space') {
-                    insert = `\n`;
+                    insert = `\n\n`;
                 }
 
                 ta.value = ta.value.substring(0, start) + insert + ta.value.substring(end);
@@ -1500,44 +1536,192 @@
                 updateDescPreview();
             }
 
-            function parseDesc(text) {
-                if (!text) return '';
-                return text
-                    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-                    // Headings
-                    .replace(/^## (.+)$/gm, '<h3 style="font-size:1.05rem;font-weight:700;color:#1e293b;margin:14px 0 6px;">$1</h3>')
-                    .replace(/^# (.+)$/gm, '<h2 style="font-size:1.2rem;font-weight:800;color:#1e293b;margin:16px 0 8px;">$1</h2>')
-                    // Bold
-                    .replace(/\*\*(.+?)\*\*/g, '<strong style="font-weight:700;color:#1e293b;">$1</strong>')
-                    // Divider
-                    .replace(/^---$/gm, '<hr style="border:none;border-top:1px solid #e2e8f0;margin:12px 0;">')
-                    // Bullet points
-                    .replace(/^• (.+)$/gm, '<div style="display:flex;gap:8px;margin:4px 0;"><span style="color:#2563eb;font-weight:700;flex-shrink:0;">•</span><span>$1</span></div>')
-                    // Paragraphs (blank lines)
-                    .replace(/\n\n/g, '</p><p style="margin:8px 0;">')
-                    // Single newlines
-                    .replace(/\n/g, '<br>');
+            // Converts pasted or existing HTML tables into clean Markdown tables
+            function convertHtmlTableToMarkdown(html) {
+                if (!html || html.indexOf('<table') === -1) return html;
+                return html.replace(/<table\b[^>]*>([\s\S]*?)<\/table>/gi, function(match, tableInner) {
+                    const rowMatches = tableInner.match(/<tr\b[^>]*>([\s\S]*?)<\/tr>/gi);
+                    if (!rowMatches || rowMatches.length === 0) return match;
+
+                    const rows = [];
+                    for (let r = 0; r < rowMatches.length; r++) {
+                        const cellMatches = rowMatches[r].match(/<(th|td)\b[^>]*>([\s\S]*?)<\/(th|td)>/gi);
+                        if (!cellMatches) continue;
+                        const cells = [];
+                        for (let c = 0; c < cellMatches.length; c++) {
+                            let text = cellMatches[c].replace(/<(th|td)\b[^>]*>/i, '').replace(/<\/(th|td)>/i, '');
+                            text = text.replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]+>/g, '').trim();
+                            cells.push(text || '-');
+                        }
+                        if (cells.length > 0) rows.push(cells);
+                    }
+                    if (rows.length === 0) return match;
+
+                    const colCount = Math.max(...rows.map(row => row.length));
+                    const normalizedRows = rows.map(row => {
+                        while (row.length < colCount) row.push('-');
+                        return row;
+                    });
+
+                    let md = '\n| ' + normalizedRows[0].join(' | ') + ' |\n';
+                    md += '| ' + normalizedRows[0].map(() => '---').join(' | ') + ' |\n';
+                    for (let b = 1; b < normalizedRows.length; b++) {
+                        md += '| ' + normalizedRows[b].join(' | ') + ' |\n';
+                    }
+                    return md + '\n';
+                });
             }
 
+            // Clean messy formatting copied from ChatGPT or other web sources
+            function cleanTextFromChatGPT(raw) {
+                if (!raw) return '';
+                let text = raw;
+
+                // 1. Convert HTML tables if present
+                if (text.indexOf('<table') !== -1) {
+                    text = convertHtmlTableToMarkdown(text);
+                }
+
+                // 2. Convert common HTML tags to markdown if user pasted HTML
+                text = text
+                    .replace(/<\s*h[12]\b[^>]*>(.*?)<\/\s*h[12]\s*>/gi, '\n## $1\n')
+                    .replace(/<\s*h[34]\b[^>]*>(.*?)<\/\s*h[34]\s*>/gi, '\n### $1\n')
+                    .replace(/<\s*strong\b[^>]*>(.*?)<\/\s*strong\s*>/gi, '**$1**')
+                    .replace(/<\s*b\b[^>]*>(.*?)<\/\s*b\s*>/gi, '**$1**')
+                    .replace(/<\s*em\b[^>]*>(.*?)<\/\s*em\s*>/gi, '*$1*')
+                    .replace(/<\s*i\b[^>]*>(.*?)<\/\s*i\s*>/gi, '*$1*')
+                    .replace(/<\s*li\b[^>]*>(.*?)<\/\s*li\s*>/gi, '\n• $1')
+                    .replace(/<\s*p\b[^>]*>(.*?)<\/\s*p\s*>/gi, '\n$1\n')
+                    .replace(/<br\s*\/?>/gi, '\n')
+                    .replace(/<hr\s*\/?>/gi, '\n---\n')
+                    .replace(/<[^>]+>/g, ''); // strip remaining tags
+
+                // 3. Normalize line breaks and multiple blank lines
+                text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+                // Remove trailing spaces on lines
+                text = text.replace(/[ \t]+$/gm, '');
+                // Collapse 3 or more blank lines to double blank lines
+                text = text.replace(/\n{3,}/g, '\n\n');
+
+                return text.trim();
+            }
+
+            // Toolbar Clean Button action
+            function cleanDescFormatting() {
+                const ta = document.getElementById('prod-desc');
+                if (!ta || !ta.value.trim()) return;
+                ta.value = cleanTextFromChatGPT(ta.value);
+                updateDescPreview();
+            }
+
+            // Smart Paste Listener on Description Textarea
+            document.addEventListener('DOMContentLoaded', function() {
+                const ta = document.getElementById('prod-desc');
+                if (ta) {
+                    ta.addEventListener('paste', function(e) {
+                        const clipboardData = e.clipboardData || window.clipboardData;
+                        if (!clipboardData) return;
+
+                        const htmlData = clipboardData.getData('text/html');
+                        const plainText = clipboardData.getData('text/plain');
+
+                        // If rich text or HTML table was pasted from ChatGPT
+                        if (htmlData && (htmlData.indexOf('<table') !== -1 || htmlData.indexOf('<h') !== -1 || htmlData.indexOf('<ul') !== -1)) {
+                            e.preventDefault();
+                            const cleaned = cleanTextFromChatGPT(htmlData);
+                            const start = ta.selectionStart;
+                            const end = ta.selectionEnd;
+                            ta.value = ta.value.substring(0, start) + cleaned + ta.value.substring(end);
+                            ta.selectionStart = ta.selectionEnd = start + cleaned.length;
+                            updateDescPreview();
+                        } else if (plainText) {
+                            // Normalize excessive blank lines in plain text paste
+                            const normalized = plainText.replace(/\r\n/g, '\n').replace(/\r/g, '\n').replace(/\n{3,}/g, '\n\n');
+                            if (normalized !== plainText) {
+                                e.preventDefault();
+                                const start = ta.selectionStart;
+                                const end = ta.selectionEnd;
+                                ta.value = ta.value.substring(0, start) + normalized + ta.value.substring(end);
+                                ta.selectionStart = ta.selectionEnd = start + normalized.length;
+                                updateDescPreview();
+                            }
+                        }
+                    });
+                }
+            });
+
+            // Update live preview in Admin
             function updateDescPreview() {
                 const text = document.getElementById('prod-desc').value;
                 const preview = document.getElementById('desc-preview-content');
                 if (preview) {
-                    const parsed = parseDesc(text);
-                    preview.innerHTML = typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(parsed) : parsed;
+                    if (typeof window.formatProductDescription === 'function') {
+                        preview.innerHTML = window.formatProductDescription(text);
+                    } else if (typeof formatProductDescription === 'function') {
+                        preview.innerHTML = formatProductDescription(text);
+                    } else {
+                        // Fallback parser
+                        preview.innerHTML = typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(text) : text;
+                    }
                 }
             }
 
             function toggleDescPreview() {
                 const panel = document.getElementById('desc-preview');
+                const switchBar = document.getElementById('preview-device-switch');
                 const btn = document.getElementById('preview-toggle-btn');
                 if (panel.style.display === 'none') {
                     panel.style.display = 'block';
+                    if (switchBar) switchBar.style.display = 'flex';
                     btn.textContent = '✕ Hide Preview';
                     updateDescPreview();
                 } else {
                     panel.style.display = 'none';
+                    if (switchBar) switchBar.style.display = 'none';
                     btn.textContent = '👁 Show Preview';
+                }
+            }
+
+            function setPreviewDevice(device) {
+                const container = document.getElementById('desc-preview-container');
+                const label = document.getElementById('preview-device-label');
+                const btnDesk = document.getElementById('preview-btn-desktop');
+                const btnMob = document.getElementById('preview-btn-mobile');
+
+                if (device === 'mobile') {
+                    if (container) {
+                        container.style.maxWidth = '375px';
+                        container.style.boxShadow = '0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1)';
+                        container.style.borderRadius = '12px';
+                    }
+                    if (label) label.textContent = '📱 Mobile Width (375px)';
+                    if (btnMob) {
+                        btnMob.style.background = '#2563eb';
+                        btnMob.style.color = 'white';
+                        btnMob.style.borderColor = '#2563eb';
+                    }
+                    if (btnDesk) {
+                        btnDesk.style.background = 'white';
+                        btnDesk.style.color = '#475569';
+                        btnDesk.style.borderColor = '#cbd5e1';
+                    }
+                } else {
+                    if (container) {
+                        container.style.maxWidth = '100%';
+                        container.style.boxShadow = 'none';
+                        container.style.borderRadius = '0';
+                    }
+                    if (label) label.textContent = '🖥 Desktop Width (100%)';
+                    if (btnDesk) {
+                        btnDesk.style.background = '#2563eb';
+                        btnDesk.style.color = 'white';
+                        btnDesk.style.borderColor = '#2563eb';
+                    }
+                    if (btnMob) {
+                        btnMob.style.background = 'white';
+                        btnMob.style.color = '#475569';
+                        btnMob.style.borderColor = '#cbd5e1';
+                    }
                 }
             }
             // ===== END RICH TEXT EDITOR =====

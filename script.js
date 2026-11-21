@@ -9,6 +9,236 @@ function safeHTML(content) {
     return div.innerHTML;
 }
 
+// ===== STANDARD PRODUCT DESCRIPTION PARSER & SANITIZATION ENGINE =====
+function parseInlineMarkdown(text) {
+    if (!text) return '';
+    return text
+        .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+        .replace(/__([^_]+)__/g, '<strong>$1</strong>')
+        .replace(/(^|[^\*])\*([^\*]+)\*([^\*]|$)/g, '$1<em>$2</em>$3')
+        .replace(/(^|[^_])_([^_]+)_([^_]|$)/g, '$1<em>$2</em>$3')
+        .replace(/`([^`]+)`/g, '<code>$1</code>')
+        .replace(/\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+}
+
+function parseMarkdownTable(lines) {
+    if (!lines || lines.length < 2) return '';
+    const cleanCells = (row) => {
+        const raw = row.split('|');
+        const cells = [];
+        for (let i = 0; i < raw.length; i++) {
+            cells.push(raw[i].trim());
+        }
+        if (cells.length > 0 && cells[0] === '') cells.shift();
+        if (cells.length > 0 && cells[cells.length - 1] === '') cells.pop();
+        return cells.map(c => parseInlineMarkdown(c));
+    };
+
+    const header = cleanCells(lines[0]);
+    const bodyRows = [];
+    for (let k = 2; k < lines.length; k++) {
+        const r = cleanCells(lines[k]);
+        if (r.length > 0) bodyRows.push(r);
+    }
+
+    let html = '<div class="table-responsive"><table class="spec-table"><thead><tr>';
+    for (let h = 0; h < header.length; h++) {
+        html += '<th>' + header[h] + '</th>';
+    }
+    html += '</tr></thead><tbody>';
+    for (let b = 0; b < bodyRows.length; b++) {
+        html += '<tr>';
+        for (let c = 0; c < bodyRows[b].length; c++) {
+            html += '<td>' + bodyRows[b][c] + '</td>';
+        }
+        html += '</tr>';
+    }
+    html += '</tbody></table></div>';
+    return html;
+}
+
+function parseMarkdownToDescriptionHtml(content) {
+    if (!content) return '';
+    const text = String(content).replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+    const lines = text.split('\n');
+    const result = [];
+    let i = 0;
+
+    while (i < lines.length) {
+        const line = lines[i].trim();
+
+        if (!line) {
+            i++;
+            continue;
+        }
+
+        // Horizontal Rule
+        if (/^(\*{3,}|-{3,}|_{3,})$/.test(line)) {
+            result.push('<hr>');
+            i++;
+            continue;
+        }
+
+        // Headings
+        const h3Match = line.match(/^###\s+(.+)$/);
+        if (h3Match) {
+            result.push('<h3>' + parseInlineMarkdown(h3Match[1]) + '</h3>');
+            i++;
+            continue;
+        }
+
+        const h2Match = line.match(/^##?\s+(.+)$/);
+        if (h2Match) {
+            result.push('<h2>' + parseInlineMarkdown(h2Match[1]) + '</h2>');
+            i++;
+            continue;
+        }
+
+        const h4Match = line.match(/^####\s+(.+)$/);
+        if (h4Match) {
+            result.push('<h4>' + parseInlineMarkdown(h4Match[1]) + '</h4>');
+            i++;
+            continue;
+        }
+
+        // Markdown Table detection: line contains '|' and next line is a delimiter row
+        if (line.indexOf('|') !== -1 && (i + 1 < lines.length) && /^\s*\|?\s*:?-+:?\s*\|/.test(lines[i + 1])) {
+            const tableLines = [];
+            while (i < lines.length && lines[i].indexOf('|') !== -1) {
+                tableLines.push(lines[i]);
+                i++;
+            }
+            result.push(parseMarkdownTable(tableLines));
+            continue;
+        }
+
+        // Bullet List: lines starting with •, -, *, +
+        if (/^[•\-\*\+]\s+/.test(line)) {
+            let listHtml = '<ul>';
+            while (i < lines.length && /^[•\-\*\+]\s+/.test(lines[i].trim())) {
+                const itemText = lines[i].trim().replace(/^[•\-\*\+]\s+/, '');
+                listHtml += '<li>' + parseInlineMarkdown(itemText) + '</li>';
+                i++;
+            }
+            listHtml += '</ul>';
+            result.push(listHtml);
+            continue;
+        }
+
+        // Numbered List: lines starting with digits like 1. or 1)
+        if (/^\d+[\.\)]\s+/.test(line)) {
+            let numHtml = '<ol>';
+            while (i < lines.length && /^\d+[\.\)]\s+/.test(lines[i].trim())) {
+                const numItemText = lines[i].trim().replace(/^\d+[\.\)]\s+/, '');
+                numHtml += '<li>' + parseInlineMarkdown(numItemText) + '</li>';
+                i++;
+            }
+            numHtml += '</ol>';
+            result.push(numHtml);
+            continue;
+        }
+
+        // Paragraph: collect consecutive lines of text
+        const paraLines = [];
+        while (i < lines.length) {
+            const cur = lines[i].trim();
+            if (!cur) break;
+            if (/^#{1,4}\s+/.test(cur)) break;
+            if (/^[•\-\*\+]\s+/.test(cur)) break;
+            if (/^\d+[\.\)]\s+/.test(cur)) break;
+            if (/^(\*{3,}|-{3,}|_{3,})$/.test(cur)) break;
+            if (cur.indexOf('|') !== -1 && (i + 1 < lines.length) && /^\s*\|?\s*:?-+:?\s*\|/.test(lines[i + 1])) break;
+
+            paraLines.push(parseInlineMarkdown(cur));
+            i++;
+        }
+        if (paraLines.length > 0) {
+            result.push('<p>' + paraLines.join('<br>') + '</p>');
+        }
+    }
+
+    return result.join('\n');
+}
+
+function cleanHtmlDescription(rawHtml) {
+    if (!rawHtml) return '';
+    let html = String(rawHtml);
+    // Replace h1 with h2 to avoid duplicate H1 for SEO
+    html = html.replace(/<\s*h1\b([^>]*)>/gi, '<h2>').replace(/<\/\s*h1\s*>/gi, '</h2>');
+    // Strip font and unnecessary span wrappers
+    html = html.replace(/<\/?font\b[^>]*>/gi, '');
+    html = html.replace(/<\/?span\b[^>]*>/gi, '');
+
+    // Whitelist tags and strip noisy inline styles and unknown classes
+    html = html.replace(/<([a-z0-9]+)\b([^>]*)>/gi, function(match, tag, attrs) {
+        const lower = tag.toLowerCase();
+        const allowed = ['h2', 'h3', 'h4', 'p', 'ul', 'ol', 'li', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'strong', 'b', 'em', 'i', 'hr', 'br', 'code', 'pre', 'blockquote', 'div', 'a'];
+        if (!allowed.includes(lower)) return '';
+        if (lower === 'a') {
+            const hrefMatch = attrs.match(/href=(["'])(.*?)\1/i);
+            return hrefMatch ? '<a href="' + hrefMatch[2].replace(/"/g, '&quot;') + '" target="_blank" rel="noopener noreferrer">' : '<a>';
+        }
+        if (lower === 'table') {
+            return '<table class="spec-table">';
+        }
+        if (lower === 'div') {
+            if (attrs.indexOf('table-responsive') !== -1) {
+                return '<div class="table-responsive">';
+            }
+            return '<div>';
+        }
+        return '<' + lower + '>';
+    });
+
+    html = html.replace(/<\/([a-z0-9]+)\s*>/gi, function(match, tag) {
+        const lower = tag.toLowerCase();
+        const allowed = ['h2', 'h3', 'h4', 'p', 'ul', 'ol', 'li', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'strong', 'b', 'em', 'i', 'hr', 'br', 'code', 'pre', 'blockquote', 'div', 'a'];
+        if (!allowed.includes(lower)) return '';
+        return '</' + lower + '>';
+    });
+
+    // Ensure all tables are wrapped in responsive container
+    html = html.replace(/(<table\b[^>]*>[\s\S]*?<\/table>)/gi, function(m) {
+        if (m.indexOf('table-responsive') !== -1) return m;
+        return '<div class="table-responsive">' + m + '</div>';
+    });
+
+    return html;
+}
+
+function formatProductDescription(content) {
+    if (!content || typeof content !== 'string') return '';
+    const trimmed = content.trim();
+    if (!trimmed) return '';
+
+    // Detect if content contains HTML tags (e.g. pasted rich text or saved HTML)
+    const hasHtmlTags = /<\s*(p|div|table|ul|ol|h[1-6]|blockquote)\b[^>]*>/i.test(trimmed);
+
+    let html = '';
+    if (hasHtmlTags) {
+        html = cleanHtmlDescription(trimmed);
+    } else {
+        html = parseMarkdownToDescriptionHtml(trimmed);
+    }
+
+    // Security pass with DOMPurify
+    if (typeof DOMPurify !== 'undefined') {
+        html = DOMPurify.sanitize(html, {
+            ALLOWED_TAGS: [
+                'h2', 'h3', 'h4', 'p', 'ul', 'ol', 'li',
+                'div', 'table', 'thead', 'tbody', 'tr', 'th', 'td',
+                'strong', 'b', 'em', 'i', 'hr', 'br', 'a', 'code', 'pre', 'blockquote'
+            ],
+            ALLOWED_ATTR: ['href', 'target', 'rel', 'class']
+        });
+    }
+
+    return html;
+}
+
+window.formatProductDescription = formatProductDescription;
+// ===== END PRODUCT DESCRIPTION PARSER =====
+
 // ✅ FIX: missing function
 function downloadInvoice() {
     window.print();
@@ -2184,9 +2414,11 @@ function openProductDetails(id) {
         detailThumbnails.innerHTML = '';
     }
 
-    // Description
+    // Description - Standardized Product Description Formatting
     if (detailDescription) {
-        detailDescription.innerHTML = safeHTML(product.longDescription || product.description);
+        detailDescription.classList.add('product-description');
+        detailDescription.classList.remove('line-clamp-4');
+        detailDescription.innerHTML = formatProductDescription(product.longDescription || product.description);
     }
 
     // Features

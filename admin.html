@@ -1079,7 +1079,31 @@
                             </p>
                         </div>
 
-                        <!-- 3. Secondary SEO Keywords -->
+                        <!-- 3. Meta Description -->
+                        <div class="form-group" style="margin-bottom: 1.25rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                                <label style="font-weight: 600; font-size: 0.9rem; margin: 0;">
+                                    <i class="fas fa-file-alt" style="color: #7c3aed;"></i> Meta Description
+                                    <span style="font-size: 0.72rem; font-weight: 400; color: #64748b; margin-left: 6px;">(Google search snippet)</span>
+                                </label>
+                                <span id="meta-desc-count" style="font-size: 0.72rem; padding: 2px 8px; border-radius: 12px; background: #e2e8f0; color: #475569; font-weight: 600;">0 / 160</span>
+                            </div>
+                            <textarea id="prod-meta-desc" rows="3"
+                                maxlength="160"
+                                oninput="updateMetaDescCount()"
+                                style="border-radius: 8px; border: 1px solid #cbd5e1; font-family: inherit; font-size: 0.88rem; line-height: 1.6; resize: vertical; padding: 10px; width: 100%; box-sizing: border-box;"
+                                placeholder="e.g. Buy SG3525A PWM Controller IC in Sri Lanka at the best price. Original, brand new, DIP-16 package. Fast delivery across Sri Lanka."></textarea>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
+                                <p style="font-size: 0.75rem; color: var(--text-light); margin: 0;">
+                                    <i class="fas fa-info-circle"></i> Shown in Google search results. Keep between <b>120–160 characters</b> for best SEO.
+                                </p>
+                                <div id="meta-desc-bar" style="height: 4px; width: 120px; background: #e2e8f0; border-radius: 4px; overflow: hidden;">
+                                    <div id="meta-desc-bar-fill" style="height: 100%; width: 0%; background: #22c55e; border-radius: 4px; transition: width 0.2s, background 0.2s;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 4. Secondary SEO Keywords -->
                         <div class="form-group" style="margin-bottom: 0;">
                             <label style="font-weight: 600; font-size: 0.9rem; margin-bottom: 0.4rem;">
                                 Secondary SEO Keywords (comma separated)
@@ -1991,6 +2015,8 @@
                 if (kwInput) kwInput.value = '';
                 const tagsInput = document.getElementById('prod-tags-input');
                 if (tagsInput) tagsInput.value = '';
+                const metaDescInput2 = document.getElementById('prod-meta-desc');
+                if (metaDescInput2) { metaDescInput2.value = ''; updateMetaDescCount(); }
                 modal.classList.add('active');
             }
 
@@ -2059,6 +2085,13 @@
                 if (kwInput) kwInput.value = Array.isArray(secKeywords) ? secKeywords.join(', ') : secKeywords;
                 const tagsInput = document.getElementById('prod-tags-input');
                 if (tagsInput) tagsInput.value = '';
+
+                // Populate Meta Description
+                const metaDescInput = document.getElementById('prod-meta-desc');
+                if (metaDescInput) {
+                    metaDescInput.value = p.metaDescription || '';
+                    updateMetaDescCount();
+                }
 
                 document.getElementById('prod-video').value = p.videoUrl && p.videoUrl !== '#' ? p.videoUrl : '';
 
@@ -2196,9 +2229,47 @@
 
                 const kwInput = document.getElementById('prod-keywords');
                 if (kwInput) kwInput.value = secKeywords.slice(0, 10).join(', ');
+
+                // 4. Auto-generate Meta Description (120–160 chars)
+                const metaDescEl = document.getElementById('prod-meta-desc');
+                if (metaDescEl) {
+                    const loc = 'Sri Lanka';
+                    const shop = 'Pubudu Electronics';
+                    let autoMeta = `Buy ${focusKw} in ${loc} at the best price. Original ${subCat || mainCat} available online. Fast delivery across ${loc}. — ${shop}`;
+                    if (autoMeta.length > 160) {
+                        autoMeta = `Buy ${focusKw} in ${loc} – best price, fast delivery. ${shop}.`;
+                    }
+                    if (autoMeta.length > 160) {
+                        autoMeta = autoMeta.substring(0, 157) + '...';
+                    }
+                    metaDescEl.value = autoMeta;
+                    updateMetaDescCount();
+                }
             }
             window.generateSmartSEOAndTags = generateSmartSEOAndTags;
             window.generateSEOKeywords = generateSmartSEOAndTags; // Backward compatibility
+
+            // Meta Description character counter
+            function updateMetaDescCount() {
+                const el = document.getElementById('prod-meta-desc');
+                const badge = document.getElementById('meta-desc-count');
+                const fill = document.getElementById('meta-desc-bar-fill');
+                if (!el || !badge) return;
+                const len = el.value.length;
+                badge.textContent = `${len} / 160`;
+                // Color: red<120, green 120-160
+                if (len < 120) {
+                    badge.style.background = '#fef9c3'; badge.style.color = '#854d0e';
+                    if (fill) { fill.style.width = (len / 160 * 100) + '%'; fill.style.background = '#f59e0b'; }
+                } else if (len <= 160) {
+                    badge.style.background = '#dcfce7'; badge.style.color = '#166534';
+                    if (fill) { fill.style.width = (len / 160 * 100) + '%'; fill.style.background = '#22c55e'; }
+                } else {
+                    badge.style.background = '#fee2e2'; badge.style.color = '#991b1b';
+                    if (fill) { fill.style.width = '100%'; fill.style.background = '#ef4444'; }
+                }
+            }
+            window.updateMetaDescCount = updateMetaDescCount;
 
             // Form Submit
             form.addEventListener('submit', (e) => {
@@ -2222,6 +2293,11 @@
                     ? document.getElementById('prod-keywords').value.split(',').map(k => k.trim()).filter(k => k)
                     : [];
                 
+                // Meta Description
+                const metaDescription = document.getElementById('prod-meta-desc')
+                    ? document.getElementById('prod-meta-desc').value.trim()
+                    : '';
+
                 // Maintain full backward compatibility for `keywords`
                 const legacyKeywords = Array.from(new Set([
                     ...(focusKeyword ? [focusKeyword] : []),
@@ -2246,6 +2322,7 @@
                     primaryKeyword: focusKeyword,
                     secondaryKeywords: secondaryKeywords,
                     keywords: legacyKeywords.length > 0 ? legacyKeywords : secondaryKeywords,
+                    metaDescription: metaDescription,
                     longDescription: document.getElementById('prod-desc').value,
                     features: ["High Quality Component", document.getElementById('prod-condition').value + " Condition"],
                     specs: {

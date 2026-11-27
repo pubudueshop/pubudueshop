@@ -475,6 +475,226 @@
                 "source": "/voltage-regulators-power-management/pwm-controller-ics/sg3525a-regulating-pulse-width-modulator-pwm-controller-ic-stmicroelectronics-dip16/",
                 "destination": "/voltage-regulators-power-management/pwm-controller-ics/sg3525a-regulating-pulse-width-modulator-pwm-controller-ic/",
                 "type": 301
+            },
+            {
+                "source": "/products/toshiba-ta7522s-dual-voltage-comparator-ic-9pin-si-1795753552587",
+                "destination": "/linear-analog-ics/comparators-voltage-comparators/toshiba-ta7522s-dual-voltage-comparator-ic-9pin-sip-package/",
+                "type": 301
+            },
+            {
+                "source": "/products/toshiba-ta7522s-dual-voltage-comparator-ic-9pin-si-1795753552587/",
+                "destination": "/linear-analog-ics/comparators-voltage-comparators/toshiba-ta7522s-dual-voltage-comparator-ic-9pin-sip-package/",
+                "type": 301
+            },
+            {
+                "source": "/products/toshiba-tc9152p-feathertouch-analog-function-switc-1795754170303",
+                "destination": "/linear-analog-ics/analog-switches-multiplexers/toshiba-tc9152p-feathertouch-analog-function-switch-ic/",
+                "type": 301
+            },
+            {
+                "source": "/products/toshiba-tc9152p-feathertouch-analog-function-switc-1795754170303/",
+                "destination": "/linear-analog-ics/analog-switches-multiplexers/toshiba-tc9152p-feathertouch-analog-function-switch-ic/",
+                "type": 301
+            },
+            {
+                "source": "/linear-analog-ics/analog-switches-multiplexers/toshiba-tc9152p-feathertouch-analog-function-switch-ic-dip24",
+                "destination": "/linear-analog-ics/analog-switches-multiplexers/toshiba-tc9152p-feathertouch-analog-function-switch-ic/",
+                "type": 301
+            },
+            {
+                "source": "/linear-analog-ics/analog-switches-multiplexers/toshiba-tc9152p-feathertouch-analog-function-switch-ic-dip24/",
+                "destination": "/linear-analog-ics/analog-switches-multiplexers/toshiba-tc9152p-feathertouch-analog-function-switch-ic/",
+                "type": 301
+            },
+            {
+                "source": "/linear-analog-ics/analog-switches-multiplexers/toshiba-tc9152p-feathertouch-analog-function-switch-ic-dip24-buy-in-sri-lanka",
+                "destination": "/linear-analog-ics/analog-switches-multiplexers/toshiba-tc9152p-feathertouch-analog-function-switch-ic/",
+                "type": 301
+            },
+            {
+                "source": "/linear-analog-ics/analog-switches-multiplexers/toshiba-tc9152p-feathertouch-analog-function-switch-ic-dip24-buy-in-sri-lanka/",
+                "destination": "/linear-analog-ics/analog-switches-multiplexers/toshiba-tc9152p-feathertouch-analog-function-switch-ic/",
+                "type": 301
+            },
+            {
+                "source": "/products/cd4047be-ic-texas-instruments-cmos-lowpower-monost-1795755045400",
+                "destination": "/logic-gates-digital-ics/cd4000-cmos-series/cd4047be-ic-texas-instruments-cmos-lowpower-monostable/",
+                "type": 301
+            },
+            {
+                "source": "/products/cd4047be-ic-texas-instruments-cmos-lowpower-monost-1795755045400/",
+                "destination": "/logic-gates-digital-ics/cd4000-cmos-series/cd4047be-ic-texas-instruments-cmos-lowpower-monostable/",
+                "type": 301
+            },
+            {
+                "source": "/logic-gates-digital-ics/cd4000-cmos-series/cd4047be-ic-texas-instruments-cmos-lowpower-monostable-astab",
+                "destination": "/logic-gates-digital-ics/cd4000-cmos-series/cd4047be-ic-texas-instruments-cmos-lowpower-monostable/",
+                "type": 301
+            },
+            {
+                "source": "/logic-gates-digital-ics/cd4000-cmos-series/cd4047be-ic-texas-instruments-cmos-lowpower-monostable-astab/",
+                "destination": "/logic-gates-digital-ics/cd4000-cmos-series/cd4047be-ic-texas-instruments-cmos-lowpower-monostable/",
+                "type": 301
+            },
+            {
+                "source": "/logic-gates-digital-ics/cd4000-cmos-series/cd4047be-ic-texas-instruments-cmos-lowpower-monostable-astable-multivibrator-14pin-dip",
+                "destination": "/logic-gates-digital-ics/cd4000-cmos-series/cd4047be-ic-texas-instruments-cmos-lowpower-monostable/",
+                "type": 301
+            },
+            {
+                "source": "/logic-gates-digital-ics/cd4000-cmos-series/cd4047be-ic-texas-instruments-cmos-lowpower-monostable-astable-multivibrator-14pin-dip/",
+                "destination": "/logic-gates-digital-ics/cd4000-cmos-series/cd4047be-ic-texas-instruments-cmos-lowpower-monostable/",
+                "type": 301
+            },
+            {
+                "source": "/products/mt8816ae-8x16-analog-crosspoint-switch-array-ic-40-1795755591568",
+                "destination": "/interface-communication-ics/analog-switches-crosspoint-switches/mt8816ae-8x16-analog-crosspoint-switch-array-ic-40pin-pdip/",
+                "type": 301
+            },
+            {
+                "source": "/products/mt8816ae-8x16-analog-crosspoint-switch-array-ic-40-1795755591568/",
+                "destination": "/interface-communication-ics/analog-switches-crosspoint-switches/mt8816ae-8x16-analog-crosspoint-switch-array-ic-40pin-pdip/",
+                "type": 301
+            },
+            {
+                "source": "/interface-communication-ics/analog-switches-crosspoint-switches/mt8816ae-8x16-analog-crosspoint-switch-array-ic-40pin-pdip-m",
+                "destination": "/interface-communication-ics/analog-switches-crosspoint-switches/mt8816ae-8x16-analog-crosspoint-switch-array-ic-40pin-pdip/",
+                "type": 301
+            },
+            {
+                "source": "/interface-communication-ics/analog-switches-crosspoint-switches/mt8816ae-8x16-analog-crosspoint-switch-array-ic-40pin-pdip-m/",
+                "destination": "/interface-communication-ics/analog-switches-crosspoint-switches/mt8816ae-8x16-analog-crosspoint-switch-array-ic-40pin-pdip/",
+                "type": 301
+            },
+            {
+                "source": "/interface-communication-ics/analog-switches-crosspoint-switches/mt8816ae-8x16-analog-crosspoint-switch-array-ic-40pin-pdip-mitel-zarlink-microchip",
+                "destination": "/interface-communication-ics/analog-switches-crosspoint-switches/mt8816ae-8x16-analog-crosspoint-switch-array-ic-40pin-pdip/",
+                "type": 301
+            },
+            {
+                "source": "/interface-communication-ics/analog-switches-crosspoint-switches/mt8816ae-8x16-analog-crosspoint-switch-array-ic-40pin-pdip-mitel-zarlink-microchip/",
+                "destination": "/interface-communication-ics/analog-switches-crosspoint-switches/mt8816ae-8x16-analog-crosspoint-switch-array-ic-40pin-pdip/",
+                "type": 301
+            },
+            {
+                "source": "/products/ld209a-metal-proximity-detector-ic-dip8-inductive-1795756025698",
+                "destination": "/sensors-special-ics/inductive-proximity-sensor-ics/ld209a-metal-proximity-detector-ic-dip8-inductive-sensing/",
+                "type": 301
+            },
+            {
+                "source": "/products/ld209a-metal-proximity-detector-ic-dip8-inductive-1795756025698/",
+                "destination": "/sensors-special-ics/inductive-proximity-sensor-ics/ld209a-metal-proximity-detector-ic-dip8-inductive-sensing/",
+                "type": 301
+            },
+            {
+                "source": "/sensors-special-ics/inductive-proximity-sensor-ics/ld209a-metal-proximity-detector-ic-dip8-inductive-sensing-in",
+                "destination": "/sensors-special-ics/inductive-proximity-sensor-ics/ld209a-metal-proximity-detector-ic-dip8-inductive-sensing/",
+                "type": 301
+            },
+            {
+                "source": "/sensors-special-ics/inductive-proximity-sensor-ics/ld209a-metal-proximity-detector-ic-dip8-inductive-sensing-in/",
+                "destination": "/sensors-special-ics/inductive-proximity-sensor-ics/ld209a-metal-proximity-detector-ic-dip8-inductive-sensing/",
+                "type": 301
+            },
+            {
+                "source": "/sensors-special-ics/inductive-proximity-sensor-ics/ld209a-metal-proximity-detector-ic-dip8-inductive-sensing-integrated-circuit",
+                "destination": "/sensors-special-ics/inductive-proximity-sensor-ics/ld209a-metal-proximity-detector-ic-dip8-inductive-sensing/",
+                "type": 301
+            },
+            {
+                "source": "/sensors-special-ics/inductive-proximity-sensor-ics/ld209a-metal-proximity-detector-ic-dip8-inductive-sensing-integrated-circuit/",
+                "destination": "/sensors-special-ics/inductive-proximity-sensor-ics/ld209a-metal-proximity-detector-ic-dip8-inductive-sensing/",
+                "type": 301
+            },
+            {
+                "source": "/products/sm7015-acdc-offline-pwm-power-switch-ic-730v-60khz-1795756592052",
+                "destination": "/voltage-regulators-power-management/pwm-controller-ics/sm7015-acdc-offline-pwm-power-switch-ic-730v-60khz-sop8/",
+                "type": 301
+            },
+            {
+                "source": "/products/sm7015-acdc-offline-pwm-power-switch-ic-730v-60khz-1795756592052/",
+                "destination": "/voltage-regulators-power-management/pwm-controller-ics/sm7015-acdc-offline-pwm-power-switch-ic-730v-60khz-sop8/",
+                "type": 301
+            },
+            {
+                "source": "/voltage-regulators-power-management/pwm-controller-ics/sm7015-acdc-offline-pwm-power-switch-ic-730v-60khz-sop8-sunm",
+                "destination": "/voltage-regulators-power-management/pwm-controller-ics/sm7015-acdc-offline-pwm-power-switch-ic-730v-60khz-sop8/",
+                "type": 301
+            },
+            {
+                "source": "/voltage-regulators-power-management/pwm-controller-ics/sm7015-acdc-offline-pwm-power-switch-ic-730v-60khz-sop8-sunm/",
+                "destination": "/voltage-regulators-power-management/pwm-controller-ics/sm7015-acdc-offline-pwm-power-switch-ic-730v-60khz-sop8/",
+                "type": 301
+            },
+            {
+                "source": "/voltage-regulators-power-management/pwm-controller-ics/sm7015-acdc-offline-pwm-power-switch-ic-730v-60khz-sop8-sunmoon-micro",
+                "destination": "/voltage-regulators-power-management/pwm-controller-ics/sm7015-acdc-offline-pwm-power-switch-ic-730v-60khz-sop8/",
+                "type": 301
+            },
+            {
+                "source": "/voltage-regulators-power-management/pwm-controller-ics/sm7015-acdc-offline-pwm-power-switch-ic-730v-60khz-sop8-sunmoon-micro/",
+                "destination": "/voltage-regulators-power-management/pwm-controller-ics/sm7015-acdc-offline-pwm-power-switch-ic-730v-60khz-sop8/",
+                "type": 301
+            },
+            {
+                "source": "/products/icl7660scpaz-cmos-super-voltage-converter-charge-p-1795759318458",
+                "destination": "/voltage-regulators-power-management/switching-regulators-dcdc/icl7660scpaz-cmos-super-voltage-converter-charge-pump-ic/",
+                "type": 301
+            },
+            {
+                "source": "/products/icl7660scpaz-cmos-super-voltage-converter-charge-p-1795759318458/",
+                "destination": "/voltage-regulators-power-management/switching-regulators-dcdc/icl7660scpaz-cmos-super-voltage-converter-charge-pump-ic/",
+                "type": 301
+            },
+            {
+                "source": "/voltage-regulators-power-management/switching-regulators-dcdc/icl7660scpaz-cmos-super-voltage-converter-charge-pump-ic-8pi",
+                "destination": "/voltage-regulators-power-management/switching-regulators-dcdc/icl7660scpaz-cmos-super-voltage-converter-charge-pump-ic/",
+                "type": 301
+            },
+            {
+                "source": "/voltage-regulators-power-management/switching-regulators-dcdc/icl7660scpaz-cmos-super-voltage-converter-charge-pump-ic-8pi/",
+                "destination": "/voltage-regulators-power-management/switching-regulators-dcdc/icl7660scpaz-cmos-super-voltage-converter-charge-pump-ic/",
+                "type": 301
+            },
+            {
+                "source": "/voltage-regulators-power-management/switching-regulators-dcdc/icl7660scpaz-cmos-super-voltage-converter-charge-pump-ic-8pin-pdip-intersil-renesas-buy-online-in-sri-lanka",
+                "destination": "/voltage-regulators-power-management/switching-regulators-dcdc/icl7660scpaz-cmos-super-voltage-converter-charge-pump-ic/",
+                "type": 301
+            },
+            {
+                "source": "/voltage-regulators-power-management/switching-regulators-dcdc/icl7660scpaz-cmos-super-voltage-converter-charge-pump-ic-8pin-pdip-intersil-renesas-buy-online-in-sri-lanka/",
+                "destination": "/voltage-regulators-power-management/switching-regulators-dcdc/icl7660scpaz-cmos-super-voltage-converter-charge-pump-ic/",
+                "type": 301
+            },
+            {
+                "source": "/products/icm7555ipaz-cmos-555-timer-ic-8pin-pdip-buy-origin-1795759932676",
+                "destination": "/timers-oscillators/timer-ics/icm7555ipaz-cmos-555-timer-ic-8pin-pdip-buy-original/",
+                "type": 301
+            },
+            {
+                "source": "/products/icm7555ipaz-cmos-555-timer-ic-8pin-pdip-buy-origin-1795759932676/",
+                "destination": "/timers-oscillators/timer-ics/icm7555ipaz-cmos-555-timer-ic-8pin-pdip-buy-original/",
+                "type": 301
+            },
+            {
+                "source": "/timers-oscillators/timer-ics/icm7555ipaz-cmos-555-timer-ic-8pin-pdip-buy-original-renesas",
+                "destination": "/timers-oscillators/timer-ics/icm7555ipaz-cmos-555-timer-ic-8pin-pdip-buy-original/",
+                "type": 301
+            },
+            {
+                "source": "/timers-oscillators/timer-ics/icm7555ipaz-cmos-555-timer-ic-8pin-pdip-buy-original-renesas/",
+                "destination": "/timers-oscillators/timer-ics/icm7555ipaz-cmos-555-timer-ic-8pin-pdip-buy-original/",
+                "type": 301
+            },
+            {
+                "source": "/timers-oscillators/timer-ics/icm7555ipaz-cmos-555-timer-ic-8pin-pdip-buy-original-renesas-intersil-ic-in-sri-lanka-ichouselk",
+                "destination": "/timers-oscillators/timer-ics/icm7555ipaz-cmos-555-timer-ic-8pin-pdip-buy-original/",
+                "type": 301
+            },
+            {
+                "source": "/timers-oscillators/timer-ics/icm7555ipaz-cmos-555-timer-ic-8pin-pdip-buy-original-renesas-intersil-ic-in-sri-lanka-ichouselk/",
+                "destination": "/timers-oscillators/timer-ics/icm7555ipaz-cmos-555-timer-ic-8pin-pdip-buy-original/",
+                "type": 301
             }
         ]
     },

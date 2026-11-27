@@ -347,6 +347,38 @@
     "https://ichouse.lk/voltage-regulators-power-management/pwm-controller-ics/sg3525a-regulating-pulse-width-modulator-pwm-controller-ic/": {
       "hash": "494c577f625d13aefa6654dd26a3dcc0",
       "lastmod": "2026-11-21"
+    },
+    "https://ichouse.lk/linear-analog-ics/comparators-voltage-comparators/toshiba-ta7522s-dual-voltage-comparator-ic-9pin-sip-package/": {
+      "hash": "fbe88cdacfa544b1eaa2a5f99a655f33",
+      "lastmod": "2026-11-27"
+    },
+    "https://ichouse.lk/linear-analog-ics/analog-switches-multiplexers/toshiba-tc9152p-feathertouch-analog-function-switch-ic/": {
+      "hash": "e400628040b409ab578f538ba2b50172",
+      "lastmod": "2026-11-27"
+    },
+    "https://ichouse.lk/logic-gates-digital-ics/cd4000-cmos-series/cd4047be-ic-texas-instruments-cmos-lowpower-monostable/": {
+      "hash": "33942eb844070b30ea002519bc7bcfb4",
+      "lastmod": "2026-11-27"
+    },
+    "https://ichouse.lk/interface-communication-ics/analog-switches-crosspoint-switches/mt8816ae-8x16-analog-crosspoint-switch-array-ic-40pin-pdip/": {
+      "hash": "62e4aede5fcb92764e87ccfeb7342aa8",
+      "lastmod": "2026-11-27"
+    },
+    "https://ichouse.lk/sensors-special-ics/inductive-proximity-sensor-ics/ld209a-metal-proximity-detector-ic-dip8-inductive-sensing/": {
+      "hash": "2f3bb986f337631ec0ecbe66a93ab42b",
+      "lastmod": "2026-11-27"
+    },
+    "https://ichouse.lk/voltage-regulators-power-management/pwm-controller-ics/sm7015-acdc-offline-pwm-power-switch-ic-730v-60khz-sop8/": {
+      "hash": "51eda0e4fc00c850db13385051d7f506",
+      "lastmod": "2026-11-27"
+    },
+    "https://ichouse.lk/voltage-regulators-power-management/switching-regulators-dcdc/icl7660scpaz-cmos-super-voltage-converter-charge-pump-ic/": {
+      "hash": "60df59e95411fc87fdc5443e075f87c0",
+      "lastmod": "2026-11-27"
+    },
+    "https://ichouse.lk/timers-oscillators/timer-ics/icm7555ipaz-cmos-555-timer-ic-8pin-pdip-buy-original/": {
+      "hash": "1c2219c40bcad6ad1008abaaa05ba05e",
+      "lastmod": "2026-11-27"
     }
   }
 }

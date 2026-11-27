@@ -907,7 +907,45 @@
                     </div>
                     <div class="form-group">
                         <label>Product Title</label>
-                        <input type="text" id="prod-title" required placeholder="e.g. 12V Power Adapter">
+                        <input type="text" id="prod-title" required placeholder="e.g. 12V Power Adapter"
+                            oninput="onTitleInputForSlug()">
+                    </div>
+
+                    <!-- URL Slug -->
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                            <label style="margin: 0; font-weight: 600; font-size: 0.9rem;">
+                                <i class="fas fa-link" style="color: #0ea5e9;"></i> URL Slug
+                                <span style="font-size: 0.72rem; font-weight: 400; color: #64748b; margin-left: 6px;">(product page URL)</span>
+                            </label>
+                            <div style="display: flex; align-items: center; gap: 6px;">
+                                <label style="font-size: 0.75rem; color: #475569; font-weight: 500; margin: 0; display: flex; align-items: center; gap: 4px; cursor: pointer;">
+                                    <input type="checkbox" id="slug-auto-mode" checked onchange="toggleSlugMode()"
+                                        style="width: auto; padding: 0; margin: 0; accent-color: #0ea5e9;">
+                                    Auto-generate
+                                </label>
+                                <button type="button" onclick="regenerateSlug()"
+                                    style="font-size: 0.72rem; background: #0ea5e9; color: white; border: none; padding: 3px 10px; border-radius: 5px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 4px;">
+                                    <i class="fas fa-rotate"></i> Regenerate
+                                </button>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden;">
+                            <span style="padding: 0.65rem 0.75rem; font-size: 0.8rem; color: #64748b; white-space: nowrap; border-right: 1px solid #cbd5e1; background: #f1f5f9; font-family: ui-monospace, monospace;">/products/</span>
+                            <input type="text" id="prod-slug"
+                                style="border: none; background: transparent; border-radius: 0; font-family: ui-monospace, SFMono-Regular, monospace; font-size: 0.85rem; color: #0f172a; flex: 1; padding: 0.65rem 0.75rem;"
+                                placeholder="e.g. sg3525a-pwm-controller-ic"
+                                oninput="onManualSlugEdit()"
+                                readonly>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
+                            <p style="font-size: 0.75rem; color: var(--text-light); margin: 0;">
+                                <i class="fas fa-info-circle"></i> Used in product page URL. Lowercase, hyphens only. Auto-generated from title + model.
+                            </p>
+                            <span id="slug-mode-badge" style="font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; background: #e0f2fe; color: #0369a1; font-weight: 600;">
+                                <i class="fas fa-wand-magic-sparkles"></i> Auto
+                            </span>
+                        </div>
                     </div>
                     <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                         <div class="form-group">
@@ -1408,6 +1446,9 @@
                     ) {
                         generateSmartSEOAndTags();
                     }
+                    // Always regenerate slug if in auto mode
+                    const autoChkBlur = document.getElementById('slug-auto-mode');
+                    if (autoChkBlur && autoChkBlur.checked) regenerateSlug();
                 });
             }
 
@@ -2017,6 +2058,11 @@
                 if (tagsInput) tagsInput.value = '';
                 const metaDescInput2 = document.getElementById('prod-meta-desc');
                 if (metaDescInput2) { metaDescInput2.value = ''; updateMetaDescCount(); }
+                // Reset slug to auto mode
+                const slugAutoChk = document.getElementById('slug-auto-mode');
+                if (slugAutoChk) { slugAutoChk.checked = true; toggleSlugMode(); }
+                const slugIn = document.getElementById('prod-slug');
+                if (slugIn) slugIn.value = '';
                 modal.classList.add('active');
             }
 
@@ -2091,6 +2137,20 @@
                 if (metaDescInput) {
                     metaDescInput.value = p.metaDescription || '';
                     updateMetaDescCount();
+                }
+
+                // Populate URL Slug
+                const editSlugInput = document.getElementById('prod-slug');
+                const autoChk = document.getElementById('slug-auto-mode');
+                if (editSlugInput) {
+                    const existingSlug = p.slug || titleToSlug(p.title || '', p.modelNumber || '');
+                    editSlugInput.value = existingSlug;
+                    // If slug matches auto-generated → keep auto mode; else switch to manual
+                    const autoSlug = titleToSlug(p.title || '', p.modelNumber || '');
+                    const isAuto = existingSlug === autoSlug;
+                    if (autoChk) autoChk.checked = isAuto;
+                    toggleSlugMode();
+                    editSlugInput.value = existingSlug; // restore after toggleSlugMode
                 }
 
                 document.getElementById('prod-video').value = p.videoUrl && p.videoUrl !== '#' ? p.videoUrl : '';
@@ -2271,6 +2331,75 @@
             }
             window.updateMetaDescCount = updateMetaDescCount;
 
+            // ===== URL SLUG HELPERS =====
+            function titleToSlug(title, model) {
+                let raw = title || '';
+                // Prepend model number if not already in title
+                if (model && !raw.toLowerCase().includes(model.toLowerCase())) {
+                    raw = model + ' ' + raw;
+                }
+                return raw
+                    .toLowerCase()
+                    .trim()
+                    .replace(/[^a-z0-9\s-]/g, '')   // remove non-alphanumeric (keep space, hyphen)
+                    .replace(/\s+/g, '-')             // spaces → hyphens
+                    .replace(/-+/g, '-')              // collapse multiple hyphens
+                    .replace(/^-+|-+$/g, '');         // trim leading/trailing hyphens
+            }
+
+            function toggleSlugMode() {
+                const autoMode = document.getElementById('slug-auto-mode').checked;
+                const slugInput = document.getElementById('prod-slug');
+                const badge = document.getElementById('slug-mode-badge');
+                if (autoMode) {
+                    slugInput.readOnly = true;
+                    slugInput.style.color = '#475569';
+                    slugInput.style.background = 'transparent';
+                    badge.innerHTML = '<i class="fas fa-wand-magic-sparkles"></i> Auto';
+                    badge.style.background = '#e0f2fe'; badge.style.color = '#0369a1';
+                    regenerateSlug(); // auto-fill immediately
+                } else {
+                    slugInput.readOnly = false;
+                    slugInput.style.color = '#0f172a';
+                    slugInput.style.background = '#fff';
+                    badge.innerHTML = '<i class="fas fa-pencil"></i> Manual';
+                    badge.style.background = '#fef9c3'; badge.style.color = '#854d0e';
+                    slugInput.focus();
+                }
+            }
+
+            function regenerateSlug() {
+                const title = (document.getElementById('prod-title')?.value || '').trim();
+                const model = (document.getElementById('prod-model')?.value || '').trim();
+                const slugInput = document.getElementById('prod-slug');
+                if (slugInput) slugInput.value = titleToSlug(title, model);
+            }
+
+            function onTitleInputForSlug() {
+                const autoMode = document.getElementById('slug-auto-mode')?.checked;
+                if (autoMode) regenerateSlug();
+                // Also trigger existing SEO auto-generate if fields empty (original blur logic)
+            }
+
+            function onManualSlugEdit() {
+                // Sanitise on-the-fly while user types
+                const slugInput = document.getElementById('prod-slug');
+                if (!slugInput) return;
+                const pos = slugInput.selectionStart;
+                const sanitised = slugInput.value
+                    .toLowerCase()
+                    .replace(/[^a-z0-9-]/g, '-')
+                    .replace(/-+/g, '-');
+                slugInput.value = sanitised;
+                // Restore cursor position
+                try { slugInput.setSelectionRange(pos, pos); } catch(e) {}
+            }
+
+            window.toggleSlugMode = toggleSlugMode;
+            window.regenerateSlug = regenerateSlug;
+            window.onTitleInputForSlug = onTitleInputForSlug;
+            window.onManualSlugEdit = onManualSlugEdit;
+
             // Form Submit
             form.addEventListener('submit', (e) => {
                 e.preventDefault();
@@ -2298,6 +2427,10 @@
                     ? document.getElementById('prod-meta-desc').value.trim()
                     : '';
 
+                // URL Slug
+                const slugInput = document.getElementById('prod-slug');
+                const urlSlug = slugInput ? slugInput.value.trim() : '';
+
                 // Maintain full backward compatibility for `keywords`
                 const legacyKeywords = Array.from(new Set([
                     ...(focusKeyword ? [focusKeyword] : []),
@@ -2323,6 +2456,7 @@
                     secondaryKeywords: secondaryKeywords,
                     keywords: legacyKeywords.length > 0 ? legacyKeywords : secondaryKeywords,
                     metaDescription: metaDescription,
+                    slug: urlSlug,
                     longDescription: document.getElementById('prod-desc').value,
                     features: ["High Quality Component", document.getElementById('prod-condition').value + " Condition"],
                     specs: {

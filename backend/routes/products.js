@@ -49,6 +49,7 @@ router.get('/', async (req, res) => {
         focusKeyword: data.focusKeyword || data.primaryKeyword || '',
         secondaryKeywords: data.secondaryKeywords || data.keywords || [],
         metaDescription: data.metaDescription || '',
+        slug: data.slug || '',
         date: data.date || ''
       });
     });
@@ -120,6 +121,7 @@ router.get('/:id', async (req, res) => {
         focusKeyword: data.focusKeyword || data.primaryKeyword || '',
         secondaryKeywords: data.secondaryKeywords || data.keywords || [],
         metaDescription: data.metaDescription || '',
+        slug: data.slug || '',
         date: data.date
       }
     });
@@ -137,7 +139,7 @@ router.post('/', async (req, res) => {
   try {
     if (!db) return res.status(500).json({ error: 'Database not initialized' });
 
-    const { name, shop, buyQty, buyPrice, category, date, photos, tags, focusKeyword, secondaryKeywords, metaDescription } = req.body;
+    const { name, shop, buyQty, buyPrice, category, date, photos, tags, focusKeyword, secondaryKeywords, metaDescription, slug } = req.body;
 
     if (!name || !buyQty || buyPrice === undefined) {
       return res.status(400).json({ success: false, error: 'Missing required fields: name, buyQty, buyPrice' });
@@ -167,6 +169,7 @@ router.post('/', async (req, res) => {
       focusKeyword: focusKeyword || '',
       secondaryKeywords: Array.isArray(secondaryKeywords) ? secondaryKeywords : [],
       metaDescription: metaDescription || '',
+      slug: slug || '',
       sales: [],
       timestamp: new Date().toISOString()
     });

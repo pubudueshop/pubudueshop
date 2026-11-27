@@ -32,18 +32,197 @@ function createSEOSlug(name, fallback = "item") {
     return (slug.replace(/-$/g, '')) || fallback;
 }
 
-// Render markdown-style description to HTML
+// Clean common ChatGPT inline LaTeX math (e.g. $V_{DD}$, $R_A = 470\text{ }\Omega$) without affecting normal prices
+function cleanInlineLatex(text) {
+    if (!text) return '';
+    return text.replace(/\$([^\$\n]+?)\$/g, function(match, inner) {
+        // Only treat as LaTeX if it contains LaTeX commands, braces, subscripts, or superscripts
+        if (!/[\\_{}^]/.test(inner)) return match;
+        return inner
+            .replace(/\\text\s*\{([^}]*)\}/g, '$1')
+            .replace(/\\mathrm\s*\{([^}]*)\}/g, '$1')
+            .replace(/\\Omega\b/g, 'Ω')
+            .replace(/\\mu\b/g, 'μ')
+            .replace(/\\pm\b/g, '±')
+            .replace(/\\times\b/g, '×')
+            .replace(/\\leq?\b/g, '≤')
+            .replace(/\\geq?\b/g, '≥')
+            .replace(/\\approx\b/g, '≈')
+            .replace(/\\degree\b|\^\\circ/g, '°')
+            .replace(/\\_\{([^}]+)\}|_\{([^}]+)\}/g, '<sub>$1$2</sub>')
+            .replace(/_([A-Za-z0-9]+)/g, '<sub>$1</sub>')
+            .replace(/\^\{([^}]+)\}/g, '<sup>$1</sup>')
+            .replace(/\^([A-Za-z0-9+\-]+)/g, '<sup>$1</sup>')
+            .replace(/[{}]/g, '')
+            .replace(/\\/g, '')
+            .trim();
+    });
+}
+
+function escapeHtmlDesc(str) {
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+}
+
+function parseInlineMarkdownSeo(text) {
+    if (!text) return '';
+    let out = cleanInlineLatex(escapeHtmlDesc(text));
+    return out
+        .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+        .replace(/__([^_]+)__/g, '<strong>$1</strong>')
+        .replace(/(^|[^\*])\*([^\*]+)\*([^\*]|$)/g, '$1<em>$2</em>$3')
+        .replace(/(^|[^_])_([^_]+)_([^_]|$)/g, '$1<em>$2</em>$3')
+        .replace(/`([^`]+)`/g, '<code>$1</code>')
+        .replace(/\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+}
+
+function parseMarkdownTableSeo(lines) {
+    if (!lines || lines.length < 2) return '';
+    const cleanCells = (row) => {
+        const raw = row.split('|');
+        const cells = [];
+        for (let i = 0; i < raw.length; i++) {
+            cells.push(raw[i].trim());
+        }
+        if (cells.length > 0 && cells[0] === '') cells.shift();
+        if (cells.length > 0 && cells[cells.length - 1] === '') cells.pop();
+        return cells.map(c => parseInlineMarkdownSeo(c));
+    };
+
+    const header = cleanCells(lines[0]);
+    const bodyRows = [];
+    for (let k = 2; k < lines.length; k++) {
+        const r = cleanCells(lines[k]);
+        if (r.length > 0) bodyRows.push(r);
+    }
+
+    let html = '<div class="table-responsive"><table class="spec-table"><thead><tr>';
+    for (let h = 0; h < header.length; h++) {
+        html += '<th>' + header[h] + '</th>';
+    }
+    html += '</tr></thead><tbody>';
+    for (let b = 0; b < bodyRows.length; b++) {
+        html += '<tr>';
+        for (let c = 0; c < bodyRows[b].length; c++) {
+            html += '<td>' + bodyRows[b][c] + '</td>';
+        }
+        html += '</tr>';
+    }
+    html += '</tbody></table></div>';
+    return html;
+}
+
+// Render markdown-style description to HTML (supports tables, headings, lists, and inline formatting)
 function renderDesc(text) {
-    if (!text) return '<p style="color:#94a3b8;">No description available.</p>';
-    return '<p style="margin:0;">' + text
-        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-        .replace(/^## (.+)$/gm, '</p><h3 style="font-size:1.05rem;font-weight:700;color:#1e293b;margin:14px 0 6px;">$1</h3><p style="margin:0;">')
-        .replace(/^# (.+)$/gm, '</p><h2 style="font-size:1.2rem;font-weight:800;color:#1e293b;margin:16px 0 8px;">$1</h2><p style="margin:0;">')
-        .replace(/\*\*(.+?)\*\*/g, '<strong style="font-weight:700;color:#1e293b;">$1</strong>')
-        .replace(/^---$/gm, '</p><hr style="border:none;border-top:1px solid #e2e8f0;margin:12px 0;"><p style="margin:0;">')
-        .replace(/^• (.+)$/gm, '</p><div style="display:flex;gap:8px;margin:4px 0;"><span style="color:#2563eb;font-weight:700;flex-shrink:0;">•</span><span>$1</span></div><p style="margin:0;">')
-        .replace(/\n\n/g, '</p><p style="margin:8px 0;">')
-        .replace(/\n/g, '<br>') + '</p>';
+    if (!text || !String(text).trim()) return '<p style="color:#94a3b8;">No description available.</p>';
+    const trimmed = String(text).trim();
+
+    // If already HTML, wrap tables in .table-responsive and return
+    if (/<\s*(p|div|table|ul|ol|h[1-6]|blockquote)\b[^>]*>/i.test(trimmed)) {
+        return trimmed
+            .replace(/<\s*h1\b([^>]*)>/gi, '<h2>').replace(/<\/\s*h1\s*>/gi, '</h2>')
+            .replace(/(<table\b[^>]*>[\s\S]*?<\/table>)/gi, function(m) {
+                return m.indexOf('table-responsive') !== -1 ? m : '<div class="table-responsive">' + m + '</div>';
+            });
+    }
+
+    let normalized = trimmed.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+
+    // Reunite orphaned bullets/numbers with their text on the same line
+    const bulletCharClass = '[\\u2022\\u25E6\\u25AA\\u25AB\\u2013\\u2014*+\\-]';
+    const bulletReunionRegex = new RegExp('(^|\\n)[ \\t]*(' + bulletCharClass + '|\\d+[\\.\\)])[ \\t]*\\n+[ \\t]*([^\\n#|]+)', 'g');
+    let prev = '';
+    while (prev !== normalized) {
+        prev = normalized;
+        normalized = normalized.replace(bulletReunionRegex, function(match, prefix, bullet, itemText) {
+            return prefix + bullet + ' ' + itemText.trim();
+        });
+    }
+
+    const lines = normalized.split('\n');
+    const result = [];
+    let i = 0;
+
+    while (i < lines.length) {
+        const line = lines[i].trim();
+        if (!line) { i++; continue; }
+
+        // Horizontal Rule
+        if (/^(\*{3,}|-{3,}|_{3,})$/.test(line)) {
+            result.push('<hr>');
+            i++;
+            continue;
+        }
+
+        // Headings
+        const h4Match = line.match(/^####\s+(.+)$/);
+        if (h4Match) { result.push('<h4>' + parseInlineMarkdownSeo(h4Match[1]) + '</h4>'); i++; continue; }
+
+        const h3Match = line.match(/^###\s+(.+)$/);
+        if (h3Match) { result.push('<h3>' + parseInlineMarkdownSeo(h3Match[1]) + '</h3>'); i++; continue; }
+
+        const h2Match = line.match(/^##?\s+(.+)$/);
+        if (h2Match) { result.push('<h2>' + parseInlineMarkdownSeo(h2Match[1]) + '</h2>'); i++; continue; }
+
+        // Markdown Table detection: line contains '|' and next line is a delimiter row
+        if (line.indexOf('|') !== -1 && (i + 1 < lines.length) && /^\s*\|?\s*:?-+:?\s*\|/.test(lines[i + 1])) {
+            const tableLines = [];
+            while (i < lines.length && lines[i].indexOf('|') !== -1) {
+                tableLines.push(lines[i]);
+                i++;
+            }
+            result.push(parseMarkdownTableSeo(tableLines));
+            continue;
+        }
+
+        // Bullet List
+        if (/^[•\-\*\+]\s*/.test(line) && line.replace(/^[•\-\*\+]\s*/, '').trim()) {
+            let listHtml = '<ul>';
+            while (i < lines.length && /^[•\-\*\+]\s*/.test(lines[i].trim()) && lines[i].trim().replace(/^[•\-\*\+]\s*/, '').trim()) {
+                const itemText = lines[i].trim().replace(/^[•\-\*\+]\s*/, '').trim();
+                listHtml += '<li>' + parseInlineMarkdownSeo(itemText) + '</li>';
+                i++;
+            }
+            listHtml += '</ul>';
+            result.push(listHtml);
+            continue;
+        }
+
+        // Numbered List
+        if (/^\d+[\.\)]\s*/.test(line) && line.replace(/^\d+[\.\)]\s*/, '').trim()) {
+            let numHtml = '<ol>';
+            while (i < lines.length && /^\d+[\.\)]\s*/.test(lines[i].trim()) && lines[i].trim().replace(/^\d+[\.\)]\s*/, '').trim()) {
+                const numItemText = lines[i].trim().replace(/^\d+[\.\)]\s*/, '').trim();
+                numHtml += '<li>' + parseInlineMarkdownSeo(numItemText) + '</li>';
+                i++;
+            }
+            numHtml += '</ol>';
+            result.push(numHtml);
+            continue;
+        }
+
+        // Paragraph
+        const paraLines = [];
+        while (i < lines.length) {
+            const cur = lines[i].trim();
+            if (!cur) break;
+            if (/^#{1,4}\s+/.test(cur)) break;
+            if (/^[•\-\*\+]\s+/.test(cur)) break;
+            if (/^\d+[\.\)]\s+/.test(cur)) break;
+            if (/^(\*{3,}|-{3,}|_{3,})$/.test(cur)) break;
+            if (cur.indexOf('|') !== -1 && (i + 1 < lines.length) && /^\s*\|?\s*:?-+:?\s*\|/.test(lines[i + 1])) break;
+
+            paraLines.push(parseInlineMarkdownSeo(cur));
+            i++;
+        }
+        if (paraLines.length > 0) {
+            result.push('<p>' + paraLines.join('<br>') + '</p>');
+        }
+    }
+
+    return result.join('\n');
 }
 
 async function fetchProducts() {
@@ -410,7 +589,7 @@ function injectProductContent(page, product, pageUrl) {
                 <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
                     <i class="fas fa-star text-blue-500"></i> Product Description
                 </h2>
-                <div class="text-gray-600 leading-relaxed" style="line-height:1.8;text-align:left;">
+                <div class="product-description text-gray-600 leading-relaxed" style="line-height:1.8;text-align:left;">
                     ${renderDesc(product.longDescription || product.description || '')}
                 </div>
             </div>

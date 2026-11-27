@@ -10,9 +10,34 @@ function safeHTML(content) {
 }
 
 // ===== STANDARD PRODUCT DESCRIPTION PARSER & SANITIZATION ENGINE =====
+function cleanInlineLatex(text) {
+    if (!text) return '';
+    return text.replace(/\$([^\$\n]+?)\$/g, function(match, inner) {
+        if (!/[\\_{}^]/.test(inner)) return match;
+        return inner
+            .replace(/\\text\s*\{([^}]*)\}/g, '$1')
+            .replace(/\\mathrm\s*\{([^}]*)\}/g, '$1')
+            .replace(/\\Omega\b/g, 'Ω')
+            .replace(/\\mu\b/g, 'μ')
+            .replace(/\\pm\b/g, '±')
+            .replace(/\\times\b/g, '×')
+            .replace(/\\leq?\b/g, '≤')
+            .replace(/\\geq?\b/g, '≥')
+            .replace(/\\approx\b/g, '≈')
+            .replace(/\\degree\b|\^\\circ/g, '°')
+            .replace(/\\_\{([^}]+)\}|_\{([^}]+)\}/g, '<sub>$1$2</sub>')
+            .replace(/_([A-Za-z0-9]+)/g, '<sub>$1</sub>')
+            .replace(/\^\{([^}]+)\}/g, '<sup>$1</sup>')
+            .replace(/\^([A-Za-z0-9+\-]+)/g, '<sup>$1</sup>')
+            .replace(/[{}]/g, '')
+            .replace(/\\/g, '')
+            .trim();
+    });
+}
+
 function parseInlineMarkdown(text) {
     if (!text) return '';
-    return text
+    return cleanInlineLatex(text)
         .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
         .replace(/__([^_]+)__/g, '<strong>$1</strong>')
         .replace(/(^|[^\*])\*([^\*]+)\*([^\*]|$)/g, '$1<em>$2</em>$3')
@@ -249,7 +274,7 @@ function formatProductDescription(content) {
             ALLOWED_TAGS: [
                 'h2', 'h3', 'h4', 'p', 'ul', 'ol', 'li',
                 'div', 'table', 'thead', 'tbody', 'tr', 'th', 'td',
-                'strong', 'b', 'em', 'i', 'hr', 'br', 'a', 'code', 'pre', 'blockquote'
+                'strong', 'b', 'em', 'i', 'sub', 'sup', 'hr', 'br', 'a', 'code', 'pre', 'blockquote'
             ],
             ALLOWED_ATTR: ['href', 'target', 'rel', 'class']
         });
